@@ -7,7 +7,10 @@
 # Allow .c and .h files
 !*.[ch]
 
+!*.rt
+
 !.gitmodules
 !.gitignore
 !Makefile
-MLX42/
+
+MLX42
