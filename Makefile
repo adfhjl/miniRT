@@ -6,7 +6,7 @@
 #    By: vbenneko <vbenneko@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/08/16 13:58:57 by vbenneko      #+#    #+#                  #
-#    Updated: 2023/01/16 17:29:17 by vbenneko      ########   odam.nl          #
+#    Updated: 2023/01/19 16:09:46 by vbenneko      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,10 @@ HEADERS = minirt.h libft/libft.h
 INCLUDES = $(addprefix -I, $(sort $(dir $(HEADERS)))) -I MLX42/include
 OBJDIR = obj
 OBJFILES = $(addprefix $(OBJDIR)/,$(CFILES:c=o))
-GLFW_LIB_DIR = $(BREW_DIR)/opt/glfw/lib
 LIBFT_PATH = libft/libft.a
 MLX_PATH = MLX42/libmlx42.a
 BREW_DIR = $(shell brew --prefix)
-LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -L $(GLFW_LIB_DIR) -l glfw
+LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
 
