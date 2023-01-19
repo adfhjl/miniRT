@@ -1,0 +1,8 @@
+*
+!*/
+*/*/
+!.gitmodules
+!.gitignore
+!*.[ch]
+!Makefile
+MLX42/
