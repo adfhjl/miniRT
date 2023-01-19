@@ -1,8 +1,13 @@
+# Ignore everything
 *
+
+# Allow folders
 !*/
-*/*/
+
+# Allow .c and .h files
+!*.[ch]
+
 !.gitmodules
 !.gitignore
-!*.[ch]
 !Makefile
 MLX42/
