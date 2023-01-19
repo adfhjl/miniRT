@@ -13,6 +13,17 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define PROGRAM_NAME "miniRT"
+# include "libft.h"
+# include "MLX42/MLX42.h"
+
+# include "rt_enums.h"
+# include "utils/rt_utils.h"
+
+# define WINDOW_TITLE "miniRT"
+
+typedef struct s_data
+{
+	mlx_t	*mlx;
+}	t_data;
 
 #endif

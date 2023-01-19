@@ -12,12 +12,17 @@
 
 NAME = miniRT
 CC = gcc
-NORMFLAGS = -Wall -Werror -Wextra
-CFILES =						\
-	src/main.c
-HEADERS = minirt.h libft/libft.h
+NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 
-INCLUDES = $(addprefix -I, $(sort $(dir $(HEADERS)))) -I MLX42/include
+CFILES =\
+	src/utils/print_error.c\
+	src/main.c
+
+HEADERS =\
+	src/utils/rt_utils.h\
+	src/minirt.h
+
+INCLUDES = -I src -I libft -I MLX42/include
 OBJDIR = obj
 OBJFILES = $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH = libft/libft.a
@@ -41,7 +46,7 @@ $(LIBFT_PATH):
 
 $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 	@mkdir -p $(@D)
-	@$(call fastprint_compilation,$(CC) $(NORMFLAGS) $(INCLUDES) -c $< -o $@)
+	@$(call tidy_compilation,$(CC) $(NORMFLAGS) $(INCLUDES) -c $< -o $@)
 
 clean:
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
@@ -55,7 +60,7 @@ fclean: clean
 
 re: fclean all
 
-define fastprint_compilation
+define tidy_compilation
 	@printf "%s\e[K\n" "$(1)"
 	@$(1)
 	@printf "\e[A\e[K"
