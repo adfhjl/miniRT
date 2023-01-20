@@ -24,10 +24,12 @@ NORMFLAGS += -fsanitize=address
 endif
 
 CFILES =\
+	src/debug/debug_print_objects.c\
 	src/utils/print_error.c\
 	src/main.c
 
 HEADERS =\
+	src/debug/rt_debug.h\
 	src/utils/rt_utils.h\
 	src/minirt.h
 

@@ -80,17 +80,13 @@ typedef struct s_cylinder
 	t_rgb		rgb;
 }	t_cylinder;
 
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER,
-}	t_object_type;
-
 typedef struct s_object
 {
 	union
 	{
+		t_ambient	ambient;
+		t_camera	camera;
+		t_light		light;
 		t_sphere	sphere;
 		t_plane		plane;
 		t_cylinder	cylinder;
@@ -102,15 +98,10 @@ typedef struct s_data
 {
 	mlx_t		*mlx;
 	char		*scene_name;
-
-	// TODO: These substructs will be completely initialized to 0
-	// We may want to write a function that initializes some properties to
-	// other values for these.
-	t_ambient	ambient;
-	t_camera	camera;
-	t_light		light;
-
 	t_object	*objects;
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_light		*light;
 }	t_data;
 
 #endif
