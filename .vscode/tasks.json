@@ -5,8 +5,8 @@
 			"label": "Build",
 			"type": "shell",
 			"command": "make",
-			"args": [],
-			"problemMatcher": ["$gcc"],
+			"args": [ "DEBUG=1", "SAN=1" ],
+			"problemMatcher": [ "$gcc" ],
 			"group": "build",
 			"presentation": {
 				"reveal": "silent",

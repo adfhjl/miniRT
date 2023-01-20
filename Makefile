@@ -14,7 +14,14 @@ NAME = miniRT
 CC = gcc
 
 # TODO: Remove extra flags before the eval
-NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion -g
+NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+
+ifdef DEBUG
+NORMFLAGS += -g3
+endif
+ifdef SAN
+NORMFLAGS += -fsanitize=address
+endif
 
 CFILES =\
 	src/utils/print_error.c\

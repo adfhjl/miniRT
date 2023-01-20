@@ -17,7 +17,7 @@
 			"program": "${workspaceFolder}/miniRT",
 
 			// TODO: TEST
-			"args": ["example.rt"],
+			"args": [ "example.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",
