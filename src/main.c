@@ -269,6 +269,10 @@ t_status	rt_parse_object(char *line, t_object *object)
 	char			*token;
 
 	rt_skip_whitespace(&line);
+	token = rt_parse_token(&line);
+	if (token == NULL)
+		return (ERROR);
+
 	if (ft_str_eq(token, "A"))
 		object->type = OBJECT_TYPE_AMBIENT;
 	else if (ft_str_eq(token, "C"))
@@ -322,6 +326,10 @@ t_status	rt_parse_scene_file(int fd, t_data *data)
 		ft_bzero(&object, sizeof(object));
 		if (rt_parse_object(line, &object) == ERROR)
 			return (ERROR);
+
+		// TODO: Not sure if I want to do this here or loop through the objects later,
+		// but I need to make sure that any second encountered A/C/L throws an error
+
 		if (ft_vector_push(&data->objects, &object) == ERROR)
 			return (rt_print_error(ERROR_SYSTEM));
 	}
