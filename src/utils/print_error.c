@@ -25,6 +25,7 @@ t_status	rt_print_error(t_error ph_error)
 		= "The program reached a state that was supposed to be unreachable",
 	[ERROR_EXPECTED_COMMA] = "Expected a comma",
 	[ERROR_UNEXPECTED_COMMA] = "Encountered an unexpected comma",
+	[ERROR_FAILED_TO_PARSE_CHAR] = "Failed to parse a char",
 	[ERROR_FAILED_TO_PARSE_FLOAT] = "Failed to parse a float",
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
 	};

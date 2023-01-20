@@ -72,13 +72,13 @@ t_status	rt_parse_vector(char *token, t_vector *vector)
 	return (OK);
 }
 
-// TODO: Handle char < 0 and char > 255
-t_status	rt_parse_char(char *token, float *field_ptr)
+t_status	rt_parse_char(char *token, unsigned char *field_ptr)
 {
-	(void)token;
-	(void)field_ptr;
-	if (true)
-		return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
+	int	nbr;
+
+	if (!ft_atoi_safe(token, &nbr) || nbr < 0 || nbr > 255)
+		return (rt_print_error(ERROR_FAILED_TO_PARSE_CHAR));
+	*field_ptr = (unsigned char)nbr;
 	return (OK);
 }
 
