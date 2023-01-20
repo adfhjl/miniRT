@@ -76,7 +76,7 @@ t_status	rt_parse_float(char *token, float *field_ptr)
 	(void)token;
 	// if (foo() == ERROR)
 	// 	return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
-	*field_ptr = 42;
+	*field_ptr = 1.2f;
 	return (OK);
 }
 
@@ -161,6 +161,7 @@ t_status	rt_parse_rgb(char *token, t_rgb *rgb)
 t_status	rt_parse_field(char *token, t_object *object,
 				t_parsing_state *state)
 {
+	// TODO: Enforce the float and char ranges in the way the subject PDF states
 	if (object->type == OBJECT_TYPE_AMBIENT)
 	{
 		if (*state == PARSING_STATE_TYPE)
