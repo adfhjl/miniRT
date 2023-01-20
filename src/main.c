@@ -13,12 +13,12 @@
 #include "minirt.h"
 #include "debug/rt_debug.h"
 
-void	check_leaks(void)
+void	rt_check_leaks(void)
 {
 	system("leaks -q miniRT");
 }
 
-void	key_hook(mlx_key_data_t keydata, void *param)
+void	rt_key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_data	*data;
 
@@ -45,26 +45,61 @@ void	rt_cleanup(t_data *data)
 	ft_free_allocations();
 }
 
+t_object	*rt_get_object_ptr(t_object_type searched_object_type, t_object *objects)
+{
+	size_t	i;
+	size_t	size;
+
+	i = 0;
+	size = ft_vector_get_size(objects);
+	while (i < size)
+	{
+		if (objects[i].type == searched_object_type)
+			return (&objects[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+void	rt_assign_capitalized_objects(t_data *data)
+{
+	// TODO: Make sure that Victor checks that these aren't NULL, cause they can be!
+	data->ambient = &rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects)->ambient;
+	data->camera = &rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects)->camera;
+	data->light = &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
+}
+
 // TODO: Should this also be able to handle doubles?
 t_status	rt_parse_float(char *token, float *field_ptr)
 {
+	// TODO: Implement
 	(void)token;
-	(void)field_ptr;
-	if (true)
-		return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
+	// if (foo() == ERROR)
+	// 	return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
+	*field_ptr = 42;
+	return (OK);
+}
+
+t_status	rt_skip_separator_comma(char **token_ptr)
+{
+	if (**token_ptr != ',')
+		return (rt_print_error(ERROR_EXPECTED_COMMA));
+	(*token_ptr)++;
 	return (OK);
 }
 
 t_status	rt_parse_vector(char *token, t_vector *vector)
 {
+	if (*token == ',')
+		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
 	if (rt_parse_float(token, &vector->x) == ERROR)
 		return (ERROR);
-	if (*token != ',')
-		return (rt_print_error(ERROR_EXPECTED_COMMA));
+	if (rt_skip_separator_comma(&token) == ERROR)
+		return (ERROR);
 	if (rt_parse_float(token, &vector->y) == ERROR)
 		return (ERROR);
-	if (*token != ',')
-		return (rt_print_error(ERROR_EXPECTED_COMMA));
+	if (rt_skip_separator_comma(&token) == ERROR)
+		return (ERROR);
 	if (rt_parse_float(token, &vector->z) == ERROR)
 		return (ERROR);
 	if (*token == ',')
@@ -72,11 +107,33 @@ t_status	rt_parse_vector(char *token, t_vector *vector)
 	return (OK);
 }
 
-t_status	rt_parse_char(char *token, unsigned char *field_ptr)
+// TODO: This function is very similar to rt_parse_token(). Try to share code.
+t_status	rt_parse_char(char **token_ptr, unsigned char *field_ptr)
 {
-	int	nbr;
+	int		nbr;
 
-	if (!ft_atoi_safe(token, &nbr) || nbr < 0 || nbr > 255)
+
+	char	*start;
+	char	*end;
+	size_t	token_len;
+	char	*char_token;
+
+	start = *token_ptr;
+	end = ft_strchr(start, ',');
+	if (end == NULL)
+		token_len = ft_strlen(start);
+	else
+		token_len = (size_t)(end - start);
+	char_token = ft_substr(*token_ptr, 0, token_len);
+	if (char_token == NULL)
+		rt_print_error(ERROR_SYSTEM);
+	if (end == NULL)
+		**token_ptr = '\0';
+	else
+		*token_ptr = end;
+
+
+	if (!ft_atoi_safe(char_token, &nbr) || nbr < 0 || nbr > 255)
 		return (rt_print_error(ERROR_FAILED_TO_PARSE_CHAR));
 	*field_ptr = (unsigned char)nbr;
 	return (OK);
@@ -84,15 +141,17 @@ t_status	rt_parse_char(char *token, unsigned char *field_ptr)
 
 t_status	rt_parse_rgb(char *token, t_rgb *rgb)
 {
-	if (rt_parse_char(token, &rgb->r) == ERROR)
+	if (*token == ',')
+		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
+	if (rt_parse_char(&token, &rgb->r) == ERROR)
 		return (ERROR);
-	if (*token != ',')
-		return (rt_print_error(ERROR_EXPECTED_COMMA));
-	if (rt_parse_char(token, &rgb->g) == ERROR)
+	if (rt_skip_separator_comma(&token) == ERROR)
 		return (ERROR);
-	if (*token != ',')
-		return (rt_print_error(ERROR_EXPECTED_COMMA));
-	if (rt_parse_char(token, &rgb->b) == ERROR)
+	if (rt_parse_char(&token, &rgb->g) == ERROR)
+		return (ERROR);
+	if (rt_skip_separator_comma(&token) == ERROR)
+		return (ERROR);
+	if (rt_parse_char(&token, &rgb->b) == ERROR)
 		return (ERROR);
 	if (*token == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
@@ -134,7 +193,8 @@ t_status	rt_parse_field(char *token, t_object *object,
 		else if (*state == PARSING_STATE_ORIENTATION)
 		{
 			*state = PARSING_STATE_END;
-			if (rt_parse_char(token, &object->camera.fov) == ERROR)
+			// TODO: Maybe also use rt_parse_float() here?
+			if (rt_parse_char(&token, &object->camera.fov) == ERROR)
 				return (ERROR);
 		}
 	}
@@ -292,6 +352,10 @@ t_status	rt_parse_object(char *line, t_object *object)
 	while (true)
 	{
 		rt_skip_whitespace(&line);
+
+		if (*line == '\0')
+			break ;
+
 		token = rt_parse_token(&line);
 		if (token == NULL)
 			return (ERROR);
@@ -301,10 +365,6 @@ t_status	rt_parse_object(char *line, t_object *object)
 
 		if (rt_parse_field(token, object, &state) == ERROR)
 			return (ERROR);
-
-		// TODO: May need to move this up
-		if (line == '\0')
-			break ;
 	}
 	return (OK);
 }
@@ -318,11 +378,12 @@ t_status	rt_parse_scene_file(int fd, t_data *data)
 	if (data->objects == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
 
+	while (true)
 	{
 		line = get_next_line(fd);
 		// TODO: Is there a way to tell whether gnl just reached eof vs. errored?
 		if (line == NULL)
-			return (rt_print_error(ERROR_SYSTEM));
+			break ;
 		ft_bzero(&object, sizeof(object));
 		if (rt_parse_object(line, &object) == ERROR)
 			return (ERROR);
@@ -330,6 +391,7 @@ t_status	rt_parse_scene_file(int fd, t_data *data)
 		// TODO: Not sure if I want to do this here or loop through the objects later,
 		// but I need to make sure that any second encountered A/C/L throws an error
 
+		// TODO: Do I need to malloc object before pushing it?
 		if (ft_vector_push(&data->objects, &object) == ERROR)
 			return (rt_print_error(ERROR_SYSTEM));
 	}
@@ -366,11 +428,12 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 		return (rt_print_error(ERROR_INVALID_ARGC));
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
+	rt_assign_capitalized_objects(data);
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(500, 500, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, NULL))
 		return (rt_print_error(ERROR_SYSTEM));
-	mlx_key_hook(data->mlx, &key_hook, data);
+	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	return (OK);
 }
 
@@ -378,7 +441,7 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	atexit(check_leaks);
+	atexit(rt_check_leaks);
 	if (rt_init(argc, argv, &data) == ERROR)
 	{
 		rt_cleanup(&data);
