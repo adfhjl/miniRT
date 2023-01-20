@@ -44,18 +44,41 @@ void	rt_cleanup(t_data *data)
 	ft_free_allocations();
 }
 
-t_status	rt_parse_argv(int argc, char *argv[])
+t_status	rt_parse_scene_file(int fd, t_data *data)
 {
-	if (argc != 2)
-		return (rt_print_error(ERROR_INVALID_ARGC));
-	(void)argv;
+	(void)fd;
+	(void)data;
+	return (OK);
+}
+
+t_status	rt_parse_argv(char *argv[], t_data *data)
+{
+	size_t	len;
+	char	*scene_path;
+	int		fd;
+
+	data->scene_name = argv[1];
+	len = ft_strlen(data->scene_name);
+	if (len < 3 || !ft_str_eq(data->scene_name + len - 3, ".rt"))
+		return (rt_print_error(ERROR_INVALID_SCENE_NAME));
+	scene_path = ft_strjoin_array(
+			(char *[]){SCENE_DIRECTORY_PATH, data->scene_name, NULL});
+	if (scene_path == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+	fd = open(scene_path, O_RDONLY);
+	if (fd == SYSTEM_ERROR_STATUS)
+		return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
+	if (rt_parse_scene_file(fd, data) == ERROR)
+		return (ERROR);
 	return (OK);
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
 {
 	ft_bzero(data, sizeof(*data));
-	if (rt_parse_argv(argc, argv) == ERROR)
+	if (argc != 2)
+		return (rt_print_error(ERROR_INVALID_ARGC));
+	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	data->mlx = mlx_init(500, 500, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, NULL))
