@@ -17,10 +17,36 @@
 
 // TODO: Comment out this file before handing it in
 
-void	rt_debug_print_line(void)
+void	rt_debug_print_field_value(char *field_name, char *field_value)
 {
-	// printf("+-OBJECT_TYPE_CYLINDER-+-1.2---+-255,255,255-+-1.2,3.4,5.6-+-1.2,3.4,5.6-+-255-+-1.2--------+-1.2,3.4,5.6-+-1.2------+-1.2----+\n");
-	   printf("+----------------------+-------+-------------+-------------+-------------+-----+------------+-------------+----------+--------+\n");
+	size_t	field_name_len;
+	size_t	field_len;
+
+	field_name_len = ft_strlen(field_name);
+	if (field_value)
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
+	else
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen("(null)"));
+	if (field_value == NULL)
+		field_value = "";
+	printf(" %-*s |", (int)field_len, field_value);
+}
+
+void	rt_debug_print_field_name(char *field_name, char *field_value)
+{
+	size_t	field_name_len;
+	size_t	field_len;
+	char	*field_name_line;
+
+	field_name_len = ft_strlen(field_name);
+	if (field_value)
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
+	else
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen("(null)"));
+	field_name_line = ft_stralloc(field_len);
+	ft_strlcpy(field_name_line, field_name, field_len + 1);
+	ft_memset(field_name_line + field_name_len, '-', field_len - field_name_len);
+	printf("-%s-v", field_name_line);
 }
 
 void	rt_debug_print_objects(t_data *data)
@@ -38,85 +64,94 @@ void	rt_debug_print_objects(t_data *data)
 	size_t		size;
 	t_object	*object;
 
-	rt_debug_print_line();
-	printf("| object type          | ratio | rgb         | coordinates | orientation | fov | brightness | center      | diameter | height |\n");
-	rt_debug_print_line();
-
 	i = 0;
 	size = ft_vector_get_size(data->objects);
 	while (i < size)
 	{
 		object = &data->objects[i];
 
-		printf("|");
+		char	*object_type = NULL;
+		asprintf(&object_type, "%-20s", object_type_strings[object->type]);
 
-		printf(" %-20s |", object_type_strings[object->type]);
-
+		char	*ratio = NULL;
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			printf(" %.1f   |", object->ambient.ratio);
-		else
-			printf("       |");
+			asprintf(&ratio, "%.1f", object->ambient.ratio);
 
+		char	*rgb = NULL;
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			printf(" %d,%d,%d |", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
+			asprintf(&rgb, "%d,%d,%d", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
 		else if (object->type == OBJECT_TYPE_SPHERE)
-			printf(" %d,%d,%d |", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
+			asprintf(&rgb, "%d,%d,%d", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			printf(" %d,%d,%d |", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
+			asprintf(&rgb, "%d,%d,%d", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			printf(" %d,%d,%d |", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
-		else
-			printf("             |");
+			asprintf(&rgb, "%d,%d,%d", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
 
+		char	*coordinates = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			printf(" %.1f,%.1f,%.1f |", object->camera.coordinates.x, object->camera.coordinates.y, object->camera.coordinates.z);
+			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->camera.coordinates.x, object->camera.coordinates.y, object->camera.coordinates.z);
 		else if (object->type == OBJECT_TYPE_LIGHT)
-			printf(" %.1f,%.1f,%.1f |", object->light.coordinates.x, object->light.coordinates.y, object->light.coordinates.z);
+			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->light.coordinates.x, object->light.coordinates.y, object->light.coordinates.z);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			printf(" %.1f,%.1f,%.1f |", object->plane.coordinates.x, object->plane.coordinates.y, object->plane.coordinates.z);
+			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->plane.coordinates.x, object->plane.coordinates.y, object->plane.coordinates.z);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f,%.1f,%.1f |", object->cylinder.coordinates.x, object->cylinder.coordinates.y, object->cylinder.coordinates.z);
-		else
-			printf("             |");
+			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->cylinder.coordinates.x, object->cylinder.coordinates.y, object->cylinder.coordinates.z);
 
+		char	*orientation = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			printf(" %.1f,%.1f,%.1f |", object->camera.orientation.x, object->camera.orientation.y, object->camera.orientation.z);
+			asprintf(&orientation, "%.1f,%.1f,%.1f", object->camera.orientation.x, object->camera.orientation.y, object->camera.orientation.z);
 		if (object->type == OBJECT_TYPE_PLANE)
-			printf(" %.1f,%.1f,%.1f |", object->plane.orientation.x, object->plane.orientation.y, object->plane.orientation.z);
+			asprintf(&orientation, "%.1f,%.1f,%.1f", object->plane.orientation.x, object->plane.orientation.y, object->plane.orientation.z);
 		if (object->type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f,%.1f,%.1f |", object->cylinder.orientation.x, object->cylinder.orientation.y, object->cylinder.orientation.z);
-		else
-			printf("             |");
+			asprintf(&orientation, "%.1f,%.1f,%.1f", object->cylinder.orientation.x, object->cylinder.orientation.y, object->cylinder.orientation.z);
 
+		char	*fov = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			printf(" %d |", object->camera.fov);
-		else
-			printf("     |");
+			asprintf(&fov, "%d", object->camera.fov);
 
+		char	*brightness = NULL;
 		if (object->type == OBJECT_TYPE_LIGHT)
-			printf(" %.1f |", object->light.brightness);
-		else
-			printf("            |");
+			asprintf(&brightness, "%.1f", object->light.brightness);
 
+		char	*center = NULL;
 		if (object->type == OBJECT_TYPE_SPHERE)
-			printf(" %.1f,%.1f,%.1f |", object->sphere.center.x, object->sphere.center.y, object->sphere.center.z);
-		else
-			printf("             |");
+			asprintf(&center, "%.1f,%.1f,%.1f", object->sphere.center.x, object->sphere.center.y, object->sphere.center.z);
 
+		char	*diameter = NULL;
 		if (object->type == OBJECT_TYPE_SPHERE)
-			printf(" %.1f |", object->sphere.diameter);
+			asprintf(&diameter, "%.1f", object->sphere.diameter);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f |", object->cylinder.diameter);
-		else
-			printf("          |");
+			asprintf(&diameter, "%.1f", object->cylinder.diameter);
 
+		char	*height = NULL;
 		if (object->type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f |", object->cylinder.height);
-		else
-			printf("        |");
+			asprintf(&height, "%.1f", object->cylinder.height);
 
+		printf("|");
+		rt_debug_print_field_name("object type", object_type);
+		rt_debug_print_field_name("ratio", ratio);
+		rt_debug_print_field_name("rgb", rgb);
+		rt_debug_print_field_name("coordinates", coordinates);
+		rt_debug_print_field_name("orientation", orientation);
+		rt_debug_print_field_name("fov", fov);
+		rt_debug_print_field_name("brightness", brightness);
+		rt_debug_print_field_name("center", center);
+		rt_debug_print_field_name("diameter", diameter);
+		rt_debug_print_field_name("height", height);
 		printf("\n");
-		rt_debug_print_line();
+
+		printf("|");
+		rt_debug_print_field_value("object type", object_type);
+		rt_debug_print_field_value("ratio", ratio);
+		rt_debug_print_field_value("rgb", rgb);
+		rt_debug_print_field_value("coordinates", coordinates);
+		rt_debug_print_field_value("orientation", orientation);
+		rt_debug_print_field_value("fov", fov);
+		rt_debug_print_field_value("brightness", brightness);
+		rt_debug_print_field_value("center", center);
+		rt_debug_print_field_value("diameter", diameter);
+		rt_debug_print_field_value("height", height);
+		printf("\n");
 
 		i++;
 	}
