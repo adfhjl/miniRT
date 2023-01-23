@@ -69,45 +69,16 @@ void	rt_assign_capitalized_objects(t_data *data)
 	data->light = &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
 }
 
-t_status	rt_get_nbr_token(char **token_ptr, char **nbr_token_destination)
-{
-	char	*start;
-	char	*end;
-	size_t	token_len;
-	char	*nbr_token;
-
-	start = *token_ptr;
-	end = ft_str_not_set(start, DIGITS);
-	if (end == NULL)
-		token_len = ft_strlen(start);
-	else
-		token_len = (size_t)(end - start);
-	nbr_token = ft_substr(*token_ptr, 0, token_len);
-	if (nbr_token == NULL)
-		rt_print_error(ERROR_SYSTEM);
-	*nbr_token_destination = nbr_token;
-	if (end == NULL)
-		**token_ptr = '\0';
-	else
-		*token_ptr = end;
-	return (OK);
-}
-
 // TODO: Should this also be able to handle doubles?
 t_status	rt_parse_float(char **token_ptr, float *field_ptr)
 {
-	// TODO: Implement
+	char	*end;
 
-	char	*nbr_token;
-
-	if (rt_get_nbr_token(token_ptr, &nbr_token) == ERROR)
-		return (ERROR);
-
-	(void)token_ptr;
-	*field_ptr = 1.2f;
-	(*token_ptr) += 3;
-	// if (foo() == ERROR)
+	*field_ptr = ft_strtof(*token_ptr, &end);
+	// TODO: Check for errors
+	// if (result == )
 	// 	return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
+	(*token_ptr) = end;
 
 	return (OK);
 }
@@ -136,6 +107,30 @@ t_status	rt_parse_vector(char *token, t_vector *vector)
 		return (ERROR);
 	if (*token == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
+	return (OK);
+}
+
+t_status	rt_get_nbr_token(char **token_ptr, char **nbr_token_destination)
+{
+	char	*start;
+	char	*end;
+	size_t	token_len;
+	char	*nbr_token;
+
+	start = *token_ptr;
+	end = ft_str_not_set(start, DIGITS);
+	if (end == NULL)
+		token_len = ft_strlen(start);
+	else
+		token_len = (size_t)(end - start);
+	nbr_token = ft_substr(*token_ptr, 0, token_len);
+	if (nbr_token == NULL)
+		rt_print_error(ERROR_SYSTEM);
+	*nbr_token_destination = nbr_token;
+	if (end == NULL)
+		**token_ptr = '\0';
+	else
+		*token_ptr = end;
 	return (OK);
 }
 

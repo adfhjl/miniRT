@@ -22,7 +22,6 @@
 # define WINDOW_TITLE "miniRT"
 # define SCENE_DIRECTORY_PATH "scenes/"
 # define SYSTEM_ERROR_STATUS -1
-# define DIGITS "1234567890"
 
 typedef struct s_rgb
 {
