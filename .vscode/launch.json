@@ -16,9 +16,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			// TODO: TEST
-			// "args": [ "example.rt" ],
-			"args": [ "no-vectors.rt" ],
+			"args": [ "example.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",
