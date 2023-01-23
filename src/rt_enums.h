@@ -17,6 +17,8 @@ typedef enum e_error
 {
 	ERROR_SYSTEM,
 	ERROR_INVALID_ARGC,
+	ERROR_INVALID_SCENE_NAME,
+	ERROR_CANT_READ_SCENE_FILE,
 }	t_error;
 
 #endif

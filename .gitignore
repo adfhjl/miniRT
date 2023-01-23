@@ -7,6 +7,10 @@
 # Allow .c and .h files
 !*.[ch]
 
+# TODO: Remove this before the eval
+!.vscode/launch.json
+!.vscode/tasks.json
+
 !*.rt
 
 !.gitmodules

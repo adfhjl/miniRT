@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build",
+			"type": "shell",
+			"command": "make",
+			"args": [ "DEBUG=1", "SAN=1" ],
+			"problemMatcher": [ "$gcc" ],
+			"group": "build",
+			"presentation": {
+				"reveal": "silent",
+			}
+		}
+	]
+}
