@@ -69,14 +69,46 @@ void	rt_assign_capitalized_objects(t_data *data)
 	data->light = &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
 }
 
+t_status	rt_get_nbr_token(char **token_ptr, char **nbr_token_destination)
+{
+	char	*start;
+	char	*end;
+	size_t	token_len;
+	char	*nbr_token;
+
+	start = *token_ptr;
+	end = ft_str_not_set(start, DIGITS);
+	if (end == NULL)
+		token_len = ft_strlen(start);
+	else
+		token_len = (size_t)(end - start);
+	nbr_token = ft_substr(*token_ptr, 0, token_len);
+	if (nbr_token == NULL)
+		rt_print_error(ERROR_SYSTEM);
+	*nbr_token_destination = nbr_token;
+	if (end == NULL)
+		**token_ptr = '\0';
+	else
+		*token_ptr = end;
+	return (OK);
+}
+
 // TODO: Should this also be able to handle doubles?
-t_status	rt_parse_float(char *token, float *field_ptr)
+t_status	rt_parse_float(char **token_ptr, float *field_ptr)
 {
 	// TODO: Implement
-	(void)token;
+
+	char	*nbr_token;
+
+	if (rt_get_nbr_token(token_ptr, &nbr_token) == ERROR)
+		return (ERROR);
+
+	(void)token_ptr;
+	*field_ptr = 1.2f;
+	(*token_ptr) += 3;
 	// if (foo() == ERROR)
 	// 	return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
-	*field_ptr = 1.2f;
+
 	return (OK);
 }
 
@@ -92,48 +124,29 @@ t_status	rt_parse_vector(char *token, t_vector *vector)
 {
 	if (*token == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
-	if (rt_parse_float(token, &vector->x) == ERROR)
+	if (rt_parse_float(&token, &vector->x) == ERROR)
 		return (ERROR);
 	if (rt_skip_separator_comma(&token) == ERROR)
 		return (ERROR);
-	if (rt_parse_float(token, &vector->y) == ERROR)
+	if (rt_parse_float(&token, &vector->y) == ERROR)
 		return (ERROR);
 	if (rt_skip_separator_comma(&token) == ERROR)
 		return (ERROR);
-	if (rt_parse_float(token, &vector->z) == ERROR)
+	if (rt_parse_float(&token, &vector->z) == ERROR)
 		return (ERROR);
 	if (*token == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
 	return (OK);
 }
 
-// TODO: This function is very similar to rt_parse_token(). Try to share code.
 t_status	rt_parse_char(char **token_ptr, unsigned char *field_ptr)
 {
+	char	*nbr_token;
 	int		nbr;
 
-
-	char	*start;
-	char	*end;
-	size_t	token_len;
-	char	*char_token;
-
-	start = *token_ptr;
-	end = ft_strchr(start, ',');
-	if (end == NULL)
-		token_len = ft_strlen(start);
-	else
-		token_len = (size_t)(end - start);
-	char_token = ft_substr(*token_ptr, 0, token_len);
-	if (char_token == NULL)
-		rt_print_error(ERROR_SYSTEM);
-	if (end == NULL)
-		**token_ptr = '\0';
-	else
-		*token_ptr = end;
-
-
-	if (!ft_atoi_safe(char_token, &nbr) || nbr < 0 || nbr > 255)
+	if (rt_get_nbr_token(token_ptr, &nbr_token) == ERROR)
+		return (ERROR);
+	if (!ft_atoi_safe(nbr_token, &nbr) || nbr < 0 || nbr > 255)
 		return (rt_print_error(ERROR_FAILED_TO_PARSE_CHAR));
 	*field_ptr = (unsigned char)nbr;
 	return (OK);
@@ -167,7 +180,7 @@ t_status	rt_parse_field(char *token, t_object *object,
 		if (*state == PARSING_STATE_TYPE)
 		{
 			*state = PARSING_STATE_RATIO;
-			if (rt_parse_float(token, &object->ambient.ratio) == ERROR)
+			if (rt_parse_float(&token, &object->ambient.ratio) == ERROR)
 				return (ERROR);
 		}
 		else if (*state == PARSING_STATE_RATIO)
@@ -210,7 +223,7 @@ t_status	rt_parse_field(char *token, t_object *object,
 		else if (*state == PARSING_STATE_COORDINATES)
 		{
 			*state = PARSING_STATE_END;
-			if (rt_parse_float(token, &object->light.brightness) == ERROR)
+			if (rt_parse_float(&token, &object->light.brightness) == ERROR)
 				return (ERROR);
 		}
 	}
@@ -225,7 +238,7 @@ t_status	rt_parse_field(char *token, t_object *object,
 		else if (*state == PARSING_STATE_COORDINATES)
 		{
 			*state = PARSING_STATE_DIAMETER;
-			if (rt_parse_float(token, &object->sphere.diameter) == ERROR)
+			if (rt_parse_float(&token, &object->sphere.diameter) == ERROR)
 				return (ERROR);
 		}
 		else if (*state == PARSING_STATE_DIAMETER)
@@ -273,13 +286,13 @@ t_status	rt_parse_field(char *token, t_object *object,
 		else if (*state == PARSING_STATE_ORIENTATION)
 		{
 			*state = PARSING_STATE_DIAMETER;
-			if (rt_parse_float(token, &object->cylinder.diameter) == ERROR)
+			if (rt_parse_float(&token, &object->cylinder.diameter) == ERROR)
 				return (ERROR);
 		}
 		else if (*state == PARSING_STATE_DIAMETER)
 		{
 			*state = PARSING_STATE_HEIGHT;
-			if (rt_parse_float(token, &object->cylinder.height) == ERROR)
+			if (rt_parse_float(&token, &object->cylinder.height) == ERROR)
 				return (ERROR);
 		}
 		else if (*state == PARSING_STATE_HEIGHT)
