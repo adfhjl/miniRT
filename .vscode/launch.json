@@ -20,6 +20,7 @@
 
 			// "args": [ "letter-instead-of-float.rt" ],
 			// "args": [ "extra-light.rt" ],
+			// "args": [ "empty.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",

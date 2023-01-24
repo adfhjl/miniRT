@@ -61,7 +61,8 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 	while (true)
 	{
 		line = get_next_line(fd);
-		// TODO: Is there a way to tell whether gnl just reached eof vs. errored?
+		if (ft_any_error())
+			return (rt_print_error(ERROR_SYSTEM));
 		if (line == NULL)
 			break ;
 		ft_bzero(&object, sizeof(object));
