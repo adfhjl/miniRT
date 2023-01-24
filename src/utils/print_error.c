@@ -28,6 +28,7 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
 	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
 		= "Encountered a duplicate capitalized object",
+	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace"
 	};
 	char		*error_message;
 

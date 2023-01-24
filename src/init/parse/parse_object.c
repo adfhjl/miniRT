@@ -77,7 +77,7 @@ t_status	rt_parse_object(char *line, t_object *object)
 	if (parse_fns[object->type](&line, object) == ERROR)
 		return (ERROR);
 	rt_skip_whitespace(&line);
-	if (*line != '\0')
+	if (*line != '\0' && *line != '#')
 		return (rt_print_error(ERROR_UNEXPECTED_EXTRA_FIELD));
 	return (OK);
 }

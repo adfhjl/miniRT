@@ -16,8 +16,6 @@
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {
 	rt_skip_whitespace(line_ptr);
-	if (**line_ptr == ',')
-		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
 	if (rt_parse_range_float(line_ptr, &rgb->r, 0, 255) == ERROR)
 		return (ERROR);
 	if (rt_skip_separator_comma(line_ptr) == ERROR)

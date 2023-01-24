@@ -17,8 +17,12 @@ t_status	rt_parse_sphere(char **line_ptr, t_object *object)
 {
 	if (rt_parse_vector(line_ptr, &object->sphere.center) == ERROR)
 		return (ERROR);
+	if (!ft_chr_in_str(**line_ptr, WHITESPACE))
+		return (rt_print_error(ERROR_EXPECTED_WHITESPACE));
 	if (rt_parse_float(line_ptr, &object->sphere.diameter) == ERROR)
 		return (ERROR);
+	if (!ft_chr_in_str(**line_ptr, WHITESPACE))
+		return (rt_print_error(ERROR_EXPECTED_WHITESPACE));
 	if (rt_parse_rgb(line_ptr, &object->sphere.rgb) == ERROR)
 		return (ERROR);
 	return (OK);
