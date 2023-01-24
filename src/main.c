@@ -75,9 +75,8 @@ t_status	rt_parse_float(char **token_ptr, float *field_ptr)
 	char	*end;
 
 	*field_ptr = ft_strtof(*token_ptr, &end);
-	// TODO: Check for errors
-	// if (result == )
-	// 	return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
+	if (*token_ptr == end)
+		return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
 	(*token_ptr) = end;
 
 	return (OK);

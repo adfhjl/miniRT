@@ -18,6 +18,8 @@
 
 			"args": [ "example.rt" ],
 
+			// "args": [ "letter-instead-of-float.rt" ],
+
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",
 			"internalConsoleOptions": "openOnSessionStart"
