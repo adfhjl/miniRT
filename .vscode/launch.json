@@ -18,14 +18,16 @@
 
 			// "args": [ "scenes/example.rt" ],
 
-			// "args": [ "scenes/letter-instead-of-float.rt" ],
-			// "args": [ "scenes/extra-light.rt" ],
+			// "args": [ "scenes/comment.rt" ],
+			"args": [ "scenes/comment-on-own-line.rt" ],
 			// "args": [ "scenes/empty.rt" ],
-			"args": [ "scenes/comment.rt" ],
 			// "args": [ "scenes/extra-field.rt" ],
+			// "args": [ "scenes/extra-light.rt" ],
 			// "args": [ "scenes/extra-trailing-space.rt" ],
-			// "args": [ "scenes/newlines.rt" ],
+			// "args": [ "scenes/letter-instead-of-float.rt" ],
 			// "args": [ "scenes/missing-whitespace.rt" ],
+			// "args": [ "scenes/newlines.rt" ],
+			// "args": [ "scenes/space-before-object-type.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",

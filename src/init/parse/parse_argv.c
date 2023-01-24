@@ -65,6 +65,9 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 			return (rt_print_error(ERROR_SYSTEM));
 		if (line == NULL)
 			break ;
+		rt_skip_whitespace(&line);
+		if (*line == '\0' || *line == '#')
+			continue ;
 		ft_bzero(&object, sizeof(object));
 		if (rt_parse_object(line, &object) == ERROR)
 			return (ERROR);

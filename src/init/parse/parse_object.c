@@ -46,7 +46,6 @@ static char	*rt_parse_object_type(char **line_ptr)
 	size_t	token_len;
 	char	*token;
 
-	rt_skip_whitespace(line_ptr);
 	start = *line_ptr;
 	rt_skip_non_whitespace(line_ptr);
 	end = *line_ptr;
