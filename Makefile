@@ -48,7 +48,8 @@ HEADERS =\
 	src/init/parse/rt_parse.h\
 	src/init/rt_init.h\
 	src/utils/rt_utils.h\
-	src/minirt.h
+	src/minirt.h\
+	src/rt_enums.h
 
 INCLUDES = -I src -I libft -I MLX42/include
 OBJDIR = obj

@@ -103,4 +103,6 @@ typedef struct s_data
 	t_light		*light;
 }	t_data;
 
+typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
+
 #endif

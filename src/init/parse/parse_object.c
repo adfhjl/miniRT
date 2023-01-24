@@ -59,7 +59,15 @@ static char	*rt_parse_object_type(char **line_ptr)
 
 t_status	rt_parse_object(char *line, t_object *object)
 {
-	char	*object_type_token;
+	char				*object_type_token;
+	const t_parse_fn	parse_fns[] = {
+	[OBJECT_TYPE_AMBIENT] = rt_parse_ambient,
+	[OBJECT_TYPE_CAMERA] = rt_parse_camera,
+	[OBJECT_TYPE_LIGHT] = rt_parse_light,
+	[OBJECT_TYPE_SPHERE] = rt_parse_sphere,
+	[OBJECT_TYPE_PLANE] = rt_parse_plane,
+	[OBJECT_TYPE_CYLINDER] = rt_parse_cylinder,
+	};
 
 	object_type_token = rt_parse_object_type(&line);
 	if (object_type_token == NULL)
@@ -68,13 +76,7 @@ t_status	rt_parse_object(char *line, t_object *object)
 		return (ERROR);
 	// TODO: Enforce the float and char ranges in the way the subject PDF states
 	// for every object type
-	if ((object->type == OBJECT_TYPE_AMBIENT && rt_parse_ambient(&line, object) == ERROR)
-		|| (object->type == OBJECT_TYPE_CAMERA && rt_parse_camera(&line, object) == ERROR)
-		|| (object->type == OBJECT_TYPE_LIGHT && rt_parse_light(&line, object) == ERROR)
-		|| (object->type == OBJECT_TYPE_SPHERE && rt_parse_sphere(&line, object) == ERROR)
-		|| (object->type == OBJECT_TYPE_PLANE && rt_parse_plane(&line, object) == ERROR)
-		|| (object->type == OBJECT_TYPE_CYLINDER && rt_parse_cylinder(&line, object) == ERROR
-		))
+	if (parse_fns[object->type](&line, object) == ERROR)
 		return (ERROR);
 	rt_skip_whitespace(&line);
 	if (*line != '\0')
