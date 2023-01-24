@@ -33,16 +33,16 @@ static void	rt_draw_loop(void *param)
 static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 					t_object *objects)
 {
-	size_t	i;
+	size_t	object_index;
 	size_t	size;
 
-	i = 0;
+	object_index = 0;
 	size = ft_vector_get_size(objects);
-	while (i < size)
+	while (object_index < size)
 	{
-		if (objects[i].type == searched_object_type)
-			return (&objects[i]);
-		i++;
+		if (objects[object_index].type == searched_object_type)
+			return (&objects[object_index]);
+		object_index++;
 	}
 	return (NULL);
 }

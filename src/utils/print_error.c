@@ -28,6 +28,8 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_FAILED_TO_PARSE_CHAR] = "Failed to parse a char",
 	[ERROR_FAILED_TO_PARSE_FLOAT] = "Failed to parse a float",
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
+	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
+		= "Encountered a duplicate capitalized object",
 	};
 	char		*error_message;
 

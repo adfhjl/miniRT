@@ -16,9 +16,10 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "example.rt" ],
+			// "args": [ "example.rt" ],
 
 			// "args": [ "letter-instead-of-float.rt" ],
+			"args": [ "extra-light.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",

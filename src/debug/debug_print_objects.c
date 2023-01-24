@@ -60,15 +60,15 @@ void	rt_debug_print_objects(t_data *data)
 		[OBJECT_TYPE_PLANE] = "OBJECT_TYPE_PLANE",
 		[OBJECT_TYPE_CYLINDER] = "OBJECT_TYPE_CYLINDER",
 	};
-	size_t		i;
+	size_t		object_index;
 	size_t		size;
 	t_object	*object;
 
-	i = 0;
+	object_index = 0;
 	size = ft_vector_get_size(data->objects);
-	while (i < size)
+	while (object_index < size)
 	{
-		object = &data->objects[i];
+		object = &data->objects[object_index];
 
 		char	*object_type = NULL;
 		asprintf(&object_type, "%-20s", object_type_strings[object->type]);
@@ -153,6 +153,6 @@ void	rt_debug_print_objects(t_data *data)
 		rt_debug_print_field_value("height", height);
 		printf("\n");
 
-		i++;
+		object_index++;
 	}
 }
