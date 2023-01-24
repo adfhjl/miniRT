@@ -53,7 +53,6 @@ typedef struct s_light
 {
 	t_vector	coordinates;
 	float		brightness;
-	// TODO: Do we want the allow the "unused in mandatory" RGB?
 }	t_light;
 
 typedef struct s_sphere

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_float.c                                      :+:    :+:            */
+/*   parse_range_float.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 14:35:51 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 14:35:51 by sbos          ########   odam.nl         */
+/*   Created: 2023/01/24 16:48:46 by sbos          #+#    #+#                 */
+/*   Updated: 2023/01/24 16:48:46 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "init/parse/rt_parse.h"
 
-t_status	rt_parse_float(char **line_ptr, float *field_ptr)
+t_status	rt_parse_range_float(char **line_ptr, float *field_ptr,
+				float start, float end)
 {
-	char	*float_end;
-
-	*field_ptr = ft_strtof(*line_ptr, &float_end);
-	if (*line_ptr == float_end)
-		return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
-	(*line_ptr) = float_end;
+	if (rt_parse_float(line_ptr, field_ptr) == ERROR)
+		return (ERROR);
+	if (*field_ptr < start || *field_ptr > end)
+		return (rt_print_error(ERROR_FLOAT_OUT_OF_RANGE));
 	return (OK);
 }

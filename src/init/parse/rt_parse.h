@@ -18,15 +18,13 @@
 t_status	rt_parse_argv(char *argv[], t_data *data);
 
 t_status	rt_parse_float(char **line_ptr, float *field_ptr);
-
 t_status	rt_parse_object(char *line, t_object *object);
-
+t_status	rt_parse_range_float(char **line_ptr, float *field_ptr,
+				float start, float end);
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb);
-
 t_status	rt_parse_vector(char **line_ptr, t_vector *vector);
 
 t_status	rt_skip_separator_comma(char **line_ptr);
-
 void		rt_skip_whitespace(char **line_ptr);
 
 #endif

@@ -49,7 +49,6 @@ static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 
 static void	rt_assign_capitalized_objects(t_data *data)
 {
-	// TODO: Make sure that Victor checks that these aren't NULL everywhere before using them!
 	data->ambient
 		= &rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects)->ambient;
 	data->camera

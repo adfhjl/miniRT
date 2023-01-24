@@ -74,8 +74,6 @@ t_status	rt_parse_object(char *line, t_object *object)
 		return (ERROR);
 	if (rt_set_object_type(object_type_token, object) == ERROR)
 		return (ERROR);
-	// TODO: Enforce the float and char ranges in the way the subject PDF states
-	// for every object type
 	if (parse_fns[object->type](&line, object) == ERROR)
 		return (ERROR);
 	rt_skip_whitespace(&line);

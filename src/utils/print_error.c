@@ -23,8 +23,8 @@ t_status	rt_print_error(t_error ph_error)
 		= "A scene line started with a non-object type",
 	[ERROR_EXPECTED_COMMA] = "Expected a comma",
 	[ERROR_UNEXPECTED_COMMA] = "Encountered an unexpected comma",
-	[ERROR_FAILED_TO_PARSE_CHAR] = "Failed to parse a char",
 	[ERROR_FAILED_TO_PARSE_FLOAT] = "Failed to parse a float",
+	[ERROR_FLOAT_OUT_OF_RANGE] = "Encountered a float that was too big/small",
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
 	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
 		= "Encountered a duplicate capitalized object",

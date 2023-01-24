@@ -15,7 +15,7 @@
 
 t_status	rt_parse_ambient(char **line_ptr, t_object *object)
 {
-	if (rt_parse_float(line_ptr, &object->ambient.ratio) == ERROR)
+	if (rt_parse_range_float(line_ptr, &object->ambient.ratio, 0, 1) == ERROR)
 		return (ERROR);
 	if (rt_parse_rgb(line_ptr, &object->ambient.rgb) == ERROR)
 		return (ERROR);
