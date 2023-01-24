@@ -22,4 +22,6 @@ t_status	rt_parse_light(char **line_ptr, t_object *object);
 t_status	rt_parse_plane(char **line_ptr, t_object *object);
 t_status	rt_parse_sphere(char **line_ptr, t_object *object);
 
+t_status	rt_check_separating_whitespace(char **line_ptr);
+
 #endif

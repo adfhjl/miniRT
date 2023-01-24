@@ -25,6 +25,7 @@ endif
 
 CFILES =\
 	src/debug/debug_print_objects.c\
+	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
 	src/init/parse/objects/parse_cylinder.c\
