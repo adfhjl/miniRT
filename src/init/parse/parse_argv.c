@@ -13,6 +13,14 @@
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
 
+static bool	rt_seen_capitalized_object_before(t_object_type object_type,
+				bool seen_ambient, bool seen_camera, bool seen_light)
+{
+	return ((object_type == OBJECT_TYPE_AMBIENT && seen_ambient)
+		|| (object_type == OBJECT_TYPE_CAMERA && seen_camera)
+		|| (object_type == OBJECT_TYPE_LIGHT && seen_light));
+}
+
 static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 {
 	size_t		object_index;
@@ -28,10 +36,9 @@ static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 	while (object_index < ft_vector_get_size(objects))
 	{
 		object = &objects[object_index];
-		if ((object->type == OBJECT_TYPE_AMBIENT && seen_ambient)
-			|| (object->type == OBJECT_TYPE_CAMERA && seen_camera)
-			|| (object->type == OBJECT_TYPE_LIGHT && seen_light))
-			return (ERROR);
+		if (rt_seen_capitalized_object_before(object->type, seen_ambient,
+				seen_camera, seen_light))
+			return (true);
 		if (object->type == OBJECT_TYPE_AMBIENT)
 			seen_ambient = true;
 		if (object->type == OBJECT_TYPE_CAMERA)
@@ -40,7 +47,7 @@ static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 			seen_light = true;
 		object_index++;
 	}
-	return (OK);
+	return (false);
 }
 
 static t_status	rt_parse_scene_file(int fd, t_data *data)
