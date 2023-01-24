@@ -12,8 +12,9 @@
 
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
+#include "init/parse/objects/rt_parse_objects.h"
 
-static t_status	rt_init_object_type(char *token, t_object *object)
+static t_status	rt_set_object_type(char *token, t_object *object)
 {
 	if (ft_str_eq(token, "A"))
 		object->type = OBJECT_TYPE_AMBIENT;
@@ -32,36 +33,51 @@ static t_status	rt_init_object_type(char *token, t_object *object)
 	return (OK);
 }
 
-static void	rt_skip_whitespace(char **line_ptr)
+static void	rt_skip_non_whitespace(char **line_ptr)
 {
-	while (ft_isspace(**line_ptr))
+	while (!ft_isspace(**line_ptr))
 		(*line_ptr)++;
+}
+
+static char	*rt_parse_object_type(char **line_ptr)
+{
+	char	*start;
+	char	*end;
+	size_t	token_len;
+	char	*token;
+
+	rt_skip_whitespace(line_ptr);
+	start = *line_ptr;
+	rt_skip_non_whitespace(line_ptr);
+	end = *line_ptr;
+	token_len = (size_t)(end - start);
+	token = ft_substr(*line_ptr - token_len, 0, token_len);
+	if (token == NULL)
+		rt_print_error(ERROR_SYSTEM);
+	return (token);
 }
 
 t_status	rt_parse_object(char *line, t_object *object)
 {
-	t_parsing_state	state;
-	char			*token;
+	char	*object_type_token;
 
+	object_type_token = rt_parse_object_type(&line);
+	if (object_type_token == NULL)
+		return (ERROR);
+	if (rt_set_object_type(object_type_token, object) == ERROR)
+		return (ERROR);
+	// TODO: Enforce the float and char ranges in the way the subject PDF states
+	// for every object type
+	if ((object->type == OBJECT_TYPE_AMBIENT && rt_parse_ambient(&line, object) == ERROR)
+		|| (object->type == OBJECT_TYPE_CAMERA && rt_parse_camera(&line, object) == ERROR)
+		|| (object->type == OBJECT_TYPE_LIGHT && rt_parse_light(&line, object) == ERROR)
+		|| (object->type == OBJECT_TYPE_SPHERE && rt_parse_sphere(&line, object) == ERROR)
+		|| (object->type == OBJECT_TYPE_PLANE && rt_parse_plane(&line, object) == ERROR)
+		|| (object->type == OBJECT_TYPE_CYLINDER && rt_parse_cylinder(&line, object) == ERROR
+		))
+		return (ERROR);
 	rt_skip_whitespace(&line);
-	token = rt_parse_token(&line);
-	if (token == NULL)
-		return (ERROR);
-	if (rt_init_object_type(token, object) == ERROR)
-		return (ERROR);
-	state = PARSING_STATE_TYPE;
-	while (true)
-	{
-		rt_skip_whitespace(&line);
-		if (*line == '\0')
-			break ;
-		token = rt_parse_token(&line);
-		if (token == NULL)
-			return (ERROR);
-		if (state == PARSING_STATE_END)
-			return (rt_print_error(ERROR_UNEXPECTED_EXTRA_FIELD));
-		if (rt_parse_field(token, object, &state) == ERROR)
-			return (ERROR);
-	}
+	if (*line != '\0')
+		return (rt_print_error(ERROR_UNEXPECTED_EXTRA_FIELD));
 	return (OK);
 }

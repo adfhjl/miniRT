@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_vector.c                                     :+:    :+:            */
+/*   parse_cylinder.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 14:41:23 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 14:41:23 by sbos          ########   odam.nl         */
+/*   Created: 2023/01/24 15:40:10 by sbos          #+#    #+#                 */
+/*   Updated: 2023/01/24 15:40:10 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
 
-t_status	rt_parse_vector(char **line_ptr, t_vector *vector)
+t_status	rt_parse_cylinder(char **line_ptr, t_object *object)
 {
-	rt_skip_whitespace(line_ptr);
-	if (**line_ptr == ',')
-		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
-	if (rt_parse_float(line_ptr, &vector->x) == ERROR)
+	if (rt_parse_vector(line_ptr, &object->cylinder.coordinates) == ERROR)
 		return (ERROR);
-	if (rt_skip_separator_comma(line_ptr) == ERROR)
+	if (rt_parse_vector(line_ptr, &object->cylinder.orientation) == ERROR)
 		return (ERROR);
-	if (rt_parse_float(line_ptr, &vector->y) == ERROR)
+	if (rt_parse_float(line_ptr, &object->cylinder.diameter) == ERROR)
 		return (ERROR);
-	if (rt_skip_separator_comma(line_ptr) == ERROR)
+	if (rt_parse_float(line_ptr, &object->cylinder.height) == ERROR)
 		return (ERROR);
-	if (rt_parse_float(line_ptr, &vector->z) == ERROR)
+	if (rt_parse_rgb(line_ptr, &object->cylinder.rgb) == ERROR)
 		return (ERROR);
-	if (**line_ptr == ',')
-		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
 	return (OK);
 }

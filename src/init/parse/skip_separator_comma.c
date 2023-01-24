@@ -12,10 +12,10 @@
 
 #include "minirt.h"
 
-t_status	rt_skip_separator_comma(char **token_ptr)
+t_status	rt_skip_separator_comma(char **line_ptr)
 {
-	if (**token_ptr != ',')
+	if (**line_ptr != ',')
 		return (rt_print_error(ERROR_EXPECTED_COMMA));
-	(*token_ptr)++;
+	(*line_ptr)++;
 	return (OK);
 }

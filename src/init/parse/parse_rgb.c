@@ -13,21 +13,22 @@
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
 
-t_status	rt_parse_rgb(char *token, t_rgb *rgb)
+t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {
-	if (*token == ',')
+	rt_skip_whitespace(line_ptr);
+	if (**line_ptr == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
-	if (rt_parse_char(&token, &rgb->r) == ERROR)
+	if (rt_parse_float(line_ptr, &rgb->r) == ERROR)
 		return (ERROR);
-	if (rt_skip_separator_comma(&token) == ERROR)
+	if (rt_skip_separator_comma(line_ptr) == ERROR)
 		return (ERROR);
-	if (rt_parse_char(&token, &rgb->g) == ERROR)
+	if (rt_parse_float(line_ptr, &rgb->g) == ERROR)
 		return (ERROR);
-	if (rt_skip_separator_comma(&token) == ERROR)
+	if (rt_skip_separator_comma(line_ptr) == ERROR)
 		return (ERROR);
-	if (rt_parse_char(&token, &rgb->b) == ERROR)
+	if (rt_parse_float(line_ptr, &rgb->b) == ERROR)
 		return (ERROR);
-	if (*token == ',')
+	if (**line_ptr == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
 	return (OK);
 }

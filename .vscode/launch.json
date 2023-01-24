@@ -16,11 +16,14 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "example.rt" ],
+			// "args": [ "scenes/example.rt" ],
 
-			// "args": [ "letter-instead-of-float.rt" ],
-			// "args": [ "extra-light.rt" ],
-			// "args": [ "empty.rt" ],
+			// "args": [ "scenes/letter-instead-of-float.rt" ],
+			// "args": [ "scenes/extra-light.rt" ],
+			// "args": [ "scenes/empty.rt" ],
+			// "args": [ "scenes/comment.rt" ],
+			// "args": [ "scenes/extra-field.rt" ],
+			"args": [ "scenes/extra-trailing-space.rt" ],
 
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build",

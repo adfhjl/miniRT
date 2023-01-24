@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_float.c                                      :+:    :+:            */
+/*   parse_ambient.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 14:35:51 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 14:35:51 by sbos          ########   odam.nl         */
+/*   Created: 2023/01/24 15:38:52 by sbos          #+#    #+#                 */
+/*   Updated: 2023/01/24 15:38:52 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "init/parse/rt_parse.h"
 
-t_status	rt_parse_float(char **line_ptr, float *field_ptr)
+t_status	rt_parse_ambient(char **line_ptr, t_object *object)
 {
-	char	*end;
-
-	*field_ptr = ft_strtof(*line_ptr, &end);
-	if (*line_ptr == end)
-		return (rt_print_error(ERROR_FAILED_TO_PARSE_FLOAT));
-	(*line_ptr) = end;
+	if (rt_parse_float(line_ptr, &object->ambient.ratio) == ERROR)
+		return (ERROR);
+	if (rt_parse_rgb(line_ptr, &object->ambient.rgb) == ERROR)
+		return (ERROR);
 	return (OK);
 }

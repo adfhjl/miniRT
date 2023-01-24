@@ -25,21 +25,26 @@ endif
 
 CFILES =\
 	src/debug/debug_print_objects.c\
+	src/init/parse/objects/parse_ambient.c\
+	src/init/parse/objects/parse_camera.c\
+	src/init/parse/objects/parse_cylinder.c\
+	src/init/parse/objects/parse_light.c\
+	src/init/parse/objects/parse_plane.c\
+	src/init/parse/objects/parse_sphere.c\
 	src/init/parse/parse_argv.c\
-	src/init/parse/parse_char.c\
-	src/init/parse/parse_field.c\
 	src/init/parse/parse_float.c\
 	src/init/parse/parse_object.c\
 	src/init/parse/parse_rgb.c\
-	src/init/parse/parse_token.c\
 	src/init/parse/parse_vector.c\
 	src/init/parse/skip_separator_comma.c\
+	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/utils/print_error.c\
 	src/main.c
 
 HEADERS =\
 	src/debug/rt_debug.h\
+	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
 	src/init/rt_init.h\
 	src/utils/rt_utils.h\

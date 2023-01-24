@@ -20,7 +20,6 @@
 # include "utils/rt_utils.h"
 
 # define WINDOW_TITLE "miniRT"
-# define SCENE_DIRECTORY_PATH "scenes/"
 # define SYSTEM_ERROR_STATUS -1
 
 typedef struct s_rgb
@@ -97,7 +96,7 @@ typedef struct s_object
 typedef struct s_data
 {
 	mlx_t		*mlx;
-	char		*scene_name;
+	char		*scene_path;
 	t_object	*objects;
 	t_ambient	*ambient;
 	t_camera	*camera;

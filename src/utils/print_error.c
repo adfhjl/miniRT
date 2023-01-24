@@ -21,8 +21,6 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_CANT_READ_SCENE_FILE] = "Can't read the scene file",
 	[ERROR_NON_OBJECT_TYPE_START]
 		= "A scene line started with a non-object type",
-	[ERROR_UNREACHABLE]
-		= "The program reached a state that was supposed to be unreachable",
 	[ERROR_EXPECTED_COMMA] = "Expected a comma",
 	[ERROR_UNEXPECTED_COMMA] = "Encountered an unexpected comma",
 	[ERROR_FAILED_TO_PARSE_CHAR] = "Failed to parse a char",
