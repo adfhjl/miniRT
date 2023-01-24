@@ -24,6 +24,8 @@ t_status	rt_parse_field(char *token, t_object *object,
 
 t_status	rt_parse_float(char **token_ptr, float *field_ptr);
 
+t_status	rt_parse_object(char *line, t_object *object);
+
 t_status	rt_parse_rgb(char *token, t_rgb *rgb);
 
 char		*rt_parse_token(char **line_ptr);

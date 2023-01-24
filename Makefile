@@ -29,6 +29,7 @@ CFILES =\
 	src/init/parse/parse_char.c\
 	src/init/parse/parse_field.c\
 	src/init/parse/parse_float.c\
+	src/init/parse/parse_object.c\
 	src/init/parse/parse_rgb.c\
 	src/init/parse/parse_token.c\
 	src/init/parse/parse_vector.c\

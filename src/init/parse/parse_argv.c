@@ -13,7 +13,7 @@
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
 
-static bool	rt_contains_duplicate_capitalized_object(t_object *objects)
+static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 {
 	size_t		object_index;
 	bool		seen_ambient;
@@ -43,58 +43,6 @@ static bool	rt_contains_duplicate_capitalized_object(t_object *objects)
 	return (OK);
 }
 
-static void	rt_skip_whitespace(char **line_ptr)
-{
-	while (ft_isspace(**line_ptr))
-		(*line_ptr)++;
-}
-
-static t_status	rt_parse_object(char *line, t_object *object)
-{
-	t_parsing_state	state;
-	char			*token;
-
-	rt_skip_whitespace(&line);
-	token = rt_parse_token(&line);
-	if (token == NULL)
-		return (ERROR);
-
-	if (ft_str_eq(token, "A"))
-		object->type = OBJECT_TYPE_AMBIENT;
-	else if (ft_str_eq(token, "C"))
-		object->type = OBJECT_TYPE_CAMERA;
-	else if (ft_str_eq(token, "L"))
-		object->type = OBJECT_TYPE_LIGHT;
-	else if (ft_str_eq(token, "sp"))
-		object->type = OBJECT_TYPE_SPHERE;
-	else if (ft_str_eq(token, "pl"))
-		object->type = OBJECT_TYPE_PLANE;
-	else if (ft_str_eq(token, "cy"))
-		object->type = OBJECT_TYPE_CYLINDER;
-	else
-		return (rt_print_error(ERROR_NON_OBJECT_TYPE_START));
-
-	state = PARSING_STATE_TYPE;
-	while (true)
-	{
-		rt_skip_whitespace(&line);
-
-		if (*line == '\0')
-			break ;
-
-		token = rt_parse_token(&line);
-		if (token == NULL)
-			return (ERROR);
-
-		if (state == PARSING_STATE_END)
-			return (rt_print_error(ERROR_UNEXPECTED_EXTRA_FIELD));
-
-		if (rt_parse_field(token, object, &state) == ERROR)
-			return (ERROR);
-	}
-	return (OK);
-}
-
 static t_status	rt_parse_scene_file(int fd, t_data *data)
 {
 	t_object	object;
@@ -103,7 +51,6 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 	data->objects = ft_vector_new(sizeof(*data->objects));
 	if (data->objects == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
-
 	while (true)
 	{
 		line = get_next_line(fd);
@@ -113,15 +60,9 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 		ft_bzero(&object, sizeof(object));
 		if (rt_parse_object(line, &object) == ERROR)
 			return (ERROR);
-
-		// TODO: Not sure if I want to do this here or loop through the objects later,
-		// but I need to make sure that any second encountered A/C/L throws an error
-
-		// TODO: Do I need to malloc object before pushing it?
 		if (ft_vector_push(&data->objects, &object) == ERROR)
 			return (rt_print_error(ERROR_SYSTEM));
 	}
-
 	return (OK);
 }
 
@@ -144,7 +85,7 @@ t_status	rt_parse_argv(char *argv[], t_data *data)
 		return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
 	if (rt_parse_scene_file(fd, data) == ERROR)
 		return (ERROR);
-	if (rt_contains_duplicate_capitalized_object(data->objects))
+	if (rt_has_duplicate_capitalized_object(data->objects))
 		return (rt_print_error(ERROR_DUPLICATE_CAPITALIZED_OBJECT));
 	return (OK);
 }
