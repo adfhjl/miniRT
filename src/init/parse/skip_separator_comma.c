@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_utils.h                                         :+:    :+:            */
+/*   skip_separator_comma.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/19 17:42:22 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/19 17:42:22 by sbos          ########   odam.nl         */
+/*   Created: 2023/01/24 14:42:14 by sbos          #+#    #+#                 */
+/*   Updated: 2023/01/24 14:42:14 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_UTILS_H
-# define RT_UTILS_H
+#include "minirt.h"
 
-# include "minirt.h"
-
-t_status	rt_print_error(t_error ph_error);
-
-#endif
+t_status	rt_skip_separator_comma(char **token_ptr)
+{
+	if (**token_ptr != ',')
+		return (rt_print_error(ERROR_EXPECTED_COMMA));
+	(*token_ptr)++;
+	return (OK);
+}
