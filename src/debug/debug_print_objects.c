@@ -79,13 +79,13 @@ void	rt_debug_print_objects(t_data *data)
 
 		char	*rgb = NULL;
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			asprintf(&rgb, "%d,%d,%d", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
+			asprintf(&rgb, "%f,%f,%f", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
 		else if (object->type == OBJECT_TYPE_SPHERE)
-			asprintf(&rgb, "%d,%d,%d", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
+			asprintf(&rgb, "%f,%f,%f", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&rgb, "%d,%d,%d", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
+			asprintf(&rgb, "%f,%f,%f", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&rgb, "%d,%d,%d", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
+			asprintf(&rgb, "%f,%f,%f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
 
 		char	*coordinates = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
@@ -107,7 +107,7 @@ void	rt_debug_print_objects(t_data *data)
 
 		char	*fov = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&fov, "%d", object->camera.fov);
+			asprintf(&fov, "%f", object->camera.fov);
 
 		char	*brightness = NULL;
 		if (object->type == OBJECT_TYPE_LIGHT)

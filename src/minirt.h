@@ -25,9 +25,9 @@
 
 typedef struct s_rgb
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	float	r;
+	float	g;
+	float	b;
 }	t_rgb;
 
 typedef struct s_vector
@@ -45,9 +45,9 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_vector		coordinates;
-	t_vector		orientation;
-	unsigned char	fov; // TODO: Do we ever want fractional fov, so a float?
+	t_vector	coordinates;
+	t_vector	orientation;
+	float		fov;
 }	t_camera;
 
 typedef struct s_light
