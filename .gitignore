@@ -18,3 +18,9 @@
 !Makefile
 
 MLX42
+
+afl
+!scripts/*
+!Dockerfile
+
+!README.md

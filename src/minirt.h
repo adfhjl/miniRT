@@ -19,6 +19,8 @@
 # include "rt_enums.h"
 # include "utils/rt_utils.h"
 
+# include <math.h>
+
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 

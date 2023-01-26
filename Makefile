@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = miniRT
-CC = gcc
+CC ?= gcc
 
 # TODO: Remove extra flags before the eval
 NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
@@ -59,7 +59,13 @@ OBJFILES = $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH = libft/libft.a
 MLX_PATH = MLX42/libmlx42.a
 BREW_DIR = $(shell brew --prefix)
+
+ifeq ($(shell uname),Darwin)
 LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
+else
+NORMFLAGS = -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion -Wno-gnu-statement-expression
+LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw
+endif
 
 all: $(NAME)
 

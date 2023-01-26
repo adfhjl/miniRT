@@ -14,21 +14,21 @@
 #include "init/parse/rt_parse.h"
 #include "debug/rt_debug.h"
 
-static void	rt_key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_data	*data;
+// static void	rt_key_hook(mlx_key_data_t keydata, void *param)
+// {
+// 	t_data	*data;
 
-	data = param;
-	if (keydata.action != MLX_PRESS)
-		return ;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(data->mlx);
-}
+// 	data = param;
+// 	if (keydata.action != MLX_PRESS)
+// 		return ;
+// 	if (keydata.key == MLX_KEY_ESCAPE)
+// 		mlx_close_window(data->mlx);
+// }
 
-static void	rt_draw_loop(void *param)
-{
-	(void)param;
-}
+// static void	rt_draw_loop(void *param)
+// {
+// 	(void)param;
+// }
 
 static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 					t_object *objects)
@@ -66,9 +66,9 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
 	rt_debug_print_objects(data);
-	data->mlx = mlx_init(500, 500, WINDOW_TITLE, false);
-	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, NULL))
-		return (rt_print_error(ERROR_SYSTEM));
-	mlx_key_hook(data->mlx, &rt_key_hook, data);
+	// data->mlx = mlx_init(500, 500, WINDOW_TITLE, false);
+	// if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, NULL))
+	// 	return (rt_print_error(ERROR_SYSTEM));
+	// mlx_key_hook(data->mlx, &rt_key_hook, data);
 	return (OK);
 }
