@@ -1,7 +1,15 @@
 ```bash
-mkdir -p minimized-inputs
-rm -rf minimized-inputs/*
-afl-cmin -i inputs -o minimized-inputs -- ./persistent_demo
+mkdir -p minimized-scenes
+rm -rf minimized-scenes/*
+afl-cmin -i scenes -o minimized-scenes -- ./persistent_demo
 
-afl-fuzz -i minimized-inputs -o outputs -- ./persistent_demo
+mkdir -p minimized-input
+rm -rf minimized-input/*
+i=0
+for file in minimized-scenes/**; do
+afl-tmin -i "$file" -o minimized-input/$i -- ../miniRT
+i=$(($i + 1))
+done
+
+afl-fuzz -i minimized-input -o afl-output -- ./persistent_demo
 ```
