@@ -18,10 +18,10 @@
 
 // __AFL_FUZZ_INIT();
 
-void	rt_check_leaks(void)
-{
-	system("leaks -q miniRT");
-}
+// void	rt_check_leaks(void)
+// {
+// 	system("leaks -q miniRT");
+// }
 
 void	rt_cleanup(t_data *data)
 {
