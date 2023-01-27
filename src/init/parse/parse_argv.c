@@ -50,24 +50,81 @@ static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 	return (false);
 }
 
-static t_status	rt_parse_scene_file(int fd, t_data *data)
+static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 {
 	t_object	object;
 	char		*line;
+	size_t		start;
+	char		*newline;
+	size_t		len;
+
+	if (ft_strlen(buf) > 7)
+	{
+		if (buf[0] == 'f') {
+
+			printf("one\n");
+			if (buf[1] == 'o') {
+
+				printf("two\n");
+				if (buf[2] == 'o') {
+
+					printf("three\n");
+					if (buf[3] == '!') {
+
+						printf("four\n");
+						if (buf[4] == '!') {
+
+							printf("five\n");
+							if (buf[5] == '!') {
+
+								printf("six\n");
+								abort();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	data->objects = ft_vector_new(sizeof(*data->objects));
 	if (data->objects == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
+	start = 0;
 	while (true)
 	{
-		line = get_next_line(fd);
-		if (ft_any_error())
-			return (rt_print_error(ERROR_SYSTEM));
-		if (line == NULL)
+		// echo 'A 0 0,0,0\npl 0,0,0 0,0,0 0,0,0' | ./miniRT
+
+		if (buf[start] == '\0')
 			break ;
+
+		newline = ft_strchr(buf + start, '\n');
+		if (newline == NULL)
+		{
+			len = ft_strlen(buf + start);
+		}
+		else
+		{
+			len = (size_t)(newline - (buf + start) + 1);
+		}
+		line = ft_substr(buf, (t_u32)start, len);
+		// printf("line len: %zu, len: %zu, start: %zu\n", ft_strlen(line), len, start);
+		// TODO: Handle when a NUL occurs before a newline!
+		// if (ft_strlen(line) < len)
+		// 	printf("oopsie!!!!!\n");
+		start = start + len;
+
+		// line = get_next_line(fd);
+		// if (ft_any_error())
+		// 	return (rt_print_error(ERROR_SYSTEM));
+		// if (line == NULL)
+		// 	break ;
+
+		// printf("line before: '%s'\n", line);
 		rt_skip_whitespace(&line);
-		// if (*line == '\0' || *line == '#')
-		// 	continue ;
+		// printf("line after: '%s'\n", line);
+		if (*line == '\0' || *line == '#')
+			continue ;
 		ft_bzero(&object, sizeof(object));
 		if (rt_parse_object(line, &object) == ERROR)
 			return (ERROR);
@@ -77,7 +134,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 	return (OK);
 }
 
-t_status	rt_parse_argv(char *argv[], t_data *data)
+t_status	rt_parse_argv(char *argv[], t_data *data, char *buf)
 {
 	// size_t	len;
 	int		fd;
@@ -97,12 +154,12 @@ t_status	rt_parse_argv(char *argv[], t_data *data)
 	fd = 0;
 	// #endif
 
-	if (rt_parse_scene_file(fd, data) == ERROR)
+	if (rt_parse_scene_file(fd, data, buf) == ERROR)
 	{
-		close(fd);
+		// close(fd);
 		return (ERROR);
 	}
-	close(fd);
+	// close(fd);
 	if (rt_has_duplicate_capitalized_object(data->objects))
 		return (rt_print_error(ERROR_DUPLICATE_CAPITALIZED_OBJECT));
 	return (OK);

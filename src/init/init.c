@@ -57,12 +57,12 @@ static void	rt_assign_capitalized_objects(t_data *data)
 		= &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
 }
 
-t_status	rt_init(int argc, char *argv[], t_data *data)
+t_status	rt_init(int argc, char *argv[], t_data *data, char *buf)
 {
 	ft_bzero(data, sizeof(*data));
 	if (argc != 2)
 		return (rt_print_error(ERROR_INVALID_ARGC));
-	if (rt_parse_argv(argv, data) == ERROR)
+	if (rt_parse_argv(argv, data, buf) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
 	rt_debug_print_objects(data);

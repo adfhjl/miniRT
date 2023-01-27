@@ -15,6 +15,6 @@
 
 # include "minirt.h"
 
-t_status	rt_init(int argc, char *argv[], t_data *data);
+t_status	rt_init(int argc, char *argv[], t_data *data, char *buf);
 
 #endif
