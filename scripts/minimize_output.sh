@@ -4,7 +4,6 @@ mkdir -p /src/afl/minimized-crashes
 rm -rf /src/afl/minimized-crashes/*
 i=0
 for file in /src/afl/afl-output/master/crashes/id*; do
-# afl-tmin -i "$file" -o /src/afl/minimized-crashes/$i -- /src/miniRT @@
 afl-tmin -i "$file" -o /src/afl/minimized-crashes/$i -- /src/miniRT
 i=$(($i + 1))
 done
