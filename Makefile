@@ -14,7 +14,8 @@ NAME = miniRT
 CC ?= gcc
 
 # TODO: Remove extra flags before the eval
-NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+# NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+NORMFLAGS = -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion
 
 ifdef DEBUG
 NORMFLAGS += -g3

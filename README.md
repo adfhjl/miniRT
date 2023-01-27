@@ -8,3 +8,4 @@
 
 ## Foo
 * `afl-showmap -o baz -- /src/miniRT /src/scenes/valid/example.rt`
+* `< ../crashes.rt cat | afl-showmap -o baz -- /src/miniRT`

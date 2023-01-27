@@ -14,4 +14,6 @@ i=$(($i + 1))
 done
 
 afl-fuzz -i minimized-input -o afl-output -- ./persistent_demo
+
+afl-analyze -i afl-output/default/crashes/id* -- ./persistent_demo
 ```
