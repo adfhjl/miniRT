@@ -81,15 +81,16 @@ t_status	rt_parse_argv(char *argv[], t_data *data)
 {
 	// size_t	len;
 	int		fd;
+	// char	*scene_path;
 
-	data->scene_path = argv[1];
+	// scene_path = argv[1];
 
-	// len = ft_strlen(data->scene_path);
-	// if (len < 3 || !ft_str_eq(data->scene_path + len - 3, ".rt"))
+	// len = ft_strlen(scene_path);
+	// if (len < 3 || !ft_str_eq(scene_path + len - 3, ".rt"))
 	// 	return (rt_print_error(ERROR_INVALID_SCENE_NAME));
 
 	// #ifndef __AFL_FUZZ_TESTCASE_LEN
-	// fd = open(data->scene_path, O_RDONLY);
+	// fd = open(scene_path, O_RDONLY);
 	// if (fd == SYSTEM_ERROR_STATUS)
 	// 	return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
 	// #else

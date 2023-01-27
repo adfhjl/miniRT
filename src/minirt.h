@@ -97,7 +97,6 @@ typedef struct s_object
 typedef struct s_data
 {
 	mlx_t		*mlx;
-	char		*scene_path;
 	t_object	*objects;
 	t_ambient	*ambient;
 	t_camera	*camera;
