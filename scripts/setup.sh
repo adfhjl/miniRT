@@ -2,7 +2,8 @@
 
 cd /src
 
-CC=afl-clang-fast make DEBUG=1
+export AFL_LLVM_LAF_ALL=1
+CC=afl-clang-lto make DEBUG=1
 
 mkdir -p afl
 
