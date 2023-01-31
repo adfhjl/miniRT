@@ -10,7 +10,8 @@ export AFL_LLVM_LAF_ALL=1
 # export AFL_USE_ASAN=1
 
 # TODO: Not sure if the DEBUG=1 is necessary for afl
-CC=afl-clang-lto make DEBUG=1
+# CC=afl-clang-lto make DEBUG=1
+CC=afl-gcc-fast make DEBUG=1
 
 mkdir -p afl
 

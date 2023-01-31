@@ -55,6 +55,7 @@ static int	run(int argc, char *argv[], char *buf)
 	return (EXIT_SUCCESS);
 }
 
+// TODO: Is this necessary?
 #pragma clang optimize off
 #pragma GCC            optimize("O0")
 
@@ -64,7 +65,17 @@ int	main(int argc, char *argv[])
   __AFL_INIT();
 #endif
 
+	#ifdef GCOV
+	unsigned char buf[1024];
+	ft_bzero(buf, sizeof(buf));
+	if (read(0, buf, sizeof(buf) - 1) == -1)
+	{
+		perror("read()");
+		return (EXIT_FAILURE);
+	}
+	#else
 	unsigned char *buf = __AFL_FUZZ_TESTCASE_BUF;
+	#endif
 
 	while (__AFL_LOOP(UINT_MAX)) {
 		run(2, argv, buf);
