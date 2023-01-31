@@ -20,14 +20,13 @@
 # include "utils/rt_utils.h"
 
 # define WINDOW_TITLE "miniRT"
-# define SCENE_DIRECTORY_PATH "scenes/"
 # define SYSTEM_ERROR_STATUS -1
 
 typedef struct s_rgb
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	float	r;
+	float	g;
+	float	b;
 }	t_rgb;
 
 typedef struct s_vector
@@ -45,16 +44,15 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_vector		coordinates;
-	t_vector		orientation;
-	unsigned char	fov; // TODO: Do we ever want fractional fov, so a float?
+	t_vector	coordinates;
+	t_vector	orientation;
+	float		fov;
 }	t_camera;
 
 typedef struct s_light
 {
 	t_vector	coordinates;
 	float		brightness;
-	// TODO: Do we want the allow the "unused in mandatory" RGB?
 }	t_light;
 
 typedef struct s_sphere
@@ -80,17 +78,13 @@ typedef struct s_cylinder
 	t_rgb		rgb;
 }	t_cylinder;
 
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER,
-}	t_object_type;
-
 typedef struct s_object
 {
 	union
 	{
+		t_ambient	ambient;
+		t_camera	camera;
+		t_light		light;
 		t_sphere	sphere;
 		t_plane		plane;
 		t_cylinder	cylinder;
@@ -101,16 +95,13 @@ typedef struct s_object
 typedef struct s_data
 {
 	mlx_t		*mlx;
-	char		*scene_name;
-
-	// TODO: These substructs will be completely initialized to 0
-	// We may want to write a function that initializes some properties to
-	// other values for these.
-	t_ambient	ambient;
-	t_camera	camera;
-	t_light		light;
-
+	char		*scene_path;
 	t_object	*objects;
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_light		*light;
 }	t_data;
+
+typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
 
 #endif

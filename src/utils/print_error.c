@@ -15,10 +15,20 @@
 t_status	rt_print_error(t_error ph_error)
 {
 	static char	*error_messages[] = {
-	[ERROR_INVALID_ARGC] = "Invalid argument count",
 	[ERROR_SYSTEM] = "System error",
+	[ERROR_INVALID_ARGC] = "Invalid argument count",
 	[ERROR_INVALID_SCENE_NAME] = "Invalid scene name",
 	[ERROR_CANT_READ_SCENE_FILE] = "Can't read the scene file",
+	[ERROR_NON_OBJECT_TYPE_START]
+		= "A scene line started with a non-object type",
+	[ERROR_EXPECTED_COMMA] = "Expected a comma",
+	[ERROR_UNEXPECTED_COMMA] = "Encountered an unexpected comma",
+	[ERROR_FAILED_TO_PARSE_FLOAT] = "Failed to parse a float",
+	[ERROR_FLOAT_OUT_OF_RANGE] = "Encountered a float that was too big/small",
+	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
+	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
+		= "Encountered a duplicate capitalized object",
+	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace"
 	};
 	char		*error_message;
 
