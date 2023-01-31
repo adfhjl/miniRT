@@ -10,12 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME ?= miniRT
-CC ?= gcc
+NAME := miniRT
+
+CC := gcc
 
 # TODO: Remove extra flags before the eval
-# CFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
-CFLAGS = -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion
+# CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+CFLAGS := -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion
 
 ifdef DEBUG
 CFLAGS += -g3
@@ -24,11 +25,11 @@ ifdef SAN
 CFLAGS += -fsanitize=address
 endif
 ifdef GCOV
-NAME = miniRT_gcov
-CFLAGS += -fprofile-arcs -ftest-coverage -DGCOV=1
+CC := afl-gcc-fast
+CFLAGS += -fprofile-arcs -ftest-coverage
 endif
 
-CFILES =\
+CFILES :=\
 	src/debug/debug_print_objects.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
@@ -49,7 +50,7 @@ CFILES =\
 	src/utils/print_error.c\
 	src/main.c
 
-HEADERS =\
+HEADERS :=\
 	src/debug/rt_debug.h\
 	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
@@ -58,18 +59,18 @@ HEADERS =\
 	src/minirt.h\
 	src/rt_enums.h
 
-INCLUDES = -I src -I libft -I MLX42/include
-OBJDIR = obj
-OBJFILES = $(addprefix $(OBJDIR)/,$(CFILES:c=o))
-LIBFT_PATH = libft/libft.a
-MLX_PATH = MLX42/libmlx42.a
-BREW_DIR = $(shell brew --prefix)
+INCLUDES := -I src -I libft -I MLX42/include
+OBJDIR := obj
+OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
+LIBFT_PATH := libft/libft.a
+MLX_PATH := MLX42/libmlx42.a
+BREW_DIR := $(shell brew --prefix)
 
 ifeq ($(shell uname),Darwin)
-LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
+LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 else
-# CFLAGS = -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion -Wno-gnu-statement-expression
-LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw
+# CFLAGS := -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion -Wno-gnu-statement-expression
+LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw
 endif
 
 all: $(NAME)
