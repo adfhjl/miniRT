@@ -14,9 +14,11 @@ NAME := miniRT
 
 CC := gcc
 
-# TODO: Remove extra flags before the eval
+# TODO: Remove extra flags before the eval and put -Werror back
 # CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 CFLAGS := -Wall -Wextra -Wpedantic -Wfatal-errors -Wconversion
+
+OBJDIR := obj
 
 ifdef DEBUG
 CFLAGS += -g3
@@ -24,9 +26,14 @@ endif
 ifdef SAN
 CFLAGS += -fsanitize=address
 endif
+ifdef AFL
+CC := afl-clang-lto
+endif
 ifdef GCOV
+NAME := miniRT_gcov
 CC := afl-gcc-fast
-CFLAGS += -fprofile-arcs -ftest-coverage
+CFLAGS += -fprofile-arcs -ftest-coverage -DGCOV=1
+OBJDIR := obj_gcov
 endif
 
 CFILES :=\
@@ -60,7 +67,6 @@ HEADERS :=\
 	src/rt_enums.h
 
 INCLUDES := -I src -I libft -I MLX42/include
-OBJDIR := obj
 OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH := libft/libft.a
 MLX_PATH := MLX42/libmlx42.a

@@ -66,19 +66,16 @@ int	main(int argc, char *argv[])
 #endif
 
 	unsigned char *buf;
-	if (argv[1] && ft_str_eq(argv[1], "GCOV"))
+#ifdef GCOV
+	buf = ft_stralloc(1024);
+	if (read(0, buf, 1024) == -1)
 	{
-		buf = ft_stralloc(1024);
-		if (read(0, buf, 1024) == -1)
-		{
-			perror("read()");
-			return (EXIT_FAILURE);
-		}
+		perror("read()");
+		return (EXIT_FAILURE);
 	}
-	else
-	{
-		buf = __AFL_FUZZ_TESTCASE_BUF;
-	}
+#else
+	buf = __AFL_FUZZ_TESTCASE_BUF;
+#endif
 
 	while (__AFL_LOOP(UINT_MAX)) {
 		run(2, argv, buf);
