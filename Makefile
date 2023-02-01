@@ -6,7 +6,7 @@
 #    By: vbenneko <vbenneko@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/08/16 13:58:57 by vbenneko      #+#    #+#                  #
-#    Updated: 2023/01/19 16:09:46 by vbenneko      ########   odam.nl          #
+#    Updated: 2023/02/01 17:17:08 by vbenneko      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,16 @@ CFILES =\
 	src/init/parse/skip_separator_comma.c\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
+	src/mathematics/utils/rt_add.c\
+	src/mathematics/utils/rt_cross.c\
+	src/mathematics/utils/rt_dot.c\
+	src/mathematics/utils/rt_get_ray_point.c\
+	src/mathematics/utils/rt_mag.c\
+	src/mathematics/utils/rt_mag2.c\
+	src/mathematics/utils/rt_multiply_rgb.c\
+	src/mathematics/utils/rt_normalized.c\
+	src/mathematics/utils/rt_scale.c\
+	src/mathematics/utils/rt_sub.c\
 	src/utils/print_error.c\
 	src/main.c
 
@@ -49,6 +59,7 @@ HEADERS =\
 	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
 	src/init/rt_init.h\
+	src/mathematics/mathematics.h\
 	src/utils/rt_utils.h\
 	src/minirt.h\
 	src/rt_enums.h

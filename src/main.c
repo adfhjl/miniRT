@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/16 14:56:22 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/19 18:40:42 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/01 17:50:54 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@
 void	rt_check_leaks(void)
 {
 	system("leaks -q miniRT");
+}
+
+void	key_press_hook(mlx_key_data_t keydata, void *param)
+{
+	t_data	*data;
+
+	data = param;
+	if (keydata.action != MLX_PRESS)
+		return ;
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(data->mlx);
+}
+
+void	rt_draw_loop(void *param)
+{
 }
 
 void	rt_cleanup(t_data *data)

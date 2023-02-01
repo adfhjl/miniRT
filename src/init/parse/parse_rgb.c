@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 14:41:10 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 14:41:10 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/01 17:37:14 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 		return (ERROR);
 	if (**line_ptr == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
+	*rgb = rt_scale_rgb(*rgb, 1.0f / 255.0f);
 	return (OK);
 }

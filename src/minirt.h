@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:28:47 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/16 17:29:10 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/01 17:19:45 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 # include "rt_enums.h"
 # include "utils/rt_utils.h"
+# include "mathematics/mathematics.h"
+
+# include <math.h>
 
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
@@ -35,6 +38,12 @@ typedef struct s_vector
 	float	y;
 	float	z;
 }	t_vector;
+
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}	t_ray;
 
 typedef struct s_ambient
 {
@@ -91,6 +100,14 @@ typedef struct s_object
 	};
 	t_object_type	type;
 }	t_object;
+
+typedef struct s_hit_info
+{
+	t_object	*object;
+	float		distance;
+	t_vector	surface_normal;
+	float		visual_surface_normal;
+}	t_hit_info;
 
 typedef struct s_data
 {
