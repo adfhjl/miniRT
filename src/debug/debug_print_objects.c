@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/20 17:07:24 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/20 17:07:24 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/01 17:34:41 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 // TODO: Comment out this file before handing it in
 
+#define EMPTY_FIELD_STRING ""
+
 void	rt_debug_print_field_value(char *field_name, char *field_value)
 {
 	size_t	field_name_len;
@@ -26,9 +28,9 @@ void	rt_debug_print_field_value(char *field_name, char *field_value)
 	if (field_value)
 		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
 	else
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen("(null)"));
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(EMPTY_FIELD_STRING));
 	if (field_value == NULL)
-		field_value = "";
+		field_value = EMPTY_FIELD_STRING;
 	printf(" %-*s |", (int)field_len, field_value);
 }
 
@@ -42,7 +44,7 @@ void	rt_debug_print_field_name(char *field_name, char *field_value)
 	if (field_value)
 		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
 	else
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen("(null)"));
+		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(EMPTY_FIELD_STRING));
 	field_name_line = ft_stralloc(field_len);
 	ft_strlcpy(field_name_line, field_name, field_len + 1);
 	ft_memset(field_name_line + field_name_len, '-', field_len - field_name_len);
