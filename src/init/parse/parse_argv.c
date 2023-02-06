@@ -58,6 +58,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 	char		*newline;
 	size_t		len;
 
+#if defined AFL || defined GCOV
 	if (ft_strlen(buf) > 7)
 	{
 		if (buf[0] == 'f') {
@@ -86,6 +87,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 			}
 		}
 	}
+#endif
 
 	data->objects = ft_vector_new(sizeof(*data->objects));
 	if (data->objects == NULL)
@@ -93,8 +95,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 	start = 0;
 	while (true)
 	{
-		// echo 'A 0 0,0,0\npl 0,0,0 0,0,0 0,0,0' | ./miniRT
-
+#if defined AFL || defined GCOV
 		if (buf[start] == '\0')
 			break ;
 
@@ -113,16 +114,15 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 		// if (ft_strlen(line) < len)
 		// 	printf("oopsie!!!!!\n");
 		start = start + len;
+#else
+		line = get_next_line(fd);
+		if (ft_any_error())
+			return (rt_print_error(ERROR_SYSTEM));
+		if (line == NULL)
+			break ;
+#endif
 
-		// line = get_next_line(fd);
-		// if (ft_any_error())
-		// 	return (rt_print_error(ERROR_SYSTEM));
-		// if (line == NULL)
-		// 	break ;
-
-		// printf("line before: '%s'\n", line);
 		rt_skip_whitespace(&line);
-		// printf("line after: '%s'\n", line);
 		if (*line == '\0' || *line == '#')
 			continue ;
 		ft_bzero(&object, sizeof(object));
@@ -136,23 +136,23 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 
 t_status	rt_parse_argv(char *argv[], t_data *data, char *buf)
 {
-	// size_t	len;
 	int		fd;
-	// char	*scene_path;
+	char	*scene_path;
+	size_t	len;
 
-	// scene_path = argv[1];
-
-	// len = ft_strlen(scene_path);
-	// if (len < 3 || !ft_str_eq(scene_path + len - 3, ".rt"))
-	// 	return (rt_print_error(ERROR_INVALID_SCENE_NAME));
-
-	// #ifndef __AFL_FUZZ_TESTCASE_LEN
-	// fd = open(scene_path, O_RDONLY);
-	// if (fd == SYSTEM_ERROR_STATUS)
-	// 	return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
-	// #else
+	#if defined AFL || defined GCOV
 	fd = 0;
-	// #endif
+	#else
+	scene_path = argv[1];
+
+	len = ft_strlen(scene_path);
+	if (len < 3 || !ft_str_eq(scene_path + len - 3, ".rt"))
+		return (rt_print_error(ERROR_INVALID_SCENE_NAME));
+
+	fd = open(scene_path, O_RDONLY);
+	if (fd == SYSTEM_ERROR_STATUS)
+		return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
+	#endif
 
 	if (rt_parse_scene_file(fd, data, buf) == ERROR)
 	{

@@ -38,18 +38,11 @@ static int	run(int argc, char *argv[], char *buf)
 {
 	t_data	data;
 
-	// void	*ptr = malloc(1);
-	// free(ptr);
-	// free(ptr);
-	// printf("%p\n", ptr);
-	// printf("foo\n");
 	if (rt_init(argc, argv, &data, buf) == ERROR)
 	{
-		// printf("bar\n");
 		rt_cleanup(&data);
 		return (EXIT_FAILURE);
 	}
-	// printf("baz\n");
 	// mlx_loop(data.mlx);
 	rt_cleanup(&data);
 	return (EXIT_SUCCESS);
@@ -66,19 +59,24 @@ int	main(int argc, char *argv[])
 #endif
 
 	unsigned char *buf;
-#ifdef GCOV
+#ifdef AFL
+	argc = 2;
+	buf = __AFL_FUZZ_TESTCASE_BUF;
+#elif GCOV
+	argc = 2;
 	buf = ft_stralloc(1024);
 	if (read(0, buf, 1024) == -1)
 	{
 		perror("read()");
 		return (EXIT_FAILURE);
 	}
-#else
-	buf = __AFL_FUZZ_TESTCASE_BUF;
 #endif
 
-	while (__AFL_LOOP(UINT_MAX)) {
-		run(2, argv, buf);
+#if defined AFL || defined GCOV
+	while (__AFL_LOOP(UINT_MAX))
+#endif
+	{
+		run(argc, argv, buf);
 	}
 
 	return (EXIT_SUCCESS);
