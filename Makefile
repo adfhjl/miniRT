@@ -27,7 +27,7 @@ ifdef SAN
 CFLAGS += -fsanitize=address
 endif
 ifdef AFL
-CC := afl-clang-lto
+CC := afl-clang-lto -DAFL=1
 endif
 ifdef GCOV
 NAME := miniRT_gcov
