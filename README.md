@@ -1,8 +1,7 @@
 # miniRT
 
 ## Commands
-* `docker build -t afl-glfw .`
-* `docker run -it -v /Users/sbos/Documents/Programming/Projects/miniRT/:/src afl-glfw`
+* `docker build -t afl-glfw . && docker run -it -v /Users/sbos/Documents/Programming/Projects/miniRT/:/src afl-glfw`
 * `setup.sh`
 * `fuzz.sh`
 * `minimize_output.sh`

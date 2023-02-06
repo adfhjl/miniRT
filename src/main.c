@@ -34,8 +34,6 @@ void	rt_cleanup(t_data *data)
 	ft_free_allocations();
 }
 
-#include <stdio.h>
-
 static int	run(int argc, char *argv[], char *buf)
 {
 	t_data	data;

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /src
-
 export AFL_LLVM_LAF_ALL=1
 
 # TODO: Try to get "clang -fsanitize=address bar.c" working first
@@ -10,25 +8,20 @@ export AFL_LLVM_LAF_ALL=1
 # export AFL_USE_ASAN=1
 
 # TODO: Not sure if the DEBUG=1 is necessary for afl
-make DEBUG=1 CTMIN=1
+make -C /src DEBUG=1 CTMIN=1
 
+mkdir -p /src/afl
 
-mkdir -p afl
+mkdir -p /src/afl/minimized-scenes
+rm -rf /src/afl/minimized-scenes/*
+afl-cmin -i /src/scenes -o /src/afl/minimized-scenes -- /src/miniRT_ctmin
 
-cd afl
-
-mkdir -p minimized-scenes
-rm -rf minimized-scenes/*
-afl-cmin -i ../scenes -o minimized-scenes -- ../miniRT_ctmin
-
-mkdir -p trimmed-scenes
-rm -rf trimmed-scenes/*
-for file in minimized-scenes/**; do
-afl-tmin -i "$file" -o trimmed-scenes/$(basename $file) -- ../miniRT_ctmin
+mkdir -p /src/afl/trimmed-scenes
+rm -rf /src/afl/trimmed-scenes/*
+for file in /src/afl/minimized-scenes/**; do
+afl-tmin -i "$file" -o /src/afl/trimmed-scenes/$(basename $file) -- /src/miniRT_ctmin
 done
 
 
-cd /src
-
 # TODO: Not sure if the DEBUG=1 is necessary for afl
-make DEBUG=1 AFL=1
+make -C /src DEBUG=1 AFL=1
