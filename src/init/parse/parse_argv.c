@@ -58,6 +58,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 	char		*newline;
 	size_t		len;
 
+#if defined AFL || defined GCOV || defined CTMIN
 	if (ft_strlen(buf) > 7)
 	{
 		if (buf[0] == 'f') {
@@ -86,6 +87,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 			}
 		}
 	}
+#endif
 
 	data->objects = ft_vector_new(sizeof(*data->objects));
 	if (data->objects == NULL)
