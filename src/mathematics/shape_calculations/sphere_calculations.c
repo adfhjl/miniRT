@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_add.c                                           :+:    :+:            */
+/*   sphere_calculations.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:39:47 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/06 15:30:50 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/02/03 17:11:26 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/02/03 17:19:07 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	rt_add(t_vector a, t_vector b)
+// TODO: Make this function
+t_hit_info	rt_get_sphere_collision_info(
+	t_ray ray, t_object *object, t_data *data)
 {
-	return ((t_vector){
-		.x = a.x + b.x,
-		.y = a.y + b.y,
-		.z = a.z + b.z
-	});
-}
-
-t_rgb	rt_add_rgb(t_rgb a, t_rgb b)
-{
-	return ((t_rgb){
-		.r = a.r + b.r,
-		.g = a.g + b.g,
-		.b = a.b + b.b
-	});
+	(void)ray;
+	(void)object;
+	(void)data;
+	return ((t_hit_info){.distance = INFINITY});
 }

@@ -6,7 +6,7 @@
 #    By: vbenneko <vbenneko@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/08/16 13:58:57 by vbenneko      #+#    #+#                  #
-#    Updated: 2023/02/01 17:17:08 by vbenneko      ########   odam.nl          #
+#    Updated: 2023/02/06 19:04:34 by vbenneko      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,9 @@ CFILES =\
 	src/init/parse/skip_separator_comma.c\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
+	src/mathematics/shape_calculations/cylinder_calculations.c\
+	src/mathematics/shape_calculations/plane_calculations.c\
+	src/mathematics/shape_calculations/sphere_calculations.c\
 	src/mathematics/utils/rt_add.c\
 	src/mathematics/utils/rt_cross.c\
 	src/mathematics/utils/rt_dot.c\
@@ -51,6 +54,7 @@ CFILES =\
 	src/mathematics/utils/rt_normalized.c\
 	src/mathematics/utils/rt_scale.c\
 	src/mathematics/utils/rt_sub.c\
+	src/mathematics/rt_get_ray_rgb.c\
 	src/utils/print_error.c\
 	src/main.c
 

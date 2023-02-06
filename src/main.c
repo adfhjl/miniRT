@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/16 14:56:22 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:50:54 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/06 18:07:29 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 void	rt_check_leaks(void)
 {
 	system("leaks -q miniRT");
-}
-
-void	key_press_hook(mlx_key_data_t keydata, void *param)
-{
-	t_data	*data;
-
-	data = param;
-	if (keydata.action != MLX_PRESS)
-		return ;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(data->mlx);
-}
-
-void	rt_draw_loop(void *param)
-{
 }
 
 void	rt_cleanup(t_data *data)
@@ -48,12 +33,14 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	atexit(rt_check_leaks);
+	// atexit(rt_check_leaks);
 	if (rt_init(argc, argv, &data) == ERROR)
 	{
 		rt_cleanup(&data);
 		return (EXIT_FAILURE);
 	}
+	data.image = mlx_new_image(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT); // CAN GO WRONG
+	mlx_image_to_window(data.mlx, data.image, 0, 0); // CAN GO WRONG
 	mlx_loop(data.mlx);
 	rt_cleanup(&data);
 	return (EXIT_SUCCESS);

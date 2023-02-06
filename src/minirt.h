@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:28:47 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:19:45 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/06 18:06:00 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
+# define WINDOW_WIDTH 500
+# define WINDOW_HEIGHT 500
+
+# define BACKGROUND_R 0
+# define BACKGROUND_G 0
+# define BACKGROUND_B 0
 
 typedef struct s_rgb
 {
@@ -112,6 +118,7 @@ typedef struct s_hit_info
 typedef struct s_data
 {
 	mlx_t		*mlx;
+	mlx_image_t	*image;
 	char		*scene_path;
 	t_object	*objects;
 	t_ambient	*ambient;
