@@ -30,5 +30,3 @@ done
 mkdir -p second-minimized-scenes
 rm -rf second-minimized-scenes/*
 afl-cmin -i trimmed-scenes -o second-minimized-scenes -- ../miniRT
-
-bash

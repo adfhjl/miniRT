@@ -17,4 +17,6 @@ COPY ./scripts/ /tmp/scripts
 RUN chmod +x /tmp/scripts/*
 RUN mv /tmp/scripts/* /usr/bin/
 
+WORKDIR /src
+
 # CMD [ "setup.sh" ]
