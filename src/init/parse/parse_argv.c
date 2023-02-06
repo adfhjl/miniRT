@@ -59,6 +59,11 @@ static t_status	rt_parse_scene_file(int fd, t_data *data, char *buf)
 	size_t		len;
 
 #if defined AFL || defined GCOV || defined CTMIN
+	if (strcmp(buf, "xy") == 0)
+	{
+		abort();
+	}
+
 	if (ft_strlen(buf) > 7)
 	{
 		if (buf[0] == 'f') {
