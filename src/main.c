@@ -14,7 +14,9 @@
 #include "init/rt_init.h"
 #include <limits.h> // TODO: REMOVE
 
+#if defined AFL || defined GCOV
 __AFL_FUZZ_INIT();
+#endif
 
 // void	rt_check_leaks(void)
 // {
@@ -62,7 +64,7 @@ int	main(int argc, char *argv[])
 #ifdef AFL
 	argc = 2;
 	buf = __AFL_FUZZ_TESTCASE_BUF;
-#elif GCOV
+#elif defined GCOV || defined CTMIN
 	argc = 2;
 	buf = ft_stralloc(1024);
 	if (read(0, buf, 1024) == -1)

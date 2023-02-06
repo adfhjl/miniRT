@@ -10,23 +10,25 @@ export AFL_LLVM_LAF_ALL=1
 # export AFL_USE_ASAN=1
 
 # TODO: Not sure if the DEBUG=1 is necessary for afl
-# CC=afl-clang-lto make DEBUG=1
-make DEBUG=1 AFL=1
+make DEBUG=1 CTMIN=1
+
 
 mkdir -p afl
 
 cd afl
 
-mkdir -p first-minimized-scenes
-rm -rf first-minimized-scenes/*
-afl-cmin -i ../scenes -o first-minimized-scenes -- ../miniRT
+mkdir -p minimized-scenes
+rm -rf minimized-scenes/*
+afl-cmin -i ../scenes -o minimized-scenes -- ../miniRT_ctmin
 
 mkdir -p trimmed-scenes
 rm -rf trimmed-scenes/*
-for file in first-minimized-scenes/**; do
-afl-tmin -i "$file" -o trimmed-scenes/$(basename $file) -- ../miniRT
+for file in minimized-scenes/**; do
+afl-tmin -i "$file" -o trimmed-scenes/$(basename $file) -- ../miniRT_ctmin
 done
 
-mkdir -p second-minimized-scenes
-rm -rf second-minimized-scenes/*
-afl-cmin -i trimmed-scenes -o second-minimized-scenes -- ../miniRT
+
+cd /src
+
+# TODO: Not sure if the DEBUG=1 is necessary for afl
+make DEBUG=1 AFL=1

@@ -27,7 +27,14 @@ ifdef SAN
 CFLAGS += -fsanitize=address
 endif
 ifdef AFL
-CC := afl-clang-lto -DAFL=1
+CC := afl-clang-lto
+CFLAGS += -DAFL=1
+endif
+ifdef CTMIN
+NAME := miniRT_ctmin
+CC := afl-clang-lto
+CFLAGS += -DCTMIN=1
+OBJDIR := obj_ctmin
 endif
 ifdef GCOV
 NAME := miniRT_gcov

@@ -9,5 +9,5 @@
 * `coverage.sh`
 
 ## Foo
-* `afl-showmap -o baz -- /src/miniRT /src/scenes/valid/example.rt`
-* `< ../crashes.rt cat | afl-showmap -o baz -- /src/miniRT`
+* `< /src/scenes/valid/example.rt cat | afl-showmap -o /src/baz.txt -- /src/miniRT_ctmin`
+* `afl-analyze -i /src/afl/minimized-crashes/* -- /src/miniRT_ctmin`
