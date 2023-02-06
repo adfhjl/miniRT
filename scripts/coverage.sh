@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export AFL_LLVM_LAF_ALL=1
+export AFL_HARDEN=1
+
 make -C /src DEBUG=1 GCOV=1
 
 # In case you want to view the web result, use this instead of the line below it

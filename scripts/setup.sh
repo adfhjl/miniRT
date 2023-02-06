@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export AFL_LLVM_LAF_ALL=1
+export AFL_HARDEN=1
 
 # TODO: Try to get "clang -fsanitize=address bar.c" working first
 # TODO: Might not work well with parallelization "you should only run one afl-fuzz instance per sanitizer type."
