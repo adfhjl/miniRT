@@ -48,10 +48,6 @@ static int	run(int argc, char *argv[], char *buf)
 	return (EXIT_SUCCESS);
 }
 
-// TODO: Is this necessary?
-#pragma clang optimize off
-#pragma GCC            optimize("O0")
-
 int	main(int argc, char *argv[])
 {
 #ifdef __AFL_HAVE_MANUAL_CONTROL
