@@ -62,6 +62,7 @@ typedef struct s_light
 {
 	t_vector	coordinates;
 	float		brightness;
+	t_rgb		rgb;
 }	t_light;
 
 typedef struct s_sphere
