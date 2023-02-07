@@ -35,7 +35,7 @@ static t_status	rt_set_object_type(char *token, t_object *object)
 
 static void	rt_skip_non_whitespace(char **line_ptr)
 {
-	while (!ft_isspace(**line_ptr))
+	while (!ft_isspace(**line_ptr) && **line_ptr != '\0')
 		(*line_ptr)++;
 }
 
