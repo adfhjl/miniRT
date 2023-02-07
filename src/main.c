@@ -31,6 +31,7 @@ void	key_press_hook(mlx_key_data_t keydata, void *param)
 
 void	rt_draw_loop(void *param)
 {
+	(void)param;
 }
 
 void	rt_cleanup(t_data *data)
