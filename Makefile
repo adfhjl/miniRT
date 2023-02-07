@@ -14,13 +14,13 @@ NAME = miniRT
 CC = gcc
 
 # TODO: Remove extra flags before the eval
-NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+CFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 
 ifdef DEBUG
-NORMFLAGS += -g3
+CFLAGS += -g3
 endif
 ifdef SAN
-NORMFLAGS += -fsanitize=address
+CFLAGS += -fsanitize=address
 endif
 
 CFILES =\
@@ -75,7 +75,7 @@ LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw
 all: $(NAME)
 
 $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
-	@$(CC) $(NORMFLAGS) $(OBJFILES) $(LIB_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJFILES) $(LIB_FLAGS) -o $(NAME)
 	@printf "Compiled %s\n" "$(NAME)"
 
 $(MLX_PATH):
@@ -88,7 +88,7 @@ $(LIBFT_PATH):
 
 $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 	@mkdir -p $(@D)
-	@$(call tidy_compilation,$(CC) $(NORMFLAGS) $(INCLUDES) -c $< -o $@)
+	@$(call tidy_compilation,$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@)
 
 clean:
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
