@@ -90,7 +90,11 @@ t_status	rt_parse_argv(char *argv[], t_data *data)
 	if (fd == SYSTEM_ERROR_STATUS)
 		return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
 	if (rt_parse_scene_file(fd, data) == ERROR)
+	{
+		close(fd);
 		return (ERROR);
+	}
+	close(fd);
 	if (rt_has_duplicate_capitalized_object(data->objects))
 		return (rt_print_error(ERROR_DUPLICATE_CAPITALIZED_OBJECT));
 	return (OK);
