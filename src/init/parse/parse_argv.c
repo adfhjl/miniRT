@@ -79,18 +79,21 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 
 t_status	rt_parse_argv(char *argv[], t_data *data)
 {
-	size_t	len;
+	char	*scene_path;
 	int		fd;
 
-	data->scene_path = argv[1];
-	len = ft_strlen(data->scene_path);
-	if (len < 3 || !ft_str_eq(data->scene_path + len - 3, ".rt"))
+	scene_path = argv[1];
+	if (!ft_str_ends_with(scene_path, ".rt"))
 		return (rt_print_error(ERROR_INVALID_SCENE_NAME));
-	fd = open(data->scene_path, O_RDONLY);
+	fd = open(scene_path, O_RDONLY);
 	if (fd == SYSTEM_ERROR_STATUS)
 		return (rt_print_error(ERROR_CANT_READ_SCENE_FILE));
 	if (rt_parse_scene_file(fd, data) == ERROR)
+	{
+		close(fd);
 		return (ERROR);
+	}
+	close(fd);
 	if (rt_has_duplicate_capitalized_object(data->objects))
 		return (rt_print_error(ERROR_DUPLICATE_CAPITALIZED_OBJECT));
 	return (OK);

@@ -10,20 +10,20 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = miniRT
-CC = gcc
+NAME := miniRT
+CC := gcc
 
 # TODO: Remove extra flags before the eval
-NORMFLAGS = -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 
 ifdef DEBUG
-NORMFLAGS += -g3
+CFLAGS += -g3
 endif
 ifdef SAN
-NORMFLAGS += -fsanitize=address
+CFLAGS += -fsanitize=address
 endif
 
-CFILES =\
+CFILES :=\
 	src/debug/debug_print_objects.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
@@ -58,7 +58,7 @@ CFILES =\
 	src/utils/print_error.c\
 	src/main.c
 
-HEADERS =\
+HEADERS :=\
 	src/debug/rt_debug.h\
 	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
@@ -68,18 +68,18 @@ HEADERS =\
 	src/minirt.h\
 	src/rt_enums.h
 
-INCLUDES = -I src -I libft -I MLX42/include
-OBJDIR = obj
-OBJFILES = $(addprefix $(OBJDIR)/,$(CFILES:c=o))
-LIBFT_PATH = libft/libft.a
-MLX_PATH = MLX42/libmlx42.a
-BREW_DIR = $(shell brew --prefix)
-LIB_FLAGS = -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
+INCLUDES := -I src -I libft -I MLX42/include
+OBJDIR := obj
+OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
+LIBFT_PATH := libft/libft.a
+MLX_PATH := MLX42/libmlx42.a
+BREW_DIR := $(shell brew --prefix)
+LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
 
 $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
-	@$(CC) $(NORMFLAGS) $(OBJFILES) $(LIB_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJFILES) $(LIB_FLAGS) -o $(NAME)
 	@printf "Compiled %s\n" "$(NAME)"
 
 $(MLX_PATH):
@@ -92,7 +92,7 @@ $(LIBFT_PATH):
 
 $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 	@mkdir -p $(@D)
-	@$(call tidy_compilation,$(CC) $(NORMFLAGS) $(INCLUDES) -c $< -o $@)
+	@$(call tidy_compilation,$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@)
 
 clean:
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean

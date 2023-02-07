@@ -26,9 +26,9 @@ void	rt_debug_print_field_value(char *field_name, char *field_value)
 
 	field_name_len = ft_strlen(field_name);
 	if (field_value)
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
+		field_len = ft_max_size(field_name_len, ft_strlen(field_value));
 	else
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(EMPTY_FIELD_STRING));
+		field_len = ft_max_size(field_name_len, ft_strlen(EMPTY_FIELD_STRING));
 	if (field_value == NULL)
 		field_value = EMPTY_FIELD_STRING;
 	printf(" %-*s |", (int)field_len, field_value);
@@ -42,9 +42,9 @@ void	rt_debug_print_field_name(char *field_name, char *field_value)
 
 	field_name_len = ft_strlen(field_name);
 	if (field_value)
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(field_value));
+		field_len = ft_max_size(field_name_len, ft_strlen(field_value));
 	else
-		field_len = (size_t)ft_max((int)field_name_len, (int)ft_strlen(EMPTY_FIELD_STRING));
+		field_len = ft_max_size(field_name_len, ft_strlen(EMPTY_FIELD_STRING));
 	field_name_line = ft_stralloc(field_len);
 	ft_strlcpy(field_name_line, field_name, field_len + 1);
 	ft_memset(field_name_line + field_name_len, '-', field_len - field_name_len);
@@ -81,13 +81,13 @@ void	rt_debug_print_objects(t_data *data)
 
 		char	*rgb = NULL;
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			asprintf(&rgb, "%f,%f,%f", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
+			asprintf(&rgb, "%.0f,%.0f,%.0f", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
 		else if (object->type == OBJECT_TYPE_SPHERE)
-			asprintf(&rgb, "%f,%f,%f", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
+			asprintf(&rgb, "%.0f,%.0f,%.0f", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&rgb, "%f,%f,%f", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
+			asprintf(&rgb, "%.0f,%.0f,%.0f", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&rgb, "%f,%f,%f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
+			asprintf(&rgb, "%.0f,%.0f,%.0f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
 
 		char	*coordinates = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
@@ -109,7 +109,7 @@ void	rt_debug_print_objects(t_data *data)
 
 		char	*fov = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&fov, "%f", object->camera.fov);
+			asprintf(&fov, "%.1f", object->camera.fov);
 
 		char	*brightness = NULL;
 		if (object->type == OBJECT_TYPE_LIGHT)
