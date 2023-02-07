@@ -113,7 +113,6 @@ typedef struct s_hit_info
 typedef struct s_data
 {
 	mlx_t		*mlx;
-	char		*scene_path;
 	t_object	*objects;
 	t_ambient	*ambient;
 	t_camera	*camera;
