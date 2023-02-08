@@ -44,7 +44,9 @@ t_hit_info	rt_get_plane_collision_info(
 	float			denom;
 
 	denom = rt_dot(ray.normal, plane.normal);
-	if (denom == 0)
+	// TODO: This 'fixes' grain caused by float bs, but is a shit fix:
+	if (denom > -1e-6)
+	// if (denom == 0)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.object = object;
