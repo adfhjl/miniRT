@@ -84,8 +84,8 @@ $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
 
 $(MLX_PATH):
 	@git submodule update --init --recursive
-	cmake -S $(dir $(MLX_PATH))/.. -B $(dir $(MLX_PATH))
-	cmake --build $(dir $(MLX_PATH)) -j4
+	@cmake -S $(dir $(MLX_PATH))/.. -B $(dir $(MLX_PATH))
+	@cmake --build $(dir $(MLX_PATH)) -j4
 
 $(LIBFT_PATH):
 	@git submodule update --init --recursive
@@ -97,7 +97,7 @@ $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 
 clean:
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
-	cmake --build $(dir $(MLX_PATH)) --target clean
+	@if [ -d $(dir $(MLX_PATH)) ]; then cmake --build $(dir $(MLX_PATH)) --target clean; fi
 	@rm -rf $(OBJDIR)
 	@printf "Cleaned %s\n" "$(NAME)"
 
