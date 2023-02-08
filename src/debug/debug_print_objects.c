@@ -17,8 +17,6 @@
 
 // TODO: Comment out this file before handing it in
 
-#define EMPTY_FIELD_STRING ""
-
 void	rt_debug_print_field_value(char *field_name, char *field_value)
 {
 	size_t	field_name_len;
@@ -26,12 +24,10 @@ void	rt_debug_print_field_value(char *field_name, char *field_value)
 
 	field_name_len = ft_strlen(field_name);
 	if (field_value)
+	{
 		field_len = ft_max_size(field_name_len, ft_strlen(field_value));
-	else
-		field_len = ft_max_size(field_name_len, ft_strlen(EMPTY_FIELD_STRING));
-	if (field_value == NULL)
-		field_value = EMPTY_FIELD_STRING;
-	printf(" %-*s |", (int)field_len, field_value);
+		printf(" %-*s |", (int)field_len, field_value);
+	}
 }
 
 void	rt_debug_print_field_name(char *field_name, char *field_value)
@@ -42,13 +38,13 @@ void	rt_debug_print_field_name(char *field_name, char *field_value)
 
 	field_name_len = ft_strlen(field_name);
 	if (field_value)
+	{
 		field_len = ft_max_size(field_name_len, ft_strlen(field_value));
-	else
-		field_len = ft_max_size(field_name_len, ft_strlen(EMPTY_FIELD_STRING));
-	field_name_line = ft_stralloc(field_len);
-	ft_strlcpy(field_name_line, field_name, field_len + 1);
-	ft_memset(field_name_line + field_name_len, '-', field_len - field_name_len);
-	printf("-%s-v", field_name_line);
+		field_name_line = ft_stralloc(field_len);
+		ft_strlcpy(field_name_line, field_name, field_len + 1);
+		ft_memset(field_name_line + field_name_len, '-', field_len - field_name_len);
+		printf("-%s-v", field_name_line);
+	}
 }
 
 void	rt_debug_print_objects(t_data *data)
@@ -66,6 +62,18 @@ void	rt_debug_print_objects(t_data *data)
 	size_t		size;
 	t_object	*object;
 
+	printf("%.0f\n", 0.3f);
+	printf("%.0f\n", 0.4f);
+	printf("%.0f\n", 0.49f);
+	printf("%.0f\n", 0.5f);
+	printf("%.0f\n", 0.51f);
+	printf("%.0f\n", 0.6f);
+	printf("%.0f\n", 0.7f);
+	printf("%.0f\n", 0.8f);
+	printf("%.0f\n", 0.9f);
+	printf("%.0f\n", 1.0f);
+	printf("%.0f\n", 1.1f);
+
 	object_index = 0;
 	size = ft_vector_get_size(data->objects);
 	while (object_index < size)
@@ -81,33 +89,35 @@ void	rt_debug_print_objects(t_data *data)
 
 		char	*rgb = NULL;
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			asprintf(&rgb, "%.0f,%.0f,%.0f", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
+			asprintf(&rgb, "%.1f, %.1f, %.1f", object->ambient.rgb.r, object->ambient.rgb.g, object->ambient.rgb.b);
+		else if (object->type == OBJECT_TYPE_LIGHT)
+			asprintf(&rgb, "%.1f, %.1f, %.1f", object->light.rgb.r, object->light.rgb.g, object->light.rgb.b);
 		else if (object->type == OBJECT_TYPE_SPHERE)
-			asprintf(&rgb, "%.0f,%.0f,%.0f", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
+			asprintf(&rgb, "%.1f, %.1f, %.1f", object->sphere.rgb.r, object->sphere.rgb.g, object->sphere.rgb.b);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&rgb, "%.0f,%.0f,%.0f", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
+			asprintf(&rgb, "%.1f, %.1f, %.1f", object->plane.rgb.r, object->plane.rgb.g, object->plane.rgb.b);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&rgb, "%.0f,%.0f,%.0f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
+			asprintf(&rgb, "%.1f, %.1f, %.1f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
 
 		char	*origin = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&origin, "%.1f,%.1f,%.1f", object->camera.origin.x, object->camera.origin.y, object->camera.origin.z);
+			asprintf(&origin, "%.1f, %.1f, %.1f", object->camera.origin.x, object->camera.origin.y, object->camera.origin.z);
 		else if (object->type == OBJECT_TYPE_LIGHT)
-			asprintf(&origin, "%.1f,%.1f,%.1f", object->light.origin.x, object->light.origin.y, object->light.origin.z);
+			asprintf(&origin, "%.1f, %.1f, %.1f", object->light.origin.x, object->light.origin.y, object->light.origin.z);
 		else if (object->type == OBJECT_TYPE_SPHERE)
-			asprintf(&origin, "%.1f,%.1f,%.1f", object->sphere.origin.x, object->sphere.origin.y, object->sphere.origin.z);
+			asprintf(&origin, "%.1f, %.1f, %.1f", object->sphere.origin.x, object->sphere.origin.y, object->sphere.origin.z);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&origin, "%.1f,%.1f,%.1f", object->plane.origin.x, object->plane.origin.y, object->plane.origin.z);
+			asprintf(&origin, "%.1f, %.1f, %.1f", object->plane.origin.x, object->plane.origin.y, object->plane.origin.z);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&origin, "%.1f,%.1f,%.1f", object->cylinder.origin.x, object->cylinder.origin.y, object->cylinder.origin.z);
+			asprintf(&origin, "%.1f, %.1f, %.1f", object->cylinder.origin.x, object->cylinder.origin.y, object->cylinder.origin.z);
 
 		char	*normal = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&normal, "%.1f,%.1f,%.1f", object->camera.normal.x, object->camera.normal.y, object->camera.normal.z);
+			asprintf(&normal, "%.1f, %.1f, %.1f", object->camera.normal.x, object->camera.normal.y, object->camera.normal.z);
 		if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&normal, "%.1f,%.1f,%.1f", object->plane.normal.x, object->plane.normal.y, object->plane.normal.z);
+			asprintf(&normal, "%.1f, %.1f, %.1f", object->plane.normal.x, object->plane.normal.y, object->plane.normal.z);
 		if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&normal, "%.1f,%.1f,%.1f", object->cylinder.normal.x, object->cylinder.normal.y, object->cylinder.normal.z);
+			asprintf(&normal, "%.1f, %.1f, %.1f", object->cylinder.normal.x, object->cylinder.normal.y, object->cylinder.normal.z);
 
 		char	*fov = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
@@ -127,7 +137,7 @@ void	rt_debug_print_objects(t_data *data)
 		if (object->type == OBJECT_TYPE_CYLINDER)
 			asprintf(&height, "%.1f", object->cylinder.height);
 
-		printf("|");
+		printf("v");
 		rt_debug_print_field_name("object type", object_type);
 		rt_debug_print_field_name("ratio", ratio);
 		rt_debug_print_field_name("rgb", rgb);
