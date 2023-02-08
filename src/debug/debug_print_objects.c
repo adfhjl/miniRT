@@ -89,23 +89,25 @@ void	rt_debug_print_objects(t_data *data)
 		else if (object->type == OBJECT_TYPE_CYLINDER)
 			asprintf(&rgb, "%.0f,%.0f,%.0f", object->cylinder.rgb.r, object->cylinder.rgb.g, object->cylinder.rgb.b);
 
-		char	*coordinates = NULL;
+		char	*origin = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->camera.coordinates.x, object->camera.coordinates.y, object->camera.coordinates.z);
+			asprintf(&origin, "%.1f,%.1f,%.1f", object->camera.origin.x, object->camera.origin.y, object->camera.origin.z);
 		else if (object->type == OBJECT_TYPE_LIGHT)
-			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->light.coordinates.x, object->light.coordinates.y, object->light.coordinates.z);
+			asprintf(&origin, "%.1f,%.1f,%.1f", object->light.origin.x, object->light.origin.y, object->light.origin.z);
+		else if (object->type == OBJECT_TYPE_SPHERE)
+			asprintf(&origin, "%.1f,%.1f,%.1f", object->sphere.origin.x, object->sphere.origin.y, object->sphere.origin.z);
 		else if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->plane.coordinates.x, object->plane.coordinates.y, object->plane.coordinates.z);
+			asprintf(&origin, "%.1f,%.1f,%.1f", object->plane.origin.x, object->plane.origin.y, object->plane.origin.z);
 		else if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&coordinates, "%.1f,%.1f,%.1f", object->cylinder.coordinates.x, object->cylinder.coordinates.y, object->cylinder.coordinates.z);
+			asprintf(&origin, "%.1f,%.1f,%.1f", object->cylinder.origin.x, object->cylinder.origin.y, object->cylinder.origin.z);
 
-		char	*orientation = NULL;
+		char	*normal = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
-			asprintf(&orientation, "%.1f,%.1f,%.1f", object->camera.orientation.x, object->camera.orientation.y, object->camera.orientation.z);
+			asprintf(&normal, "%.1f,%.1f,%.1f", object->camera.normal.x, object->camera.normal.y, object->camera.normal.z);
 		if (object->type == OBJECT_TYPE_PLANE)
-			asprintf(&orientation, "%.1f,%.1f,%.1f", object->plane.orientation.x, object->plane.orientation.y, object->plane.orientation.z);
+			asprintf(&normal, "%.1f,%.1f,%.1f", object->plane.normal.x, object->plane.normal.y, object->plane.normal.z);
 		if (object->type == OBJECT_TYPE_CYLINDER)
-			asprintf(&orientation, "%.1f,%.1f,%.1f", object->cylinder.orientation.x, object->cylinder.orientation.y, object->cylinder.orientation.z);
+			asprintf(&normal, "%.1f,%.1f,%.1f", object->cylinder.normal.x, object->cylinder.normal.y, object->cylinder.normal.z);
 
 		char	*fov = NULL;
 		if (object->type == OBJECT_TYPE_CAMERA)
@@ -114,10 +116,6 @@ void	rt_debug_print_objects(t_data *data)
 		char	*brightness = NULL;
 		if (object->type == OBJECT_TYPE_LIGHT)
 			asprintf(&brightness, "%.1f", object->light.brightness);
-
-		char	*center = NULL;
-		if (object->type == OBJECT_TYPE_SPHERE)
-			asprintf(&center, "%.1f,%.1f,%.1f", object->sphere.center.x, object->sphere.center.y, object->sphere.center.z);
 
 		char	*diameter = NULL;
 		if (object->type == OBJECT_TYPE_SPHERE)
@@ -133,11 +131,10 @@ void	rt_debug_print_objects(t_data *data)
 		rt_debug_print_field_name("object type", object_type);
 		rt_debug_print_field_name("ratio", ratio);
 		rt_debug_print_field_name("rgb", rgb);
-		rt_debug_print_field_name("coordinates", coordinates);
-		rt_debug_print_field_name("orientation", orientation);
+		rt_debug_print_field_name("origin", origin);
+		rt_debug_print_field_name("normal", normal);
 		rt_debug_print_field_name("fov", fov);
 		rt_debug_print_field_name("brightness", brightness);
-		rt_debug_print_field_name("center", center);
 		rt_debug_print_field_name("diameter", diameter);
 		rt_debug_print_field_name("height", height);
 		printf("\n");
@@ -146,11 +143,10 @@ void	rt_debug_print_objects(t_data *data)
 		rt_debug_print_field_value("object type", object_type);
 		rt_debug_print_field_value("ratio", ratio);
 		rt_debug_print_field_value("rgb", rgb);
-		rt_debug_print_field_value("coordinates", coordinates);
-		rt_debug_print_field_value("orientation", orientation);
+		rt_debug_print_field_value("origin", origin);
+		rt_debug_print_field_value("normal", normal);
 		rt_debug_print_field_value("fov", fov);
 		rt_debug_print_field_value("brightness", brightness);
-		rt_debug_print_field_value("center", center);
 		rt_debug_print_field_value("diameter", diameter);
 		rt_debug_print_field_value("height", height);
 		printf("\n");

@@ -16,9 +16,9 @@
 
 t_status	rt_parse_plane(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->plane.coordinates) == ERROR
+	if (rt_parse_vector(line_ptr, &object->plane.origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_vector(line_ptr, &object->plane.orientation) == ERROR
+		|| rt_parse_vector(line_ptr, &object->plane.normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_rgb(line_ptr, &object->plane.rgb) == ERROR)
 		return (ERROR);

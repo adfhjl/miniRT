@@ -48,7 +48,7 @@ typedef struct s_vector
 typedef struct s_ray
 {
 	t_vector	origin;
-	t_vector	direction;
+	t_vector	normal;
 }	t_ray;
 
 typedef struct s_ambient
@@ -59,36 +59,36 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_vector	coordinates;
-	t_vector	orientation;
+	t_vector	origin;
+	t_vector	normal;
 	float		fov;
 }	t_camera;
 
 typedef struct s_light
 {
-	t_vector	coordinates;
+	t_vector	origin;
 	float		brightness;
 	t_rgb		rgb;
 }	t_light;
 
 typedef struct s_sphere
 {
-	t_vector	center;
+	t_vector	origin;
 	float		diameter;
 	t_rgb		rgb;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_vector	coordinates;
-	t_vector	orientation;
+	t_vector	origin;
+	t_vector	normal;
 	t_rgb		rgb;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_vector	coordinates;
-	t_vector	orientation;
+	t_vector	origin;
+	t_vector	normal;
 	float		diameter;
 	float		height;
 	t_rgb		rgb;

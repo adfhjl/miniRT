@@ -16,7 +16,7 @@
 
 t_status	rt_parse_sphere(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->sphere.center) == ERROR
+	if (rt_parse_vector(line_ptr, &object->sphere.origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_float(line_ptr, &object->sphere.diameter) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR

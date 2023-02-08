@@ -16,9 +16,9 @@
 
 t_status	rt_parse_camera(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->camera.coordinates) == ERROR
+	if (rt_parse_vector(line_ptr, &object->camera.origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_vector(line_ptr, &object->camera.orientation) == ERROR
+		|| rt_parse_vector(line_ptr, &object->camera.normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_range_float(line_ptr, &object->camera.fov, 0, 180) == ERROR)
 		return (ERROR);

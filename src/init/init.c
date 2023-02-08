@@ -28,7 +28,7 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 t_ray	create_ray(uint32_t x, uint32_t y, t_data *data)
 {
 	t_vector abs_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
-	t_vector rel_forward = data->camera->orientation;
+	t_vector cam_forward = data->camera->normal;
 	t_vector rel_right = rt_normalized(rt_cross(rel_forward, abs_up));
 	t_vector rel_up = rt_cross(rel_right, rel_forward);
 
@@ -45,9 +45,9 @@ t_ray	create_ray(uint32_t x, uint32_t y, t_data *data)
 	t_vector pixel_coord = rt_add(rt_add(top_left, rt_scale(rel_right, x * dist_per_pix)), rt_scale(rel_up, y * -dist_per_pix));
 
 	t_vector dir = rt_normalized(pixel_coord);
-	t_vector origin = data->camera->coordinates;
+	t_vector origin = data->camera->origin;
 
-	return ((t_ray){.direction = dir, .origin = origin});
+	return ((t_ray){.normal = dir, .origin = origin});
 }
 
 uint32_t convert_color(t_rgb rgb)

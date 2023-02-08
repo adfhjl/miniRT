@@ -16,9 +16,9 @@
 
 t_status	rt_parse_cylinder(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->cylinder.coordinates) == ERROR
+	if (rt_parse_vector(line_ptr, &object->cylinder.origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_vector(line_ptr, &object->cylinder.orientation) == ERROR
+		|| rt_parse_vector(line_ptr, &object->cylinder.normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_float(line_ptr, &object->cylinder.diameter) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR

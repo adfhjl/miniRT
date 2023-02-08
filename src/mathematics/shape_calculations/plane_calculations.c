@@ -17,19 +17,19 @@ t_hit_info	rt_get_plane_collision_info(
 {
 	t_hit_info		info;
 	const t_plane	plane = object->plane;
-	float			n;
+	float			denom;
 
-	n = rt_dot(ray.direction, plane.orientation);
-	if (n == 0)
+	denom = rt_dot(ray.normal, plane.normal);
+	if (denom == 0)
 		return ((t_hit_info){.distance = INFINITY});
-	info.distance = (1 / n) * (rt_dot(plane.coordinates, plane.orientation)
-			- rt_dot(ray.origin, plane.orientation));
+	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.object = object;
-	info.surface_normal = plane.orientation;
+	info.surface_normal = plane.normal;
 	info.visual_surface_normal = 1;
-	if ((rt_dot(info.surface_normal, ray.direction) > 0) != \
+	if ((rt_dot(info.surface_normal, ray.normal) > 0) != \
 		(rt_dot(info.surface_normal, \
-			rt_normalized(rt_sub(data->light->coordinates, \
+			// TODO: Don't need to call rt_normalized() since we're only doing < 0
+			rt_normalized(rt_sub(data->light->origin, \
 				rt_get_ray_point(ray, info.distance)))) < 0))
 		info.visual_surface_normal = -1;
 	return (info);
@@ -46,11 +46,11 @@ static t_rgb	rt_clamp_rgb(t_rgb rgb)
 
 t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
-	const t_vector		point_to_light = rt_sub(data->light->coordinates,
+	const t_vector		point_to_light = rt_sub(data->light->origin,
 			rt_get_ray_point(ray, info.distance));
 	const t_hit_info	light_ray_info = rt_get_hit_info((t_ray){
 			.origin = rt_get_ray_point(ray, info.distance),
-			.direction = point_to_light}, data);
+			.normal = rt_normalized(point_to_light)}, data);
 
 	if (info.visual_surface_normal == -1 \
 	|| light_ray_info.distance < rt_mag(point_to_light))
@@ -68,3 +68,4 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 	// 				rt_scale_rgb(data->light->rgb,
 	// 					data->light->brightness * 1.0f))))); // replace `1.0f` with some distance factor
 // rgb=$pl_RGB * ($A_RGB * $A_LVL + $l_RGB * $l_LVL * $l_DST)
+// rgb=$pl_RGB * ($A_RGB * $A_LVL) + $pl_RGB * ($l_RGB * $l_LVL * $l_DST)
