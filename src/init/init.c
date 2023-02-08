@@ -25,24 +25,46 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		mlx_close_window(data->mlx);
 }
 
+// forward = (0, 0, 1);
+//
+// leftmost = (sin(-35o), 0, cos(-35o))
+// rightmost = (sin(35o), 0, cos(35o))
+// leftmost.xyz /= leftmost.z;
+// rightmost.xyz /= rightmost.z;
+//
+// leftmost = (sin(-35o) / cos(-35o), 0 / cos(-35o), cos(-35o) / cos(-35o))
+// rightmost = (sin(35o) / cos(35o), 0 / cos(35o), cos(35o) /cos(35o))
+//
+// leftmost = (-sin(35o) / cos(35o), 0, 1)
+// rightmost = (sin(35o) / cos(35o), 0, 1)
+//
+// leftmost = (-tan(35o), 0, 1)
+// rightmost = (tan(35o), 0, 1)
+//
+// width = abs(leftmost.x - rightmost.x);
+//
+// width = abs(-tan(35o) - tan(35o));
+//
+// tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
+// width = abs(-2 * tan(35o));
 t_ray	create_ray(uint32_t x, uint32_t y, t_data *data)
 {
-	t_vector abs_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
+	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	t_vector cam_forward = data->camera->normal;
-	t_vector rel_right = rt_normalized(rt_cross(rel_forward, abs_up));
-	t_vector rel_up = rt_cross(rel_right, rel_forward);
+	t_vector cam_right = rt_normalized(rt_cross(cam_forward, world_up));
+	t_vector cam_up = rt_cross(cam_right, cam_forward);
 
-	float half_fov_rad = data->camera->fov / 360 * (float)M_PI;
-	float screen_width = fabsf(-2 * sinf(half_fov_rad) / cosf(half_fov_rad)); // fov / 2 (doe in radians)
+	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
+	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
 
-	float dist_per_pix = screen_width / WINDOW_WIDTH;
-	float screen_height = dist_per_pix * WINDOW_HEIGHT;
+	float dist_per_pix = canvas_width / WINDOW_WIDTH;
+	float canvas_height = dist_per_pix * WINDOW_HEIGHT;
 
-	t_vector leftward = rt_add(rt_scale(rel_right, -screen_width / 2), rel_forward);
-	t_vector upward = rt_add(rt_scale(rel_up, screen_height / 2), rel_forward);
+	t_vector left_canvas_side = rt_add(rt_scale(cam_right, -canvas_width / 2), cam_forward);
+	t_vector top_canvas_side = rt_add(rt_scale(cam_up, canvas_height / 2), cam_forward);
 
-	t_vector top_left = rt_add(leftward, upward);
-	t_vector pixel_coord = rt_add(rt_add(top_left, rt_scale(rel_right, x * dist_per_pix)), rt_scale(rel_up, y * -dist_per_pix));
+	t_vector top_left = rt_add(left_canvas_side, top_canvas_side);
+	t_vector pixel_coord = rt_add(rt_add(top_left, rt_scale(cam_right, x * dist_per_pix)), rt_scale(cam_up, y * -dist_per_pix));
 
 	t_vector dir = rt_normalized(pixel_coord);
 	t_vector origin = data->camera->origin;
