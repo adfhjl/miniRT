@@ -47,7 +47,7 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 //
 // tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
 // width = abs(-2 * tan(35o));
-t_ray	create_ray(uint32_t x, uint32_t y, t_data *data)
+static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 {
 	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	t_vector cam_forward = data->camera->normal;
@@ -72,7 +72,7 @@ t_ray	create_ray(uint32_t x, uint32_t y, t_data *data)
 	return ((t_ray){.normal = dir, .origin = origin});
 }
 
-uint32_t convert_color(t_rgb rgb)
+static uint32_t rt_convert_color(t_rgb rgb)
 {
 	const uint32_t	r = (uint32_t)(rgb.r * 255);
 	const uint32_t	g = (uint32_t)(rgb.g * 255);
@@ -81,7 +81,7 @@ uint32_t convert_color(t_rgb rgb)
 	return ((r << 24) | (g << 16) | (b << 8) | 255);
 }
 
-void	rt_draw_loop(void *param)
+static void	rt_draw_loop(void *param)
 {
 	t_data *const	data = param;
 	t_rgb			rgb;
@@ -95,9 +95,9 @@ void	rt_draw_loop(void *param)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			ray = create_ray(x, y, data);
+			ray = rt_create_ray(x, y, data);
 			rgb = rt_get_ray_rgb(ray, data);
-			mlx_put_pixel(data->image, x, y, convert_color(rgb));
+			mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
 			x++;
 		}
 		y++;
