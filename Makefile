@@ -72,7 +72,7 @@ INCLUDES := -I src -I libft -I MLX42/include
 OBJDIR := obj
 OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH := libft/libft.a
-MLX_PATH := MLX42/libmlx42.a
+MLX_PATH := MLX42/build/libmlx42.a
 BREW_DIR := $(shell brew --prefix)
 LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 
@@ -84,7 +84,8 @@ $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
 
 $(MLX_PATH):
 	@git submodule update --init --recursive
-	@$(MAKE) -C $(dir $(MLX_PATH))
+	cmake -S $(dir $(MLX_PATH))/.. -B $(dir $(MLX_PATH))
+	cmake --build $(dir $(MLX_PATH)) -j4
 
 $(LIBFT_PATH):
 	@git submodule update --init --recursive
@@ -96,7 +97,7 @@ $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 
 clean:
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
-	@$(MAKE) -C $(dir $(MLX_PATH)) fclean
+	cmake --build $(dir $(MLX_PATH)) --target clean
 	@rm -rf $(OBJDIR)
 	@printf "Cleaned %s\n" "$(NAME)"
 
