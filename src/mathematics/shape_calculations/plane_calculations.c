@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/06 19:02:45 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/09 14:42:57 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,9 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 				rt_scale_rgb(data->ambient->rgb, data->ambient->ratio)));
 	return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb, rt_add_rgb(
 					rt_scale_rgb(data->ambient->rgb, data->ambient->ratio),
-					rt_scale_rgb((t_rgb){.r = 1, .g = 1, .b = 1},
-					data->light->brightness * 1.0f))))); // replace `1.0f` with some distance factor
+					rt_scale_rgb(data->light->rgb,
+						data->light->brightness * 1.0f))))); // replace `1.0f` with some distance factor
 }
 
-// Add RGB lighting?
-	// return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb, rt_add_rgb(
-	// 				rt_scale_rgb(data->ambient->rgb, data->ambient->ratio),
-	// 				rt_scale_rgb(data->light->rgb,
-	// 					data->light->brightness * 1.0f))))); // replace `1.0f` with some distance factor
 // rgb=$pl_RGB * ($A_RGB * $A_LVL + $l_RGB * $l_LVL * $l_DST)
 // rgb=$pl_RGB * ($A_RGB * $A_LVL) + $pl_RGB * ($l_RGB * $l_LVL * $l_DST)
