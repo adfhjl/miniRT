@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:28:47 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/06 18:06:00 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/10 15:09:51 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@
 # define WINDOW_WIDTH 500
 # define WINDOW_HEIGHT 500
 
-# define BACKGROUND_R 0
-# define BACKGROUND_G 0
-# define BACKGROUND_B 0
+# define BACKGROUND_R 255
+# define BACKGROUND_G 255
+# define BACKGROUND_B 255
+
+# define EPSILON 1e-4
 
 typedef struct s_rgb
 {
