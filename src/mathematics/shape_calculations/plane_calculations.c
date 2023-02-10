@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/10 15:04:07 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/10 19:13:12 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_hit_info	rt_get_plane_collision_info(
 	if ((rt_dot(info.surface_normal, ray.normal) > 0) != \
 		(rt_dot(info.surface_normal, \
 			// TODO: Don't need to call rt_normalized() since we're only doing < 0
-			rt_normalized(rt_sub(data->light->origin, \
+				rt_normalized(rt_sub(data->light->origin, \
 				rt_get_ray_point(ray, info.distance)))) < 0))
 		info.visual_surface_normal = -1;
 	return (info);
@@ -74,13 +74,19 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 			rt_get_ray_point(ray, info.distance));
 	const t_hit_info	light_ray_info = rt_get_hit_info((t_ray){
 			// rt_get_ray_point(ray, info.distance),
+			// rt_normalized(point_to_light)}, data);
 			.origin = rt_get_ray_point((t_ray){
 				.origin = rt_get_ray_point(ray, info.distance),
-				.normal = (rt_normalized(point_to_light))}, (float)EPSILON * 100),
-			.normal = rt_normalized(point_to_light)}, data);
+				.normal = info.object->plane.normal
+			}, (float)EPSILON * 100),
+			.normal = rt_sub(data->light->origin, rt_get_ray_point((t_ray){
+					.origin = rt_get_ray_point(ray, info.distance),
+					.normal = info.object->plane.normal
+				}, (float)EPSILON * 100))}, data);
 
 	if (info.visual_surface_normal == -1 \
 	|| light_ray_info.distance < rt_mag(point_to_light))
+	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(point_to_light))
 		return (rt_multiply_rgb(info.object->plane.rgb,
 				rt_scale_rgb(data->ambient->rgb, data->ambient->ratio)));
 	return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb, rt_add_rgb(
