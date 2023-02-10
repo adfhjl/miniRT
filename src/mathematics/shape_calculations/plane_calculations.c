@@ -84,10 +84,23 @@ static t_rgb	rt_get_rgb_factor(t_hit_info info, t_hit_info light_ray_info,
 					data->light->brightness * 1.0f)));
 }
 
+// C & N
+// ^ & ^ = V // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
+// V & ^ = ^ // return (p.normal)
+// ^ & V = V // return (p.normal)
+// V & V = ^ // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
+static t_vector	rt_get_bias_unit_vector(t_vector camera_normal, t_vector object_normal)
+{
+	if (rt_dot(camera_normal, object_normal) > 0)
+		return (rt_scale(object_normal, -1));
+	return (object_normal);
+}
+
 t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
 	const t_vector		biased_point = rt_get_ray_point(rt_get_ray(
-			rt_get_ray_point(ray, info.distance), info.object->plane.normal),
+			rt_get_ray_point(ray, info.distance),
+			rt_get_bias_unit_vector(data->camera->normal, info.object->plane.normal)),
 			(float)EPSILON * 100);
 	const t_hit_info	light_ray_info = rt_get_hit_info(rt_get_ray(
 			biased_point, rt_sub(data->light->origin, biased_point)), data);
