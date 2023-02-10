@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 14:21:07 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/06 19:07:39 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/10 15:07:59 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	rt_draw_loop(void *param)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			ray = rt_create_ray(x, y, data);
+			ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
 			rgb = rt_get_ray_rgb(ray, data);
 			mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
 			x++;

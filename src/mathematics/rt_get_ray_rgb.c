@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 17:15:53 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/06 19:03:38 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/09 18:21:49 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 	info = rt_get_hit_info(ray, data);
 	if (info.distance == INFINITY)
-		return ((t_rgb){.r = BACKGROUND_R, .g = BACKGROUND_G, \
-		.b = BACKGROUND_B});
+		return ((t_rgb){.r = BACKGROUND_R / 255.0f,
+			.g = BACKGROUND_G / 255.0f, .b = BACKGROUND_B / 255.0f});
 	if (info.object->type == OBJECT_TYPE_PLANE)
 		return (rt_get_plane_point_rgb(ray, info, data));
-	return ((t_rgb){.r = BACKGROUND_R, .g = BACKGROUND_G, .b = BACKGROUND_B});
+	return ((t_rgb){.r = BACKGROUND_R / 255.0f, .g = BACKGROUND_G / 255.0f,
+		.b = BACKGROUND_B / 255.0f});
 }
