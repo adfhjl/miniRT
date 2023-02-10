@@ -73,7 +73,6 @@ OBJDIR := obj
 OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH := libft/libft.a
 MLX_PATH := MLX42/build/libmlx42.a
-BREW_DIR := $(shell brew --prefix)
 LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
