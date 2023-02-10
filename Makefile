@@ -56,6 +56,7 @@ CFILES :=\
 	src/mathematics/utils/rt_scale.c\
 	src/mathematics/utils/rt_sub.c\
 	src/mathematics/rt_get_ray_rgb.c\
+	src/mathematics/rt_get_ray.c\
 	src/utils/print_error.c\
 	src/main.c
 
