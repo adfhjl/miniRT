@@ -34,6 +34,7 @@ CFILES :=\
 	src/init/parse/objects/parse_sphere.c\
 	src/init/parse/parse_argv.c\
 	src/init/parse/parse_float.c\
+	src/init/parse/parse_normal.c\
 	src/init/parse/parse_object.c\
 	src/init/parse/parse_range_float.c\
 	src/init/parse/parse_rgb.c\

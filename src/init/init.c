@@ -104,6 +104,13 @@ static void	rt_draw_loop(void *param)
 	}
 }
 
+static bool	rt_camera_is_invalid(t_data *data)
+{
+	return (data->camera
+	&& data->camera->normal.x == 0
+	&& data->camera->normal.z == 0);
+}
+
 static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 					t_object *objects)
 {
@@ -139,6 +146,8 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
+	if (rt_camera_is_invalid(data))
+		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))

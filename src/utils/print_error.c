@@ -28,7 +28,9 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
 	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
 		= "Encountered a duplicate capitalized object",
-	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace"
+	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace",
+	[ERROR_INVALID_CAMERA_NORMAL] = "Invalid x=0, z=0 camera normal",
+	[ERROR_INVALID_ZERO_NORMAL] = "Invalid x=0, y=0, z=0 normal",
 	};
 	char		*error_message;
 
