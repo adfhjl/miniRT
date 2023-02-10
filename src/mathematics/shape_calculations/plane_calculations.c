@@ -70,23 +70,20 @@ static t_rgb	rt_clamp_rgb(t_rgb rgb)
 
 t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
-	const t_vector		point_to_light = rt_sub(data->light->origin,
-			rt_get_ray_point(ray, info.distance));
-	const t_hit_info	light_ray_info = rt_get_hit_info((t_ray){
-			// rt_get_ray_point(ray, info.distance),
-			// rt_normalized(point_to_light)}, data);
-			.origin = rt_get_ray_point((t_ray){
-				.origin = rt_get_ray_point(ray, info.distance),
-				.normal = info.object->plane.normal
-			}, (float)EPSILON * 100),
-			.normal = rt_sub(data->light->origin, rt_get_ray_point((t_ray){
-					.origin = rt_get_ray_point(ray, info.distance),
-					.normal = info.object->plane.normal
-				}, (float)EPSILON * 100))}, data);
+	const t_vector		biased_point = rt_get_ray_point((t_ray){
+			.origin = rt_get_ray_point(ray, info.distance),
+			.normal = info.object->plane.normal
+		}, (float)EPSILON * 100);
+	const t_hit_info	light_ray_info = rt_get_hit_info(
+			(t_ray){.origin = biased_point,
+			.normal = rt_sub(data->light->origin, biased_point)},
+			data);
+	const t_vector		biased_point_to_light = rt_sub(data->light->origin,
+			biased_point);
 
 	if (info.visual_surface_normal == -1 \
-	|| light_ray_info.distance < rt_mag(point_to_light))
-	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(point_to_light))
+	|| light_ray_info.distance < rt_mag(biased_point_to_light))
+	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(biased_point_to_light))
 		return (rt_multiply_rgb(info.object->plane.rgb,
 				rt_scale_rgb(data->ambient->rgb, data->ambient->ratio)));
 	return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb, rt_add_rgb(
