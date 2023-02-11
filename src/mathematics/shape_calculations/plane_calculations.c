@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/10 20:29:53 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/11 16:30:54 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
 	const t_vector		biased_point = rt_get_ray_point(rt_get_ray(
 			rt_get_ray_point(ray, info.distance),
-			rt_get_bias_unit_vector(data->camera->normal, info.object->plane.normal)),
+			rt_get_bias_unit_vector(ray.normal, info.object->plane.normal)),
 			(float)EPSILON * 100);
 	const t_hit_info	light_ray_info = rt_get_hit_info(rt_get_ray(
 			biased_point, rt_sub(data->light->origin, biased_point)), data);
@@ -113,9 +113,3 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 
 // rgb=$pl_RGB * ($A_RGB * $A_LVL + $l_RGB * $l_LVL * $l_DST)
 // rgb=$pl_RGB * ($A_RGB * $A_LVL) + $pl_RGB * ($l_RGB * $l_LVL * $l_DST)
-
-// C & N
-// ^ & ^ = V // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
-// V & ^ = ^ // return (p.normal)
-// ^ & V = V // return (p.normal)
-// V & V = ^ // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
