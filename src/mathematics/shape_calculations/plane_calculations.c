@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/11 16:30:54 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/11 16:50:21 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,19 @@ static t_vector	rt_get_bias_unit_vector(t_vector camera_normal, t_vector object_
 t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
 	const t_vector		biased_point = rt_get_ray_point(rt_get_ray(
-			rt_get_ray_point(ray, info.distance),
-			rt_get_bias_unit_vector(ray.normal, info.object->plane.normal)),
+				rt_get_ray_point(ray, info.distance),
+				rt_get_bias_unit_vector(ray.normal, info.object->plane.normal)),
 			(float)EPSILON * 100);
 	const t_hit_info	light_ray_info = rt_get_hit_info(rt_get_ray(
-			biased_point, rt_sub(data->light->origin, biased_point)), data);
-	const t_vector		biased_point_to_light = rt_sub(data->light->origin,
-			biased_point);
+				biased_point,
+				rt_normalized(rt_sub(data->light->origin, biased_point))),
+			data);
+	const t_vector		biased_point_to_light = rt_normalized(
+			rt_sub(data->light->origin, biased_point));
 
 	return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb,
-		rt_get_rgb_factor(info, light_ray_info, biased_point_to_light, data))));
+				rt_get_rgb_factor(info, light_ray_info,
+					biased_point_to_light, data))));
 }
 
 // rgb=$pl_RGB * ($A_RGB * $A_LVL + $l_RGB * $l_LVL * $l_DST)
