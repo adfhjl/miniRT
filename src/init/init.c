@@ -69,7 +69,7 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	t_vector dir = rt_normalized(pixel_coord);
 	t_vector origin = data->camera->origin;
 
-	return ((t_ray){.normal = dir, .origin = origin});
+	return (rt_get_ray(origin, dir));
 }
 
 static uint32_t rt_convert_color(t_rgb rgb)

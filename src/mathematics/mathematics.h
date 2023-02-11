@@ -41,6 +41,8 @@ t_hit_info	rt_get_plane_collision_info(
 t_hit_info	rt_get_hit_info(t_ray ray, t_data *data);
 t_rgb		rt_get_ray_rgb(t_ray ray, t_data *data);
 
+t_ray		rt_get_ray(t_vector origin, t_vector normal);
+
 //
 // utils/*
 
