@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/11 16:50:21 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/13 16:47:21 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,8 @@ t_hit_info	rt_get_plane_collision_info(
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.object = object;
 	info.surface_normal = plane.normal;
-	info.visual_surface_normal = 1;
-	if ((rt_dot(info.surface_normal, ray.normal) > 0) != \
-		(rt_dot(info.surface_normal, \
-			// TODO: Don't need to call rt_normalized() since we're only doing < 0
-				rt_normalized(rt_sub(data->light->origin, \
-				rt_get_ray_point(ray, info.distance)))) < 0))
-		info.visual_surface_normal = -1;
+	info.visual_surface_normal = rt_get_visual_surface_normal(info, ray,
+			data->light);
 	return (info);
 }
 
