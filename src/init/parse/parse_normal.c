@@ -17,8 +17,8 @@ t_status	rt_parse_normal(char **line_ptr, t_vector *vector)
 {
 	if (rt_parse_vector(line_ptr, vector) == ERROR)
 		return (ERROR);
-	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
-		return (rt_print_error(ERROR_INVALID_ZERO_NORMAL));
 	*vector = rt_normalized(*vector);
+	if (isnan(vector->x) || isnan(vector->y) || isnan(vector->z))
+		return (rt_print_error(ERROR_INVALID_ZERO_NORMAL));
 	return (OK);
 }
