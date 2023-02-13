@@ -1,8 +1,8 @@
 typedef struct s_rgb
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	float	r;
+	float	g;
+	float	b;
 }	t_rgb;
 
 typedef struct s_vector
@@ -32,6 +32,13 @@ typedef struct s_plane
 	t_point		origin;
 	t_rgb		color;
 }	t_plane;
+
+typedef struct s_sphere
+{
+	t_vector	origin;
+	float		diameter;
+	t_rgb		rgb;
+}	t_sphere;
 
 typedef enum e_type
 {

@@ -6,11 +6,21 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 17:15:53 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/09 18:21:49 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/13 17:41:29 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+float	rt_get_visual_surface_normal(t_hit_info info, t_ray ray, t_light *light)
+{
+	if ((rt_dot(info.surface_normal, ray.normal) > 0) != \
+		(rt_dot(info.surface_normal, \
+				rt_sub(light->origin, \
+				rt_get_ray_point(ray, info.distance))) < 0))
+		return (-1);
+	return (1);
+}
 
 t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
@@ -46,6 +56,8 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			.g = BACKGROUND_G / 255.0f, .b = BACKGROUND_B / 255.0f});
 	if (info.object->type == OBJECT_TYPE_PLANE)
 		return (rt_get_plane_point_rgb(ray, info, data));
+	if (info.object->type == OBJECT_TYPE_SPHERE)
+		return (rt_get_sphere_point_rgb(ray, info, data));
 	return ((t_rgb){.r = BACKGROUND_R / 255.0f, .g = BACKGROUND_G / 255.0f,
 		.b = BACKGROUND_B / 255.0f});
 }

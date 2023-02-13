@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/18 14:02:31 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/19 19:30:37 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/13 15:38:29 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,93 +111,141 @@ t_point	get_intersect_plane(t_ray ray, t_plane plane)
 
 
 
-t_rgb	get_ray_color(t_ray ray, t_objects *objects)
+// t_rgb	get_ray_color(t_ray ray, t_objects *objects)
+// {
+// 	// (void)ray;
+// 	// (void)objects;
+// 	t_objects	*obj;
+// 	float		dist;
+
+// 	dist = INFINITY;
+// 	while (objects != NULL)
+// 	{
+// 		if (objects->type == plane)
+// 		{
+// 			dist = min_float(dist, get_plane_collision_distance(ray, objects->plane));
+// 		}
+// 		objects = objects->next;
+// 	}
+// 	if (dist == INFINITY)
+// 		return ((t_rgb){.r = 0, .g = 0, .b = 0});
+
+// }
+
+float	test(t_vector v)
 {
-	// (void)ray;
-	// (void)objects;
-	t_objects	*obj;
-	float		dist;
-
-	dist = INFINITY;
-	while (objects != NULL)
-	{
-		if (objects->type == plane)
-		{
-			dist = min_float(dist, get_plane_collision_distance(ray, objects->plane));
-		}
-		objects = objects->next;
-	}
-	if (dist == INFINITY)
-		return ((t_rgb){.r = 0, .g = 0, .b = 0});
-
+	return (sqrtf(dot(v, v)));
 }
 
 int	main(int argc, char *argv[])
 {
 	// Testing some maths
+	// {
+	// 	t_point	point;
+	// 	t_ray	ray;
+
+	// 	t_vector	a;
+	// 	t_vector	b;
+	// 	t_vector	c;
+	// 	float		result;
+	// 	t_plane		plane;
+
+	// 	(void)argc;
+	// 	(void)argv;
+
+	// 	ray = (t_ray){
+	// 		.pos = {.x = 0, .y = 0, .z = 0},
+	// 		.dir = {.x = 4, .y = 3, .z = 0}
+	// 	};
+	// 	point = get_ray_point(ray, 1);
+	// 	printf("A ray with position <(%f, %f, %f)> and direction <(%f, %f, %f)> with length <%d> ends at <(%f, %f, %f)>\n", ray.pos.x, ray.pos.y, ray.pos.z, ray.dir.x, ray.dir.y, ray.dir.z, 5, point.x, point.y, point.z);
+
+	// 	a = (t_vector){.x = 5, .y = 0, .z = 0};
+	// 	b = (t_vector){.x = 0, .y = 5, .z = 0};
+	// 	c =	cross(a, b);
+	// 	result = dot(a, b);
+	// 	printf("The dot product of vector a <(%f, %f, %f)> and vector b <(%f, %f, %f)> is %f\n", a.x, a.y, a.z, b.x, b.y, b.z, result);
+	// 	printf("The cross product of vector a <(%f, %f, %f)> and vector b <(%f, %f, %f)> is <(%f, %f, %f)>\n", a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
+
+	// 	plane = (t_plane){.origin = {.x = 0, .y = 0, .z = 0}, .normal = {.x = 0, .y = 1, .z = 0}};
+	// 	ray = (t_ray){
+	// 		.pos = {.x = 0, .y = 5, .z = 0},
+	// 		.dir = {.x = 8, .y = -5, .z = 4}
+	// 	};
+	// 	point = get_intersect_plane(ray, plane);
+	// 	printf("A ray with position <(%f, %f, %f)> and direction <(%f, %f, %f)> and a plane with origin <(%f, %f, %f)> and normal <(%f, %f, %f)> intersect at position <(%f, %f, %f)>\n", ray.pos.x, ray.pos.y, ray.pos.z, ray.dir.x, ray.dir.y, ray.dir.z, plane.origin.x, plane.origin.y, plane.origin.z, plane.normal.x, plane.normal.y, plane.normal.z, point.x, point.y, point.z);
+	// }
+
+	// {
+	// 	t_objects	*objects;
+
+	// 	// Make a plane
+	// 	objects = malloc(sizeof(t_objects)); objects->next = NULL; objects->type = plane;
+	// 	objects->plane.normal = (t_vector){.x = 0, .y = 1, .z = 0};
+	// 	objects->plane.origin = (t_point){.x = 0, .y = 0, .z = 0};
+	// 	objects->plane.color = (t_rgb){.r = 255, .g = 0, .b = 255};
+
+	// 	// Make a light
+	// 	objects->next = malloc(sizeof(t_objects)); objects->next->next = NULL; objects->next->type = light;
+	// 	objects->next->light.pos = (t_point){.x = 2, .y = 2, .z = 0};
+	// 	objects->next->light.str = 0.6;
+
+	// 	// Make a ray
+	// 	t_ray	ray = {
+	// 		.pos = {.x = 0, .y = 2, .z = 0},
+	// 		.dir = {.x = 0, .y = -1, .z = 0}
+	// 	};
+
+	// 	t_rgb	ray_color;
+
+	// 	ray_color = get_ray_color(ray, objects);
+
+	// 	// Free memory allocated
+	// 	free(objects->next);
+	// 	free(objects);
+	// }
+
+	//
+	// {
+	// 	t_vector	v = {4, 3, 4};
+	// 	printf("Distance of vector (%f, %f, %f) is %f = %f\n", v.x, v.y, v.z, mag(v), test(v));
+	// }
+
 	{
-		t_point	point;
-		t_ray	ray;
+		t_sphere	sphere = {{0, 0, 0}, 5, {255,0,0}};
+		t_ray		ray = {{10,3,0},normalized((t_vector){-1,0,0})};
 
-		t_vector	a;
-		t_vector	b;
-		t_vector	c;
-		float		result;
-		t_plane		plane;
+		float	a = mag2(ray.dir);
+		float	b = 2 * dot(ray.pos, ray.dir);
+		float	c = mag2(ray.pos) - sphere.diameter * sphere.diameter;
 
-		(void)argc;
-		(void)argv;
+		float	d = b * b - 4 * a * c;
 
-		ray = (t_ray){
-			.pos = {.x = 0, .y = 0, .z = 0},
-			.dir = {.x = 4, .y = 3, .z = 0}
-		};
-		point = get_ray_point(ray, 1);
-		printf("A ray with position <(%f, %f, %f)> and direction <(%f, %f, %f)> with length <%d> ends at <(%f, %f, %f)>\n", ray.pos.x, ray.pos.y, ray.pos.z, ray.dir.x, ray.dir.y, ray.dir.z, 5, point.x, point.y, point.z);
+		printf("d = %f\n", d);
+		if (d < 0)
+			return (0);
 
-		a = (t_vector){.x = 5, .y = 0, .z = 0};
-		b = (t_vector){.x = 0, .y = 5, .z = 0};
-		c =	cross(a, b);
-		result = dot(a, b);
-		printf("The dot product of vector a <(%f, %f, %f)> and vector b <(%f, %f, %f)> is %f\n", a.x, a.y, a.z, b.x, b.y, b.z, result);
-		printf("The cross product of vector a <(%f, %f, %f)> and vector b <(%f, %f, %f)> is <(%f, %f, %f)>\n", a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z);
 
-		plane = (t_plane){.origin = {.x = 0, .y = 0, .z = 0}, .normal = {.x = 0, .y = 1, .z = 0}};
-		ray = (t_ray){
-			.pos = {.x = 0, .y = 5, .z = 0},
-			.dir = {.x = 8, .y = -5, .z = 4}
-		};
-		point = get_intersect_plane(ray, plane);
-		printf("A ray with position <(%f, %f, %f)> and direction <(%f, %f, %f)> and a plane with origin <(%f, %f, %f)> and normal <(%f, %f, %f)> intersect at position <(%f, %f, %f)>\n", ray.pos.x, ray.pos.y, ray.pos.z, ray.dir.x, ray.dir.y, ray.dir.z, plane.origin.x, plane.origin.y, plane.origin.z, plane.normal.x, plane.normal.y, plane.normal.z, point.x, point.y, point.z);
-	}
+		float	distance = (-b - sqrtf(d)) / (2 * a);
+		if (distance > 0)
+		{
+			printf("distance: %f\n", distance);
 
-	{
-		t_objects	*objects;
+			t_vector	point = get_ray_point(ray, distance);
+			printf("point of intersect: (%f, %f, %f)\n", point.x, point.y, point.z);
+		}
+		else
+		{
+			float	second_distance = (-b + sqrtf(d)) / (2 * a);
+			if (second_distance > 0)
+			{
+				printf("second_distance: %f\n", second_distance);
 
-		// Make a plane
-		objects = malloc(sizeof(t_objects)); objects->next = NULL; objects->type = plane;
-		objects->plane.normal = (t_vector){.x = 0, .y = 1, .z = 0};
-		objects->plane.origin = (t_point){.x = 0, .y = 0, .z = 0};
-		objects->plane.color = (t_rgb){.r = 255, .g = 0, .b = 255};
+				t_vector	point = get_ray_point(ray, distance);
+				printf("point of intersect: (%f, %f, %f)\n", point.x, point.y, point.z);
+			}
+		}
 
-		// Make a light
-		objects->next = malloc(sizeof(t_objects)); objects->next->next = NULL; objects->next->type = light;
-		objects->next->light.pos = (t_point){.x = 2, .y = 2, .z = 0};
-		objects->next->light.str = 0.6;
-
-		// Make a ray
-		t_ray	ray = {
-			.pos = {.x = 0, .y = 2, .z = 0},
-			.dir = {.x = 0, .y = -1, .z = 0}
-		};
-
-		t_rgb	ray_color;
-
-		ray_color = get_ray_color(ray, objects);
-
-		// Free memory allocated
-		free(objects->next);
-		free(objects);
 	}
 	return (0);
 }
