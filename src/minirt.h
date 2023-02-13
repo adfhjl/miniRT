@@ -128,6 +128,11 @@ typedef struct s_data
 	t_ambient	*ambient;
 	t_camera	*camera;
 	t_light		*light;
+
+	t_vector	camera_right;
+	t_vector	camera_up;
+	float		dist_per_pix;
+	t_vector	canvas_top_left;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);

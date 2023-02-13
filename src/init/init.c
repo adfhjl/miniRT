@@ -47,31 +47,32 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 //
 // tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
 // width = abs(-2 * tan(35o));
-static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
+static void		rt_init_canvas_info(t_data *data)
 {
 	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
-	t_vector cam_forward = data->camera->normal;
-	t_vector cam_right = rt_normalized(rt_cross(cam_forward, world_up));
-	assert(!isnan(cam_right.x) && !isnan(cam_right.y) && !isnan(cam_right.z));
-	t_vector cam_up = rt_cross(cam_right, cam_forward);
-	assert(!isnan(cam_up.x) && !isnan(cam_up.y) && !isnan(cam_up.z));
+	t_vector camera_forward = data->camera->normal;
+	data->camera_right = rt_normalized(rt_cross(camera_forward, world_up));
+	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));
+	data->camera_up = rt_cross(data->camera_right, camera_forward);
+	assert(!isnan(data->camera_up.x) && !isnan(data->camera_up.y) && !isnan(data->camera_up.z));
 
 	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
+	data->dist_per_pix = canvas_width / WINDOW_WIDTH;
+	float canvas_height = data->dist_per_pix * WINDOW_HEIGHT;
+	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_forward);
+	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_forward);
+	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
+}
 
-	float dist_per_pix = canvas_width / WINDOW_WIDTH;
-	float canvas_height = dist_per_pix * WINDOW_HEIGHT;
+static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
+{
+	t_vector	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
+	t_vector	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
+	t_vector	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
+	t_vector	dir = rt_normalized(pixel_ray);
 
-	t_vector left_canvas_side = rt_add(rt_scale(cam_right, -canvas_width / 2), cam_forward);
-	t_vector top_canvas_side = rt_add(rt_scale(cam_up, canvas_height / 2), cam_forward);
-
-	t_vector top_left = rt_add(left_canvas_side, top_canvas_side);
-	t_vector pixel_coord = rt_add(rt_add(top_left, rt_scale(cam_right, x * dist_per_pix)), rt_scale(cam_up, y * -dist_per_pix));
-
-	t_vector dir = rt_normalized(pixel_coord);
-	t_vector origin = data->camera->origin;
-
-	return (rt_get_ray(origin, dir));
+	return (rt_get_ray(data->camera->origin, dir));
 }
 
 static uint32_t rt_convert_color(t_rgb rgb)
@@ -150,6 +151,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	rt_assign_capitalized_objects(data);
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
+	rt_init_canvas_info(data);
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))

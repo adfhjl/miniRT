@@ -35,6 +35,9 @@ static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 
 t_rgb	rt_get_sphere_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 {
+	(void)ray;
+	(void)info;
+	(void)data;
 	return ((t_rgb){0,0,255});
 }
 
