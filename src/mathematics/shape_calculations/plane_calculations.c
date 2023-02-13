@@ -44,6 +44,7 @@ t_hit_info	rt_get_plane_collision_info(
 	float			denom;
 
 	denom = rt_dot(ray.normal, plane.normal);
+	// TODO: Is this if-statement necessary? float / 0 is infinity anyways?
 	if (denom == 0)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
@@ -62,23 +63,26 @@ static t_rgb	rt_clamp_rgb(t_rgb rgb)
 	});
 }
 
+// The light_distance_factor is based on the inverse-square law
 static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_info,
 		t_vector biased_point_to_light, t_data *data)
 {
-	const t_rgb			scaled_ambient = rt_scale_rgb(data->ambient->rgb,
-			data->ambient->ratio);
-	const float			normal_rgb_factor = -rt_dot(ray.normal,
-			info.surface_normal);
+	const t_rgb			scaled_ambient
+		= rt_scale_rgb(data->ambient->rgb, data->ambient->ratio);
+	const float			light_angle_rgb_factor
+		= -rt_dot(ray.normal, info.surface_normal);
+	const float			light_distance_factor
+		= 1 / rt_dot(biased_point_to_light, biased_point_to_light);
 
 	if (info.visibility == BLOCKED
 	|| light_ray_info.distance < rt_mag(biased_point_to_light))
-	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(biased_point_to_light))
 		return (scaled_ambient);
 	else
 	{
-		assert(normal_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
+		assert(light_angle_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
 		return (rt_add_rgb(scaled_ambient, rt_scale_rgb(data->light->rgb,
-					data->light->brightness * normal_rgb_factor)));
+					data->light->brightness * light_angle_rgb_factor
+					* light_distance_factor * LIGHT_BRIGHTNESS_FACTOR)));
 	}
 }
 
@@ -105,8 +109,8 @@ t_rgb	rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data)
 				biased_point,
 				rt_normalized(rt_sub(data->light->origin, biased_point))),
 			data);
-	const t_vector		biased_point_to_light = rt_normalized(
-			rt_sub(data->light->origin, biased_point));
+	const t_vector		biased_point_to_light
+		= rt_sub(data->light->origin, biased_point);
 
 	return (rt_clamp_rgb(rt_multiply_rgb(info.object->plane.rgb,
 				rt_get_rgb_factor(ray, info, light_ray_info,

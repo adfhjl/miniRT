@@ -56,6 +56,8 @@ t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			tmp = rt_get_sphere_collision_info(ray, &data->objects[i], data);
 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
 			tmp = rt_get_cylinder_collision_info(ray, &data->objects[i], data);
+		// TODO: Shouldn't tmp.distance always be positive anyways?
+		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
 		if (tmp.distance > 0 && tmp.distance < hit_info.distance)
 			hit_info = tmp;
 		i++;

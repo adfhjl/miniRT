@@ -34,6 +34,7 @@
 # define BACKGROUND_B 42
 
 # define EPSILON 1e-4
+# define LIGHT_BRIGHTNESS_FACTOR 3000.f
 
 typedef struct s_rgb
 {
