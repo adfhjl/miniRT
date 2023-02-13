@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 16:31:04 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/06 15:30:54 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/13 13:44:36 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_vector	rt_cross(t_vector a, t_vector b);
 float		rt_dot(t_vector a, t_vector b);
 t_vector	rt_get_ray_point(t_ray ray, float t);
 float		rt_mag(t_vector v);
-float		rt_mag2(t_vector v);
 t_rgb		rt_multiply_rgb(t_rgb a, t_rgb b);
 t_vector	rt_normalized(t_vector v);
 t_vector	rt_scale(t_vector v, float f);

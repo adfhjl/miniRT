@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 16:42:37 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/24 16:45:48 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/13 13:43:47 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 float	rt_mag(t_vector v)
 {
-	return (sqrtf(rt_mag2(v)));
+	return (sqrtf(rt_dot(v, v)));
 }
