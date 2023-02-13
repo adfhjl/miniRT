@@ -47,14 +47,20 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 //
 // tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
 // width = abs(-2 * tan(35o));
-static void		rt_init_canvas_info(t_data *data)
+static t_status	rt_init_canvas_info(t_data *data)
 {
 	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	t_vector camera_forward = data->camera->normal;
+
 	data->camera_right = rt_normalized(rt_cross(camera_forward, world_up));
-	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));
+	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
+		return (ERROR);
+
 	data->camera_up = rt_cross(data->camera_right, camera_forward);
+	// TODO: If this assert is never ever triggered in any of the scenes, remove it
 	assert(!isnan(data->camera_up.x) && !isnan(data->camera_up.y) && !isnan(data->camera_up.z));
+	// if (isnan(data->camera_up.x) || isnan(data->camera_up.y) || isnan(data->camera_up.z))
+	// 	return (ERROR);
 
 	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
@@ -63,6 +69,7 @@ static void		rt_init_canvas_info(t_data *data)
 	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_forward);
 	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_forward);
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
+	return (OK);
 }
 
 static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
@@ -149,9 +156,8 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
-	if (rt_camera_is_invalid(data))
+	if (rt_camera_is_invalid(data) || rt_init_canvas_info(data) == ERROR)
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
-	rt_init_canvas_info(data);
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
