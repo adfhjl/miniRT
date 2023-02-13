@@ -71,15 +71,17 @@ static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_
 	const float			normal_rgb_factor = -rt_dot(ray.normal,
 			info.surface_normal);
 
-	assert(normal_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
 	if (info.visual_surface_normal == -1 \
 	|| light_ray_info.distance < rt_mag(biased_point_to_light))
 	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(biased_point_to_light))
 		return (scaled_ambient);
 	else
-	// TODO: Replace `1.0f` with some distance factor
+	{
+		assert(normal_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
+		// TODO: Replace `1.0f` with some distance factor
 		return (rt_add_rgb(scaled_ambient, rt_scale_rgb(data->light->rgb,
 					data->light->brightness * normal_rgb_factor * 1.0f)));
+	}
 }
 
 // C & N
