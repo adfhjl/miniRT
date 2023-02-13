@@ -52,7 +52,9 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	t_vector cam_forward = data->camera->normal;
 	t_vector cam_right = rt_normalized(rt_cross(cam_forward, world_up));
+	assert(!isnan(cam_right.x) && !isnan(cam_right.y) && !isnan(cam_right.z));
 	t_vector cam_up = rt_cross(cam_right, cam_forward);
+	assert(!isnan(cam_up.x) && !isnan(cam_up.y) && !isnan(cam_up.z));
 
 	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));

@@ -22,6 +22,8 @@
 
 # include <math.h>
 
+# include <assert.h> // TODO: Remove before handing the project in
+
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 # define WINDOW_WIDTH 500
