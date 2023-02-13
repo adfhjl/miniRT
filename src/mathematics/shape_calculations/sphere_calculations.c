@@ -53,7 +53,6 @@ t_hit_info	rt_get_sphere_collision_info(
 	info.object = object;
 	info.surface_normal = rt_normalized(rt_sub(rt_get_ray_point(ray,
 					info.distance), sphere.origin));
-	info.visual_surface_normal = rt_get_visual_surface_normal(info, ray,
-			data->light);
+	info.visibility = rt_get_visibility(info, ray, data->light);
 	return (info);
 }

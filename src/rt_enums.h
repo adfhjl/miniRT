@@ -44,4 +44,10 @@ typedef enum e_object_type
 	OBJECT_TYPE_CYLINDER,
 }	t_object_type;
 
+typedef enum e_visual_surface_normal
+{
+	VISIBLE,
+	BLOCKED,
+}	t_visibility;
+
 #endif

@@ -12,14 +12,31 @@
 
 #include "minirt.h"
 
-float	rt_get_visual_surface_normal(t_hit_info info, t_ray ray, t_light *light)
+// TODO: Victor, welke scene maakt dit een drastisch visueel verschil voor?
+// Bij scenes/valid/light-under-plane.rt ziet altijd VISIBLE returnen er hetzelfde uit
+//
+// N = surface normal, C = camera ray normal, L = light ray normal
+// N C L
+// ^ v ^ -> false == true -> VISIBLE
+// v v ^ -> true == false -> VISIBLE
+// v ^ v -> false == true -> VISIBLE
+// ^ ^ v -> true == false -> VISIBLE
+// ^ v v -> false == false -> BLOCKED
+// ^ ^ ^ -> true == true -> BLOCKED
+t_visibility	rt_get_visibility(t_hit_info info, t_ray camera_ray,
+					t_light *light)
 {
-	if ((rt_dot(info.surface_normal, ray.normal) > 0) != \
-		(rt_dot(info.surface_normal, \
-				rt_sub(light->origin, \
-				rt_get_ray_point(ray, info.distance))) < 0))
-		return (-1);
-	return (1);
+	const bool		surface_and_camera_rays_point_in_same_direction
+		= rt_dot(info.surface_normal, camera_ray.normal) > 0;
+	const t_vector	light_ray_normal
+		= rt_sub(light->origin, rt_get_ray_point(camera_ray, info.distance));
+	const bool		surface_and_light_rays_point_in_same_direction
+		= rt_dot(info.surface_normal, light_ray_normal) > 0;
+
+	if (surface_and_camera_rays_point_in_same_direction
+		== surface_and_light_rays_point_in_same_direction)
+		return (BLOCKED);
+	return (VISIBLE);
 }
 
 t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)

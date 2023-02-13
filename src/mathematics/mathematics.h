@@ -40,7 +40,7 @@ t_hit_info	rt_get_plane_collision_info(
 //
 // rt_get_ray_rgb.c
 
-float		rt_get_visual_surface_normal(t_hit_info info, t_ray ray,
+t_visibility	rt_get_visibility(t_hit_info info, t_ray camera_ray,
 				t_light *light);
 t_hit_info	rt_get_hit_info(t_ray ray, t_data *data);
 t_rgb		rt_get_ray_rgb(t_ray ray, t_data *data);

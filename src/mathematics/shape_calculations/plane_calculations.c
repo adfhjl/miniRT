@@ -49,8 +49,7 @@ t_hit_info	rt_get_plane_collision_info(
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.object = object;
 	info.surface_normal = plane.normal;
-	info.visual_surface_normal = rt_get_visual_surface_normal(info, ray,
-			data->light);
+	info.visibility = rt_get_visibility(info, ray, data->light);
 	return (info);
 }
 
@@ -71,24 +70,24 @@ static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_
 	const float			normal_rgb_factor = -rt_dot(ray.normal,
 			info.surface_normal);
 
-	if (info.visual_surface_normal == -1 \
+	if (info.visibility == BLOCKED
 	|| light_ray_info.distance < rt_mag(biased_point_to_light))
 	// || light_ray_info.distance - (float)EPSILON * 100 < rt_mag(biased_point_to_light))
 		return (scaled_ambient);
 	else
 	{
 		assert(normal_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
-		// TODO: Replace `1.0f` with some distance factor
 		return (rt_add_rgb(scaled_ambient, rt_scale_rgb(data->light->rgb,
-					data->light->brightness * normal_rgb_factor * 1.0f)));
+					data->light->brightness * normal_rgb_factor)));
 	}
 }
 
-// C & N
-// ^ & ^ = V // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
-// V & ^ = ^ // return (p.normal)
-// ^ & V = V // return (p.normal)
-// V & V = ^ // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
+// C = camera ray normal, N = object normal
+// C N
+// ^ ^ = V // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
+// V ^ = ^ // return (p.normal)
+// ^ V = V // return (p.normal)
+// V V = ^ // if (dot(c.normal, p.normal) > 0) return scale(p.normal, -1)
 static t_vector	rt_get_bias_unit_vector(t_vector camera_normal, t_vector object_normal)
 {
 	if (rt_dot(camera_normal, object_normal) > 0)

@@ -114,10 +114,10 @@ typedef struct s_object
 
 typedef struct s_hit_info
 {
-	t_object	*object;
-	float		distance;
-	t_vector	surface_normal;
-	float		visual_surface_normal;
+	t_object		*object;
+	float			distance;
+	t_vector		surface_normal;
+	t_visibility	visibility;
 }	t_hit_info;
 
 typedef struct s_data
