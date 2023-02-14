@@ -14,17 +14,6 @@
 #include "init/parse/rt_parse.h"
 #include "debug/rt_debug.h"
 
-static void	rt_key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_data	*data;
-
-	data = param;
-	if (keydata.action != MLX_PRESS)
-		return ;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(data->mlx);
-}
-
 // forward = (0, 0, 1);
 //
 // leftmost = (sin(-35o), 0, cos(-35o))
@@ -47,14 +36,13 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 //
 // tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
 // width = abs(-2 * tan(35o));
-static t_status	rt_init_canvas_info(t_data *data)
+// TODO: Call this every frame
+static void	rt_update_canvas_info(t_data *data)
 {
-	t_vector world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
-	t_vector camera_forward = data->camera->normal;
+	const t_vector camera_forward = data->camera->normal;
 
-	data->camera_right = rt_normalized(rt_cross(camera_forward, world_up));
-	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
-		return (ERROR);
+	data->camera_right = rt_normalized(rt_cross(camera_forward, data->world_up));
+	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));
 
 	data->camera_up = rt_cross(data->camera_right, camera_forward);
 	// TODO: If this assert is never ever triggered in any of the scenes, remove it
@@ -69,7 +57,49 @@ static t_status	rt_init_canvas_info(t_data *data)
 	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_forward);
 	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_forward);
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
-	return (OK);
+}
+
+#include <stdio.h> // TODO: REMOVE
+
+static void	rt_key_hook(mlx_key_data_t keydata, void *param)
+{
+	t_data	*data;
+
+	if (keydata.action == MLX_REPEAT)
+		return;
+
+	printf("%d\n", keydata.action);
+
+	data = param;
+
+	if (keydata.action == MLX_RELEASE)
+	{
+		if (keydata.key == MLX_KEY_W)
+			data->w_held = false;
+		if (keydata.key == MLX_KEY_A)
+			data->a_held = false;
+		if (keydata.key == MLX_KEY_S)
+			data->s_held = false;
+		if (keydata.key == MLX_KEY_D)
+			data->d_held = false;
+	}
+	else
+	{
+		if (keydata.key == MLX_KEY_ESCAPE)
+			mlx_close_window(data->mlx);
+
+		if (keydata.key == MLX_KEY_W)
+			data->w_held = true;
+		if (keydata.key == MLX_KEY_A)
+			data->a_held = true;
+		if (keydata.key == MLX_KEY_S)
+			data->s_held = true;
+		if (keydata.key == MLX_KEY_D)
+			data->d_held = true;
+	}
+
+	// TODO: Only execute this if movement or the mouse was used
+	rt_update_canvas_info(data);
 }
 
 static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
@@ -99,6 +129,15 @@ static void	rt_draw_loop(void *param)
 	uint32_t		y;
 	uint32_t		x;
 
+	if (data->w_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), MOVEMENT_STEP_SIZE);
+	if (data->a_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), -MOVEMENT_STEP_SIZE);
+	if (data->s_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), -MOVEMENT_STEP_SIZE);
+	if (data->d_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), MOVEMENT_STEP_SIZE);
+
 	y = 0;
 	while (y < WINDOW_HEIGHT)
 	{
@@ -108,14 +147,20 @@ static void	rt_draw_loop(void *param)
 			ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
 			rgb = rt_get_ray_rgb(ray, data);
 			mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
-			x++;
+			x+=4;
 		}
-		y++;
+		y+=4;
 	}
 }
 
 static bool	rt_camera_is_invalid(t_data *data)
 {
+	const t_vector	camera_forward = data->camera->normal;
+
+	data->world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
+	data->camera_right = rt_normalized(rt_cross(camera_forward, data->world_up));
+	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
+		return (true);
 	return (data->camera
 	&& data->camera->normal.x == 0
 	&& data->camera->normal.z == 0);
@@ -156,12 +201,13 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
-	if (rt_camera_is_invalid(data) || rt_init_canvas_info(data) == ERROR)
+	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
 		return (rt_print_error(ERROR_SYSTEM));
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
+	rt_update_canvas_info(data);
 	return (OK);
 }

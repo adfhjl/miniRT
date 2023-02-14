@@ -39,6 +39,7 @@
 
 # define EPSILON 1e-4
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
+# define MOVEMENT_STEP_SIZE 0.2f
 
 typedef struct s_rgb
 {
@@ -134,10 +135,16 @@ typedef struct s_data
 	t_camera	*camera;
 	t_light		*light;
 
+	t_vector	world_up;
 	t_vector	camera_right;
 	t_vector	camera_up;
 	float		dist_per_pix;
 	t_vector	canvas_top_left;
+
+	bool		w_held;
+	bool		a_held;
+	bool		s_held;
+	bool		d_held;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
