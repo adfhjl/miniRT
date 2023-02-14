@@ -168,6 +168,8 @@ static void	rt_draw_loop(void *param)
 	uint32_t		y;
 	uint32_t		x;
 
+	mlx_set_mouse_pos(data->mlx, 100, 100);
+
 	if (data->w_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), MOVEMENT_STEP_SIZE);
 	if (data->a_held)
@@ -235,6 +237,14 @@ static void	rt_assign_capitalized_objects(t_data *data)
 		= &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
 }
 
+static void rt_cursor_hook(double xpos, double ypos, void* param)
+{
+	mlx_t	*mlx;
+
+	mlx = param;
+	printf("xpos: %f, ypos: %f\n", xpos, ypos);
+}
+
 t_status	rt_init(int argc, char *argv[], t_data *data)
 {
 	ft_bzero(data, sizeof(*data));
@@ -249,7 +259,16 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
 		return (rt_print_error(ERROR_SYSTEM));
+
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
+	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data->mlx);
+	// mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
+	// mlx_cursorfunc
+	// mlx_win_cursor_t
+	// mlx_get_mouse_pos
+	// mlx_set_cursor
+	// mlx_set_mouse_pos
+
 	rt_update_canvas_info(data);
 	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
 	return (OK);
