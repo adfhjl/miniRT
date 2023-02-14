@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 16:31:04 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/13 17:42:21 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/14 14:09:43 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ typedef struct s_light		t_light;
 t_hit_info	rt_get_cylinder_collision_info(
 				t_ray ray, t_object *object, t_data *data);
 
-t_rgb		rt_get_sphere_point_rgb(t_ray ray, t_hit_info info, t_data *data);
 t_hit_info	rt_get_sphere_collision_info(
 				t_ray ray, t_object *object, t_data *data);
 
-t_rgb		rt_get_plane_point_rgb(t_ray ray, t_hit_info info, t_data *data);
 t_hit_info	rt_get_plane_collision_info(
 				t_ray ray, t_object *object, t_data *data);
+
+//
+// rt_get_point_rgb.c
+
+t_rgb		rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
+				t_rgb object_color);
 
 //
 // rt_get_ray_rgb.c

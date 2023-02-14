@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 17:15:53 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/13 17:41:29 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/14 14:08:35 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		return ((t_rgb){.r = BACKGROUND_R / 255.0f,
 			.g = BACKGROUND_G / 255.0f, .b = BACKGROUND_B / 255.0f});
 	if (info.object->type == OBJECT_TYPE_PLANE)
-		return (rt_get_plane_point_rgb(ray, info, data));
+		return (rt_get_point_rgb(ray, info, data, info.object->plane.rgb));
 	if (info.object->type == OBJECT_TYPE_SPHERE)
-		return (rt_get_sphere_point_rgb(ray, info, data));
+		return (rt_get_point_rgb(ray, info, data, info.object->sphere.rgb));
 	return ((t_rgb){.r = BACKGROUND_R / 255.0f, .g = BACKGROUND_G / 255.0f,
 		.b = BACKGROUND_B / 255.0f});
 }

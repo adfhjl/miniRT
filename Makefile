@@ -6,7 +6,7 @@
 #    By: vbenneko <vbenneko@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/08/16 13:58:57 by vbenneko      #+#    #+#                  #
-#    Updated: 2023/02/13 13:44:30 by vbenneko      ########   odam.nl          #
+#    Updated: 2023/02/14 14:10:27 by vbenneko      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ CFILES :=\
 	src/mathematics/utils/rt_normalized.c\
 	src/mathematics/utils/rt_scale.c\
 	src/mathematics/utils/rt_sub.c\
+	src/mathematics/rt_get_point_rgb.c\
 	src/mathematics/rt_get_ray_rgb.c\
 	src/mathematics/rt_get_ray.c\
 	src/utils/print_error.c\
