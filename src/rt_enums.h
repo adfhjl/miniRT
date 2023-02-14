@@ -31,6 +31,7 @@ typedef enum e_error
 	ERROR_EXPECTED_WHITESPACE,
 	ERROR_INVALID_CAMERA_NORMAL,
 	ERROR_INVALID_ZERO_NORMAL,
+	ERROR_MLX,
 }	t_error;
 
 typedef enum e_object_type

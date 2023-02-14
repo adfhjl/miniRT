@@ -68,7 +68,7 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	if (keydata.action == MLX_REPEAT)
 		return;
 
-	printf("%d\n", keydata.action);
+	// printf("%d\n", keydata.action);
 
 	data = param;
 
@@ -85,8 +85,14 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	}
 	else
 	{
-		if (keydata.key == MLX_KEY_ESCAPE)
-			mlx_close_window(data->mlx);
+		if (keydata.action == MLX_PRESS)
+		{
+			if (keydata.key == MLX_KEY_ESCAPE)
+				mlx_close_window(data->mlx);
+
+			if (keydata.key == MLX_KEY_D && keydata.modifier == MLX_SUPERKEY)
+				data->draw_debug = !data->draw_debug;
+		}
 
 		if (keydata.key == MLX_KEY_W)
 			data->w_held = true;
@@ -102,14 +108,37 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	rt_update_canvas_info(data);
 }
 
-static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
+static char	*get_fps_string(t_data *data)
 {
-	t_vector	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
-	t_vector	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
-	t_vector	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
-	t_vector	dir = rt_normalized(pixel_ray);
+	char	*string;
+	char	*string_full;
 
-	return (rt_get_ray(data->camera->origin, dir));
+	string = ft_itoa((t_i32)(1 / data->mlx->delta_time));
+	if (string == NULL)
+		return (NULL);
+	string_full = ft_strjoin(string, " FPS");
+	ft_free(&string);
+	return (string_full);
+}
+
+static t_status	rt_draw_fps(t_data *data)
+{
+	static mlx_image_t	*image; // TODO: See if we still want this to be static?
+	char				*string;
+
+	if (image != NULL)
+		mlx_delete_image(data->mlx, image);
+	if (!data->draw_debug)
+		return (OK);
+	string = get_fps_string(data);
+	if (string == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+	image = mlx_put_string(data->mlx, string, 0, 0);
+	ft_free(&string);
+	if (image == NULL)
+		return (rt_print_error(ERROR_MLX));
+	mlx_set_instance_depth(&image->instances[0], DEBUG_DRAWING_DEPTH);
+	return (OK);
 }
 
 static uint32_t rt_convert_color(t_rgb rgb)
@@ -119,6 +148,16 @@ static uint32_t rt_convert_color(t_rgb rgb)
 	const uint32_t	b = (uint32_t)(rgb.b * 255);
 
 	return ((r << 24) | (g << 16) | (b << 8) | 255);
+}
+
+static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
+{
+	t_vector	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
+	t_vector	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
+	t_vector	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
+	t_vector	dir = rt_normalized(pixel_ray);
+
+	return (rt_get_ray(data->camera->origin, dir));
 }
 
 static void	rt_draw_loop(void *param)
@@ -147,10 +186,13 @@ static void	rt_draw_loop(void *param)
 			ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
 			rgb = rt_get_ray_rgb(ray, data);
 			mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
-			x+=4;
+			x += 11;
 		}
-		y+=4;
+		y += 11;
 	}
+
+	rt_draw_fps(data);
+	// printf("%d\n", data->draw_debug);
 }
 
 static bool	rt_camera_is_invalid(t_data *data)
@@ -209,5 +251,6 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 		return (rt_print_error(ERROR_SYSTEM));
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	rt_update_canvas_info(data);
+	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
 	return (OK);
 }

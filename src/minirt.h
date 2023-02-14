@@ -41,6 +41,9 @@
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
 # define MOVEMENT_STEP_SIZE 0.2f
 
+# define DEBUG_DRAWING_DEPTH 1
+# define DEBUG_DRAWING_ON_BY_DEFAULT true
+
 typedef struct s_rgb
 {
 	float	r;
@@ -145,6 +148,8 @@ typedef struct s_data
 	bool		a_held;
 	bool		s_held;
 	bool		d_held;
+
+	bool		draw_debug;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
