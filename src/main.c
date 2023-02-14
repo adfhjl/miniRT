@@ -39,8 +39,8 @@ int	main(int argc, char *argv[])
 		rt_cleanup(&data);
 		return (EXIT_FAILURE);
 	}
-	data.image = mlx_new_image(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT); // CAN GO WRONG
-	mlx_image_to_window(data.mlx, data.image, 0, 0); // CAN GO WRONG
+	data.image = mlx_new_image(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT); // TODO: CAN GO WRONG
+	mlx_image_to_window(data.mlx, data.image, 0, 0); // TODO: CAN GO WRONG
 	mlx_loop(data.mlx);
 	rt_cleanup(&data);
 	return (EXIT_SUCCESS);

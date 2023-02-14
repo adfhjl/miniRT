@@ -33,8 +33,12 @@
 # define BACKGROUND_G 42
 # define BACKGROUND_B 42
 
+// # define BACKGROUND_R 255
+// # define BACKGROUND_G 255
+// # define BACKGROUND_B 255
+
 # define EPSILON 1e-4
-# define LIGHT_BRIGHTNESS_FACTOR 3000.f
+# define LIGHT_BRIGHTNESS_FACTOR 100.f
 
 typedef struct s_rgb
 {

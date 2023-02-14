@@ -27,8 +27,10 @@ static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_
 {
 	const t_rgb			scaled_ambient
 		= rt_scale_rgb(data->ambient->rgb, data->ambient->ratio);
+	const t_vector		collision_point_to_light
+		= rt_sub(data->light->origin, rt_get_ray_point(ray, info.distance));
 	const float			light_angle_rgb_factor
-		= -rt_dot(ray.normal, info.surface_normal);
+		= rt_dot(rt_normalized(collision_point_to_light), info.surface_normal);
 	const float			light_distance_factor
 		= 1 / rt_dot(biased_point_to_light, biased_point_to_light);
 
@@ -37,6 +39,7 @@ static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_
 		return (scaled_ambient);
 	else
 	{
+		// TODO: dutch-flag.rt has wrong shadowing at the top and bottom, so something is fucky wucky here
 		assert(light_angle_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
 		return (rt_add_rgb(scaled_ambient, rt_scale_rgb(data->light->rgb,
 					data->light->brightness * light_angle_rgb_factor
