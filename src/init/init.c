@@ -83,16 +83,21 @@ static void	rt_reset_canvas_info(t_data *data)
 	rt_clear_image(data->image);
 }
 
+static bool	rt_any_movement_key_pressed(t_data *data)
+{
+	return (data->w_held
+		|| data->a_held
+		|| data->s_held
+		|| data->d_held
+		|| data->space_held
+		|| data->shift_held);
+}
+
 #include <stdio.h> // TODO: REMOVE
 
 static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_data	*data;
-
-	if (keydata.action == MLX_REPEAT)
-		return;
-
-	// printf("%d\n", keydata.action);
 
 	data = param;
 
@@ -111,16 +116,13 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_LEFT_SHIFT)
 			data->shift_held = false;
 	}
-	else
+	else if (keydata.action == MLX_PRESS)
 	{
-		if (keydata.action == MLX_PRESS)
-		{
-			if (keydata.key == MLX_KEY_ESCAPE)
-				mlx_close_window(data->mlx);
+		if (keydata.key == MLX_KEY_ESCAPE)
+			mlx_close_window(data->mlx);
 
-			if (keydata.key == MLX_KEY_G)
-				data->draw_debug = !data->draw_debug;
-		}
+		if (keydata.key == MLX_KEY_G)
+			data->draw_debug = !data->draw_debug;
 
 		if (keydata.key == MLX_KEY_W)
 			data->w_held = true;
@@ -135,9 +137,6 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_LEFT_SHIFT)
 			data->shift_held = true;
 	}
-
-	// TODO: Only call these if a movement key was done, as opposed to the G key
-	rt_reset_canvas_info(data);
 }
 
 static char	*rt_get_allocation_count_string(void)
@@ -227,6 +226,15 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
+// Source: https://stackoverflow.com/a/11946674/13279557
+static unsigned int	rt_rand(void)
+{
+	static unsigned int	seed = 1;
+
+	seed = (seed * 1103515245U + 12345U) & 0x7fffffffU;
+	return (seed);
+}
+
 static void	rt_draw_loop(void *param)
 {
 	t_data *const	data = param;
@@ -234,6 +242,10 @@ static void	rt_draw_loop(void *param)
 	t_ray			ray;
 	uint32_t		y;
 	uint32_t		x;
+
+	if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+		rt_reset_canvas_info(data);
+	data->moved_cursor = false;
 
 	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
 
@@ -341,7 +353,7 @@ static void rt_cursor_hook(double xpos, double ypos, void* param)
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
 	// printf("camera forward normal: x: %f, y: %f, z: %f\n", data->camera->normal.x, data->camera->normal.y, data->camera->normal.z);
 
-	rt_reset_canvas_info(data);
+	data->moved_cursor = true;
 }
 
 static void	rt_init_pixel_lookup_indices(t_data *data)
@@ -353,6 +365,22 @@ static void	rt_init_pixel_lookup_indices(t_data *data)
 	{
 		data->pixel_lookup_indices[index] = index;
 		index++;
+	}
+
+	size_t	length;
+	length = WINDOW_WIDTH * WINDOW_HEIGHT;
+
+	while (length > 1)
+	{
+		index = rt_rand() % length;
+
+		length--;
+
+		uint32_t	temp;
+
+		temp = data->pixel_lookup_indices[index];
+		data->pixel_lookup_indices[index] = data->pixel_lookup_indices[length];
+		data->pixel_lookup_indices[length] = temp;
 	}
 }
 
@@ -373,7 +401,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data);
-	// mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
+	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	// mlx_cursorfunc
 	// mlx_win_cursor_t
 	// mlx_get_mouse_pos

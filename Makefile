@@ -17,6 +17,9 @@ CC := gcc
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 CFLAGS += -Wno-overlength-strings # MLX42
 
+ifdef O3
+CFLAGS += -Ofast
+endif
 ifdef DEBUG
 CFLAGS += -g3
 endif
