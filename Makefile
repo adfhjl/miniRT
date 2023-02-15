@@ -15,6 +15,7 @@ CC := gcc
 
 # TODO: Remove extra flags before the eval
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
+CFLAGS += -Wno-overlength-strings # MLX42
 
 ifdef DEBUG
 CFLAGS += -g3

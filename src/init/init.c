@@ -90,7 +90,7 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			if (keydata.key == MLX_KEY_ESCAPE)
 				mlx_close_window(data->mlx);
 
-			if (keydata.key == MLX_KEY_D && keydata.modifier == MLX_SUPERKEY)
+			if (keydata.key == MLX_KEY_G)
 				data->draw_debug = !data->draw_debug;
 		}
 
@@ -108,7 +108,42 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	rt_update_canvas_info(data);
 }
 
-static char	*get_fps_string(t_data *data)
+static char	*rt_get_allocation_count_string(void)
+{
+	char	*string;
+	char	*string_full;
+
+	string = ft_itoa((t_i32)ft_get_allocation_count());
+	if (string == NULL)
+		return (NULL);
+	string_full = ft_strjoin("Allocation count: ", string);
+	ft_free(&string);
+	return (string_full);
+}
+
+#include "../MLX42/src/font/font.h"
+
+static t_status	rt_draw_allocation_count(t_data *data)
+{
+	static mlx_image_t	*image;
+	char				*string;
+
+	if (image != NULL)
+		mlx_delete_image(data->mlx, image);
+	if (!data->draw_debug)
+		return (OK);
+	string = rt_get_allocation_count_string();
+	if (string == NULL)
+		return (ERROR);
+	image = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT);
+	ft_free(&string);
+	if (image == NULL)
+		return (rt_print_error(ERROR_MLX));
+	mlx_set_instance_depth(&image->instances[0], DEBUG_DRAWING_DEPTH);
+	return (OK);
+}
+
+static char	*rt_get_fps_string(t_data *data)
 {
 	char	*string;
 	char	*string_full;
@@ -130,7 +165,7 @@ static t_status	rt_draw_fps(t_data *data)
 		mlx_delete_image(data->mlx, image);
 	if (!data->draw_debug)
 		return (OK);
-	string = get_fps_string(data);
+	string = rt_get_fps_string(data);
 	if (string == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
 	image = mlx_put_string(data->mlx, string, 0, 0);
@@ -193,7 +228,9 @@ static void	rt_draw_loop(void *param)
 		y += 11;
 	}
 
-	rt_draw_fps(data);
+	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
+		return ; // TODO: Exit somehow.
+
 	// printf("%d\n", data->draw_debug);
 }
 
