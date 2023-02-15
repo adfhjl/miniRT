@@ -229,9 +229,7 @@ static void	rt_draw_loop(void *param)
 	}
 
 	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
-		return ; // TODO: Exit somehow.
-
-	// printf("%d\n", data->draw_debug);
+		mlx_close_window(data->mlx);
 }
 
 static bool	rt_camera_is_invalid(t_data *data)
@@ -295,7 +293,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
-		return (rt_print_error(ERROR_SYSTEM));
+		return (rt_print_error(ERROR_MLX));
 
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data->mlx);
@@ -308,5 +306,15 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	rt_update_canvas_info(data);
 	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
+
+	data->image = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (data->image == NULL)
+		return (rt_print_error(ERROR_MLX));
+
+	int	instance_index;
+	instance_index = mlx_image_to_window(data->mlx, data->image, 0, 0);
+	if (instance_index < 0)
+		return (rt_print_error(ERROR_MLX));
+
 	return (OK);
 }
