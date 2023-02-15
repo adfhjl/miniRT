@@ -211,7 +211,7 @@ static void	rt_draw_loop(void *param)
 	uint32_t		y;
 	uint32_t		x;
 
-	mlx_set_mouse_pos(data->mlx, 100, 100);
+	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
 
 	if (data->w_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), MOVEMENT_STEP_SIZE);
@@ -286,10 +286,11 @@ static void	rt_assign_capitalized_objects(t_data *data)
 
 static void rt_cursor_hook(double xpos, double ypos, void* param)
 {
-	mlx_t	*mlx;
+	t_data	*data;
 
-	mlx = param;
+	data = param;
 	printf("xpos: %f, ypos: %f\n", xpos, ypos);
+	printf("window_center_x: %i, window_center_y: %i\n", data->window_center_x, data->window_center_y);
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
@@ -308,7 +309,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 		return (rt_print_error(ERROR_MLX));
 
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
-	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data->mlx);
+	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data);
 	// mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	// mlx_cursorfunc
 	// mlx_win_cursor_t
@@ -327,6 +328,9 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	instance_index = mlx_image_to_window(data->mlx, data->image, 0, 0);
 	if (instance_index < 0)
 		return (rt_print_error(ERROR_MLX));
+
+	data->window_center_x = WINDOW_WIDTH / 2;
+	data->window_center_y = WINDOW_HEIGHT / 2;
 
 	return (OK);
 }

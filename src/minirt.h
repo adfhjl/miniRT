@@ -152,6 +152,9 @@ typedef struct s_data
 	bool		shift_held;
 
 	bool		draw_debug;
+
+	int			window_center_x;
+	int			window_center_y;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
