@@ -82,6 +82,10 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			data->s_held = false;
 		if (keydata.key == MLX_KEY_D)
 			data->d_held = false;
+		if (keydata.key == MLX_KEY_SPACE)
+			data->space_held = false;
+		if (keydata.key == MLX_KEY_LEFT_SHIFT)
+			data->shift_held = false;
 	}
 	else
 	{
@@ -102,6 +106,10 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			data->s_held = true;
 		if (keydata.key == MLX_KEY_D)
 			data->d_held = true;
+		if (keydata.key == MLX_KEY_SPACE)
+			data->space_held = true;
+		if (keydata.key == MLX_KEY_LEFT_SHIFT)
+			data->shift_held = true;
 	}
 
 	// TODO: Only execute this if movement or the mouse was used
@@ -213,6 +221,10 @@ static void	rt_draw_loop(void *param)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), -MOVEMENT_STEP_SIZE);
 	if (data->d_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), MOVEMENT_STEP_SIZE);
+	if (data->space_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), MOVEMENT_STEP_SIZE);
+	if (data->shift_held)
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -MOVEMENT_STEP_SIZE);
 
 	y = 0;
 	while (y < WINDOW_HEIGHT)

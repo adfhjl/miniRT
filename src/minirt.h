@@ -148,6 +148,8 @@ typedef struct s_data
 	bool		a_held;
 	bool		s_held;
 	bool		d_held;
+	bool		space_held;
+	bool		shift_held;
 
 	bool		draw_debug;
 }	t_data;
