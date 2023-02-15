@@ -39,7 +39,9 @@
 
 # define EPSILON 1e-4
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
-# define MOVEMENT_STEP_SIZE 0.2f
+# define MOVEMENT_STEP_SIZE 0.1f
+# define ROTATION_FACTOR 0.005
+# define RAYS_SHOT_PER_FRAME 2000
 
 # define DEBUG_DRAWING_DEPTH 1
 # define DEBUG_DRAWING_ON_BY_DEFAULT true
@@ -155,6 +157,9 @@ typedef struct s_data
 
 	int			window_center_x;
 	int			window_center_y;
+
+	uint32_t	pixel_lookup_indices[WINDOW_WIDTH * WINDOW_HEIGHT];
+	uint32_t	pixel_lookup_index;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);

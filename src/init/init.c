@@ -59,6 +59,30 @@ static void	rt_update_canvas_info(t_data *data)
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
 }
 
+static void	rt_clear_image(mlx_image_t *image)
+{
+	uint32_t	x;
+	uint32_t	y;
+	y = 0;
+	while (y < WINDOW_HEIGHT)
+	{
+		x = 0;
+		while (x < WINDOW_WIDTH)
+		{
+			mlx_put_pixel(image, x, y, (BACKGROUND_R << 24) | (BACKGROUND_G << 16) | (BACKGROUND_B << 8) | 0xFF);
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	rt_reset_canvas_info(t_data *data)
+{
+	rt_update_canvas_info(data);
+	data->pixel_lookup_index = 0;
+	rt_clear_image(data->image);
+}
+
 #include <stdio.h> // TODO: REMOVE
 
 static void	rt_key_hook(mlx_key_data_t keydata, void *param)
@@ -112,8 +136,8 @@ static void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			data->shift_held = true;
 	}
 
-	// TODO: Only execute this if movement or the mouse was used
-	rt_update_canvas_info(data);
+	// TODO: Only call these if a movement key was done, as opposed to the G key
+	rt_reset_canvas_info(data);
 }
 
 static char	*rt_get_allocation_count_string(void)
@@ -190,7 +214,7 @@ static uint32_t rt_convert_color(t_rgb rgb)
 	const uint32_t	g = (uint32_t)(rgb.g * 255);
 	const uint32_t	b = (uint32_t)(rgb.b * 255);
 
-	return ((r << 24) | (g << 16) | (b << 8) | 255);
+	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
 }
 
 static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
@@ -226,18 +250,22 @@ static void	rt_draw_loop(void *param)
 	if (data->shift_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -MOVEMENT_STEP_SIZE);
 
-	y = 0;
-	while (y < WINDOW_HEIGHT)
+	size_t	ray_loop_index;
+	ray_loop_index = 0;
+	while (ray_loop_index < RAYS_SHOT_PER_FRAME && data->pixel_lookup_index < WINDOW_WIDTH * WINDOW_HEIGHT)
 	{
-		x = 0;
-		while (x < WINDOW_WIDTH)
-		{
-			ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
-			rgb = rt_get_ray_rgb(ray, data);
-			mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
-			x += 11;
-		}
-		y += 11;
+		uint32_t	index;
+
+		index = data->pixel_lookup_indices[data->pixel_lookup_index];
+		x = index % WINDOW_WIDTH;
+		y = index / WINDOW_WIDTH;
+
+		ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
+		rgb = rt_get_ray_rgb(ray, data);
+		mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
+
+		data->pixel_lookup_index++;
+		ray_loop_index++;
 	}
 
 	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
@@ -287,10 +315,45 @@ static void	rt_assign_capitalized_objects(t_data *data)
 static void rt_cursor_hook(double xpos, double ypos, void* param)
 {
 	t_data	*data;
+	double	dx;
+	double	dy;
 
 	data = param;
-	printf("xpos: %f, ypos: %f\n", xpos, ypos);
-	printf("window_center_x: %i, window_center_y: %i\n", data->window_center_x, data->window_center_y);
+	// printf("xpos: %f, ypos: %f\n", xpos, ypos);
+	dx = xpos - data->window_center_x;
+	dy = -(ypos - data->window_center_y);
+	// printf("dx: %f, dy: %f\n", dx, dy);
+
+	t_vector	rotation_right;
+	rotation_right = rt_scale(data->camera_right, (float)dx * (float)ROTATION_FACTOR);
+	// printf("rotation right: x: %f, y: %f, z: %f\n", rotation_right.x, rotation_right.y, rotation_right.z);
+	t_vector	rotation_up;
+	rotation_up = rt_scale(data->camera_up, (float)dy * (float)ROTATION_FACTOR);
+	// printf("rotation up: x: %f, y: %f, z: %f\n", rotation_up.x, rotation_up.y, rotation_up.z);
+
+	t_vector	rotation;
+	rotation = rt_add(rotation_right, rotation_up);
+
+	// TODO: This may feel better when used in the rt_add() statement below.
+	// t_vector	offet_rotation;
+	// offet_rotation = rt_add(data->camera->normal, rotation);
+
+	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
+	// printf("camera forward normal: x: %f, y: %f, z: %f\n", data->camera->normal.x, data->camera->normal.y, data->camera->normal.z);
+
+	rt_reset_canvas_info(data);
+}
+
+static void	rt_init_pixel_lookup_indices(t_data *data)
+{
+	uint32_t	index;
+
+	index = 0;
+	while (index < WINDOW_WIDTH * WINDOW_HEIGHT)
+	{
+		data->pixel_lookup_indices[index] = index;
+		index++;
+	}
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
@@ -331,6 +394,8 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	data->window_center_x = WINDOW_WIDTH / 2;
 	data->window_center_y = WINDOW_HEIGHT / 2;
+
+	rt_init_pixel_lookup_indices(data);
 
 	return (OK);
 }
