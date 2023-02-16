@@ -176,8 +176,6 @@ typedef struct s_data
 	uint32_t	available_inverse[WINDOW_WIDTH * WINDOW_HEIGHT];
 	float		densities[WINDOW_WIDTH * WINDOW_HEIGHT];
 
-	uint32_t	random_available_index_offset;
-
 	uint32_t	available_count;
 
 	float		starting_update_radius;

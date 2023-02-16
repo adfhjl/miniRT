@@ -93,7 +93,6 @@ static void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
 	rt_clear_image(data->image);
-	// data->random_available_index_offset = rt_rand() % data->pixel_count;
 	data->pixel_index = data->pixel_count;
 }
 
