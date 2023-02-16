@@ -92,9 +92,8 @@ static unsigned int	rt_rand(void)
 static void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	data->pixel_lookup_index = 0;
 	rt_clear_image(data->image);
-	data->pixel_offset = rt_rand() % data->pixel_count;
+	data->random_available_index_offset = rt_rand() % data->pixel_count;
 	data->available_count = data->pixel_count;
 }
 
@@ -241,20 +240,153 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
-static void	rt_draw_loop(void *param)
+static void	rt_update_densities(t_data *data, uint32_t update_radius, uint32_t emptiest_x, uint32_t emptiest_y)
 {
-	t_data *const	data = param;
-	t_rgb			rgb;
-	t_ray			ray;
-	uint32_t		y;
-	uint32_t		x;
+	int32_t	dx;
+	int32_t	dy;
 
-	if (rt_any_movement_key_pressed(data) || data->moved_cursor)
-		rt_reset_canvas_info(data);
-	data->moved_cursor = false;
+	// dy = (int32_t)fmaxf((float)-update_radius, (float)-emptiest_y);
+	dy = (int32_t)-update_radius;
+	while (dy <= (int32_t)update_radius)
+	{
+		// dx = (int32_t)fmaxf((float)-update_radius, (float)-emptiest_x);
+		dx = (int32_t)-update_radius;
+		while (dx <= (int32_t)update_radius)
+		{
+			// Only updates the density of cells that fall within the radius
+			if ((uint32_t)(dx * dx + dy * dy) <= update_radius * update_radius)
+			{
+				int32_t	x;
+				int32_t	y;
 
-	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
+				x = (int32_t)emptiest_x + dx;
+				y = (int32_t)emptiest_y + dy;
 
+				if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
+				{
+					dx++;
+					continue;
+				}
+
+				// We can't just get neighbor cells from available[],
+				// so we use a second array that has available's values as its keys
+				uint32_t	i;
+
+				i = data->available_inverse[x + y * WINDOW_WIDTH];
+
+				uint32_t other_index;
+				uint32_t other_x;
+				uint32_t other_y;
+
+				other_index = data->available[i];
+				other_x = other_index % WINDOW_WIDTH;
+				other_y = other_index / WINDOW_WIDTH;
+
+				int32_t	x_dist;
+				int32_t	y_dist;
+				float 	distance_squared;
+
+				x_dist = (int32_t)emptiest_x - (int32_t)other_x;
+				y_dist = (int32_t)emptiest_y - (int32_t)other_y;
+				distance_squared = x_dist * x_dist + y_dist * y_dist;
+
+				// Don't want to add density to filled cells
+				if (i < data->available_count && distance_squared > 0)
+				{
+					data->densities[other_index] += 1 / distance_squared;
+				}
+			}
+			dx++;
+		}
+		dy++;
+	}
+}
+
+static void	rt_shoot_rays(t_data *data)
+{
+	t_ray		ray;
+	t_rgb		rgb;
+	uint32_t	update_radius;
+
+	size_t	ray_loop_index;
+	ray_loop_index = 0;
+	while (ray_loop_index < RAYS_PER_FRAME && data->available_count > 0)
+	{
+		if (ray_loop_index % RAYS_PER_UPDATE_RADIUS_RECALCULATION == 0)
+		{
+			const float	unavailable = fmaxf(data->pixel_count - data->available_count, 1);
+
+			update_radius = (uint32_t)fmaxf(data->starting_update_radius / sqrtf(unavailable), 1);
+		}
+
+		float		emptiest;
+		uint32_t	emptiest_available_index;
+
+		emptiest = INFINITY;
+
+		// TODO: I suspect a lot of time is spent in here, but I'm not sure without profiling.
+		// If this is slow, look at v3 linked at the top for a priority queue example to try for a new v5.
+		// Maybe sort on every insertion for fast lookup?
+		uint32_t	i;
+
+		i = 0;
+		while (i < data->available_count)
+		{
+			uint32_t	available_index;
+			uint32_t	available_x;
+			uint32_t	available_y;
+
+			available_index = data->available[i];
+			available_x = available_index % WINDOW_WIDTH;
+			available_y = available_index / WINDOW_WIDTH;
+
+			float density = data->densities[available_index];
+
+			if (density < emptiest)
+			{
+				emptiest = density;
+				emptiest_available_index = i;
+			}
+
+			i++;
+		}
+
+		uint32_t	emptiest_available;
+
+		emptiest_available = data->available[emptiest_available_index];
+
+		uint32_t	emptiest_x;
+		uint32_t	emptiest_y;
+
+		emptiest_x = emptiest_available % WINDOW_WIDTH;
+		emptiest_y = emptiest_available / WINDOW_WIDTH;
+
+		ray = rt_create_ray(emptiest_x, emptiest_y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
+		rgb = rt_get_ray_rgb(ray, data);
+		mlx_put_pixel(data->image, emptiest_x, emptiest_y, rt_convert_color(rgb));
+
+		rt_update_densities(data, update_radius, emptiest_x, emptiest_y);
+
+		data->available_count--;
+
+		uint32_t	a;
+		uint32_t	b;
+
+		a = data->available[emptiest_available_index];
+		b = data->available[data->available_count];
+
+		data->available[emptiest_available_index] = b;
+		data->available[data->available_count] = a;
+
+		data->available_inverse[b] = emptiest_available_index;
+		data->available_inverse[a] = data->available_count;
+
+		ray_loop_index++;
+	}
+}
+
+static void	rt_update_camera_origin(t_data *data)
+{
 	float delta_move = MOVEMENT_STEP_SIZE * (float)data->mlx->delta_time;
 
 	if (data->w_held)
@@ -269,24 +401,21 @@ static void	rt_draw_loop(void *param)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), delta_move);
 	if (data->shift_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -delta_move);
+}
 
-	size_t	ray_loop_index;
-	ray_loop_index = 0;
-	while (ray_loop_index < RAYS_PER_FRAME && data->pixel_lookup_index < data->pixel_count)
-	{
-		uint32_t	index;
+static void	rt_draw_loop(void *param)
+{
+	t_data *const	data = param;
 
-		index = data->pixel_lookup_indices[(data->pixel_offset + data->pixel_lookup_index) % data->pixel_count];
-		x = index % WINDOW_WIDTH;
-		y = index / WINDOW_WIDTH;
+	if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+		rt_reset_canvas_info(data);
+	data->moved_cursor = false;
 
-		ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
-		rgb = rt_get_ray_rgb(ray, data);
-		mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
+	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
 
-		data->pixel_lookup_index++;
-		ray_loop_index++;
-	}
+	rt_update_camera_origin(data);
+
+	rt_shoot_rays(data);
 
 	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
 		mlx_close_window(data->mlx);
@@ -381,25 +510,26 @@ static void	rt_shuffle(uint32_t *arr, size_t length)
 	}
 }
 
-static void	rt_init_pixel_lookup_indices(t_data *data)
+static void	rt_init_available(t_data *data)
 {
 	uint32_t	index;
 
 	index = 0;
 	while (index < data->pixel_count)
 	{
-		data->pixel_lookup_indices[index] = index;
+		data->available[index] = index;
+		data->densities[index] = 0;
 		index++;
 	}
 
-	rt_shuffle(data->pixel_lookup_indices, data->pixel_count);
+	rt_shuffle(data->available, data->pixel_count);
 
 	uint32_t	value;
 	index = 0;
 	while (index < data->pixel_count)
 	{
-		value = data->pixel_lookup_indices[index];
-		data->pixel_lookup_indices_inverse[value] = index;
+		value = data->available[index];
+		data->available_inverse[value] = index;
 		index++;
 	}
 }
@@ -446,15 +576,15 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
 
-	rt_init_pixel_lookup_indices(data);
+	rt_init_available(data);
 
 	rt_reset_canvas_info(data);
 
 	// SQRT2, because radius is circular.
 	// It is the width/height multiplier necessary to reach the bottom-right
 	// of the canvas starting from the top-left of the canvas.
-	data->starting_update_radius = (uint32_t)fmax(WINDOW_WIDTH * M_SQRT2, WINDOW_HEIGHT * M_SQRT2);
-	// printf("starting_update_radius: %d\n", data->starting_update_radius);
+	data->starting_update_radius = fmaxf(WINDOW_WIDTH * (float)M_SQRT2, WINDOW_HEIGHT * (float)M_SQRT2);
+	// printf("starting_update_radius: %f\n", data->starting_update_radius);
 
 	return (OK);
 }

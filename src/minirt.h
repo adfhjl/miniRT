@@ -27,8 +27,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 500
+# define WINDOW_HEIGHT 500
 
 # define BACKGROUND_R 128
 # define BACKGROUND_G 128
@@ -42,7 +42,7 @@
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
 # define MOVEMENT_STEP_SIZE 1.0f
 # define ROTATION_FACTOR 0.02f
-# define RAYS_PER_FRAME 100000
+# define RAYS_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
 # define DEBUG_DRAWING_ON_BY_DEFAULT 1
@@ -145,35 +145,42 @@ typedef struct s_data
 	t_camera	*camera;
 	t_light		*light;
 
+	bool		draw_debug;
+
+	int			window_center_x;
+	int			window_center_y;
+	bool		moved_cursor;
+
+	// TODO: Put in struct
 	t_vector	world_up;
 	t_vector	camera_right;
 	t_vector	camera_up;
 	float		dist_per_pix;
 	t_vector	canvas_top_left;
+	//
 
+	// TODO: Put in struct
 	bool		w_held;
 	bool		a_held;
 	bool		s_held;
 	bool		d_held;
 	bool		space_held;
 	bool		shift_held;
+	//
 
-	bool		draw_debug;
-
-	int			window_center_x;
-	int			window_center_y;
-
-	uint32_t	pixel_lookup_indices[WINDOW_WIDTH * WINDOW_HEIGHT];
-	uint32_t	pixel_lookup_indices_inverse[WINDOW_WIDTH * WINDOW_HEIGHT];
-	uint32_t	pixel_lookup_index;
-	uint32_t	pixel_offset;
-
+	// TODO: Put in struct
 	uint32_t	pixel_count;
+
+	uint32_t	available[WINDOW_WIDTH * WINDOW_HEIGHT];
+	uint32_t	available_inverse[WINDOW_WIDTH * WINDOW_HEIGHT];
+	float		densities[WINDOW_WIDTH * WINDOW_HEIGHT];
+
+	uint32_t	random_available_index_offset;
+
 	uint32_t	available_count;
 
-	uint32_t	starting_update_radius;
-
-	bool		moved_cursor;
+	float		starting_update_radius;
+	//
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);
