@@ -26,22 +26,17 @@
 
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
-// # define WINDOW_WIDTH 1000
-// # define WINDOW_HEIGHT 1000
+
 # define WINDOW_WIDTH 1000
 # define WINDOW_HEIGHT 1000
 
-# define BACKGROUND_R (uint32_t)128
-# define BACKGROUND_G (uint32_t)128
-# define BACKGROUND_B (uint32_t)128
+# define BACKGROUND_R 128
+# define BACKGROUND_G 128
+# define BACKGROUND_B 128
 
-# define UNRENDERED_R (uint32_t)42
-# define UNRENDERED_G (uint32_t)42
-# define UNRENDERED_B (uint32_t)42
-
-// # define BACKGROUND_R 255
-// # define BACKGROUND_G 255
-// # define BACKGROUND_B 255
+# define UNRENDERED_R 42
+# define UNRENDERED_G 42
+# define UNRENDERED_B 42
 
 # define EPSILON 1e-4
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
@@ -50,7 +45,7 @@
 # define RAYS_SHOT_PER_FRAME 100000
 
 # define DEBUG_DRAWING_DEPTH 1
-# define DEBUG_DRAWING_ON_BY_DEFAULT true
+# define DEBUG_DRAWING_ON_BY_DEFAULT 1
 
 typedef struct s_rgb
 {
