@@ -69,7 +69,7 @@ static void	rt_clear_image(mlx_image_t *image)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			mlx_put_pixel(image, x, y, (BACKGROUND_R << 24) | (BACKGROUND_G << 16) | (BACKGROUND_B << 8) | 0xFF);
+			mlx_put_pixel(image, x, y, (UNRENDERED_R << 24) | (UNRENDERED_G << 16) | (UNRENDERED_B << 8) | 0xFF);
 			x++;
 		}
 		y++;

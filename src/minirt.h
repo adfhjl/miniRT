@@ -29,9 +29,13 @@
 # define WINDOW_WIDTH 500
 # define WINDOW_HEIGHT 500
 
-# define BACKGROUND_R 42
-# define BACKGROUND_G 42
-# define BACKGROUND_B 42
+# define BACKGROUND_R (uint32_t)128
+# define BACKGROUND_G (uint32_t)128
+# define BACKGROUND_B (uint32_t)128
+
+# define UNRENDERED_R (uint32_t)42
+# define UNRENDERED_G (uint32_t)42
+# define UNRENDERED_B (uint32_t)42
 
 // # define BACKGROUND_R 255
 // # define BACKGROUND_G 255
