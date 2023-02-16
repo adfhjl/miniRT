@@ -250,18 +250,20 @@ static void	rt_draw_loop(void *param)
 
 	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
 
+	float delta_move = MOVEMENT_STEP_SIZE * (float)data->mlx->delta_time;
+
 	if (data->w_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), delta_move);
 	if (data->a_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), -MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), -delta_move);
 	if (data->s_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), -MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), -delta_move);
 	if (data->d_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), delta_move);
 	if (data->space_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), delta_move);
 	if (data->shift_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -MOVEMENT_STEP_SIZE);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -delta_move);
 
 	size_t	ray_loop_index;
 	ray_loop_index = 0;
@@ -328,20 +330,22 @@ static void	rt_assign_capitalized_objects(t_data *data)
 static void rt_cursor_hook(double xpos, double ypos, void* param)
 {
 	t_data	*data;
-	double	dx;
-	double	dy;
+	float	dx;
+	float	dy;
 
 	data = param;
 	// printf("xpos: %f, ypos: %f\n", xpos, ypos);
-	dx = xpos - data->window_center_x;
-	dy = -(ypos - data->window_center_y);
+	dx = (float)xpos - data->window_center_x;
+	dy = -((float)ypos - data->window_center_y);
 	// printf("dx: %f, dy: %f\n", dx, dy);
 
+	const float	delta_cursor_move = ROTATION_FACTOR * (float)data->mlx->delta_time;
+
 	t_vector	rotation_right;
-	rotation_right = rt_scale(data->camera_right, (float)dx * (float)ROTATION_FACTOR);
+	rotation_right = rt_scale(data->camera_right, (float)dx * delta_cursor_move);
 	// printf("rotation right: x: %f, y: %f, z: %f\n", rotation_right.x, rotation_right.y, rotation_right.z);
 	t_vector	rotation_up;
-	rotation_up = rt_scale(data->camera_up, (float)dy * (float)ROTATION_FACTOR);
+	rotation_up = rt_scale(data->camera_up, (float)dy * delta_cursor_move);
 	// printf("rotation up: x: %f, y: %f, z: %f\n", rotation_up.x, rotation_up.y, rotation_up.z);
 
 	t_vector	rotation;
