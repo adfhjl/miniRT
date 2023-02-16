@@ -90,11 +90,11 @@ $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
 $(MLX_PATH):
 	@git submodule update --init --recursive
 	@cmake -S $(dir $(MLX_PATH))/.. -B $(dir $(MLX_PATH))
-	@cmake --build $(dir $(MLX_PATH)) -j4
+	@cmake --build $(dir $(MLX_PATH)) -j
 
 $(LIBFT_PATH):
 	@git submodule update --init --recursive
-	@$(MAKE) -C $(dir $(LIBFT_PATH))
+	@$(MAKE) -C $(dir $(LIBFT_PATH)) -j
 
 $(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
 	@mkdir -p $(@D)
