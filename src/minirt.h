@@ -26,8 +26,10 @@
 
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
+// # define WINDOW_WIDTH 1000
+// # define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 
 # define BACKGROUND_R (uint32_t)128
 # define BACKGROUND_G (uint32_t)128
@@ -43,9 +45,9 @@
 
 # define EPSILON 1e-4
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
-# define MOVEMENT_STEP_SIZE 0.1f
-# define ROTATION_FACTOR 0.005
-# define RAYS_SHOT_PER_FRAME 2000
+# define MOVEMENT_STEP_SIZE 1.0f
+# define ROTATION_FACTOR 0.02
+# define RAYS_SHOT_PER_FRAME 100000
 
 # define DEBUG_DRAWING_DEPTH 1
 # define DEBUG_DRAWING_ON_BY_DEFAULT true
@@ -164,6 +166,9 @@ typedef struct s_data
 
 	uint32_t	pixel_lookup_indices[WINDOW_WIDTH * WINDOW_HEIGHT];
 	uint32_t	pixel_lookup_index;
+	uint32_t	pixel_offset;
+
+	bool		moved_cursor;
 }	t_data;
 
 typedef t_status	(*t_parse_fn)(char **line_ptr, t_object *object);

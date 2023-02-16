@@ -76,11 +76,21 @@ static void	rt_clear_image(mlx_image_t *image)
 	}
 }
 
+// Source: https://stackoverflow.com/a/11946674/13279557
+static unsigned int	rt_rand(void)
+{
+	static unsigned int	seed = 1;
+
+	seed = (seed * 1103515245U + 12345U) & 0x7fffffffU;
+	return (seed);
+}
+
 static void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
 	data->pixel_lookup_index = 0;
 	rt_clear_image(data->image);
+	data->pixel_offset = rt_rand() % (WINDOW_WIDTH * WINDOW_HEIGHT);
 }
 
 static bool	rt_any_movement_key_pressed(t_data *data)
@@ -226,15 +236,6 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
-// Source: https://stackoverflow.com/a/11946674/13279557
-static unsigned int	rt_rand(void)
-{
-	static unsigned int	seed = 1;
-
-	seed = (seed * 1103515245U + 12345U) & 0x7fffffffU;
-	return (seed);
-}
-
 static void	rt_draw_loop(void *param)
 {
 	t_data *const	data = param;
@@ -268,7 +269,7 @@ static void	rt_draw_loop(void *param)
 	{
 		uint32_t	index;
 
-		index = data->pixel_lookup_indices[data->pixel_lookup_index];
+		index = data->pixel_lookup_indices[(data->pixel_offset + data->pixel_lookup_index) % (WINDOW_WIDTH * WINDOW_HEIGHT)];
 		x = index % WINDOW_WIDTH;
 		y = index / WINDOW_WIDTH;
 
