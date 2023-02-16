@@ -42,14 +42,15 @@
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
 # define MOVEMENT_STEP_SIZE 1.0f
 # define ROTATION_FACTOR 0.02f
-# define RAYS_PER_FRAME 100
+# define RAYS_PER_FRAME 100000
+# define GENERATED_NOISE_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
 # define DEBUG_DRAWING_ON_BY_DEFAULT 1
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.
-# define RAYS_PER_UPDATE_RADIUS_RECALCULATION 10
+# define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
 
 typedef struct s_rgb
 {
@@ -180,6 +181,8 @@ typedef struct s_data
 	uint32_t	available_count;
 
 	float		starting_update_radius;
+
+	uint32_t	pixel_index;
 	//
 }	t_data;
 

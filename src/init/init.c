@@ -93,8 +93,8 @@ static void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
 	rt_clear_image(data->image);
-	data->random_available_index_offset = rt_rand() % data->pixel_count;
-	data->available_count = data->pixel_count;
+	// data->random_available_index_offset = rt_rand() % data->pixel_count;
+	data->pixel_index = data->pixel_count;
 }
 
 static bool	rt_any_movement_key_pressed(t_data *data)
@@ -302,86 +302,102 @@ static void	rt_update_densities(t_data *data, uint32_t update_radius, uint32_t e
 	}
 }
 
+static void	rt_remove_available(t_data *data, uint32_t update_radius)
+{
+	float		emptiest;
+	uint32_t	emptiest_available_index;
+
+	emptiest = INFINITY;
+
+	// TODO: I suspect a lot of time is spent in here, but I'm not sure without profiling.
+	// If this is slow, look at v3 linked at the top for a priority queue example to try for a new v5.
+	// Maybe sort on every insertion for fast lookup?
+	uint32_t	i;
+
+	i = 0;
+	while (i < data->available_count)
+	{
+		uint32_t	available_index;
+		uint32_t	available_x;
+		uint32_t	available_y;
+
+		available_index = data->available[i];
+		available_x = available_index % WINDOW_WIDTH;
+		available_y = available_index / WINDOW_WIDTH;
+
+		float density = data->densities[available_index];
+
+		if (density < emptiest)
+		{
+			emptiest = density;
+			emptiest_available_index = i;
+		}
+
+		i++;
+	}
+
+	uint32_t	emptiest_available;
+
+	emptiest_available = data->available[emptiest_available_index];
+
+	uint32_t	emptiest_x;
+	uint32_t	emptiest_y;
+
+	emptiest_x = emptiest_available % WINDOW_WIDTH;
+	emptiest_y = emptiest_available / WINDOW_WIDTH;
+
+	rt_update_densities(data, update_radius, emptiest_x, emptiest_y);
+
+	data->available_count--;
+
+	uint32_t	a;
+	uint32_t	b;
+
+	a = data->available[emptiest_available_index];
+	b = data->available[data->available_count];
+
+	data->available[emptiest_available_index] = b;
+	data->available[data->available_count] = a;
+
+	data->available_inverse[b] = emptiest_available_index;
+	data->available_inverse[a] = data->available_count;
+}
+
+static void	rt_generate_noise(t_data *data)
+{
+	size_t		noise_gen_index;
+	uint32_t	update_radius;
+
+	noise_gen_index = 0;
+	while (noise_gen_index < GENERATED_NOISE_PER_FRAME && data->available_count > 0)
+	{
+		if (noise_gen_index % NOISE_PER_UPDATE_RADIUS_RECALCULATION == 0)
+		{
+			const float	unavailable = fmaxf(data->pixel_count - data->available_count, 1);
+			update_radius = (uint32_t)fmaxf(data->starting_update_radius / sqrtf(unavailable), 1);
+		}
+		rt_remove_available(data, update_radius);
+		noise_gen_index++;
+	}
+}
+
 static void	rt_shoot_rays(t_data *data)
 {
 	t_ray		ray;
 	t_rgb		rgb;
-	uint32_t	update_radius;
+	size_t	ray_index;
 
-	size_t	ray_loop_index;
-	ray_loop_index = 0;
-	while (ray_loop_index < RAYS_PER_FRAME && data->available_count > 0)
+	ray_index = 0;
+	while (ray_index < RAYS_PER_FRAME && data->pixel_index > data->available_count)
 	{
-		if (ray_loop_index % RAYS_PER_UPDATE_RADIUS_RECALCULATION == 0)
-		{
-			const float	unavailable = fmaxf(data->pixel_count - data->available_count, 1);
-
-			update_radius = (uint32_t)fmaxf(data->starting_update_radius / sqrtf(unavailable), 1);
-		}
-
-		float		emptiest;
-		uint32_t	emptiest_available_index;
-
-		emptiest = INFINITY;
-
-		// TODO: I suspect a lot of time is spent in here, but I'm not sure without profiling.
-		// If this is slow, look at v3 linked at the top for a priority queue example to try for a new v5.
-		// Maybe sort on every insertion for fast lookup?
-		uint32_t	i;
-
-		i = 0;
-		while (i < data->available_count)
-		{
-			uint32_t	available_index;
-			uint32_t	available_x;
-			uint32_t	available_y;
-
-			available_index = data->available[i];
-			available_x = available_index % WINDOW_WIDTH;
-			available_y = available_index / WINDOW_WIDTH;
-
-			float density = data->densities[available_index];
-
-			if (density < emptiest)
-			{
-				emptiest = density;
-				emptiest_available_index = i;
-			}
-
-			i++;
-		}
-
-		uint32_t	emptiest_available;
-
-		emptiest_available = data->available[emptiest_available_index];
-
-		uint32_t	emptiest_x;
-		uint32_t	emptiest_y;
-
-		emptiest_x = emptiest_available % WINDOW_WIDTH;
-		emptiest_y = emptiest_available / WINDOW_WIDTH;
-
-		ray = rt_create_ray(emptiest_x, emptiest_y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
+		data->pixel_index--;
+		uint32_t location = data->available[data->pixel_index];
+		uint32_t x = location % WINDOW_WIDTH;
+		uint32_t y = location / WINDOW_WIDTH;
+		ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
 		rgb = rt_get_ray_rgb(ray, data);
-		mlx_put_pixel(data->image, emptiest_x, emptiest_y, rt_convert_color(rgb));
-
-		rt_update_densities(data, update_radius, emptiest_x, emptiest_y);
-
-		data->available_count--;
-
-		uint32_t	a;
-		uint32_t	b;
-
-		a = data->available[emptiest_available_index];
-		b = data->available[data->available_count];
-
-		data->available[emptiest_available_index] = b;
-		data->available[data->available_count] = a;
-
-		data->available_inverse[b] = emptiest_available_index;
-		data->available_inverse[a] = data->available_count;
-
-		ray_loop_index++;
+		mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
+		ray_index++;
 	}
 }
 
@@ -415,6 +431,7 @@ static void	rt_draw_loop(void *param)
 
 	rt_update_camera_origin(data);
 
+	rt_generate_noise(data);
 	rt_shoot_rays(data);
 
 	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
@@ -575,6 +592,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->window_center_y = WINDOW_HEIGHT / 2;
 
 	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
+	data->available_count = data->pixel_count;
 
 	rt_init_available(data);
 
