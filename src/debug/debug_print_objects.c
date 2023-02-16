@@ -62,18 +62,6 @@ void	rt_debug_print_objects(t_data *data)
 	size_t		size;
 	t_object	*object;
 
-	printf("%.0f\n", 0.3f);
-	printf("%.0f\n", 0.4f);
-	printf("%.0f\n", 0.49f);
-	printf("%.0f\n", 0.5f);
-	printf("%.0f\n", 0.51f);
-	printf("%.0f\n", 0.6f);
-	printf("%.0f\n", 0.7f);
-	printf("%.0f\n", 0.8f);
-	printf("%.0f\n", 0.9f);
-	printf("%.0f\n", 1.0f);
-	printf("%.0f\n", 1.1f);
-
 	object_index = 0;
 	size = ft_vector_get_size(data->objects);
 	while (object_index < size)

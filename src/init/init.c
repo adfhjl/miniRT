@@ -94,7 +94,8 @@ static void	rt_reset_canvas_info(t_data *data)
 	rt_update_canvas_info(data);
 	data->pixel_lookup_index = 0;
 	rt_clear_image(data->image);
-	data->pixel_offset = rt_rand() % (WINDOW_WIDTH * WINDOW_HEIGHT);
+	data->pixel_offset = rt_rand() % data->pixel_count;
+	data->available_count = data->pixel_count;
 }
 
 static bool	rt_any_movement_key_pressed(t_data *data)
@@ -271,11 +272,11 @@ static void	rt_draw_loop(void *param)
 
 	size_t	ray_loop_index;
 	ray_loop_index = 0;
-	while (ray_loop_index < RAYS_SHOT_PER_FRAME && data->pixel_lookup_index < WINDOW_WIDTH * WINDOW_HEIGHT)
+	while (ray_loop_index < RAYS_PER_FRAME && data->pixel_lookup_index < data->pixel_count)
 	{
 		uint32_t	index;
 
-		index = data->pixel_lookup_indices[(data->pixel_offset + data->pixel_lookup_index) % (WINDOW_WIDTH * WINDOW_HEIGHT)];
+		index = data->pixel_lookup_indices[(data->pixel_offset + data->pixel_lookup_index) % data->pixel_count];
 		x = index % WINDOW_WIDTH;
 		y = index / WINDOW_WIDTH;
 
@@ -365,31 +366,41 @@ static void rt_cursor_hook(double xpos, double ypos, void* param)
 	data->moved_cursor = true;
 }
 
+static void	rt_shuffle(uint32_t *arr, size_t length)
+{
+	uint32_t	index;
+	uint32_t	temp;
+
+	while (length > 1)
+	{
+		index = rt_rand() % length;
+		length--;
+		temp = arr[index];
+		arr[index] = arr[length];
+		arr[length] = temp;
+	}
+}
+
 static void	rt_init_pixel_lookup_indices(t_data *data)
 {
 	uint32_t	index;
 
 	index = 0;
-	while (index < WINDOW_WIDTH * WINDOW_HEIGHT)
+	while (index < data->pixel_count)
 	{
 		data->pixel_lookup_indices[index] = index;
 		index++;
 	}
 
-	size_t	length;
-	length = WINDOW_WIDTH * WINDOW_HEIGHT;
+	rt_shuffle(data->pixel_lookup_indices, data->pixel_count);
 
-	while (length > 1)
+	uint32_t	value;
+	index = 0;
+	while (index < data->pixel_count)
 	{
-		index = rt_rand() % length;
-
-		length--;
-
-		uint32_t	temp;
-
-		temp = data->pixel_lookup_indices[index];
-		data->pixel_lookup_indices[index] = data->pixel_lookup_indices[length];
-		data->pixel_lookup_indices[length] = temp;
+		value = data->pixel_lookup_indices[index];
+		data->pixel_lookup_indices_inverse[value] = index;
+		index++;
 	}
 }
 
@@ -414,10 +425,11 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	// mlx_cursorfunc
 	// mlx_win_cursor_t
 	// mlx_get_mouse_pos
+	// TODO: Experiment with changing the cursor icon to a hand
+	// when the user rotates an object, or even the camera?
 	// mlx_set_cursor
 	// mlx_set_mouse_pos
 
-	rt_update_canvas_info(data);
 	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
 
 	data->image = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -432,7 +444,17 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->window_center_x = WINDOW_WIDTH / 2;
 	data->window_center_y = WINDOW_HEIGHT / 2;
 
+	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
+
 	rt_init_pixel_lookup_indices(data);
+
+	rt_reset_canvas_info(data);
+
+	// SQRT2, because radius is circular.
+	// It is the width/height multiplier necessary to reach the bottom-right
+	// of the canvas starting from the top-left of the canvas.
+	data->starting_update_radius = (uint32_t)fmax(WINDOW_WIDTH * M_SQRT2, WINDOW_HEIGHT * M_SQRT2);
+	// printf("starting_update_radius: %d\n", data->starting_update_radius);
 
 	return (OK);
 }

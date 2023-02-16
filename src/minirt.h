@@ -42,10 +42,14 @@
 # define LIGHT_BRIGHTNESS_FACTOR 100.f
 # define MOVEMENT_STEP_SIZE 1.0f
 # define ROTATION_FACTOR 0.02f
-# define RAYS_SHOT_PER_FRAME 100000
+# define RAYS_PER_FRAME 100000
 
 # define DEBUG_DRAWING_DEPTH 1
 # define DEBUG_DRAWING_ON_BY_DEFAULT 1
+
+// TODO: As an optimization, make this dynamically happen so that it happens
+// frequently at the start and infrequently at the end.
+# define RAYS_PER_UPDATE_RADIUS_RECALCULATION 10
 
 typedef struct s_rgb
 {
@@ -160,8 +164,14 @@ typedef struct s_data
 	int			window_center_y;
 
 	uint32_t	pixel_lookup_indices[WINDOW_WIDTH * WINDOW_HEIGHT];
+	uint32_t	pixel_lookup_indices_inverse[WINDOW_WIDTH * WINDOW_HEIGHT];
 	uint32_t	pixel_lookup_index;
 	uint32_t	pixel_offset;
+
+	uint32_t	pixel_count;
+	uint32_t	available_count;
+
+	uint32_t	starting_update_radius;
 
 	bool		moved_cursor;
 }	t_data;
