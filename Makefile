@@ -10,12 +10,16 @@
 #                                                                              #
 # **************************************************************************** #
 
+################################################################################
+
 NAME := miniRT
 CC := gcc
 
 # TODO: Remove extra flags before the eval
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 CFLAGS += -Wno-overlength-strings # MLX42
+
+################################################################################
 
 ifdef O3
 CFLAGS += -Ofast
@@ -26,6 +30,8 @@ endif
 ifdef SAN
 CFLAGS += -fsanitize=address
 endif
+
+################################################################################
 
 CFILES :=\
 	src/collisions/cylinder.c\
@@ -71,22 +77,7 @@ CFILES :=\
 	src/utils/shuffle.c\
 	src/main.c
 
-HEADERS :=\
-	src/collisions/rt_collisions.h\
-	src/debug/rt_debug.h\
-	src/draw/rt_draw.h\
-	src/init/parse/objects/rt_parse_objects.h\
-	src/init/parse/rt_parse.h\
-	src/init/rt_init.h\
-	src/input_hooks/rt_input_hooks.h\
-	src/mathematics/rt_mathematics.h\
-	src/rays/rt_rays.h\
-	src/utils/rt_utils.h\
-	src/minirt.h\
-	src/rt_defines.h\
-	src/rt_enums.h\
-	src/rt_structs.h\
-	src/rt_typedefs.h
+################################################################################
 
 INCLUDES := -I src -I libft -I MLX42/include
 OBJDIR := obj
@@ -95,11 +86,18 @@ LIBFT_PATH := libft/libft.a
 MLX_PATH := MLX42/build/libmlx42.a
 LIB_FLAGS := -L $(dir $(LIBFT_PATH)) -l ft -L $(dir $(MLX_PATH)) -l mlx42 -l glfw3 -framework Cocoa -framework OpenGL -framework IOKit
 
+################################################################################
+
+.PHONY: all
 all: $(NAME)
+
+################################################################################
 
 $(NAME): $(MLX_PATH) $(LIBFT_PATH) $(OBJFILES)
 	@$(CC) $(CFLAGS) $(OBJFILES) $(LIB_FLAGS) -o $(NAME)
 	@printf "Compiled %s\n" "$(NAME)"
+
+################################################################################
 
 $(MLX_PATH):
 	@git submodule update --init --recursive
@@ -110,21 +108,17 @@ $(LIBFT_PATH):
 	@git submodule update --init --recursive
 	@$(MAKE) -C $(dir $(LIBFT_PATH)) -j
 
-$(OBJDIR)/%.o : %.c $(HEADERS) $(MLX_PATH) $(LIBFT_PATH)
+################################################################################
+
+# Source and explanation: https://stackoverflow.com/a/52036564/13279557
+
+DEPENDS := $(patsubst %.o,%.d,$(OBJFILES))
+
+-include $(DEPENDS)
+
+$(OBJDIR)/%.o : %.c $(MLX_PATH) $(LIBFT_PATH) Makefile
 	@mkdir -p $(@D)
-	@$(call tidy_compilation,$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@)
-
-clean:
-	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
-	@if [ -d $(dir $(MLX_PATH)) ]; then cmake --build $(dir $(MLX_PATH)) --target clean; fi
-	@rm -rf $(OBJDIR)
-	@printf "Cleaned %s\n" "$(NAME)"
-
-fclean: clean
-	@rm -f $(NAME)
-	@printf "Deleted %s\n" "$(NAME)"
-
-re: fclean all
+	@$(call tidy_compilation,$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@)
 
 define tidy_compilation
 	@printf "%s\e[K\n" "$(1)"
@@ -132,4 +126,21 @@ define tidy_compilation
 	@printf "\e[A\e[K"
 endef
 
-.PHONY: all clean fclean re
+################################################################################
+
+.PHONY: clean
+clean:
+	@$(MAKE) -C $(dir $(LIBFT_PATH)) fclean
+	@if [ -d $(dir $(MLX_PATH)) ]; then cmake --build $(dir $(MLX_PATH)) --target clean; fi
+	@$(RM) -rf $(OBJDIR)
+	@printf "Cleaned %s\n" "$(NAME)"
+
+.PHONY: fclean
+fclean: clean
+	@$(RM) -f $(NAME)
+	@printf "Deleted %s\n" "$(NAME)"
+
+.PHONY: re
+re: fclean all
+
+################################################################################
