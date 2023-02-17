@@ -58,10 +58,10 @@ static t_status	rt_calloc_blue_noise_arrays(t_data *data)
 
 static bool	rt_camera_is_invalid(t_data *data)
 {
-	const t_vector	camera_forward = data->camera->normal;
-
+	if (data->camera == NULL)
+		return (false);
 	data->world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
-	data->camera_right = rt_normalized(rt_cross(camera_forward, data->world_up));
+	data->camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
 	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
 		return (true);
 	return (data->camera

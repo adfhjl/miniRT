@@ -40,7 +40,12 @@
 // TODO: Call this every frame
 static void	rt_update_canvas_info(t_data *data)
 {
-	const t_vector camera_forward = data->camera->normal;
+	t_vector	camera_forward;
+
+	if (data->camera == NULL)
+		return ;
+
+	camera_forward = data->camera->normal;
 
 	data->camera_right = rt_normalized(rt_cross(camera_forward, data->world_up));
 	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));

@@ -68,7 +68,11 @@ void	rt_cursor_hook(double x, double y, void *param)
 	float	dx;
 	float	dy;
 
+
 	data = param;
+	if (data->camera == NULL)
+		return ;
+
 	dx = (float)x - data->window_center_x;
 	dy = -((float)y - data->window_center_y);
 

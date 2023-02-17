@@ -55,10 +55,12 @@ void	rt_draw_loop(void *param)
 
 	mlx_set_mouse_pos(data->mlx, data->window_center_x, data->window_center_y);
 
-	rt_update_camera_origin(data);
-
-	rt_generate_noise(data);
-	rt_shoot_rays(data);
+	if (data->camera != NULL)
+	{
+		rt_update_camera_origin(data);
+		rt_generate_noise(data);
+		rt_shoot_rays(data);
+	}
 
 	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
 		mlx_close_window(data->mlx);
