@@ -13,6 +13,9 @@
 #include "minirt.h"
 #include "init/parse/rt_parse.h"
 
+#include <fcntl.h>
+#include <unistd.h>
+
 static bool	rt_seen_capitalized_object_before(t_object_type object_type,
 				bool seen_ambient, bool seen_camera, bool seen_light)
 {

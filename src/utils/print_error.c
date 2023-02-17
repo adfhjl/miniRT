@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+#include <unistd.h>
+
 t_status	rt_print_error(t_error ph_error)
 {
 	static char	*error_messages[] = {

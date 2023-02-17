@@ -13,6 +13,8 @@
 #include "minirt.h"
 #include "init/rt_init.h"
 
+#include <stdlib.h> // TODO: REMOVE!
+
 void	rt_check_leaks(void)
 {
 	system("leaks -q miniRT");
@@ -33,7 +35,7 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	// atexit(rt_check_leaks);
+	atexit(rt_check_leaks);
 	if (rt_init(argc, argv, &data) == ERROR)
 	{
 		rt_cleanup(&data);
