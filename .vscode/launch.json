@@ -2,7 +2,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "run",
+			"name": "Debug",
 
 			// Prints to the debug console instead of the terminal
 			// Can't see statics in debugger
@@ -16,10 +16,55 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/valid/example.rt" ],
+			// "args": [ "scenes/shapes/plane/four-planes-rotated.rt" ],
+			// "args": [ "scenes/fun/lava-world.rt" ],
+			"args": [ "scenes/fun/plasma.rt" ],
+			// "args": [ "scenes/valid/shapes/plane-sphere.rt" ],
+			// "args": [ "scenes/valid/shapes/plane/dutch-flag.rt" ],
+
+			// "args": [ "scenes/invalid/zero-normal.rt" ],
+			// "args": [ "scenes/invalid/nearly-zero-normal.rt" ],
+
+			// "args": [ "scenes/invalid/camera-looking-straight-down.rt" ],
+			// "args": [ "scenes/invalid/camera-looking-nearly-straight-down.rt" ],
+
+			// "args": [ "scenes/valid/shapes/plane/triple-intersect.rt" ],
+			// "args": [ "scenes/valid/negative-normal-rgb-factor.rt" ],
+
+			// "args": [ "scenes/invalid/too-big-float.rt" ],
+			// "args": [ "scenes/valid/many-decimals.rt" ],
+			// "args": [ "scenes/valid/shapes/plane/upsidedown.rt" ],
+			// "args": [ "scenes/valid/shapes/plane/one-plane.rt" ],
+			// "args": [ "scenes/valid/normalized-normal.rt" ],
+
+			// "args": [ "scenes/valid/example.rt" ],
+			// "args": [ "scenes/valid/light-under-plane.rt" ],
+
+			// "args": [ "scenes/valid/shapes/plane/light-in-plane.rt" ],
+			// "args": [ "testfile.rt" ],
 
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build",
+			"preLaunchTask": "Build Debug",
+			"internalConsoleOptions": "openOnSessionStart"
+		},
+		{
+			"name": "Release",
+
+			// Prints to the debug console instead of the terminal
+			// Can't see statics in debugger
+			"type": "cppdbg",
+			"MIMode": "lldb",
+
+			// Doesn't support expression-based breakpoints
+			// Casting in watch window will give "invalid syntax"
+			// "type": "lldb",
+
+			"request": "launch",
+			"program": "${workspaceFolder}/miniRT",
+
+			"args": [ "scenes/fun/plasma.rt" ],
+			"cwd": "${workspaceFolder}",
+			"preLaunchTask": "Build Release",
 			"internalConsoleOptions": "openOnSessionStart"
 		}
 	]
