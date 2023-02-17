@@ -45,7 +45,7 @@ static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_
 		// TODO: dutch-flag.rt has wrong shadowing at the top and bottom, so something is fucky wucky here
 		assert(light_angle_rgb_factor > 0); // TODO: Remove once we know for certain this will never happen
 		return (rt_add_rgb(scaled_ambient, rt_scale_rgb(data->light->rgb,
-					data->light->brightness * light_angle_rgb_factor
+					data->light->ratio * light_angle_rgb_factor
 					* light_distance_factor * LIGHT_BRIGHTNESS_FACTOR)));
 	}
 }

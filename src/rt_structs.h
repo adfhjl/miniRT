@@ -49,7 +49,7 @@ struct s_camera
 struct s_light
 {
 	t_vector	origin;
-	float		brightness;
+	float		ratio;
 	t_rgb		rgb;
 };
 

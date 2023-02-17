@@ -19,8 +19,7 @@ t_status	rt_parse_light(char **line_ptr, t_object *object)
 {
 	if (rt_parse_vector(line_ptr, &object->light.origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &object->light.brightness,
-			0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &object->light.ratio, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_rgb(line_ptr, &object->light.rgb) == ERROR)
 		return (ERROR);
