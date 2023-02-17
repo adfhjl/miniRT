@@ -41,6 +41,21 @@ static void	rt_init_available(t_data *data)
 	}
 }
 
+static t_status	rt_calloc_blue_noise_arrays(t_data *data)
+{
+	data->available = ft_calloc(data->pixel_count,
+			sizeof(*data->available));
+	data->available_inverse = ft_calloc(data->pixel_count,
+			sizeof(*data->available_inverse));
+	data->densities = ft_calloc(data->pixel_count,
+			sizeof(*data->densities));
+	if (data->available == NULL
+		|| data->available_inverse == NULL
+		|| data->densities == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+	return (OK);
+}
+
 static bool	rt_camera_is_invalid(t_data *data)
 {
 	const t_vector	camera_forward = data->camera->normal;
@@ -126,6 +141,9 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
 	data->available_count = data->pixel_count;
+
+	if (rt_calloc_blue_noise_arrays(data) == ERROR)
+		return (ERROR);
 
 	rt_init_available(data);
 

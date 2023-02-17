@@ -135,9 +135,9 @@ struct s_data
 	// TODO: Put in struct
 	uint32_t	pixel_count;
 
-	uint32_t	available[WINDOW_WIDTH * WINDOW_HEIGHT];
-	uint32_t	available_inverse[WINDOW_WIDTH * WINDOW_HEIGHT];
-	float		densities[WINDOW_WIDTH * WINDOW_HEIGHT];
+	uint32_t	*available;
+	uint32_t	*available_inverse;
+	float		*densities;
 
 	uint32_t	available_count;
 

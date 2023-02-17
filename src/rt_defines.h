@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define WINDOW_WIDTH 300
-# define WINDOW_HEIGHT 300
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 
 # define BACKGROUND_R 128
 # define BACKGROUND_G 128
