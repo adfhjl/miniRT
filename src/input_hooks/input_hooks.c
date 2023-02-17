@@ -67,12 +67,10 @@ void	rt_cursor_hook(double x, double y, void *param)
 	dx = (float)x - data->window_center_x;
 	dy = -((float)y - data->window_center_y);
 
-	const float	delta_cursor_move = ROTATION_SPEED * (float)data->mlx->delta_time;
-
 	t_vector	rotation_right;
-	rotation_right = rt_scale(data->camera_right, (float)dx * delta_cursor_move);
+	rotation_right = rt_scale(data->camera_right, (float)dx * ROTATION_SPEED);
 	t_vector	rotation_up;
-	rotation_up = rt_scale(data->camera_up, (float)dy * delta_cursor_move);
+	rotation_up = rt_scale(data->camera_up, (float)dy * ROTATION_SPEED);
 
 	t_vector	rotation;
 	rotation = rt_add(rotation_right, rotation_up);
