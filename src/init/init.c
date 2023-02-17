@@ -12,7 +12,6 @@
 
 #include "minirt.h"
 
-#include "debug/rt_debug.h"
 #include "draw/rt_draw.h"
 #include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
@@ -107,7 +106,6 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	rt_assign_capitalized_objects(data);
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
-	rt_debug_print_objects(data);
 	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
 		return (rt_print_error(ERROR_MLX));
@@ -115,14 +113,11 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data);
 	mlx_scroll_hook(data->mlx, &rt_scroll_hook, data);
+
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
-	// mlx_cursorfunc
-	// mlx_win_cursor_t
-	// mlx_get_mouse_pos
-	// TODO: Experiment with changing the cursor icon to a hand
-	// when the user rotates an object, or even the camera?
+
+	// TODO: Change the cursor to a hand when rotating any object but the camera
 	// mlx_set_cursor
-	// mlx_set_mouse_pos
 
 	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
 

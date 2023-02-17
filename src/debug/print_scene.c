@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   debug_print_objects.c                              :+:    :+:            */
+/*   print_scene.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -18,7 +18,7 @@
 
 // TODO: Comment out this file before handing it in
 
-void	rt_debug_print_field_value(char *field_name, char *field_value)
+static void	rt_debug_print_field_value(char *field_name, char *field_value)
 {
 	size_t	field_name_len;
 	size_t	field_len;
@@ -31,7 +31,7 @@ void	rt_debug_print_field_value(char *field_name, char *field_value)
 	}
 }
 
-void	rt_debug_print_field_name(char *field_name, char *field_value)
+static void	rt_debug_print_field_name(char *field_name, char *field_value)
 {
 	size_t	field_name_len;
 	size_t	field_len;
@@ -48,7 +48,7 @@ void	rt_debug_print_field_name(char *field_name, char *field_value)
 	}
 }
 
-void	rt_debug_print_objects(t_data *data)
+void	rt_print_scene(t_data *data)
 {
 	char	*object_type_strings[] = {
 		[OBJECT_TYPE_NONE] = "OBJECT_TYPE_NONE",

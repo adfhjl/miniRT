@@ -31,8 +31,8 @@ CFILES :=\
 	src/collisions/cylinder.c\
 	src/collisions/plane.c\
 	src/collisions/sphere.c\
-	src/debug/debug_print_objects.c\
 	src/debug/draw_debug.c\
+	src/debug/print_scene.c\
 	src/draw/blue_noise.c\
 	src/draw/draw.c\
 	src/draw/reset_canvas_info.c\

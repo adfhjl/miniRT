@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "debug/rt_debug.h"
 #include "mathematics/rt_mathematics.h"
 
 void	rt_key_hook(mlx_key_data_t keydata, void *param)
@@ -40,9 +41,6 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_ESCAPE)
 			mlx_close_window(data->mlx);
 
-		if (keydata.key == MLX_KEY_G)
-			data->draw_debug = !data->draw_debug;
-
 		if (keydata.key == MLX_KEY_W)
 			data->w_held = true;
 		if (keydata.key == MLX_KEY_A)
@@ -55,6 +53,12 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			data->space_held = true;
 		if (keydata.key == MLX_KEY_LEFT_SHIFT)
 			data->shift_held = true;
+
+		if (keydata.key == MLX_KEY_G)
+			data->draw_debug = !data->draw_debug;
+
+		if (keydata.key == MLX_KEY_L)
+			rt_print_scene(data);
 	}
 }
 
