@@ -28,6 +28,9 @@ CFLAGS += -fsanitize=address
 endif
 
 CFILES :=\
+	src/collisions/cylinder.c\
+	src/collisions/plane.c\
+	src/collisions/sphere.c\
 	src/debug/debug_print_objects.c\
 	src/debug/draw_debug.c\
 	src/draw/blue_noise.c\
@@ -52,35 +55,32 @@ CFILES :=\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/input_hooks/input_hooks.c\
-	src/mathematics/shape_calculations/cylinder_calculations.c\
-	src/mathematics/shape_calculations/plane_calculations.c\
-	src/mathematics/shape_calculations/sphere_calculations.c\
-	src/mathematics/utils/rt_add.c\
-	src/mathematics/utils/rt_cross.c\
-	src/mathematics/utils/rt_dot.c\
-	src/mathematics/utils/rt_get_ray_point.c\
-	src/mathematics/utils/rt_mag.c\
-	src/mathematics/utils/rt_multiply_rgb.c\
-	src/mathematics/utils/rt_normalized.c\
-	src/mathematics/utils/rt_scale.c\
-	src/mathematics/utils/rt_sub.c\
-	src/mathematics/rt_get_point_rgb.c\
-	src/mathematics/rt_get_ray_rgb.c\
-	src/mathematics/rt_get_ray.c\
+	src/mathematics/rt_add.c\
+	src/mathematics/rt_cross.c\
+	src/mathematics/rt_dot.c\
+	src/mathematics/rt_get_ray_point.c\
+	src/mathematics/rt_mag.c\
+	src/mathematics/rt_multiply_rgb.c\
+	src/mathematics/rt_normalized.c\
+	src/mathematics/rt_scale.c\
+	src/mathematics/rt_sub.c\
+	src/rays/rt_get_point_rgb.c\
+	src/rays/rt_get_ray_rgb.c\
+	src/rays/rt_get_ray.c\
 	src/utils/print_error.c\
 	src/utils/shuffle.c\
 	src/main.c
 
 HEADERS :=\
+	src/collisions/rt_collisions.h\
 	src/debug/rt_debug.h\
 	src/draw/rt_draw.h\
 	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
 	src/init/rt_init.h\
 	src/input_hooks/rt_input_hooks.h\
-	src/mathematics/shape_calculations/rt_shape_calculations.h\
-	src/mathematics/utils/rt_mathematics_utils.h\
 	src/mathematics/rt_mathematics.h\
+	src/rays/rt_rays.h\
 	src/utils/rt_utils.h\
 	src/minirt.h\
 	src/rt_defines.h\

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "init/parse/rt_parse.h"
 
 t_status	rt_parse_range_float(char **line_ptr, float *field_ptr,

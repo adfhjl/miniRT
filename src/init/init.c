@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "init/parse/rt_parse.h"
+
 #include "debug/rt_debug.h"
 #include "draw/rt_draw.h"
+#include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+#include "mathematics/rt_mathematics.h"
 
 static void	rt_init_available(t_data *data)
 {

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "init/rt_init.h"
 
 #include <stdlib.h> // TODO: REMOVE!

@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+
+#include "mathematics/rt_mathematics.h"
 
 void	rt_key_hook(mlx_key_data_t keydata, void *param)
 {

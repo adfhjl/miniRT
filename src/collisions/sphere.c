@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sphere_calculations.c                              :+:    :+:            */
+/*   sphere.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+
+#include "mathematics/rt_mathematics.h"
+#include "rays/rt_rays.h"
 
 static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 {

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
-#include "mathematics/shape_calculations/rt_shape_calculations.h"
+
+#include "mathematics/rt_mathematics.h"
+#include "collisions/rt_collisions.h"
+#include "rays/rt_rays.h"
 
 // TODO: Victor, welke scene maakt dit een drastisch visueel verschil voor?
 // Bij scenes/valid/light-under-plane.rt ziet altijd VISIBLE returnen er hetzelfde uit

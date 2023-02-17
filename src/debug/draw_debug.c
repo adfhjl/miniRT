@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "../MLX42/src/font/font.h"
 
 static char	*rt_get_allocation_count_string(void)

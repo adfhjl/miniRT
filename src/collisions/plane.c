@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   plane_calculations.c                               :+:    :+:            */
+/*   plane.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+
+#include "mathematics/rt_mathematics.h"
+#include "rays/rt_rays.h"
 
 // Equation 1:
 // ray.origin + ray.normal * t = rayEnd

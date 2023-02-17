@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+
+#include "mathematics/rt_mathematics.h"
+#include "rays/rt_rays.h"
 
 // forward = (0, 0, 1);
 //

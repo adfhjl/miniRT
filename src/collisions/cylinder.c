@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cylinder_calculations.c                            :+:    :+:            */
+/*   cylinder.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,6 @@
 
 #include "minirt.h"
 
-// TODO: Make this function
 t_hit_info	rt_get_cylinder_collision_info(
 	t_ray ray, t_object *object, t_data *data)
 {

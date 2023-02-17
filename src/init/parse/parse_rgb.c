@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "init/parse/rt_parse.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+#include "mathematics/rt_mathematics.h"
 
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {

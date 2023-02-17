@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+
+#include "mathematics/rt_mathematics.h"
+#include "rays/rt_rays.h"
 
 static t_rgb	rt_clamp_rgb(t_rgb rgb)
 {
@@ -62,7 +64,7 @@ static t_vector	rt_get_bias_unit_vector(t_vector camera_normal, t_vector object_
 }
 
 t_rgb	rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
-	t_rgb object_color)
+			t_rgb object_color)
 {
 	const t_vector		biased_point = rt_get_ray_point(rt_get_ray(
 				rt_get_ray_point(ray, info.distance),

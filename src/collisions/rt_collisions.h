@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   check_separating_whitespace.c                      :+:    :+:            */
+/*   rt_collisions.h                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 17:35:56 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 17:35:56 by sbos          ########   odam.nl         */
+/*   Created: 2023/02/17 14:55:28 by sbos          #+#    #+#                 */
+/*   Updated: 2023/02/17 14:55:28 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef RT_COLLISIONS_H
+# define RT_COLLISIONS_H
 
-#include "src/helper_headers/ft_defines.h"
+# include "minirt.h"
 
-t_status	rt_check_separating_whitespace(char **line_ptr)
-{
-	if (!ft_chr_in_str(**line_ptr, WHITESPACE))
-		return (rt_print_error(ERROR_EXPECTED_WHITESPACE));
-	return (OK);
-}
+t_hit_info	rt_get_cylinder_collision_info(
+				t_ray ray, t_object *object, t_data *data);
+
+t_hit_info	rt_get_plane_collision_info(
+				t_ray ray, t_object *object, t_data *data);
+
+t_hit_info	rt_get_sphere_collision_info(
+				t_ray ray, t_object *object, t_data *data);
+
+#endif

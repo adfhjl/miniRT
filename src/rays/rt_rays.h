@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_shape_calculations.h                            :+:    :+:            */
+/*   rt_rays.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/02/17 14:55:28 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/17 14:55:28 by sbos          ########   odam.nl         */
+/*   Created: 2023/02/17 19:22:19 by sbos          #+#    #+#                 */
+/*   Updated: 2023/02/17 19:22:19 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_SHAPE_CALCULATIONS_H
-# define RT_SHAPE_CALCULATIONS_H
+#ifndef RT_RAYS_H
+# define RT_RAYS_H
 
-# include "minirt.h"
+t_rgb			rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
+					t_rgb object_color);
 
-t_hit_info	rt_get_cylinder_collision_info(
-				t_ray ray, t_object *object, t_data *data);
+t_visibility	rt_get_visibility(t_hit_info info, t_ray camera_ray,
+					t_light *light);
+t_hit_info		rt_get_hit_info(t_ray ray, t_data *data);
+t_rgb			rt_get_ray_rgb(t_ray ray, t_data *data);
 
-t_hit_info	rt_get_sphere_collision_info(
-				t_ray ray, t_object *object, t_data *data);
-
-t_hit_info	rt_get_plane_collision_info(
-				t_ray ray, t_object *object, t_data *data);
+t_ray			rt_get_ray(t_vector origin, t_vector normal);
 
 #endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "init/parse/rt_parse.h"
 
 t_status	rt_parse_vector(char **line_ptr, t_vector *vector)

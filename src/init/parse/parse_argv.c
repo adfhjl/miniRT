@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "init/parse/rt_parse.h"
 
 #include <fcntl.h>

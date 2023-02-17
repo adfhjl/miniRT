@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
 
-static uint32_t rt_convert_color(t_rgb rgb)
+#include "mathematics/rt_mathematics.h"
+#include "rays/rt_rays.h"
+
+static uint32_t	rt_convert_color(t_rgb rgb)
 {
 	const uint32_t	r = (uint32_t)(rgb.r * 255);
 	const uint32_t	g = (uint32_t)(rgb.g * 255);

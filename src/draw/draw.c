@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "draw/rt_draw.h"
 #include "debug/rt_debug.h"
-#include "mathematics/utils/rt_mathematics_utils.h"
+#include "rays/rt_rays.h"
 
 static bool	rt_any_movement_key_pressed(t_data *data)
 {

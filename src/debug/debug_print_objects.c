@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+
 #include "debug/rt_debug.h"
 
 #include <stdio.h>
