@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mathematics/utils/rt_mathematics_utils.h"
 
 static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 {

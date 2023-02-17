@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_utils.h                                         :+:    :+:            */
+/*   rt_input_hooks.h                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/19 17:42:22 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/19 17:42:22 by sbos          ########   odam.nl         */
+/*   Created: 2023/02/17 14:51:02 by sbos          #+#    #+#                 */
+/*   Updated: 2023/02/17 14:51:02 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_UTILS_H
-# define RT_UTILS_H
+#ifndef RT_INPUT_HOOKS_H
+# define RT_INPUT_HOOKS_H
 
-# include "minirt.h"
-
-t_status	rt_print_error(t_error ph_error);
-
-void	rt_shuffle(uint32_t *arr, size_t length);
+void	rt_key_hook(mlx_key_data_t keydata, void *param);
+void	rt_cursor_hook(double xpos, double ypos, void* param);
 
 #endif

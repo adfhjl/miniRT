@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minirt.h                                           :+:    :+:            */
+/*   rt_mathematics.h                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/16 17:28:47 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/10 18:38:27 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/01/24 16:31:04 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/02/14 14:09:43 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef RT_MATHEMATICS_H
+# define RT_MATHEMATICS_H
 
-# include "libft.h"
-# include "MLX42/MLX42.h"
+# include "minirt.h"
 
-# include "rt_enums.h"
-# include "rt_typedefs.h"
-# include "rt_defines.h"
-# include "rt_structs.h"
+t_rgb			rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
+					t_rgb object_color);
 
-# include "utils/rt_utils.h"
-# include "mathematics/rt_mathematics.h"
+t_visibility	rt_get_visibility(t_hit_info info, t_ray camera_ray,
+					t_light *light);
+t_hit_info		rt_get_hit_info(t_ray ray, t_data *data);
+t_rgb			rt_get_ray_rgb(t_ray ray, t_data *data);
 
-# include <math.h>
-
-# include <assert.h> // TODO: Remove before handing the project in
+t_ray			rt_get_ray(t_vector origin, t_vector normal);
 
 #endif

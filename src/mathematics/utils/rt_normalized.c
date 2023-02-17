@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mathematics/utils/rt_mathematics_utils.h"
 
 t_vector	rt_normalized(t_vector v)
 {

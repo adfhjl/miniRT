@@ -17,4 +17,7 @@
 
 void	rt_debug_print_objects(t_data *data);
 
+t_status	rt_draw_allocation_count(t_data *data);
+t_status	rt_draw_fps(t_data *data);
+
 #endif

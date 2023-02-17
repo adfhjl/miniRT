@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_utils.h                                         :+:    :+:            */
+/*   rt_draw.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/19 17:42:22 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/19 17:42:22 by sbos          ########   odam.nl         */
+/*   Created: 2023/02/17 14:43:24 by sbos          #+#    #+#                 */
+/*   Updated: 2023/02/17 14:43:24 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_UTILS_H
-# define RT_UTILS_H
+#ifndef RT_DRAW_H
+# define RT_DRAW_H
 
 # include "minirt.h"
 
-t_status	rt_print_error(t_error ph_error);
+void	rt_generate_noise(t_data *data);
 
-void	rt_shuffle(uint32_t *arr, size_t length);
+void	rt_draw_loop(void *param);
+
+void	rt_reset_canvas_info(t_data *data);
+
+void	rt_shoot_rays(t_data *data);
 
 #endif

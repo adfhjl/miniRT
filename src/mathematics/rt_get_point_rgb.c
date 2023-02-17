@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mathematics/utils/rt_mathematics_utils.h"
 
 static t_rgb	rt_clamp_rgb(t_rgb rgb)
 {

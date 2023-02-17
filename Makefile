@@ -29,6 +29,11 @@ endif
 
 CFILES :=\
 	src/debug/debug_print_objects.c\
+	src/debug/draw_debug.c\
+	src/draw/blue_noise.c\
+	src/draw/draw.c\
+	src/draw/reset_canvas_info.c\
+	src/draw/shoot_rays.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
@@ -46,6 +51,7 @@ CFILES :=\
 	src/init/parse/skip_separator_comma.c\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
+	src/input_hooks/input_hooks.c\
 	src/mathematics/shape_calculations/cylinder_calculations.c\
 	src/mathematics/shape_calculations/plane_calculations.c\
 	src/mathematics/shape_calculations/sphere_calculations.c\
@@ -62,17 +68,25 @@ CFILES :=\
 	src/mathematics/rt_get_ray_rgb.c\
 	src/mathematics/rt_get_ray.c\
 	src/utils/print_error.c\
+	src/utils/shuffle.c\
 	src/main.c
 
 HEADERS :=\
 	src/debug/rt_debug.h\
+	src/draw/rt_draw.h\
 	src/init/parse/objects/rt_parse_objects.h\
 	src/init/parse/rt_parse.h\
 	src/init/rt_init.h\
-	src/mathematics/mathematics.h\
+	src/input_hooks/rt_input_hooks.h\
+	src/mathematics/shape_calculations/rt_shape_calculations.h\
+	src/mathematics/utils/rt_mathematics_utils.h\
+	src/mathematics/rt_mathematics.h\
 	src/utils/rt_utils.h\
 	src/minirt.h\
-	src/rt_enums.h
+	src/rt_defines.h\
+	src/rt_enums.h\
+	src/rt_structs.h\
+	src/rt_typedefs.h
 
 INCLUDES := -I src -I libft -I MLX42/include
 OBJDIR := obj

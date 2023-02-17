@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mathematics/utils/rt_mathematics_utils.h"
 
 // ||v|| = sqrt(v.x^2 + v.y^2 + v.z^2) = dot(v, v);
 float	rt_mag(t_vector v)

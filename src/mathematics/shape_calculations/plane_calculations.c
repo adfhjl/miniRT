@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mathematics/utils/rt_mathematics_utils.h"
 
 // Equation 1:
 // ray.origin + ray.normal * t = rayEnd
