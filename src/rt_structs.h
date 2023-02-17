@@ -113,6 +113,8 @@ struct s_data
 	int			window_center_y;
 	bool		moved_cursor;
 
+	float		movement_speed;
+
 	// TODO: Put in struct
 	t_vector	world_up;
 	t_vector	camera_right;

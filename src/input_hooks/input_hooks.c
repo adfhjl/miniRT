@@ -57,17 +57,17 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	}
 }
 
-void	rt_cursor_hook(double xpos, double ypos, void* param)
+void	rt_cursor_hook(double x, double y, void *param)
 {
 	t_data	*data;
 	float	dx;
 	float	dy;
 
 	data = param;
-	dx = (float)xpos - data->window_center_x;
-	dy = -((float)ypos - data->window_center_y);
+	dx = (float)x - data->window_center_x;
+	dy = -((float)y - data->window_center_y);
 
-	const float	delta_cursor_move = ROTATION_FACTOR * (float)data->mlx->delta_time;
+	const float	delta_cursor_move = ROTATION_SPEED * (float)data->mlx->delta_time;
 
 	t_vector	rotation_right;
 	rotation_right = rt_scale(data->camera_right, (float)dx * delta_cursor_move);
@@ -84,4 +84,16 @@ void	rt_cursor_hook(double xpos, double ypos, void* param)
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
 
 	data->moved_cursor = true;
+}
+
+void	rt_scroll_hook(double dx, double dy, void *param)
+{
+	t_data	*data;
+
+	(void)dx;
+	data = param;
+	if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
+		data->movement_speed *= MOVEMENT_SPEED_SCROLL_FACTOR;
+	else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
+		data->movement_speed /= MOVEMENT_SPEED_SCROLL_FACTOR;
 }

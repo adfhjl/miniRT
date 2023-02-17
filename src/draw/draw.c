@@ -27,8 +27,9 @@ static bool	rt_any_movement_key_pressed(t_data *data)
 
 static void	rt_update_camera_origin(t_data *data)
 {
-	float delta_move = MOVEMENT_STEP_SIZE * (float)data->mlx->delta_time;
+	float	delta_move;
 
+	delta_move = data->movement_speed * (float)data->mlx->delta_time;
 	if (data->w_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), delta_move);
 	if (data->a_held)

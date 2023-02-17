@@ -98,6 +98,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	mlx_key_hook(data->mlx, &rt_key_hook, data);
 	mlx_cursor_hook(data->mlx, &rt_cursor_hook, data);
+	mlx_scroll_hook(data->mlx, &rt_scroll_hook, data);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	// mlx_cursorfunc
 	// mlx_win_cursor_t
@@ -120,6 +121,8 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	data->window_center_x = WINDOW_WIDTH / 2;
 	data->window_center_y = WINDOW_HEIGHT / 2;
+
+	data->movement_speed = MOVEMENT_SPEED;
 
 	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
 	data->available_count = data->pixel_count;
