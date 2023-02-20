@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+#include "draw/rt_draw.h"
+
 static uint32_t	rt_get_sq_dist(int32_t x1, int32_t y1, int32_t x2, int32_t y2)
 {
 	int32_t	dx;
@@ -49,9 +51,7 @@ static bool	rt_is_valid(int32_t x, int32_t y, int32_t startX, int32_t startY, t_
 	return (!data->voronoi.visited[index] && rt_is_closer(startX, startY, x, y, index, data->voronoi.distances));
 }
 
-#include <stdio.h>
-
-void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, uint32_t color,
+void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, t_rgb rgb,
 			t_data *data)
 {
 	t_voronoi_seed	seed;
@@ -87,20 +87,7 @@ void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, uint32_t color,
 		x = seed.x;
 		y = seed.y;
 
-		uint32_t	dx;
-		uint32_t	dy;
-
-		dy = 0;
-		while (dy < PIXEL_SCALE)
-		{
-			dx = 0;
-			while (dx < PIXEL_SCALE)
-			{
-				mlx_put_pixel(data->image, (uint32_t)x * PIXEL_SCALE + dx, (uint32_t)y * PIXEL_SCALE + dy, color);
-				dx++;
-			}
-			dy++;
-		}
+		rt_put_pixel(data->image, (uint32_t)x, (uint32_t)y, rgb);
 
 		if (y - 1 >= 0 && rt_is_valid(x, y - 1, start_x, start_y, data))
 		{

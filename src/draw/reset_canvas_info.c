@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "draw/rt_draw.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
@@ -69,19 +70,20 @@ static void	rt_clear_image(mlx_image_t *image)
 {
 	uint32_t	x;
 	uint32_t	y;
+	t_rgb		unrendered_rgb;
 
 	y = 0;
-	while (y < UNSCALED_WINDOW_HEIGHT * PIXEL_SCALE)
+	unrendered_rgb = (t_rgb){
+		UNRENDERED_R / 255.f,
+		UNRENDERED_G / 255.f,
+		UNRENDERED_B / 255.f
+	};
+	while (y < UNSCALED_WINDOW_HEIGHT)
 	{
 		x = 0;
-		while (x < UNSCALED_WINDOW_WIDTH * PIXEL_SCALE)
+		while (x < UNSCALED_WINDOW_WIDTH)
 		{
-			// TODO: Use rt_convert_color()
-			mlx_put_pixel(image, x, y, (
-					(uint32_t)UNRENDERED_R << 24)
-				| ((uint32_t)UNRENDERED_G << 16)
-				| ((uint32_t)UNRENDERED_B << 8)
-				| 0xFF);
+			rt_put_pixel(image, x, y, unrendered_rgb);
 			x++;
 		}
 		y++;
@@ -104,11 +106,11 @@ static void	rt_reset_voronoi(t_data *data)
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	if (data->draw_mode)
+	if (data->draw_mode == DRAW_MODE_VORONOI)
 	{
 		rt_reset_voronoi(data);
 	}
-	else
+	else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
 	{
 		rt_clear_image(data->image);
 	}

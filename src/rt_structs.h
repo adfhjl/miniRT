@@ -130,7 +130,7 @@ struct s_data
 
 	// TODO: Put in struct
 	bool		draw_debug;
-	bool		draw_mode;
+	int			draw_mode;
 	//
 
 	// TODO: Put in struct

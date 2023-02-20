@@ -41,6 +41,7 @@ CFILES :=\
 	src/debug/print_scene.c\
 	src/draw/blue_noise.c\
 	src/draw/draw.c\
+	src/draw/put_pixel.c\
 	src/draw/reset_canvas_info.c\
 	src/draw/shoot_rays.c\
 	src/draw/voronoi.c\

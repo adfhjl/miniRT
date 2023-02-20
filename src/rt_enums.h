@@ -53,9 +53,10 @@ typedef enum e_visual_surface_normal
 
 typedef enum e_draw_mode
 {
-	SCANLINE,
-	BLUE_NOISE,
-	VORONOI,
+	DRAW_MODE_NORMAL,
+	DRAW_MODE_BLUE_NOISE,
+	DRAW_MODE_VORONOI,
+	DRAW_MODE_COUNT,
 }	t_draw_mode;
 
 #endif
