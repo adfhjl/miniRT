@@ -106,7 +106,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	rt_assign_capitalized_objects(data);
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
-	data->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, false);
+	data->mlx = mlx_init(UNSCALED_WINDOW_WIDTH * PIXEL_SCALE, UNSCALED_WINDOW_HEIGHT * PIXEL_SCALE, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
 		return (rt_print_error(ERROR_MLX));
 
@@ -119,9 +119,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	// TODO: Change the cursor to a hand when rotating any object but the camera
 	// mlx_set_cursor
 
-	data->draw_debug = DEBUG_DRAWING_ON_BY_DEFAULT;
-
-	data->image = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	data->image = mlx_new_image(data->mlx, UNSCALED_WINDOW_WIDTH * PIXEL_SCALE, UNSCALED_WINDOW_HEIGHT * PIXEL_SCALE);
 	if (data->image == NULL)
 		return (rt_print_error(ERROR_MLX));
 
@@ -130,13 +128,29 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	if (instance_index < 0)
 		return (rt_print_error(ERROR_MLX));
 
-	data->window_center_x = WINDOW_WIDTH / 2;
-	data->window_center_y = WINDOW_HEIGHT / 2;
+	data->window_center_x = UNSCALED_WINDOW_WIDTH / 2;
+	data->window_center_y = UNSCALED_WINDOW_HEIGHT / 2;
 
 	data->movement_speed = MOVEMENT_SPEED;
 
-	data->pixel_count = WINDOW_WIDTH * WINDOW_HEIGHT;
+	data->pixel_count = UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT;
 	data->available_count = data->pixel_count;
+
+	data->draw_debug = DEBUG_DRAW_ON_BY_DEFAULT;
+	data->draw_mode = DEFAULT_DRAW_MODE;
+
+	data->voronoi.distances = ft_calloc(data->pixel_count, sizeof(*data->voronoi.distances));
+	if (data->voronoi.distances == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+
+	// TODO: Make sure it isn't 2x necessary
+	data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
+	if (data->voronoi.stack == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+
+	data->voronoi.visited = ft_calloc(data->pixel_count, sizeof(*data->voronoi.visited));
+	if (data->voronoi.visited == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
 
 	if (rt_calloc_blue_noise_arrays(data) == ERROR)
 		return (ERROR);
@@ -148,7 +162,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	// SQRT2, because radius is circular.
 	// It is the width/height multiplier necessary to reach the bottom-right
 	// of the canvas starting from the top-left of the canvas.
-	data->starting_update_radius = fmaxf(WINDOW_WIDTH * (float)M_SQRT2, WINDOW_HEIGHT * (float)M_SQRT2);
+	data->starting_update_radius = fmaxf(UNSCALED_WINDOW_WIDTH * (float)M_SQRT2, UNSCALED_WINDOW_HEIGHT * (float)M_SQRT2);
 
 	return (OK);
 }

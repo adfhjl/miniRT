@@ -51,4 +51,11 @@ typedef enum e_visual_surface_normal
 	BLOCKED,
 }	t_visibility;
 
+typedef enum e_draw_mode
+{
+	SCANLINE,
+	BLUE_NOISE,
+	VORONOI,
+}	t_draw_mode;
+
 #endif

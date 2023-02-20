@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
+# define UNSCALED_WINDOW_WIDTH 500
+# define UNSCALED_WINDOW_HEIGHT 500
 
 # define BACKGROUND_R 128
 # define BACKGROUND_G 128
@@ -41,7 +41,14 @@
 # define GENERATED_NOISE_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
-# define DEBUG_DRAWING_ON_BY_DEFAULT 1
+
+# define DEBUG_DRAW_ON_BY_DEFAULT 1
+# define DEFAULT_DRAW_MODE SCANLINE
+
+// TODO: Try using
+// # define SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI 3
+
+# define PIXEL_SCALE 1
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.

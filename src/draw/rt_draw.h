@@ -23,4 +23,7 @@ void	rt_reset_canvas_info(t_data *data);
 
 void	rt_shoot_rays(t_data *data);
 
+void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, uint32_t color,
+			t_data *data);
+
 #endif

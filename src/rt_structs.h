@@ -98,6 +98,19 @@ struct s_hit_info
 	t_visibility	visibility;
 };
 
+typedef struct s_voronoi_seed
+{
+	int32_t	x;
+	int32_t	y;
+}	t_voronoi_seed;
+
+typedef struct s_voronoi
+{
+	uint32_t		*distances;
+	t_voronoi_seed	*stack;
+	bool			*visited;
+}	t_voronoi;
+
 struct s_data
 {
 	mlx_t		*mlx;
@@ -107,13 +120,18 @@ struct s_data
 	t_camera	*camera;
 	t_light		*light;
 
-	bool		draw_debug;
-
 	int			window_center_x;
 	int			window_center_y;
 	bool		moved_cursor;
 
 	float		movement_speed;
+
+	t_voronoi	voronoi;
+
+	// TODO: Put in struct
+	bool		draw_debug;
+	bool		draw_mode;
+	//
 
 	// TODO: Put in struct
 	t_vector	world_up;

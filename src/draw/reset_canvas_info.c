@@ -58,8 +58,8 @@ static void	rt_update_canvas_info(t_data *data)
 
 	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
-	data->dist_per_pix = canvas_width / WINDOW_WIDTH;
-	float canvas_height = data->dist_per_pix * WINDOW_HEIGHT;
+	data->dist_per_pix = canvas_width / UNSCALED_WINDOW_WIDTH;
+	float canvas_height = data->dist_per_pix * UNSCALED_WINDOW_HEIGHT;
 	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_forward);
 	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_forward);
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
@@ -69,12 +69,14 @@ static void	rt_clear_image(mlx_image_t *image)
 {
 	uint32_t	x;
 	uint32_t	y;
+
 	y = 0;
-	while (y < WINDOW_HEIGHT)
+	while (y < UNSCALED_WINDOW_HEIGHT * PIXEL_SCALE)
 	{
 		x = 0;
-		while (x < WINDOW_WIDTH)
+		while (x < UNSCALED_WINDOW_WIDTH * PIXEL_SCALE)
 		{
+			// TODO: Use rt_convert_color()
 			mlx_put_pixel(image, x, y, (
 					(uint32_t)UNRENDERED_R << 24)
 				| ((uint32_t)UNRENDERED_G << 16)
@@ -86,9 +88,29 @@ static void	rt_clear_image(mlx_image_t *image)
 	}
 }
 
+static void	rt_reset_voronoi(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->pixel_count)
+	{
+		data->voronoi.distances[i] = UINT32_MAX;
+		data->voronoi.visited[i] = false;
+		i++;
+	}
+}
+
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	rt_clear_image(data->image);
+	if (data->draw_mode)
+	{
+		rt_reset_voronoi(data);
+	}
+	else
+	{
+		rt_clear_image(data->image);
+	}
 	data->pixel_index = data->pixel_count;
 }

@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "draw/rt_draw.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
@@ -36,20 +37,46 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 
 void	rt_shoot_rays(t_data *data)
 {
+	size_t		ray_index;
 	t_ray		ray;
 	t_rgb		rgb;
-	size_t	ray_index;
+	uint32_t	color;
 
 	ray_index = 0;
 	while (ray_index < RAYS_PER_FRAME && data->pixel_index > data->available_count)
 	{
 		data->pixel_index--;
 		uint32_t location = data->available[data->pixel_index];
-		uint32_t x = location % WINDOW_WIDTH;
-		uint32_t y = location / WINDOW_WIDTH;
-		ray = rt_create_ray(x, y, data); // TODO: Revamp this function to not recalculate stuff unnecesarally
+		uint32_t x = location % UNSCALED_WINDOW_WIDTH;
+		uint32_t y = location / UNSCALED_WINDOW_WIDTH;
+
+		ray = rt_create_ray(x, y, data);
 		rgb = rt_get_ray_rgb(ray, data);
-		mlx_put_pixel(data->image, x, y, rt_convert_color(rgb));
+		color = rt_convert_color(rgb);
+
+		// TODO: && data->update_radius >= SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI
+		if (data->draw_mode)
+		{
+			rt_voronoi_floodfill((int32_t)x, (int32_t)y, color, data);
+		}
+		else
+		{
+			uint32_t	dx;
+			uint32_t	dy;
+
+			dy = 0;
+			while (dy < PIXEL_SCALE)
+			{
+				dx = 0;
+				while (dx < PIXEL_SCALE)
+				{
+					mlx_put_pixel(data->image, x * PIXEL_SCALE + dx, y * PIXEL_SCALE + dy, color);
+					dx++;
+				}
+				dy++;
+			}
+		}
+
 		ray_index++;
 	}
 }

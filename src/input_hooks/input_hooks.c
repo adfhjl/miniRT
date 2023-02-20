@@ -13,6 +13,7 @@
 #include "minirt.h"
 
 #include "debug/rt_debug.h"
+#include "draw/rt_draw.h"
 #include "mathematics/rt_mathematics.h"
 
 void	rt_key_hook(mlx_key_data_t keydata, void *param)
@@ -56,6 +57,12 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 		if (keydata.key == MLX_KEY_G)
 			data->draw_debug = !data->draw_debug;
+
+		if (keydata.key == MLX_KEY_V)
+		{
+			data->draw_mode = !data->draw_mode;
+			rt_reset_canvas_info(data);
+		}
 
 		if (keydata.key == MLX_KEY_L)
 			rt_print_scene(data);

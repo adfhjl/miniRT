@@ -34,7 +34,7 @@ static void	rt_update_densities(t_data *data, uint32_t update_radius, uint32_t e
 				x = (int32_t)emptiest_x + dx;
 				y = (int32_t)emptiest_y + dy;
 
-				if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
+				if (x < 0 || x >= UNSCALED_WINDOW_WIDTH || y < 0 || y >= UNSCALED_WINDOW_HEIGHT)
 				{
 					dx++;
 					continue;
@@ -44,15 +44,15 @@ static void	rt_update_densities(t_data *data, uint32_t update_radius, uint32_t e
 				// so we use a second array that has available's values as its keys
 				uint32_t	i;
 
-				i = data->available_inverse[x + y * WINDOW_WIDTH];
+				i = data->available_inverse[x + y * UNSCALED_WINDOW_WIDTH];
 
 				uint32_t other_index;
 				uint32_t other_x;
 				uint32_t other_y;
 
 				other_index = data->available[i];
-				other_x = other_index % WINDOW_WIDTH;
-				other_y = other_index / WINDOW_WIDTH;
+				other_x = other_index % UNSCALED_WINDOW_WIDTH;
+				other_y = other_index / UNSCALED_WINDOW_WIDTH;
 
 				int32_t	x_dist;
 				int32_t	y_dist;
@@ -94,8 +94,8 @@ static void	rt_remove_available(t_data *data, uint32_t update_radius)
 		uint32_t	available_y;
 
 		available_index = data->available[i];
-		available_x = available_index % WINDOW_WIDTH;
-		available_y = available_index / WINDOW_WIDTH;
+		available_x = available_index % UNSCALED_WINDOW_WIDTH;
+		available_y = available_index / UNSCALED_WINDOW_WIDTH;
 
 		float density = data->densities[available_index];
 
@@ -115,8 +115,8 @@ static void	rt_remove_available(t_data *data, uint32_t update_radius)
 	uint32_t	emptiest_x;
 	uint32_t	emptiest_y;
 
-	emptiest_x = emptiest_available % WINDOW_WIDTH;
-	emptiest_y = emptiest_available / WINDOW_WIDTH;
+	emptiest_x = emptiest_available % UNSCALED_WINDOW_WIDTH;
+	emptiest_y = emptiest_available / UNSCALED_WINDOW_WIDTH;
 
 	rt_update_densities(data, update_radius, emptiest_x, emptiest_y);
 
