@@ -128,6 +128,8 @@ struct s_data
 
 	t_voronoi	voronoi;
 
+	size_t		debug_image_index;
+
 	// TODO: Put in struct
 	bool		draw_debug;
 	int			draw_mode;

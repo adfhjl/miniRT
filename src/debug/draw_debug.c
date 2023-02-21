@@ -14,68 +14,48 @@
 
 #include "../MLX42/src/font/font.h"
 
-static char	*rt_get_allocation_count_string(void)
+static char	*rt_get_nbr_string(int nbr, char *appended_string)
 {
-	char	*string;
-	char	*string_full;
+	char	*nbr_string;
+	char	*nbr_string_full;
 
-	string = ft_itoa((t_i32)ft_get_allocation_count());
-	if (string == NULL)
+	nbr_string = ft_itoa(nbr);
+	if (nbr_string == NULL)
 		return (NULL);
-	string_full = ft_strjoin("Allocation count: ", string);
-	ft_free(&string);
-	return (string_full);
+	nbr_string_full = ft_strjoin(nbr_string, appended_string);
+	ft_free(&nbr_string);
+	return (nbr_string_full);
 }
 
-t_status	rt_draw_allocation_count(t_data *data)
+static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
+					int nbr, char *appended_string)
 {
-	static mlx_image_t	*image;
-	char				*string;
+	char *string;
 
-	if (image != NULL)
-		mlx_delete_image(data->mlx, image);
-	if (!data->draw_debug)
-		return (OK);
-	string = rt_get_allocation_count_string();
+	if (images_ptr[data->debug_image_index] != NULL)
+		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);
+	string = rt_get_nbr_string(nbr, appended_string);
 	if (string == NULL)
-		return (ERROR);
-	image = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT);
+		return (rt_print_error(ERROR_SYSTEM));
+	images_ptr[data->debug_image_index] = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT * (int)data->debug_image_index);
 	ft_free(&string);
-	if (image == NULL)
+	if (images_ptr[data->debug_image_index] == NULL)
 		return (rt_print_error(ERROR_MLX));
-	mlx_set_instance_depth(&image->instances[0], DEBUG_DRAWING_DEPTH);
+	mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_DEPTH);
+	data->debug_image_index++;
 	return (OK);
 }
 
-static char	*rt_get_fps_string(t_data *data)
+t_status	rt_draw_debug_lines(t_data *data)
 {
-	char	*string;
-	char	*string_full;
+	static mlx_image_t	*images[4] = {0};
 
-	string = ft_itoa((t_i32)(1 / data->mlx->delta_time));
-	if (string == NULL)
-		return (NULL);
-	string_full = ft_strjoin(string, " FPS");
-	ft_free(&string);
-	return (string_full);
-}
-
-t_status	rt_draw_fps(t_data *data)
-{
-	static mlx_image_t	*image; // TODO: See if we still want this to be static?
-	char				*string;
-
-	if (image != NULL)
-		mlx_delete_image(data->mlx, image);
-	if (!data->draw_debug)
-		return (OK);
-	string = rt_get_fps_string(data);
-	if (string == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-	image = mlx_put_string(data->mlx, string, 0, 0);
-	ft_free(&string);
-	if (image == NULL)
-		return (rt_print_error(ERROR_MLX));
-	mlx_set_instance_depth(&image->instances[0], DEBUG_DRAWING_DEPTH);
+	if (data->draw_debug)
+	{
+		data->debug_image_index = 0;
+		rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
+		rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
+		rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
+	}
 	return (OK);
 }

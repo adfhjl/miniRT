@@ -62,6 +62,6 @@ void	rt_draw_loop(void *param)
 		rt_shoot_rays(data);
 	}
 
-	if (rt_draw_fps(data) == ERROR || rt_draw_allocation_count(data) == ERROR)
+	if (rt_draw_debug_lines(data) == ERROR)
 		mlx_close_window(data->mlx);
 }

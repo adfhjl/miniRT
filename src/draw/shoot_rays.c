@@ -18,11 +18,15 @@
 
 static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 {
-	t_vector	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
-	t_vector	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
-	t_vector	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
-	t_vector	dir = rt_normalized(pixel_ray);
+	t_vector	pixel_ray_x;
+	t_vector	pixel_ray_y;
+	t_vector	pixel_ray;
+	t_vector	dir;
 
+	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
+	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
+	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
+	dir = rt_normalized(pixel_ray);
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
@@ -36,7 +40,7 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, t_data *data)
 
 static void	rt_shoot_voronoi_ray(t_data *data)
 {
-	uint32_t 	location;
+	uint32_t	location;
 	uint32_t	x;
 	uint32_t	y;
 	t_rgb		rgb;
