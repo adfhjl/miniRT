@@ -81,7 +81,7 @@ void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, t_rgb rgb,
 
 	while (ft_vector_get_size(voronoi->stack) > 0)
 	{
-		seed = voronoi->stack[ft_vector_get_size(voronoi->stack) - 1];
+		seed = *(t_voronoi_seed *)ft_vector_back(voronoi->stack);
 		ft_vector_pop_back(&voronoi->stack);
 
 		x = seed.x;
