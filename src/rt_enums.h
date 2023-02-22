@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/19 18:11:17 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/19 18:11:17 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/22 17:13:53 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ typedef enum e_object_type
 	OBJECT_TYPE_PLANE,
 	OBJECT_TYPE_CYLINDER,
 }	t_object_type;
-
-typedef enum e_visual_surface_normal
-{
-	VISIBLE,
-	BLOCKED,
-}	t_visibility;
 
 typedef enum e_draw_mode
 {

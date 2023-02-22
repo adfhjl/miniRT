@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/16 18:21:47 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/16 18:21:47 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/22 17:22:05 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ static void	rt_update_camera_origin(t_data *data)
 
 	delta_move = data->movement_speed * (float)data->mlx->delta_time;
 	if (data->w_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), delta_move);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_forward), delta_move);
 	if (data->a_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), -delta_move);
 	if (data->s_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera->normal), -delta_move);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_forward), -delta_move);
 	if (data->d_held)
 		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), delta_move);
 	if (data->space_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), delta_move);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->world_up), delta_move);
 	if (data->shift_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_up), -delta_move);
+		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->world_up), -delta_move);
 }
 
 void	rt_draw_loop(void *param)

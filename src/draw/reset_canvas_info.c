@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/16 18:19:55 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/16 18:19:55 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/22 17:23:22 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@
 // TODO: Call this every frame
 static void	rt_update_canvas_info(t_data *data)
 {
-	t_vector	camera_forward;
+	t_vector	camera_normal;
 
 	if (data->camera == NULL)
 		return ;
 
-	camera_forward = data->camera->normal;
+	camera_normal = data->camera->normal;
 
-	data->camera_right = rt_normalized(rt_cross(camera_forward, data->world_up));
+	data->camera_right = rt_normalized(rt_cross(camera_normal, data->world_up));
 	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));
 
-	data->camera_up = rt_cross(data->camera_right, camera_forward);
+	data->camera_forward = rt_cross(data->world_up, data->camera_right);
+	data->camera_up = rt_cross(data->camera_right, camera_normal);
 	// TODO: If this assert is never ever triggered in any of the scenes, remove it
 	assert(!isnan(data->camera_up.x) && !isnan(data->camera_up.y) && !isnan(data->camera_up.z));
 	// if (isnan(data->camera_up.x) || isnan(data->camera_up.y) || isnan(data->camera_up.z))
@@ -61,8 +62,8 @@ static void	rt_update_canvas_info(t_data *data)
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
 	data->dist_per_pix = canvas_width / UNSCALED_WINDOW_WIDTH;
 	float canvas_height = data->dist_per_pix * UNSCALED_WINDOW_HEIGHT;
-	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_forward);
-	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_forward);
+	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_normal);
+	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_normal);
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
 }
 

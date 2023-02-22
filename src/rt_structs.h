@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 15:03:49 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/17 15:03:49 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/22 17:23:34 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ struct s_hit_info
 	t_object		*object;
 	float			distance;
 	t_vector		surface_normal;
-	t_visibility	visibility;
 };
 
 typedef struct s_voronoi_seed
@@ -137,6 +136,7 @@ struct s_data
 
 	// TODO: Put in struct
 	t_vector	world_up;
+	t_vector	camera_forward;
 	t_vector	camera_right;
 	t_vector	camera_up;
 	float		dist_per_pix;

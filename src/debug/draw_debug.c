@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/16 18:20:32 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/21 16:52:20 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 17:32:17 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*rt_get_nbr_string(int nbr, char *appended_string)
 static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 					int nbr, char *appended_string)
 {
-	char *string;
+	char	*string;
 
 	if (images_ptr[data->debug_image_index] != NULL)
 		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);

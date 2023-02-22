@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:11:26 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/22 14:09:14 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 17:19:14 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 	return (distance);
 }
 
-t_hit_info	rt_get_sphere_collision_info(
-	t_ray ray, t_object *object, t_data *data)
+t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object *object)
 {
 	const t_sphere	sphere = object->sphere;
 	t_hit_info		info;
@@ -56,6 +55,5 @@ t_hit_info	rt_get_sphere_collision_info(
 	info.object = object;
 	info.surface_normal = rt_normalized(rt_sub(rt_get_ray_point(ray,
 					info.distance), sphere.origin));
-	info.visibility = rt_get_visibility(info, ray, data->light);
 	return (info);
 }

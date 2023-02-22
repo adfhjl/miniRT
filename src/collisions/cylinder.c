@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:12:17 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/22 16:16:55 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 17:18:37 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,15 @@ static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
 	return (rt_normalized(surface_abnormal));
 }
 
-t_hit_info	rt_get_cylinder_collision_info(
-	t_ray ray, t_object *object, t_data *data)
+t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object *object)
 {
 	const t_cylinder	cylinder = object->cylinder;
 	t_hit_info			info;
 
-	(void)data;
 	info.distance = rt_get_cylinder_distance(ray, cylinder);
 	if (info.distance == INFINITY)
 		return ((t_hit_info){.distance = INFINITY});
 	info.object = object;
-
 	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
-
-	info.visibility = rt_get_visibility(info, ray, data->light); // TODO: Use this
-	// if (info.distance < 0)
-	// 	info.visibility = BLOCKED;
-	// else
-	// 	info.visibility = VISIBLE;
-	// info.distance = fabsf(info.distance); // TODO: DELETE UNTIL PREVIOUS COMMENT
 	return (info);
 }

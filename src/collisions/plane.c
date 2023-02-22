@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/21 17:07:44 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 17:19:09 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@
 //
 // denom = dot(ray.normal, plane.normal):
 // t = dot(plane.origin - ray.origin, plane.normal) / denom
-t_hit_info	rt_get_plane_collision_info(
-	t_ray ray, t_object *object, t_data *data)
+t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object *object)
 {
 	t_hit_info		info;
 	const t_plane	plane = object->plane;
@@ -52,6 +51,5 @@ t_hit_info	rt_get_plane_collision_info(
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.object = object;
 	info.surface_normal = plane.normal;
-	info.visibility = rt_get_visibility(info, ray, data->light);
 	return (info);
 }
