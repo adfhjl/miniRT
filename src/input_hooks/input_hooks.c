@@ -58,6 +58,15 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_G)
 			data->draw_debug = !data->draw_debug;
 
+		if (keydata.key == MLX_KEY_F)
+		{
+			data->cursor_frozen = !data->cursor_frozen;
+			if (data->cursor_frozen)
+				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_NORMAL);
+			else
+				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
+		}
+
 		if (keydata.key == MLX_KEY_N)
 		{
 			data->draw_mode = DRAW_MODE_NORMAL;
@@ -85,13 +94,12 @@ void	rt_cursor_hook(double x, double y, void *param)
 	float	dx;
 	float	dy;
 
-
 	data = param;
-	if (data->camera == NULL)
+	if (data->camera == NULL || data->cursor_frozen)
 		return ;
 
-	dx = (float)x - data->window_center_x;
-	dy = -((float)y - data->window_center_y);
+	dx = (float)x - data->scaled_window_center_x;
+	dy = -((float)y - data->scaled_window_center_y);
 
 	t_vector	rotation_right;
 	rotation_right = rt_scale(data->camera_right, (float)dx * ROTATION_SPEED);

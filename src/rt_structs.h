@@ -119,8 +119,11 @@ struct s_data
 	t_camera	*camera;
 	t_light		*light;
 
-	int			window_center_x;
-	int			window_center_y;
+	int			scaled_window_width;
+	int			scaled_window_height;
+	int			scaled_window_center_x;
+	int			scaled_window_center_y;
+
 	bool		moved_cursor;
 
 	float		movement_speed;
@@ -131,7 +134,8 @@ struct s_data
 
 	// TODO: Put in struct
 	bool		draw_debug;
-	int			draw_mode;
+	bool		cursor_frozen;
+	int			draw_mode; // Maybe in this struct as well?
 	//
 
 	// TODO: Put in struct

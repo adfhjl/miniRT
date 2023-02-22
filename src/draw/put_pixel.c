@@ -24,22 +24,26 @@ uint32_t	rt_convert_color(t_rgb rgb)
 // TODO: Get rid of this in favor of rt_put_pixel_fast()
 void	rt_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, t_rgb rgb)
 {
+	uint32_t	color;
 	uint32_t	dx;
 	uint32_t	dy;
 
+	color = rt_convert_color(rgb);
 	dy = 0;
 	while (dy < PIXEL_SCALE)
 	{
 		dx = 0;
 		while (dx < PIXEL_SCALE)
 		{
-			mlx_put_pixel(image, x * PIXEL_SCALE + dx, y * PIXEL_SCALE + dy, rt_convert_color(rgb));
+			mlx_put_pixel(image, x * PIXEL_SCALE + dx, y * PIXEL_SCALE + dy, color);
 			dx++;
 		}
 		dy++;
 	}
 }
 
+// TODO: Probably only significantly faster when rt_convert_color() is only
+// being called per drawn square with voronoi.
 void	rt_put_pixel_fast(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color)
 {
 	uint32_t	*start;

@@ -81,6 +81,9 @@ static void	rt_shoot_normal_ray(t_data *data)
 	y = location / UNSCALED_WINDOW_WIDTH;
 	rgb = rt_shoot_ray(x, y, data);
 	rt_put_pixel(data->image, x, y, rgb);
+	// uint32_t	color;
+	// color = rt_convert_color(rgb);
+	// rt_put_pixel_fast(data->image, x, y, color);
 }
 
 void	rt_shoot_rays(t_data *data)
@@ -88,6 +91,7 @@ void	rt_shoot_rays(t_data *data)
 	size_t		ray_index;
 
 	ray_index = 0;
+	// TODO: Maybe don't stop drawing in DRAW_MODE_NORMAL until the frame has been completely drawn, no matter what?
 	while (ray_index < RAYS_PER_FRAME)
 	{
 		// TODO: && data->update_radius >= SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI
