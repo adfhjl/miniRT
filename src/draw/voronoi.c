@@ -75,7 +75,8 @@ void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, t_rgb rgb,
 
 	voronoi->distances[rt_get_index(start_x, start_y)] = 0;
 
-	// TODO: Optimization is to skip putting pixels when they're already of that color
+	uint32_t	color;
+	color = rt_convert_color(rgb);
 
 	// TODO: Optimization is to prioritize colors that have neighbors of different colors
 
@@ -87,7 +88,7 @@ void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, t_rgb rgb,
 		x = seed.x;
 		y = seed.y;
 
-		rt_put_pixel(data->image, (uint32_t)x, (uint32_t)y, rgb);
+		rt_put_pixel_fast(data->image, (uint32_t)x, (uint32_t)y, color);
 
 		if (y - 1 >= 0 && rt_is_valid(x, y - 1, start_x, start_y, data))
 		{
