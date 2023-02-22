@@ -34,14 +34,17 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 
 	if (images_ptr[data->debug_image_index] != NULL)
 		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);
-	string = rt_get_nbr_string(nbr, appended_string);
-	if (string == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-	images_ptr[data->debug_image_index] = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT * (int)data->debug_image_index);
-	ft_free(&string);
-	if (images_ptr[data->debug_image_index] == NULL)
-		return (rt_print_error(ERROR_MLX));
-	mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_DEPTH);
+	if (data->draw_debug)
+	{
+		string = rt_get_nbr_string(nbr, appended_string);
+		if (string == NULL)
+			return (rt_print_error(ERROR_SYSTEM));
+		images_ptr[data->debug_image_index] = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT * (int)data->debug_image_index);
+		ft_free(&string);
+		if (images_ptr[data->debug_image_index] == NULL)
+			return (rt_print_error(ERROR_MLX));
+		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_DEPTH);
+	}
 	data->debug_image_index++;
 	return (OK);
 }
@@ -50,12 +53,9 @@ t_status	rt_draw_debug_lines(t_data *data)
 {
 	static mlx_image_t	*images[3] = {0};
 
-	if (data->draw_debug)
-	{
-		data->debug_image_index = 0;
-		rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
-		rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
-		rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
-	}
+	data->debug_image_index = 0;
+	rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
+	rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
+	rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
 	return (OK);
 }
