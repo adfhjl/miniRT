@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static uint32_t	rt_convert_color(t_rgb rgb)
+uint32_t	rt_convert_color(t_rgb rgb)
 {
 	const uint32_t	r = (uint32_t)(rgb.r * 255);
 	const uint32_t	g = (uint32_t)(rgb.g * 255);
@@ -21,6 +21,7 @@ static uint32_t	rt_convert_color(t_rgb rgb)
 	return ((r << 24) | (g << 16) | (b << 8) | 0xFF);
 }
 
+// TODO: Get rid of this in favor of rt_put_pixel_fast()
 void	rt_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, t_rgb rgb)
 {
 	uint32_t	dx;
@@ -37,4 +38,12 @@ void	rt_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, t_rgb rgb)
 		}
 		dy++;
 	}
+}
+
+void	rt_put_pixel_fast(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color)
+{
+	uint32_t	*start;
+
+	start = (uint32_t *)&image->pixels[(x + y * image->width) * sizeof(uint32_t)];
+	*start = color;
 }
