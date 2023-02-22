@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 15:05:55 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/17 15:05:55 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/22 15:04:49 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 1000
-# define UNSCALED_WINDOW_HEIGHT 1000
+# define UNSCALED_WINDOW_WIDTH 500
+# define UNSCALED_WINDOW_HEIGHT 500
 
 # define BACKGROUND_R 128
 # define BACKGROUND_G 128

@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:08:36 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/14 14:43:21 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/21 17:07:44 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_hit_info	rt_get_plane_collision_info(
 	float			denom;
 
 	denom = rt_dot(ray.normal, plane.normal);
-	// TODO: Is this if-statement necessary? float / 0 is infinity anyways?
 	if (denom == 0)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
