@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 17:15:53 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/22 15:21:54 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 16:59:10 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,15 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		return (rt_get_point_rgb(ray, info, data, info.object->sphere.rgb));
 	if (info.object->type == OBJECT_TYPE_CYLINDER)
 	{
-		// return (rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb));
-		if (info.visibility == BLOCKED)
-		{
-			return ((t_rgb){.r = 1.0f, .g = .0f, .b = .0f});
-		}
-		else
-		{
-			return ((t_rgb){.r = .0f, .g = .0f, .b = 1.0f});
-		} // TODO: DELETE UNTIL PREVIOUS COMMENT
+		return (rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb));
+		// if (info.visibility == BLOCKED)
+		// {
+		// 	return ((t_rgb){.r = 1.0f, .g = .0f, .b = .0f});
+		// }
+		// else
+		// {
+		// 	return ((t_rgb){.r = .0f, .g = .0f, .b = 1.0f});
+		// } // TODO: DELETE UNTIL PREVIOUS COMMENT
 	}
 	return ((t_rgb){.r = BACKGROUND_R / 255.0f, .g = BACKGROUND_G / 255.0f,
 		.b = BACKGROUND_B / 255.0f});

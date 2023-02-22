@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 15:05:55 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/22 15:04:49 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 16:14:14 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@
 # define DEBUG_DRAWING_DEPTH 1
 
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
-# define DEFAULT_DRAW_MODE DRAW_MODE_VORONOI
+# define DEFAULT_DRAW_MODE DRAW_MODE_BLUE_NOISE
 
 // TODO: Try using
 // # define SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI 3
 
-# define PIXEL_SCALE 1
+# define PIXEL_SCALE 2
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.

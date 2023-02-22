@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:11:26 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/14 14:43:34 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/22 14:09:14 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
+
+// TODO: Maybe write this
+// static float	rt_quadratic_formula(*solution_1, *solution_2)
+// {
+// 	// *solution_1 = INFINITY;
+// 	// *solution_2 = INFINITY;
+// 	return (distance);
+// }
 
 static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 {
