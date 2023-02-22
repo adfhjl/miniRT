@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/16 18:20:32 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/16 18:20:32 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/21 16:52:20 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 
 t_status	rt_draw_debug_lines(t_data *data)
 {
-	static mlx_image_t	*images[4] = {0};
+	static mlx_image_t	*images[3] = {0};
 
 	if (data->draw_debug)
 	{
