@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/24 17:15:53 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/22 17:19:03 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/23 17:55:58 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,33 @@ t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	return (hit_info);
 }
 
-t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
+#define REFLECTION_RATIO 0.3f
+
+static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
+				float theta)
+{
+	return (rt_add(rt_add(rt_scale(v, cosf(theta)),
+	rt_scale(rt_cross(rotation_axis, v), sinf(theta))),
+	rt_scale(rotation_axis, rt_dot(rotation_axis, v) * (1 - cosf(theta)))));
+}
+
+t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data, int depth)
 {
 	t_hit_info	info;
+	t_rgb		rgb;
 
 	info = rt_get_hit_info(ray, data);
 	if (info.distance == INFINITY)
 		return ((t_rgb){.r = BACKGROUND_R / 255.0f,
 			.g = BACKGROUND_G / 255.0f, .b = BACKGROUND_B / 255.0f});
 	if (info.object->type == OBJECT_TYPE_PLANE)
-		return (rt_get_point_rgb(ray, info, data, info.object->plane.rgb));
+		rgb = rt_get_point_rgb(ray, info, data, info.object->plane.rgb);
 	if (info.object->type == OBJECT_TYPE_SPHERE)
-		return (rt_get_point_rgb(ray, info, data, info.object->sphere.rgb));
+		rgb = rt_get_point_rgb(ray, info, data, info.object->sphere.rgb);
 	if (info.object->type == OBJECT_TYPE_CYLINDER)
-		return (rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb));
-	return ((t_rgb){.r = BACKGROUND_R / 255.0f, .g = BACKGROUND_G / 255.0f,
-		.b = BACKGROUND_B / 255.0f});
+		rgb = rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb);
+	if (depth == 0) // If at max depth
+		return (rgb);
+	// return (rt_add_rgb(rt_scale_rgb(rgb, REFLECTION_RATIO), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100)), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth - 1), 1 - REFLECTION_RATIO)));
+	return (rt_add_rgb(rt_scale_rgb(rgb, REFLECTION_RATIO), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100 * -fabsf(rt_dot(info.surface_normal, ray.normal)) / rt_dot(info.surface_normal, ray.normal))), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth - 1), 1 - REFLECTION_RATIO)));
 }

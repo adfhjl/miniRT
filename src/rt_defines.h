@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 15:05:55 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/22 16:14:14 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/23 18:01:36 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # define UNSCALED_WINDOW_WIDTH 500
 # define UNSCALED_WINDOW_HEIGHT 500
 
-# define BACKGROUND_R 20
-# define BACKGROUND_G 20
-# define BACKGROUND_B 20
+# define BACKGROUND_R 0
+# define BACKGROUND_G 0
+# define BACKGROUND_B 0
+// # define BACKGROUND_R 20
+// # define BACKGROUND_G 20
+// # define BACKGROUND_B 20
 
 # define UNRENDERED_R 10
 # define UNRENDERED_G 10
