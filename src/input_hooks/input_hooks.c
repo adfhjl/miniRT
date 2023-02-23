@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 14:39:20 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/17 14:39:20 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/23 17:49:52 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,18 @@ void	rt_scroll_hook(double dx, double dy, void *param)
 
 	(void)dx;
 	data = param;
-	if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
-		data->movement_speed *= MOVEMENT_SPEED_SCROLL_FACTOR;
-	else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
-		data->movement_speed /= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
+	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
+	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL_FACTOR;
+	if (dy > 0)
+	{
+		data->camera->fov *= 0.8f;
+		rt_reset_canvas_info(data);
+	}
+	if (dy < 0 && data->camera->fov < 180.f * 0.8f)
+	{
+		data->camera->fov /= 0.8f;
+		rt_reset_canvas_info(data);
+	}
 }

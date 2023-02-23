@@ -6,7 +6,7 @@
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/16 18:21:24 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/16 18:21:24 by sbos          ########   odam.nl         */
+/*   Updated: 2023/02/23 17:57:01 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
+#define REFLECTIONS 10
+
 static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, t_data *data)
 {
 	t_ray		ray;
 
 	ray = rt_create_ray(x, y, data);
-	return (rt_get_ray_rgb(ray, data));
+	return (rt_get_ray_rgb(ray, data, REFLECTIONS));
 }
 
 static void	rt_shoot_voronoi_ray(t_data *data)

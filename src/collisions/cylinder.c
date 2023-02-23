@@ -6,7 +6,7 @@
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/03 17:12:17 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/23 14:03:10 by vbenneko      ########   odam.nl         */
+/*   Updated: 2023/02/23 17:37:43 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ static t_ray	rt_rotate_ray(t_ray ray, t_cylinder cylinder000)
 static t_ray	rt_adjust_ray(t_ray ray, t_cylinder cylinder)
 {
 	ray = rt_translate_ray(ray, cylinder);
-	if (!(cylinder.normal.x == 0.0f && cylinder.normal.z == 0.0f
-			&& (cylinder.normal.y == 1.0f || cylinder.normal.y == -1.0f)))
+	if (cylinder.normal.x != 0.0f || cylinder.normal.z != 0.0f)
 		ray = rt_rotate_ray(ray, cylinder);
 	return (ray);
 }
