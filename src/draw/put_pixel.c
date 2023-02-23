@@ -21,7 +21,7 @@ uint32_t	rt_convert_color(t_rgb rgb)
 	return (0xFF000000 | (b << 16) | (g << 8) | r);
 }
 
-void	rt_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color)
+void	rt_put_color(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color)
 {
 	uint32_t	dx;
 	uint32_t	dy;
@@ -43,4 +43,9 @@ void	rt_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color)
 		}
 		dy++;
 	}
+}
+
+void	rt_put_rgb(mlx_image_t *image, uint32_t x, uint32_t y, t_rgb rgb)
+{
+	rt_put_color(image, x, y, rt_convert_color(rgb));
 }

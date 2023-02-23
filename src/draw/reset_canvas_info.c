@@ -86,7 +86,7 @@ static void	rt_clear_image(mlx_image_t *image)
 		x = 0;
 		while (x < UNSCALED_WINDOW_WIDTH)
 		{
-			rt_put_pixel(image, x, y, color);
+			rt_put_color(image, x, y, color);
 			x++;
 		}
 		y++;
