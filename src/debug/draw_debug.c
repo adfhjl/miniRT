@@ -33,7 +33,10 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 	char	*string;
 
 	if (images_ptr[data->debug_image_index] != NULL)
+	{
 		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);
+		images_ptr[data->debug_image_index] = NULL;
+	}
 	if (data->draw_debug)
 	{
 		string = rt_get_nbr_string(nbr, appended_string);
