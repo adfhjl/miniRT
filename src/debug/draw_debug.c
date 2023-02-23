@@ -51,11 +51,12 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 
 t_status	rt_draw_debug_lines(t_data *data)
 {
-	static mlx_image_t	*images[3] = {0};
+	static mlx_image_t	*images[4] = {0};
 
 	data->debug_image_index = 0;
 	rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
 	rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
 	rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
+	rt_draw_debug_line(data, images, (int)ft_get_bytes_allocated(), " bytes allocated");
 	return (OK);
 }
