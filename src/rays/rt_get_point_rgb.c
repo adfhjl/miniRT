@@ -15,15 +15,6 @@
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
-static t_rgb	rt_clamp_rgb(t_rgb rgb)
-{
-	return ((t_rgb){
-		.r = fminf(rgb.r, 1.0),
-		.g = fminf(rgb.g, 1.0),
-		.b = fminf(rgb.b, 1.0)
-	});
-}
-
 // The light_distance_factor is based on the inverse-square law
 static t_rgb	rt_get_rgb_factor(t_ray ray, t_hit_info info, t_hit_info light_ray_info,
 		t_vector biased_point_to_light, t_data *data)
@@ -83,9 +74,9 @@ t_rgb	rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
 	const t_vector		biased_point_to_light
 		= rt_sub(data->light->origin, biased_point);
 
-	return (rt_clamp_rgb(rt_multiply_rgb(object_color,
+	return (rt_multiply_rgb(object_color,
 				rt_get_rgb_factor(ray, info, light_ray_info,
-					biased_point_to_light, data))));
+					biased_point_to_light, data)));
 }
 
 // rgb=$pl_RGB * ($A_RGB * $A_LVL + $l_RGB * $l_LVL * $l_DST)

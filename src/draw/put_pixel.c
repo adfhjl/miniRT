@@ -12,11 +12,16 @@
 
 #include "minirt.h"
 
+static uint32_t	rt_get_rgb_channel(float n)
+{
+	return ((uint32_t)((-(1.f / expf(n * 2)) + 1) * 255));
+}
+
 uint32_t	rt_convert_color(t_rgb rgb)
 {
-	const uint32_t	r = (uint32_t)(rgb.r * 255);
-	const uint32_t	g = (uint32_t)(rgb.g * 255);
-	const uint32_t	b = (uint32_t)(rgb.b * 255);
+	const uint32_t	r = rt_get_rgb_channel(rgb.r * 2);
+	const uint32_t	g = rt_get_rgb_channel(rgb.g * 2);
+	const uint32_t	b = rt_get_rgb_channel(rgb.b * 2);
 
 	return (0xFF000000 | (b << 16) | (g << 8) | r);
 }

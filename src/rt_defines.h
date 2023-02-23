@@ -16,19 +16,19 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 50
-# define UNSCALED_WINDOW_HEIGHT 50
+# define UNSCALED_WINDOW_WIDTH 500
+# define UNSCALED_WINDOW_HEIGHT 500
 
-# define BACKGROUND_R 128
-# define BACKGROUND_G 128
-# define BACKGROUND_B 128
+# define BACKGROUND_R 20
+# define BACKGROUND_G 20
+# define BACKGROUND_B 20
 
-# define UNRENDERED_R 42
-# define UNRENDERED_G 42
-# define UNRENDERED_B 42
+# define UNRENDERED_R 10
+# define UNRENDERED_G 10
+# define UNRENDERED_B 10
 
 # define EPSILON 1.0e-4f
-# define LIGHT_BRIGHTNESS_FACTOR 100.0f
+# define LIGHT_BRIGHTNESS_FACTOR 500.0f
 
 # define MOVEMENT_SPEED 7.0f
 # define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
@@ -43,12 +43,12 @@
 # define DEBUG_DRAWING_DEPTH 1
 
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
-# define DEFAULT_DRAW_MODE DRAW_MODE_VORONOI
+# define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
 // TODO: Try using
 // # define SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI 3
 
-# define PIXEL_SCALE 20
+# define PIXEL_SCALE 2
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.
