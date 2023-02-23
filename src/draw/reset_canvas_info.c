@@ -72,19 +72,21 @@ static void	rt_clear_image(mlx_image_t *image)
 	uint32_t	x;
 	uint32_t	y;
 	t_rgb		unrendered_rgb;
+	uint32_t	color;
 
-	y = 0;
 	unrendered_rgb = (t_rgb){
 		UNRENDERED_R / 255.f,
 		UNRENDERED_G / 255.f,
 		UNRENDERED_B / 255.f
 	};
+	color = rt_convert_color(unrendered_rgb);
+	y = 0;
 	while (y < UNSCALED_WINDOW_HEIGHT)
 	{
 		x = 0;
 		while (x < UNSCALED_WINDOW_WIDTH)
 		{
-			rt_put_pixel(image, x, y, unrendered_rgb);
+			rt_put_pixel(image, x, y, color);
 			x++;
 		}
 		y++;
@@ -111,7 +113,8 @@ void	rt_reset_canvas_info(t_data *data)
 	{
 		rt_reset_voronoi(data);
 	}
-	else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
+	else if (data->draw_mode == DRAW_MODE_BLUE_NOISE
+		|| data->draw_mode == DRAW_MODE_NORMAL)
 	{
 		rt_clear_image(data->image);
 	}

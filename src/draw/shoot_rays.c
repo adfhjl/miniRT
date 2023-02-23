@@ -65,7 +65,9 @@ static void	rt_shoot_blue_noise_ray(t_data *data)
 	x = location % UNSCALED_WINDOW_WIDTH;
 	y = location / UNSCALED_WINDOW_WIDTH;
 	rgb = rt_shoot_ray(x, y, data);
-	rt_put_pixel(data->image, x, y, rgb);
+	uint32_t	color;
+	color = rt_convert_color(rgb);
+	rt_put_pixel(data->image, x, y, color);
 }
 
 static void	rt_shoot_normal_ray(t_data *data)
@@ -76,14 +78,13 @@ static void	rt_shoot_normal_ray(t_data *data)
 	t_rgb		rgb;
 
 	data->pixel_index--;
-	location = data->pixel_count - data->pixel_index;
+	location = data->pixel_count - data->pixel_index - 1;
 	x = location % UNSCALED_WINDOW_WIDTH;
 	y = location / UNSCALED_WINDOW_WIDTH;
 	rgb = rt_shoot_ray(x, y, data);
-	rt_put_pixel(data->image, x, y, rgb);
-	// uint32_t	color;
-	// color = rt_convert_color(rgb);
-	// rt_put_pixel_fast(data->image, x, y, color);
+	uint32_t	color;
+	color = rt_convert_color(rgb);
+	rt_put_pixel(data->image, x, y, color);
 }
 
 void	rt_shoot_rays(t_data *data)

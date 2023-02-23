@@ -88,7 +88,7 @@ void	rt_voronoi_floodfill(int32_t start_x, int32_t start_y, t_rgb rgb,
 		x = seed.x;
 		y = seed.y;
 
-		rt_put_pixel_fast(data->image, (uint32_t)x, (uint32_t)y, color);
+		rt_put_pixel(data->image, (uint32_t)x, (uint32_t)y, color);
 
 		if (y - 1 >= 0 && rt_is_valid(x, y - 1, start_x, start_y, data))
 		{
