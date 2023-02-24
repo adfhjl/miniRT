@@ -48,13 +48,22 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-// TODO: Try using
-// # define SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI 3
-
 # define PIXEL_SCALE 2
+
+# define MAX_UPDATE_RADIUS 10
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.
 # define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
+
+// TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
+// TODO: It can still be diffuse with a value higher than 0
+// if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
+# define MAX_BOUNCES_PER_RAY 10
+
+// 0.0 means that reflection doesn't occur, so the render is diffuse.
+// 0.9 means that reflected rays recursively contribute 90% of the RGB,
+// so that the object's own RGB only contributes 10% of the RGB.
+# define REFLECTION_RATIO 0.5f
 
 #endif

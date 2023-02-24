@@ -132,6 +132,8 @@ struct s_data
 
 	size_t		debug_image_index;
 
+	float		reflection_ratio;
+
 	// TODO: Put in struct
 	bool		draw_debug;
 	bool		cursor_frozen;

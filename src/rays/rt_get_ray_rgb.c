@@ -42,8 +42,6 @@ t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	return (hit_info);
 }
 
-#define REFLECTION_RATIO 0.3f
-
 static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
 				float theta)
 {
@@ -67,8 +65,8 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data, int depth)
 		rgb = rt_get_point_rgb(ray, info, data, info.object->sphere.rgb);
 	if (info.object->type == OBJECT_TYPE_CYLINDER)
 		rgb = rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb);
-	if (depth == 0) // If at max depth
+	if (depth == MAX_BOUNCES_PER_RAY || data->reflection_ratio == 0)
 		return (rgb);
-	// return (rt_add_rgb(rt_scale_rgb(rgb, REFLECTION_RATIO), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100)), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth - 1), 1 - REFLECTION_RATIO)));
-	return (rt_add_rgb(rt_scale_rgb(rgb, REFLECTION_RATIO), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100 * -fabsf(rt_dot(info.surface_normal, ray.normal)) / rt_dot(info.surface_normal, ray.normal))), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth - 1), 1 - REFLECTION_RATIO)));
+	// return (rt_add_rgb(rt_scale_rgb(rgb, 1 - data->reflection_ratio), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100)), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth + 1), data->reflection_ratio)));
+	return (rt_add_rgb(rt_scale_rgb(rgb, 1 - data->reflection_ratio), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100 * -fabsf(rt_dot(info.surface_normal, ray.normal)) / rt_dot(info.surface_normal, ray.normal))), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth + 1), data->reflection_ratio)));
 }

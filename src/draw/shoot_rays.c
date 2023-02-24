@@ -30,14 +30,12 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
-#define REFLECTIONS 10
-
 static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, t_data *data)
 {
 	t_ray		ray;
 
 	ray = rt_create_ray(x, y, data);
-	return (rt_get_ray_rgb(ray, data, REFLECTIONS));
+	return (rt_get_ray_rgb(ray, data, 0));
 }
 
 static void	rt_shoot_voronoi_ray(t_data *data)
@@ -93,7 +91,6 @@ void	rt_shoot_rays(t_data *data)
 	// TODO: Maybe don't stop drawing in DRAW_MODE_NORMAL until the frame has been completely drawn, no matter what?
 	while (ray_index < RAYS_PER_FRAME)
 	{
-		// TODO: && data->update_radius >= SMALLEST_UPDATE_RADIUS_TO_USE_VORONOI
 		if (data->draw_mode == DRAW_MODE_VORONOI)
 		{
 			if (data->pixel_index <= data->available_count)
