@@ -64,6 +64,6 @@
 // 0.0 means that reflection doesn't occur, so the render is diffuse.
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
 // so that the object's own RGB only contributes 10% of the RGB.
-# define REFLECTION_RATIO 0.5f
+# define REFLECTION_CONTRIBUTION 0.5f
 
 #endif

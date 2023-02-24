@@ -143,7 +143,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->draw_debug = DEBUG_DRAW_ON_BY_DEFAULT;
 	data->draw_mode = DEFAULT_DRAW_MODE;
 
-	data->reflection_ratio = REFLECTION_RATIO;
+	data->reflection_contribution = REFLECTION_CONTRIBUTION;
 
 	data->voronoi.distances = ft_calloc(data->pixel_count, sizeof(*data->voronoi.distances));
 	if (data->voronoi.distances == NULL)

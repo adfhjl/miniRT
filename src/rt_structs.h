@@ -132,7 +132,7 @@ struct s_data
 
 	size_t		debug_image_index;
 
-	float		reflection_ratio;
+	float		reflection_contribution;
 
 	// TODO: Put in struct
 	bool		draw_debug;
