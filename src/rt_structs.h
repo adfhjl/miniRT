@@ -165,7 +165,7 @@ struct s_data
 
 	uint32_t	available_count;
 
-	float		starting_update_radius;
+	uint32_t	starting_update_radius;
 
 	uint32_t	pixel_index;
 	//

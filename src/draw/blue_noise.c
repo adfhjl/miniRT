@@ -135,9 +135,24 @@ static void	rt_remove_available(t_data *data, uint32_t update_radius)
 	data->available_inverse[a] = data->available_count;
 }
 
+static uint32_t	rt_min(uint32_t a, uint32_t b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+static uint32_t	rt_max(uint32_t a, uint32_t b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
 void	rt_generate_noise(t_data *data)
 {
 	size_t		noise_gen_index;
+	float		unavailable;
 	uint32_t	update_radius;
 
 	noise_gen_index = 0;
@@ -145,8 +160,11 @@ void	rt_generate_noise(t_data *data)
 	{
 		if (noise_gen_index % NOISE_PER_UPDATE_RADIUS_RECALCULATION == 0)
 		{
-			const float	unavailable = fmaxf(data->pixel_count - data->available_count, 1);
-			update_radius = (uint32_t)fmaxf(data->starting_update_radius / sqrtf(unavailable), 1);
+			unavailable = rt_max(data->pixel_count - data->available_count, 1);
+			update_radius = (uint32_t)(
+					(float)data->starting_update_radius / sqrtf(unavailable));
+			update_radius = rt_max(update_radius, 1);
+			update_radius = rt_min(update_radius, MAX_UPDATE_RADIUS);
 		}
 		rt_remove_available(data, update_radius);
 		noise_gen_index++;

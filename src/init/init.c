@@ -166,7 +166,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	// SQRT2, because radius is circular.
 	// It is the width/height multiplier necessary to reach the bottom-right
 	// of the canvas starting from the top-left of the canvas.
-	data->starting_update_radius = fmaxf(UNSCALED_WINDOW_WIDTH * (float)M_SQRT2, UNSCALED_WINDOW_HEIGHT * (float)M_SQRT2);
+	data->starting_update_radius = (uint32_t)fmaxf(UNSCALED_WINDOW_WIDTH * (float)M_SQRT2, UNSCALED_WINDOW_HEIGHT * (float)M_SQRT2);
 
 	return (OK);
 }
