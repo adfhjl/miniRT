@@ -28,7 +28,7 @@
 # define UNRENDERED_B 10
 
 # define NUDGE 0.01f
-# define LIGHT_BRIGHTNESS_FACTOR 500.0f
+# define LIGHT_BRIGHTNESS_FACTOR 5.0f
 
 # define MOVEMENT_SPEED 7.0f
 # define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
@@ -64,11 +64,12 @@
 # define REFLECTION_CONTRIBUTION 0.5f
 
 // TODO: Average the samples over time as well
-# define SAMPLES_PER_PIXEL 5
+// TODO: Don't sample pixels multiple times that immediately flew into the sky.
+# define SAMPLES_PER_PIXEL 100
 
 // TODO: Before handing the project in, set this to a tiny value so it's
 // really close to a point light, which is probably what the subject intended.
-# define LIGHT_DIAMETER 0.5f
+# define LIGHT_DIAMETER 10.0f
 
 // TODO: Add three defines for plane, sphere, and cylinder emission RGBs
 

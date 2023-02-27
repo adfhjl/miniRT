@@ -36,10 +36,10 @@ struct s_ray
 struct s_object
 {
 	float			ratio;
-	t_rgb			rgb;
 	t_vector		origin;
 	t_vector		normal;
 	float			fov;
+	t_rgb			rgb;
 	t_rgb			emissive;
 	float			diameter;
 	float			height;

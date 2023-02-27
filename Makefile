@@ -17,7 +17,7 @@ CC := gcc
 
 # TODO: Remove extra flags before the eval
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
-CFLAGS += -Wno-overlength-strings # MLX42
+CFLAGS += -Wno-overlength-strings # Needed to include MLX42's font.h
 
 ################################################################################
 

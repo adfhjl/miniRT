@@ -34,6 +34,12 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
 			new_hit_info = rt_get_cylinder_collision_info(ray, data->objects[i]);
+		else if (data->objects[i].type == OBJECT_TYPE_LIGHT)
+		{
+			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
+			new_hit_info.rgb = rt_scale_rgb(new_hit_info.rgb, data->light->ratio);
+			new_hit_info.emissive = rt_scale_rgb(new_hit_info.rgb, LIGHT_BRIGHTNESS_FACTOR);
+		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
 		if (new_hit_info.distance > 0
