@@ -67,56 +67,56 @@ static void	rt_update_canvas_info(t_data *data)
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
 }
 
-static void	rt_clear_image(mlx_image_t *image)
-{
-	uint32_t	x;
-	uint32_t	y;
-	t_rgb		unrendered_rgb;
-	uint32_t	color;
+// static void	rt_clear_image(mlx_image_t *image)
+// {
+// 	uint32_t	x;
+// 	uint32_t	y;
+// 	t_rgb		unrendered_rgb;
+// 	uint32_t	color;
 
-	unrendered_rgb = (t_rgb){
-		UNRENDERED_R / 255.f,
-		UNRENDERED_G / 255.f,
-		UNRENDERED_B / 255.f
-	};
-	color = rt_convert_color(unrendered_rgb);
-	y = 0;
-	while (y < UNSCALED_WINDOW_HEIGHT)
-	{
-		x = 0;
-		while (x < UNSCALED_WINDOW_WIDTH)
-		{
-			rt_put_color(image, x, y, color);
-			x++;
-		}
-		y++;
-	}
-}
+// 	unrendered_rgb = (t_rgb){
+// 		UNRENDERED_R / 255.f,
+// 		UNRENDERED_G / 255.f,
+// 		UNRENDERED_B / 255.f
+// 	};
+// 	color = rt_convert_color(unrendered_rgb);
+// 	y = 0;
+// 	while (y < UNSCALED_WINDOW_HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < UNSCALED_WINDOW_WIDTH)
+// 		{
+// 			rt_put_color(image, x, y, color);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
 
-static void	rt_reset_voronoi(t_data *data)
-{
-	size_t	i;
+// static void	rt_reset_voronoi(t_data *data)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (i < data->pixel_count)
-	{
-		data->voronoi.distances[i] = UINT32_MAX;
-		data->voronoi.visited[i] = false;
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < data->pixel_count)
+// 	{
+// 		data->voronoi.distances[i] = UINT32_MAX;
+// 		data->voronoi.visited[i] = false;
+// 		i++;
+// 	}
+// }
 
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	if (data->draw_mode == DRAW_MODE_VORONOI)
-	{
-		rt_reset_voronoi(data);
-	}
-	else if (data->draw_mode == DRAW_MODE_BLUE_NOISE
-		|| data->draw_mode == DRAW_MODE_NORMAL)
-	{
-		rt_clear_image(data->image);
-	}
-	data->pixel_index = data->pixel_count;
+	// if (data->draw_mode == DRAW_MODE_VORONOI)
+	// {
+	// 	rt_reset_voronoi(data);
+	// }
+	// else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
+	// {
+	// 	rt_clear_image(data->image);
+	// }
+	data->pixel_index = 0;
+	data->samples_since_last_movement = 0;
 }

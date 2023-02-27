@@ -54,7 +54,9 @@ void	rt_draw_loop(void *param)
 		return ;
 
 	if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+	{
 		rt_reset_canvas_info(data);
+	}
 	data->moved_cursor = false;
 
 	mlx_set_mouse_pos(data->mlx, data->scaled_window_center_x, data->scaled_window_center_y);

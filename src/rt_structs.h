@@ -90,7 +90,10 @@ struct s_data
 
 	size_t		debug_image_index;
 
-	float		reflection_contribution;
+	// float		reflection_contribution;
+
+	size_t		samples_since_last_movement;
+	float		pixel_channel_floats[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT * 4];
 
 	// TODO: Put in struct
 	bool		draw_debug;

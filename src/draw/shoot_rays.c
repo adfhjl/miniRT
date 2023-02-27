@@ -31,38 +31,54 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	return (rt_get_ray(data->camera->origin, dir));
 }
 
-static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, t_data *data)
+// Linear blend where an interpolation of 0.0f means old is returned,
+// while 1.0f means new is returned.
+static float	rt_mix(float old, float new, float interpolation)
+{
+	return (old * (1 - interpolation) + new * interpolation);
+}
+
+static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *data)
 {
 	t_ray	ray;
-	size_t	sample_index;
-	t_rgb	rgbs[SAMPLES_PER_PIXEL];
 	t_rgb	rgb;
 
-	// TODO: Average the samples over time as well
-
 	ray = rt_create_ray(x, y, data);
-	sample_index = 0;
-	while (sample_index < SAMPLES_PER_PIXEL)
-	{
-		rgbs[sample_index] = rt_get_ray_rgb(ray, data);
-		sample_index++;
-	}
+	rgb = rt_get_ray_rgb(ray, data);
 
-	rgb = rt_get_rgb(0, 0, 0);
-	sample_index = 0;
-	while (sample_index < SAMPLES_PER_PIXEL)
-	{
-		rgb.r += rgbs[sample_index].r;
-		rgb.g += rgbs[sample_index].g;
-		rgb.b += rgbs[sample_index].b;
-		sample_index++;
-	}
+	rgb.r = rt_mix(data->pixel_channel_floats[location * 4 + 0], rgb.r, 1.0f / (data->samples_since_last_movement + 1));
+	rgb.g = rt_mix(data->pixel_channel_floats[location * 4 + 1], rgb.g, 1.0f / (data->samples_since_last_movement + 1));
+	rgb.b = rt_mix(data->pixel_channel_floats[location * 4 + 2], rgb.b, 1.0f / (data->samples_since_last_movement + 1));
 
-	rgb.r /= SAMPLES_PER_PIXEL;
-	rgb.g /= SAMPLES_PER_PIXEL;
-	rgb.b /= SAMPLES_PER_PIXEL;
+	data->pixel_channel_floats[location * 4 + 0] = rgb.r;
+	data->pixel_channel_floats[location * 4 + 1] = rgb.g;
+	data->pixel_channel_floats[location * 4 + 2] = rgb.b;
 
 	return (rgb);
+
+	// size_t	sample_index;
+	// t_rgb	rgbs[SAMPLES_PER_PIXEL];
+
+	// sample_index = 0;
+	// while (sample_index < SAMPLES_PER_PIXEL)
+	// {
+	// 	rgbs[sample_index] = rt_get_ray_rgb(ray, data);
+	// 	sample_index++;
+	// }
+
+	// rgb = rt_get_rgb(0, 0, 0);
+	// sample_index = 0;
+	// while (sample_index < SAMPLES_PER_PIXEL)
+	// {
+	// 	rgb.r += rgbs[sample_index].r;
+	// 	rgb.g += rgbs[sample_index].g;
+	// 	rgb.b += rgbs[sample_index].b;
+	// 	sample_index++;
+	// }
+
+	// rgb.r /= SAMPLES_PER_PIXEL;
+	// rgb.g /= SAMPLES_PER_PIXEL;
+	// rgb.b /= SAMPLES_PER_PIXEL;
 }
 
 // static void	rt_shoot_voronoi_ray(t_data *data)
@@ -102,11 +118,10 @@ static void	rt_shoot_normal_ray(t_data *data)
 	uint32_t	y;
 	t_rgb		rgb;
 
-	data->pixel_index--;
-	location = data->pixel_count - data->pixel_index - 1;
+	location = data->pixel_index;
 	x = location % UNSCALED_WINDOW_WIDTH;
 	y = location / UNSCALED_WINDOW_WIDTH;
-	rgb = rt_shoot_ray(x, y, data);
+	rgb = rt_shoot_ray(x, y, location, data);
 	rt_put_rgb(data->image, x, y, rgb);
 }
 
@@ -133,10 +148,11 @@ void	rt_shoot_rays(t_data *data)
 		// else if (data->draw_mode == DRAW_MODE_NORMAL)
 		if (data->draw_mode == DRAW_MODE_NORMAL)
 		{
-			if (data->pixel_index == 0)
-				return ;
 			rt_shoot_normal_ray(data);
 		}
+		if (data->pixel_index + 1 == data->pixel_count)
+			data->samples_since_last_movement++;
+		data->pixel_index = (data->pixel_index + 1) % data->pixel_count;
 		ray_index++;
 	}
 }
