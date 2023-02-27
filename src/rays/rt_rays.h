@@ -15,10 +15,6 @@
 
 # include "minirt.h"
 
-t_rgb			rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
-					t_rgb object_color);
-
-t_hit_info		rt_get_hit_info(t_ray ray, t_data *data);
 t_rgb			rt_get_ray_rgb(t_ray ray, t_data *data);
 
 #endif

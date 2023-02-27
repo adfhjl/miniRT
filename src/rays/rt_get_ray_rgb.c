@@ -17,7 +17,7 @@
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
-t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
+static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
 	t_hit_info	hit_info;
 	t_hit_info	new_hit_info;
@@ -64,8 +64,6 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	t_hit_info	hit_info;
 	t_rgb		background;
 	size_t		bounce_index;
-	// t_vector	ray_to_light;
-	// t_hit_info	light_ray_info;
 
 	rgb = rt_get_rgb(0, 0, 0);
 	throughput = rt_get_rgb(1, 1, 1);
@@ -78,9 +76,6 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		if (hit_info.distance == INFINITY)
 		{
-			// TODO: Maybe add light ray info logic here as well?
-
-			// TODO: Maybe create a background texture to sample from?
 			rgb = rt_add_rgb(rgb, rt_multiply_rgb(background, throughput));
 			break ;
 		}
@@ -91,16 +86,9 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		ray.normal = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
 
-		// TODO: Account for light distance?
+		// TODO: Account for light distance
 		// TODO: Use data->light->ratio. Maybe some other fields were also forgotten
 		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
-
-		// TODO: Maybe do this after throughput multiplication, instead of before?
-		// ray_to_light = rt_sub(data->light->origin, ray.origin);
-		// light_ray_info = rt_get_hit_info(
-		// 			rt_get_ray(ray.origin, rt_normalized(ray_to_light)), data);
-		// if (light_ray_info.distance >= rt_mag(ray_to_light))
-		// 	rgb = rt_add_rgb(rgb, rt_scale_rgb(rt_multiply_rgb(data->light->rgb, throughput), 0.3f));
 
 		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
 

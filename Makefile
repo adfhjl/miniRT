@@ -75,7 +75,6 @@ CFILES :=\
 	src/mathematics/rt_normalized.c\
 	src/mathematics/rt_scale.c\
 	src/mathematics/rt_sub.c\
-	src/rays/rt_get_point_rgb.c\
 	src/rays/rt_get_ray_rgb.c\
 	src/utils/print_error.c\
 	src/utils/random.c\
