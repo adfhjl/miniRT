@@ -15,8 +15,8 @@
 
 # include "minirt.h"
 
-t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object *object);
-t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object *object);
-t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object *object);
+t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder);
+t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane);
+t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere);
 
 #endif

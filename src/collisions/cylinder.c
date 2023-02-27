@@ -15,7 +15,7 @@
 #include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 
-static t_ray	rt_translate_ray(t_ray ray, t_cylinder cylinder)
+static t_ray	rt_translate_ray(t_ray ray, t_object cylinder)
 {
 	return (rt_get_ray(rt_sub(ray.origin, cylinder.origin), ray.normal));
 }
@@ -36,7 +36,7 @@ static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
 4. ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta)
 5. ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta)
 */
-static t_ray	rt_rotate_ray(t_ray ray, t_cylinder cylinder000)
+static t_ray	rt_rotate_ray(t_ray ray, t_object cylinder000)
 {
 	// TODO: Maybe don't use shitty {0, 1, 0}
 	float		angle;
@@ -51,7 +51,7 @@ static t_ray	rt_rotate_ray(t_ray ray, t_cylinder cylinder000)
 	return (ray);
 }
 
-static t_ray	rt_adjust_ray(t_ray ray, t_cylinder cylinder)
+static t_ray	rt_adjust_ray(t_ray ray, t_object cylinder)
 {
 	ray = rt_translate_ray(ray, cylinder);
 	if (cylinder.normal.x != 0.0f || cylinder.normal.z != 0.0f)
@@ -59,7 +59,7 @@ static t_ray	rt_adjust_ray(t_ray ray, t_cylinder cylinder)
 	return (ray);
 }
 
-// static float	rt_get_cylinder_distance(t_ray ray, t_cylinder cylinder)
+// static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 // {
 // 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
 // 	const float	a = rt_dot(adjusted_ray.normal, adjusted_ray.normal);
@@ -74,7 +74,7 @@ static t_ray	rt_adjust_ray(t_ray ray, t_cylinder cylinder)
 // 	distance = (-b - sqrtf(d)) / (2 * a);
 // }
 
-static float	rt_get_cylinder_distance(t_ray ray, t_cylinder cylinder)
+static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 {
 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
 	t_ray	flattened_ray = adjusted_ray;
@@ -108,7 +108,7 @@ static float	rt_get_cylinder_distance(t_ray ray, t_cylinder cylinder)
 }
 
 static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
-				t_cylinder cylinder)
+				t_object cylinder)
 {
 	t_vector	point_direction;
 	t_vector	perpendicular;
@@ -121,10 +121,9 @@ static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
 	return (rt_normalized(surface_abnormal));
 }
 
-t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object *object)
+t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 {
-	const t_cylinder	cylinder = object->cylinder;
-	t_hit_info			info;
+	t_hit_info	info;
 
 	info.distance = rt_get_cylinder_distance(ray, cylinder);
 	if (info.distance == INFINITY)

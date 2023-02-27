@@ -29,29 +29,29 @@ static void	rt_print_rgb(t_rgb rgb)
 static void	rt_print_object_rgb(t_object object)
 {
 	if (object.type == OBJECT_TYPE_AMBIENT)
-		rt_print_rgb(object.ambient.rgb);
+		rt_print_rgb(object.rgb);
 	else if (object.type == OBJECT_TYPE_LIGHT)
-		rt_print_rgb(object.light.rgb);
+		rt_print_rgb(object.rgb);
 	else if (object.type == OBJECT_TYPE_SPHERE)
-		rt_print_rgb(object.sphere.rgb);
+		rt_print_rgb(object.rgb);
 	else if (object.type == OBJECT_TYPE_PLANE)
-		rt_print_rgb(object.plane.rgb);
+		rt_print_rgb(object.rgb);
 	else if (object.type == OBJECT_TYPE_CYLINDER)
-		rt_print_rgb(object.cylinder.rgb);
+		rt_print_rgb(object.rgb);
 }
 
 static void	rt_print_object_origin(t_object object)
 {
 	if (object.type == OBJECT_TYPE_CAMERA)
-		printf(" %.1f,%.1f,%.1f", object.camera.origin.x, object.camera.origin.y, object.camera.origin.z);
+		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
 	else if (object.type == OBJECT_TYPE_LIGHT)
-		printf(" %.1f,%.1f,%.1f", object.light.origin.x, object.light.origin.y, object.light.origin.z);
+		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
 	else if (object.type == OBJECT_TYPE_SPHERE)
-		printf(" %.1f,%.1f,%.1f", object.sphere.origin.x, object.sphere.origin.y, object.sphere.origin.z);
+		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
 	else if (object.type == OBJECT_TYPE_PLANE)
-		printf(" %.1f,%.1f,%.1f", object.plane.origin.x, object.plane.origin.y, object.plane.origin.z);
+		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
 	else if (object.type == OBJECT_TYPE_CYLINDER)
-		printf(" %.1f,%.1f,%.1f", object.cylinder.origin.x, object.cylinder.origin.y, object.cylinder.origin.z);
+		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
 }
 
 void	rt_print_scene(t_data *data)
@@ -78,30 +78,26 @@ void	rt_print_scene(t_data *data)
 
 		rt_print_object_origin(object);
 
-		if (object.type == OBJECT_TYPE_AMBIENT)
-			printf(" %.1f", object.ambient.ratio);
-		else if (object.type == OBJECT_TYPE_LIGHT)
-			printf(" %.1f", object.light.ratio);
+		if (object.type == OBJECT_TYPE_AMBIENT
+		|| object.type == OBJECT_TYPE_LIGHT)
+			printf(" %.1f", object.ratio);
 
-		if (object.type == OBJECT_TYPE_CAMERA)
-			printf(" %.1f,%.1f,%.1f", object.camera.normal.x, object.camera.normal.y, object.camera.normal.z);
-		else if (object.type == OBJECT_TYPE_PLANE)
-			printf(" %.1f,%.1f,%.1f", object.plane.normal.x, object.plane.normal.y, object.plane.normal.z);
-		else if (object.type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f,%.1f,%.1f", object.cylinder.normal.x, object.cylinder.normal.y, object.cylinder.normal.z);
+		if (object.type == OBJECT_TYPE_CAMERA
+		|| object.type == OBJECT_TYPE_PLANE
+		|| object.type == OBJECT_TYPE_CYLINDER)
+			printf(" %.1f,%.1f,%.1f", object.normal.x, object.normal.y, object.normal.z);
 
-		if (object.type == OBJECT_TYPE_SPHERE)
-			printf(" %.1f", object.sphere.diameter);
-		else if (object.type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f", object.cylinder.diameter);
+		if (object.type == OBJECT_TYPE_SPHERE
+		|| object.type == OBJECT_TYPE_CYLINDER)
+			printf(" %.1f", object.diameter);
 
 		if (object.type == OBJECT_TYPE_CYLINDER)
-			printf(" %.1f", object.cylinder.height);
+			printf(" %.1f", object.height);
 
 		rt_print_object_rgb(object);
 
 		if (object.type == OBJECT_TYPE_CAMERA)
-			printf(" %.1f", object.camera.fov);
+			printf(" %.1f", object.fov);
 
 		printf("\n");
 

@@ -40,11 +40,10 @@
 //
 // denom = dot(ray.normal, plane.normal):
 // t = dot(plane.origin - ray.origin, plane.normal) / denom
-t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object *object)
+t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 {
-	t_hit_info		info;
-	const t_plane	plane = object->plane;
-	float			denom;
+	t_hit_info	info;
+	float		denom;
 
 	denom = rt_dot(ray.normal, plane.normal);
 	if (denom == 0)

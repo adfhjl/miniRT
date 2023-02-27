@@ -17,11 +17,11 @@
 
 t_status	rt_parse_camera(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->camera.origin) == ERROR
+	if (rt_parse_vector(line_ptr, &object->origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_normal(line_ptr, &object->camera.normal) == ERROR
+		|| rt_parse_normal(line_ptr, &object->normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &object->camera.fov, 0, 180) == ERROR)
+		|| rt_parse_range_float(line_ptr, &object->fov, 0, 180) == ERROR)
 		return (ERROR);
 	return (OK);
 }

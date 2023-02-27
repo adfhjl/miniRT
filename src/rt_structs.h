@@ -33,65 +33,16 @@ struct s_ray
 	t_vector	normal;
 };
 
-struct s_ambient
-{
-	float	ratio;
-	t_rgb	rgb;
-};
-
-struct s_camera
-{
-	t_vector	origin;
-	t_vector	normal;
-	float		fov;
-};
-
-struct s_light
-{
-	t_vector	origin;
-	float		ratio;
-	t_rgb		rgb;
-	t_rgb		emissive;
-	float		diameter;
-};
-
-struct s_sphere
-{
-	t_vector	origin;
-	float		diameter;
-	t_rgb		rgb;
-	t_rgb		emissive;
-};
-
-struct s_plane
-{
-	t_vector	origin;
-	t_vector	normal;
-	t_rgb		rgb;
-	t_rgb		emissive;
-};
-
-struct s_cylinder
-{
-	t_vector	origin;
-	t_vector	normal;
-	float		diameter;
-	float		height;
-	t_rgb		rgb;
-	t_rgb		emissive;
-};
-
 struct s_object
 {
-	union
-	{
-		t_ambient	ambient;
-		t_camera	camera;
-		t_light		light;
-		t_sphere	sphere;
-		t_plane		plane;
-		t_cylinder	cylinder;
-	};
+	float			ratio;
+	t_rgb			rgb;
+	t_vector		origin;
+	t_vector		normal;
+	float			fov;
+	t_rgb			emissive;
+	float			diameter;
+	float			height;
 	t_object_type	type;
 };
 
@@ -121,9 +72,10 @@ struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_object	*objects;
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
+
+	t_object	*ambient;
+	t_object	*camera;
+	t_object	*light;
 
 	int			scaled_window_width;
 	int			scaled_window_height;

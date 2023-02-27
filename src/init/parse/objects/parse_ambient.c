@@ -17,9 +17,9 @@
 
 t_status	rt_parse_ambient(char **line_ptr, t_object *object)
 {
-	if (rt_parse_range_float(line_ptr, &object->ambient.ratio, 0, 1) == ERROR
+	if (rt_parse_range_float(line_ptr, &object->ratio, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &object->ambient.rgb) == ERROR)
+		|| rt_parse_rgb(line_ptr, &object->rgb) == ERROR)
 		return (ERROR);
 	return (OK);
 }

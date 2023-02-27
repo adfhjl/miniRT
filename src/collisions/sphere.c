@@ -24,7 +24,7 @@
 // 	return (distance);
 // }
 
-static float	get_sphere_distance(t_sphere sphere, t_ray ray)
+static float	get_sphere_distance(t_object sphere, t_ray ray)
 {
 	const float	a = rt_dot(ray.normal, ray.normal);
 	const float	b = 2 * rt_dot(ray.normal, rt_sub(ray.origin, sphere.origin));
@@ -45,10 +45,9 @@ static float	get_sphere_distance(t_sphere sphere, t_ray ray)
 	return (distance);
 }
 
-t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object *object)
+t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 {
-	const t_sphere	sphere = object->sphere;
-	t_hit_info		info;
+	t_hit_info	info;
 
 	info.distance = get_sphere_distance(sphere, ray);
 	if (info.distance == INFINITY)

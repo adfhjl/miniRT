@@ -17,15 +17,15 @@
 
 t_status	rt_parse_cylinder(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->cylinder.origin) == ERROR
+	if (rt_parse_vector(line_ptr, &object->origin) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_normal(line_ptr, &object->cylinder.normal) == ERROR
+		|| rt_parse_normal(line_ptr, &object->normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_float(line_ptr, &object->cylinder.diameter) == ERROR
+		|| rt_parse_float(line_ptr, &object->diameter) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_float(line_ptr, &object->cylinder.height) == ERROR
+		|| rt_parse_float(line_ptr, &object->height) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &object->cylinder.rgb) == ERROR)
+		|| rt_parse_rgb(line_ptr, &object->rgb) == ERROR)
 		return (ERROR);
 	return (OK);
 }

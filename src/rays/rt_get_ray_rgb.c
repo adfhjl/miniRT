@@ -29,11 +29,11 @@ t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	while (i < ft_vector_get_size(data->objects))
 	{
 		if (data->objects[i].type == OBJECT_TYPE_PLANE)
-			new_hit_info = rt_get_plane_collision_info(ray, &data->objects[i]);
+			new_hit_info = rt_get_plane_collision_info(ray, data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_SPHERE)
-			new_hit_info = rt_get_sphere_collision_info(ray, &data->objects[i]);
+			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
-			new_hit_info = rt_get_cylinder_collision_info(ray, &data->objects[i]);
+			new_hit_info = rt_get_cylinder_collision_info(ray, data->objects[i]);
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
 		if (new_hit_info.distance > 0

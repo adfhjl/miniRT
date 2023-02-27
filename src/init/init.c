@@ -88,12 +88,9 @@ static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 
 static void	rt_assign_capitalized_objects(t_data *data)
 {
-	data->ambient
-		= &rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects)->ambient;
-	data->camera
-		= &rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects)->camera;
-	data->light
-		= &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
+	data->ambient = rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects);
+	data->camera = rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects);
+	data->light = rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects);
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
