@@ -62,7 +62,7 @@ void	rt_draw_loop(void *param)
 	if (data->camera != NULL)
 	{
 		rt_update_camera_origin(data);
-		rt_generate_noise(data);
+		// rt_generate_noise(data);
 		rt_shoot_rays(data);
 	}
 
