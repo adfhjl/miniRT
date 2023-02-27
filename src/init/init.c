@@ -41,21 +41,6 @@ static void	rt_init_available(t_data *data)
 	}
 }
 
-static t_status	rt_calloc_blue_noise_arrays(t_data *data)
-{
-	data->available = ft_calloc(data->pixel_count,
-			sizeof(*data->available));
-	data->available_inverse = ft_calloc(data->pixel_count,
-			sizeof(*data->available_inverse));
-	data->densities = ft_calloc(data->pixel_count,
-			sizeof(*data->densities));
-	if (data->available == NULL
-		|| data->available_inverse == NULL
-		|| data->densities == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-	return (OK);
-}
-
 static bool	rt_camera_is_invalid(t_data *data)
 {
 	if (data->camera == NULL)
@@ -95,7 +80,6 @@ static void	rt_assign_capitalized_objects(t_data *data)
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
 {
-	ft_bzero(data, sizeof(*data));
 	if (argc != 2)
 		return (rt_print_error(ERROR_INVALID_ARGC));
 	if (rt_parse_argv(argv, data) == ERROR)
@@ -145,21 +129,10 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	data->reflection_contribution = REFLECTION_CONTRIBUTION;
 
-	data->voronoi.distances = ft_calloc(data->pixel_count, sizeof(*data->voronoi.distances));
-	if (data->voronoi.distances == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-
 	// TODO: Make sure it isn't 2x necessary
 	data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
 	if (data->voronoi.stack == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
-
-	data->voronoi.visited = ft_calloc(data->pixel_count, sizeof(*data->voronoi.visited));
-	if (data->voronoi.visited == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-
-	if (rt_calloc_blue_noise_arrays(data) == ERROR)
-		return (ERROR);
 
 	rt_init_available(data);
 

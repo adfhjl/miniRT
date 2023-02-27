@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 500
-# define UNSCALED_WINDOW_HEIGHT 500
+# define UNSCALED_WINDOW_WIDTH 2000
+# define UNSCALED_WINDOW_HEIGHT 2000
 
 # define BACKGROUND_R 0.1f
 # define BACKGROUND_G 0.1f
@@ -45,7 +45,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 2
+# define PIXEL_SCALE 1
 
 # define MAX_UPDATE_RADIUS 20
 
@@ -65,7 +65,7 @@
 
 // TODO: Average the samples over time as well
 // TODO: Don't sample pixels multiple times that immediately flew into the sky.
-# define SAMPLES_PER_PIXEL 100
+# define SAMPLES_PER_PIXEL 1
 
 // TODO: Before handing the project in, set this to a tiny value so it's
 // really close to a point light, which is probably what the subject intended.

@@ -34,7 +34,7 @@ void	rt_cleanup(t_data *data)
 
 int	main(int argc, char *argv[])
 {
-	t_data	data;
+	static t_data	data;
 
 	atexit(rt_check_leaks);
 	if (rt_init(argc, argv, &data) == ERROR)

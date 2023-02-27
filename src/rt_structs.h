@@ -62,9 +62,9 @@ typedef struct s_voronoi_seed
 
 typedef struct s_voronoi
 {
-	uint32_t		*distances;
+	uint32_t		distances[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 	t_voronoi_seed	*stack;
-	bool			*visited;
+	bool			visited[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 }	t_voronoi;
 
 struct s_data
@@ -119,9 +119,9 @@ struct s_data
 	// TODO: Put in struct
 	uint32_t	pixel_count;
 
-	uint32_t	*available;
-	uint32_t	*available_inverse;
-	float		*densities;
+	uint32_t	available[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	uint32_t	available_inverse[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	float		densities[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 
 	uint32_t	available_count;
 
