@@ -104,6 +104,10 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
+
+	data->light->emissive = data->light->rgb;
+	data->light->diameter = LIGHT_DIAMETER;
+
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
 

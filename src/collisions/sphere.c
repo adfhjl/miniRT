@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "get_structs/rt_get_structs.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
@@ -52,8 +53,9 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object *object)
 	info.distance = get_sphere_distance(sphere, ray);
 	if (info.distance == INFINITY)
 		return ((t_hit_info){.distance = INFINITY});
-	info.object = object;
 	info.surface_normal = rt_normalized(rt_sub(rt_get_ray_point(ray,
 					info.distance), sphere.origin));
+	info.rgb = sphere.rgb;
+	info.emissive = rt_get_rgb(0, 0, 0);
 	return (info);
 }

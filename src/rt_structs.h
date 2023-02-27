@@ -51,6 +51,8 @@ struct s_light
 	t_vector	origin;
 	float		ratio;
 	t_rgb		rgb;
+	t_rgb		emissive;
+	float		diameter;
 };
 
 struct s_sphere
@@ -58,6 +60,7 @@ struct s_sphere
 	t_vector	origin;
 	float		diameter;
 	t_rgb		rgb;
+	t_rgb		emissive;
 };
 
 struct s_plane
@@ -65,6 +68,7 @@ struct s_plane
 	t_vector	origin;
 	t_vector	normal;
 	t_rgb		rgb;
+	t_rgb		emissive;
 };
 
 struct s_cylinder
@@ -74,6 +78,7 @@ struct s_cylinder
 	float		diameter;
 	float		height;
 	t_rgb		rgb;
+	t_rgb		emissive;
 };
 
 struct s_object
@@ -92,9 +97,10 @@ struct s_object
 
 struct s_hit_info
 {
-	t_object		*object;
-	float			distance;
-	t_vector		surface_normal;
+	float		distance;
+	t_vector	surface_normal;
+	t_rgb		rgb;
+	t_rgb		emissive;
 };
 
 typedef struct s_voronoi_seed

@@ -18,8 +18,8 @@
 
 			// "args": [ "scenes/shapes/plane/four-planes-rotated.rt" ],
 			// "args": [ "scenes/fun/lava-world.rt" ],
-			// "args": [ "scenes/fun/plasma.rt" ],
-			"args": [ "scenes/fun/test.rt" ],
+			"args": [ "scenes/fun/plasma.rt" ],
+			// "args": [ "scenes/fun/test.rt" ],
 			// "args": [ "scenes/valid/shapes/plane-sphere.rt" ],
 			// "args": [ "scenes/valid/shapes/plane/dutch-flag.rt" ],
 
@@ -38,7 +38,9 @@
 			// "args": [ "scenes/valid/shapes/plane/one-plane.rt" ],
 			// "args": [ "scenes/valid/normalized-normal.rt" ],
 
+			// "args": [ "scenes/valid/no-trailing-newline.rt" ],
 			// "args": [ "scenes/valid/example.rt" ],
+			// "args": [ "scenes/valid/empty.rt" ],
 			// "args": [ "scenes/valid/light-under-plane.rt" ],
 
 			// "args": [ "scenes/valid/shapes/plane/light-in-plane.rt" ],

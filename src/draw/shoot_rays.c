@@ -15,6 +15,7 @@
 #include "draw/rt_draw.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
+#include "get_structs/rt_get_structs.h"
 
 static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 {
@@ -32,10 +33,36 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 
 static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, t_data *data)
 {
-	t_ray		ray;
+	t_ray	ray;
+	size_t	sample_index;
+	t_rgb	rgbs[SAMPLES_PER_PIXEL];
+	t_rgb	rgb;
+
+	// TODO: Average the samples over time as well
 
 	ray = rt_create_ray(x, y, data);
-	return (rt_get_ray_rgb(ray, data, 0));
+	sample_index = 0;
+	while (sample_index < SAMPLES_PER_PIXEL)
+	{
+		rgbs[sample_index] = rt_get_ray_rgb(ray, data);
+		sample_index++;
+	}
+
+	rgb = rt_get_rgb(0, 0, 0);
+	sample_index = 0;
+	while (sample_index < SAMPLES_PER_PIXEL)
+	{
+		rgb.r += rgbs[sample_index].r;
+		rgb.g += rgbs[sample_index].g;
+		rgb.b += rgbs[sample_index].b;
+		sample_index++;
+	}
+
+	rgb.r /= SAMPLES_PER_PIXEL;
+	rgb.g /= SAMPLES_PER_PIXEL;
+	rgb.b /= SAMPLES_PER_PIXEL;
+
+	return (rgb);
 }
 
 static void	rt_shoot_voronoi_ray(t_data *data)

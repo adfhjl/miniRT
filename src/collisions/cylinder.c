@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 
 static t_ray	rt_translate_ray(t_ray ray, t_cylinder cylinder)
@@ -128,7 +129,8 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object *object)
 	info.distance = rt_get_cylinder_distance(ray, cylinder);
 	if (info.distance == INFINITY)
 		return ((t_hit_info){.distance = INFINITY});
-	info.object = object;
 	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
+	info.rgb = cylinder.rgb;
+	info.emissive = rt_get_rgb(0, 0, 0);
 	return (info);
 }

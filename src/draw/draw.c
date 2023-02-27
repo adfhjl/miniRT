@@ -14,6 +14,7 @@
 
 #include "draw/rt_draw.h"
 #include "debug/rt_debug.h"
+#include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 
 static bool	rt_any_movement_key_pressed(t_data *data)

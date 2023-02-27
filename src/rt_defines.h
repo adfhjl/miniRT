@@ -19,18 +19,15 @@
 # define UNSCALED_WINDOW_WIDTH 500
 # define UNSCALED_WINDOW_HEIGHT 500
 
-# define BACKGROUND_R 0
-# define BACKGROUND_G 0
-# define BACKGROUND_B 0
-// # define BACKGROUND_R 20
-// # define BACKGROUND_G 20
-// # define BACKGROUND_B 20
+# define BACKGROUND_R 0.1f
+# define BACKGROUND_G 0.1f
+# define BACKGROUND_B 0.1f
 
 # define UNRENDERED_R 10
 # define UNRENDERED_G 10
 # define UNRENDERED_B 10
 
-# define EPSILON 1.0e-4f
+# define NUDGE 0.01f
 # define LIGHT_BRIGHTNESS_FACTOR 500.0f
 
 # define MOVEMENT_SPEED 7.0f
@@ -50,7 +47,7 @@
 
 # define PIXEL_SCALE 2
 
-# define MAX_UPDATE_RADIUS 10
+# define MAX_UPDATE_RADIUS 20
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.
@@ -59,11 +56,20 @@
 // TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
 // TODO: It can still be diffuse with a value higher than 0
 // if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
-# define MAX_BOUNCES_PER_RAY 10
+# define MAX_BOUNCES_PER_RAY 8
 
 // 0.0 means that reflection doesn't occur, so the render is diffuse.
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
 // so that the object's own RGB only contributes 10% of the RGB.
 # define REFLECTION_CONTRIBUTION 0.5f
+
+// TODO: Average the samples over time as well
+# define SAMPLES_PER_PIXEL 5
+
+// TODO: Before handing the project in, set this to a tiny value so it's
+// really close to a point light, which is probably what the subject intended.
+# define LIGHT_DIAMETER 0.5f
+
+// TODO: Add three defines for plane, sphere, and cylinder emission RGBs
 
 #endif

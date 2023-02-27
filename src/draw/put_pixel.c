@@ -14,7 +14,7 @@
 
 static uint32_t	rt_get_rgb_channel(float n)
 {
-	return ((uint32_t)((-(1.f / expf(n * 2)) + 1) * 255));
+	return ((uint32_t)((-(1.f / expf(n * 2.0f)) + 1) * 255));
 }
 
 uint32_t	rt_convert_color(t_rgb rgb)

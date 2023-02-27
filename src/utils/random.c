@@ -14,7 +14,7 @@
 #include <stddef.h>
 
 // Source: https://stackoverflow.com/a/11946674/13279557
-static unsigned int	rt_rand(void)
+static unsigned int	rt_random(void)
 {
 	static unsigned int	seed = 1;
 
@@ -29,10 +29,15 @@ void	rt_shuffle(uint32_t *arr, size_t length)
 
 	while (length > 1)
 	{
-		index = rt_rand() % length;
+		index = rt_random() % length;
 		length--;
 		temp = arr[index];
 		arr[index] = arr[length];
 		arr[length] = temp;
 	}
+}
+
+float	rt_random_float_01(void)
+{
+	return ((float)rt_random() / UINT32_MAX);
 }

@@ -45,6 +45,9 @@ CFILES :=\
 	src/draw/reset_canvas_info.c\
 	src/draw/shoot_rays.c\
 	src/draw/voronoi.c\
+	src/get_structs/get_rgb.c\
+	src/get_structs/rt_get_ray.c\
+	src/get_structs/rt_get_vector.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
@@ -74,9 +77,8 @@ CFILES :=\
 	src/mathematics/rt_sub.c\
 	src/rays/rt_get_point_rgb.c\
 	src/rays/rt_get_ray_rgb.c\
-	src/rays/rt_get_ray.c\
 	src/utils/print_error.c\
-	src/utils/shuffle.c\
+	src/utils/random.c\
 	src/main.c
 
 ################################################################################

@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "get_structs/rt_get_structs.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
@@ -49,7 +50,8 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object *object)
 	if (denom == 0)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
-	info.object = object;
 	info.surface_normal = plane.normal;
+	info.rgb = plane.rgb;
+	info.emissive = rt_get_rgb(0, 0, 0);
 	return (info);
 }

@@ -12,61 +12,100 @@
 
 #include "minirt.h"
 
-#include "mathematics/rt_mathematics.h"
 #include "collisions/rt_collisions.h"
+#include "get_structs/rt_get_structs.h"
+#include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
 t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
 	t_hit_info	hit_info;
-	t_hit_info	tmp;
+	t_hit_info	new_hit_info;
 	size_t		i;
 
 	hit_info.distance = INFINITY;
-	tmp.distance = INFINITY;
+	new_hit_info.distance = INFINITY;
 	i = 0;
 	while (i < ft_vector_get_size(data->objects))
 	{
 		if (data->objects[i].type == OBJECT_TYPE_PLANE)
-			tmp = rt_get_plane_collision_info(ray, &data->objects[i]);
+			new_hit_info = rt_get_plane_collision_info(ray, &data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_SPHERE)
-			tmp = rt_get_sphere_collision_info(ray, &data->objects[i]);
+			new_hit_info = rt_get_sphere_collision_info(ray, &data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
-			tmp = rt_get_cylinder_collision_info(ray, &data->objects[i]);
-		// TODO: Shouldn't tmp.distance always be positive anyways?
+			new_hit_info = rt_get_cylinder_collision_info(ray, &data->objects[i]);
+		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
-		if (tmp.distance > 0 && tmp.distance < hit_info.distance)
-			hit_info = tmp;
+		if (new_hit_info.distance > 0
+			&& new_hit_info.distance < hit_info.distance)
+			hit_info = new_hit_info;
 		i++;
 	}
 	return (hit_info);
 }
 
-static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
-				float theta)
+// Source:
+// https://blog.demofox.org/2020/05/25/
+// casual-shadertoy-path-tracing-1-basic-camera-diffuse-emissive/
+static t_vector	rt_random_unit_vector(void)
 {
-	return (rt_add(rt_add(rt_scale(v, cosf(theta)),
-	rt_scale(rt_cross(rotation_axis, v), sinf(theta))),
-	rt_scale(rotation_axis, rt_dot(rotation_axis, v) * (1 - cosf(theta)))));
+    float z = rt_random_float_01() * 2.0f - 1.0f;
+    float a = rt_random_float_01() * 2.0f * (float)M_PI;
+    float r = sqrtf(1.0f - z * z);
+    float x = r * cosf(a);
+    float y = r * sinf(a);
+    return (rt_get_vector(x, y, z));
 }
 
-t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data, int depth)
+t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 {
-	t_hit_info	info;
 	t_rgb		rgb;
+	t_rgb		throughput;
+	t_hit_info	hit_info;
+	t_rgb		background;
+	size_t		bounce_index;
+	// t_vector	ray_to_light;
+	// t_hit_info	light_ray_info;
 
-	info = rt_get_hit_info(ray, data);
-	if (info.distance == INFINITY)
-		return ((t_rgb){.r = BACKGROUND_R / 255.0f,
-			.g = BACKGROUND_G / 255.0f, .b = BACKGROUND_B / 255.0f});
-	if (info.object->type == OBJECT_TYPE_PLANE)
-		rgb = rt_get_point_rgb(ray, info, data, info.object->plane.rgb);
-	if (info.object->type == OBJECT_TYPE_SPHERE)
-		rgb = rt_get_point_rgb(ray, info, data, info.object->sphere.rgb);
-	if (info.object->type == OBJECT_TYPE_CYLINDER)
-		rgb = rt_get_point_rgb(ray, info, data, info.object->cylinder.rgb);
-	if (depth == MAX_BOUNCES_PER_RAY || data->reflection_contribution == 0)
-		return (rgb);
-	// return (rt_add_rgb(rt_scale_rgb(rgb, 1 - data->reflection_contribution), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100)), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth + 1), data->reflection_contribution)));
-	return (rt_add_rgb(rt_scale_rgb(rgb, 1 - data->reflection_contribution), rt_scale_rgb(rt_get_ray_rgb(rt_get_ray(rt_add(rt_get_ray_point(ray, info.distance), rt_scale(info.surface_normal, EPSILON * 100 * -fabsf(rt_dot(info.surface_normal, ray.normal)) / rt_dot(info.surface_normal, ray.normal))), rt_rotate_around_axis(rt_scale(ray.normal, -1), info.surface_normal, (float)M_PI)), data, depth + 1), data->reflection_contribution)));
+	rgb = rt_get_rgb(0, 0, 0);
+	throughput = rt_get_rgb(1, 1, 1);
+	background = rt_get_rgb(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B);
+
+	bounce_index = 0;
+	while (bounce_index <= MAX_BOUNCES_PER_RAY)
+	{
+		hit_info = rt_get_hit_info(ray, data);
+
+		if (hit_info.distance == INFINITY)
+		{
+			// TODO: Maybe add light ray info logic here as well?
+
+			// TODO: Maybe create a background texture to sample from?
+			rgb = rt_add_rgb(rgb, rt_multiply_rgb(background, throughput));
+			break ;
+		}
+
+		ray.origin = rt_add(ray.origin, rt_scale(ray.normal, hit_info.distance));
+		// TODO: Test whether NUDGE does anything and what value it should have.
+		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, NUDGE));
+
+		ray.normal = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
+
+		// TODO: Account for light distance?
+		// TODO: Use data->light->ratio. Maybe some other fields were also forgotten
+		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
+
+		// TODO: Maybe do this after throughput multiplication, instead of before?
+		// ray_to_light = rt_sub(data->light->origin, ray.origin);
+		// light_ray_info = rt_get_hit_info(
+		// 			rt_get_ray(ray.origin, rt_normalized(ray_to_light)), data);
+		// if (light_ray_info.distance >= rt_mag(ray_to_light))
+		// 	rgb = rt_add_rgb(rgb, rt_scale_rgb(rt_multiply_rgb(data->light->rgb, throughput), 0.3f));
+
+		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
+
+		bounce_index++;
+	}
+
+	return (rgb);
 }
