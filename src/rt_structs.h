@@ -52,8 +52,14 @@ struct s_hit_info
 	t_vector	surface_normal;
 	t_rgb		rgb;
 	t_rgb		emissive;
-	float		flip_factor;
 };
+
+struct s_quadratic
+{
+	bool	solution;
+	float	solution_negative;
+	float	solution_positive;
+}	s_quadratic;
 
 typedef struct s_voronoi_seed
 {

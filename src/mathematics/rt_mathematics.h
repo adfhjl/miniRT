@@ -24,6 +24,7 @@ float		rt_dot(t_vector a, t_vector b);
 
 t_vector	rt_get_ray_point(t_ray ray, float t);
 
+float		rt_mag2(t_vector v);
 float		rt_mag(t_vector v);
 
 t_rgb		rt_multiply_rgb(t_rgb a, t_rgb b);
@@ -34,5 +35,7 @@ t_vector	rt_scale(t_vector v, float f);
 t_rgb		rt_scale_rgb(t_rgb v, float f);
 
 t_vector	rt_sub(t_vector a, t_vector b);
+
+t_quadratic	rt_solve_quadratic(float a, float b, float c);
 
 #endif

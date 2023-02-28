@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+// Returns a random unsigned int from 0 up to and including INT32_MAX.
 // Source: https://stackoverflow.com/a/11946674/13279557
 static unsigned int	rt_random(void)
 {

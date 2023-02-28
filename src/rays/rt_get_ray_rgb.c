@@ -79,6 +79,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	bounce_index = 0;
 	while (bounce_index <= MAX_BOUNCES_PER_RAY)
 	{
+		// TODO: Don't shoot rays to pixels that immediately had hit_info.distance == INFINITY
 		hit_info = rt_get_hit_info(ray, data);
 
 		if (hit_info.distance == INFINITY)
@@ -89,9 +90,9 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		ray.origin = rt_add(ray.origin, rt_scale(ray.normal, hit_info.distance));
 		// TODO: Play around with NUDGE values.
-		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, hit_info.flip_factor * NUDGE));
+		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, NUDGE));
 
-		ray.normal = rt_normalized(rt_add(rt_scale(hit_info.surface_normal, hit_info.flip_factor), rt_random_unit_vector()));
+		ray.normal = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
 		rt_assert_normal(ray.normal);
 
 		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));

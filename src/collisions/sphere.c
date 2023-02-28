@@ -16,46 +16,31 @@
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
-// TODO: Maybe write this
-// static float	rt_quadratic_formula(*solution_1, *solution_2)
-// {
-// 	// *solution_1 = INFINITY;
-// 	// *solution_2 = INFINITY;
-// 	return (distance);
-// }
-
-static float	get_sphere_distance(t_object sphere, t_ray ray)
-{
-	const float	a = rt_dot(ray.normal, ray.normal);
-	const float	b = 2 * rt_dot(ray.normal, rt_sub(ray.origin, sphere.origin));
-	const float	c = rt_dot(rt_sub(ray.origin, sphere.origin), rt_sub(ray.origin,
-				sphere.origin)) - sphere.diameter * sphere.diameter / 4;
-	const float	d = (b * b) - (4 * a * c);
-	float		distance;
-
-	if (d < 0)
-		return (INFINITY);
-	distance = (-b - sqrtf(d)) / (2 * a);
-	if (distance <= 0)
-	{
-		distance = (-b + sqrtf(d)) / (2 * a);
-		if (distance <= 0)
-			return (INFINITY);
-	}
-	return (distance);
-}
-
 t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 {
+	t_vector	sphere_to_ray_origin;
+	t_quadratic	q;
 	t_hit_info	info;
+	t_vector	collision;
+	t_vector	sphere_to_collision;
 
-	info.distance = get_sphere_distance(sphere, ray);
-	if (info.distance == INFINITY)
+	sphere_to_ray_origin = rt_sub(ray.origin, sphere.origin);
+	q = rt_solve_quadratic(rt_mag2(ray.normal),
+		2 * rt_dot(ray.normal, sphere_to_ray_origin),
+		rt_mag2(sphere_to_ray_origin) - sphere.diameter * sphere.diameter / 4);
+	if (!q.solution)
 		return ((t_hit_info){.distance = INFINITY});
-	info.surface_normal = rt_normalized(rt_sub(rt_get_ray_point(ray,
-					info.distance), sphere.origin));
+	info.distance = q.solution_negative;
+	if (q.solution_negative < 0)
+		info.distance = q.solution_positive;
+	collision = rt_get_ray_point(ray, info.distance);
+	sphere_to_collision = rt_sub(collision, sphere.origin);
+	info.surface_normal = rt_normalized(sphere_to_collision);
+	// TODO: Maybe this should be used instead?:
+	// if (q.solution_negative < 0 && q.solution_positive > 0)
+	if (q.solution_negative < 0)
+		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
-	info.flip_factor = 1;
 	return (info);
 }

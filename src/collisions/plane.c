@@ -50,10 +50,9 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = rt_dot(rt_sub(plane.origin, ray.origin), plane.normal) / denom;
 	info.surface_normal = plane.normal;
+	if (rt_dot(ray.normal, info.surface_normal) > 0)
+		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = plane.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
-	info.flip_factor = 1;
-	if (rt_dot(ray.normal, info.surface_normal) > 0)
-		info.flip_factor = -1;
 	return (info);
 }

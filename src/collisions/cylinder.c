@@ -64,9 +64,9 @@ static t_ray	rt_adjust_ray(t_ray ray, t_object cylinder)
 // static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 // {
 // 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
-// 	const float	a = rt_dot(adjusted_ray.normal, adjusted_ray.normal);
+// 	const float	a = rt_mag2(adjusted_ray.normal);
 // 	const float	b = 2 * rt_dot(adjusted_ray.normal, adjusted_ray.origin);
-// 	const float	c = rt_dot(adjusted_ray.origin, adjusted_ray.origin)
+// 	const float	c = rt_mag2(adjusted_ray.origin)
 // 		- cylinder.diameter * cylinder.diameter / 4;
 // 	const float	d = (b * b) - (4 * a * c);
 // 	float		distance;
@@ -84,9 +84,9 @@ static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 	flattened_ray.normal.y = 0;
 	float mag = rt_mag(flattened_ray.normal);
 	flattened_ray.normal = rt_scale(flattened_ray.normal, 1 / mag);
-	const float	a = rt_dot(flattened_ray.normal, flattened_ray.normal);
+	const float	a = rt_mag2(flattened_ray.normal);
 	const float	b = 2 * rt_dot(flattened_ray.normal, flattened_ray.origin);
-	const float	c = rt_dot(flattened_ray.origin, flattened_ray.origin)
+	const float	c = rt_mag2(flattened_ray.origin)
 		- cylinder.diameter * cylinder.diameter / 4;
 	const float	d = (b * b) - (4 * a * c);
 	float		distance;
@@ -104,7 +104,6 @@ static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 		t_vector	v = rt_get_ray_point(adjusted_ray, distance);
 		if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
 			return (distance);
-			// return (-distance); // TODO: geen -
 	}
 	return (INFINITY);
 }
@@ -133,6 +132,5 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
 	info.rgb = cylinder.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
-	info.flip_factor = 1;
 	return (info);
 }

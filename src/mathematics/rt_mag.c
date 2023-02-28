@@ -14,8 +14,12 @@
 
 #include "mathematics/rt_mathematics.h"
 
-// ||v|| = sqrt(v.x^2 + v.y^2 + v.z^2) = dot(v, v);
+float	rt_mag2(t_vector v)
+{
+	return (rt_dot(v, v));
+}
+
 float	rt_mag(t_vector v)
 {
-	return (sqrtf(rt_dot(v, v)));
+	return (sqrtf(rt_mag2(v)));
 }
