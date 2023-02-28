@@ -36,8 +36,6 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 	collision = rt_get_ray_point(ray, info.distance);
 	sphere_to_collision = rt_sub(collision, sphere.origin);
 	info.surface_normal = rt_normalized(sphere_to_collision);
-	// TODO: Maybe this should be used instead?:
-	// if (q.solution_negative < 0 && q.solution_positive > 0)
 	if (q.solution_negative < 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
