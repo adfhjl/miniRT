@@ -114,6 +114,7 @@ void	rt_cursor_hook(double x, double y, void *param)
 	// offet_rotation = rt_add(data->camera->normal, rotation);
 
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
+	rt_assert_normal(data->camera->normal);
 
 	data->moved_cursor = true;
 }

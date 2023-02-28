@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   shuffle.c                                          :+:    :+:            */
+/*   random.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -39,5 +39,5 @@ void	rt_shuffle(uint32_t *arr, size_t length)
 
 float	rt_random_float_01(void)
 {
-	return ((float)rt_random() / UINT32_MAX);
+	return ((float)rt_random() / INT32_MAX);
 }

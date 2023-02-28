@@ -51,33 +51,18 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	return (hit_info);
 }
 
-// TODO: USE THIS INSTEAD
 // Source:
 // https://blog.demofox.org/2020/05/25/
 // casual-shadertoy-path-tracing-1-basic-camera-diffuse-emissive/
 static t_vector	rt_random_unit_vector(void)
 {
-    float z = rt_random_float_01() * 2.0f - 1.0f;
-    float a = rt_random_float_01() * 2.0f * (float)M_PI;
-    float r = sqrtf(1.0f - z * z);
-    float x = r * cosf(a);
-    float y = r * sinf(a);
-    return (rt_get_vector(x, y, z));
+	float z = rt_random_float_01() * 2.0f - 1.0f;
+	float a = rt_random_float_01() * 2.0f * (float)M_PI;
+	float r = sqrtf(1.0f - z * z);
+	float x = r * cosf(a);
+	float y = r * sinf(a);
+	return (rt_get_vector(x, y, z));
 }
-
-// Generates a random 3D unit vector (direction) with a uniform spherical distribution
-// Algo from https://gist.github.com/andrewbolster/10274979
-// static t_vector	rt_random_unit_vector(void)
-// {
-// 	float phi = rt_random_float_01() * 2.0f * (float)M_PI;
-// 	float costheta = rt_random_float_01() * 2.0f - 1.0f;
-
-//     float theta = acosf( costheta );
-//     float x = sinf( theta) * cosf( phi );
-//     float y = sinf( theta) * sinf( phi );
-//     float z = cosf( theta );
-//     return (rt_get_vector(x, y, z));
-// }
 
 t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 {

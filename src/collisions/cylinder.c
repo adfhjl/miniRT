@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "debug/rt_debug.h"
 #include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 
@@ -48,6 +49,7 @@ static t_ray	rt_rotate_ray(t_ray ray, t_object cylinder000)
 	rotation_axis = rt_normalized(rt_cross(cylinder000.normal, (t_vector){0, 1, 0}));
 	ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta);
 	ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta);
+	rt_assert_normal(ray.normal);
 	return (ray);
 }
 
