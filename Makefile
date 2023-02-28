@@ -37,6 +37,7 @@ CFILES :=\
 	src/collisions/cylinder.c\
 	src/collisions/plane.c\
 	src/collisions/sphere.c\
+	src/debug/assert_normal.c\
 	src/debug/draw_debug.c\
 	src/debug/print_scene.c\
 	src/draw/blue_noise.c\

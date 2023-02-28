@@ -16,6 +16,7 @@
 #include "get_structs/rt_get_structs.h"
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
+#include "debug/rt_debug.h" // TODO: REMOVE
 
 static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
@@ -50,6 +51,7 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	return (hit_info);
 }
 
+// TODO: USE THIS INSTEAD
 // Source:
 // https://blog.demofox.org/2020/05/25/
 // casual-shadertoy-path-tracing-1-basic-camera-diffuse-emissive/
@@ -62,6 +64,20 @@ static t_vector	rt_random_unit_vector(void)
     float y = r * sinf(a);
     return (rt_get_vector(x, y, z));
 }
+
+// Generates a random 3D unit vector (direction) with a uniform spherical distribution
+// Algo from https://gist.github.com/andrewbolster/10274979
+// static t_vector	rt_random_unit_vector(void)
+// {
+// 	float phi = rt_random_float_01() * 2.0f * (float)M_PI;
+// 	float costheta = rt_random_float_01() * 2.0f - 1.0f;
+
+//     float theta = acosf( costheta );
+//     float x = sinf( theta) * cosf( phi );
+//     float y = sinf( theta) * sinf( phi );
+//     float z = cosf( theta );
+//     return (rt_get_vector(x, y, z));
+// }
 
 t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 {
@@ -88,9 +104,10 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		ray.origin = rt_add(ray.origin, rt_scale(ray.normal, hit_info.distance));
 		// TODO: Play around with NUDGE values.
-		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, NUDGE));
+		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, hit_info.flip_factor * NUDGE));
 
-		ray.normal = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
+		ray.normal = rt_normalized(rt_add(rt_scale(hit_info.surface_normal, hit_info.flip_factor), rt_random_unit_vector()));
+		rt_assert_normal(ray.normal);
 
 		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 

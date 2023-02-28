@@ -52,5 +52,8 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	info.surface_normal = plane.normal;
 	info.rgb = plane.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
+	info.flip_factor = 1;
+	if (rt_dot(ray.normal, info.surface_normal) > 0)
+		info.flip_factor = -1;
 	return (info);
 }

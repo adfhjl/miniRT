@@ -67,31 +67,31 @@ static void	rt_update_canvas_info(t_data *data)
 	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
 }
 
-// static void	rt_clear_image(mlx_image_t *image)
-// {
-// 	uint32_t	x;
-// 	uint32_t	y;
-// 	t_rgb		unrendered_rgb;
-// 	uint32_t	color;
+static void	rt_clear_image(mlx_image_t *image)
+{
+	uint32_t	x;
+	uint32_t	y;
+	t_rgb		unrendered_rgb;
+	uint32_t	color;
 
-// 	unrendered_rgb = (t_rgb){
-// 		UNRENDERED_R / 255.f,
-// 		UNRENDERED_G / 255.f,
-// 		UNRENDERED_B / 255.f
-// 	};
-// 	color = rt_convert_color(unrendered_rgb);
-// 	y = 0;
-// 	while (y < UNSCALED_WINDOW_HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < UNSCALED_WINDOW_WIDTH)
-// 		{
-// 			rt_put_color(image, x, y, color);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
+	unrendered_rgb = (t_rgb){
+		UNRENDERED_R / 255.f,
+		UNRENDERED_G / 255.f,
+		UNRENDERED_B / 255.f
+	};
+	color = rt_convert_color(unrendered_rgb);
+	y = 0;
+	while (y < UNSCALED_WINDOW_HEIGHT)
+	{
+		x = 0;
+		while (x < UNSCALED_WINDOW_WIDTH)
+		{
+			rt_put_color(image, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
 
 // static void	rt_reset_voronoi(t_data *data)
 // {
@@ -117,6 +117,7 @@ void	rt_reset_canvas_info(t_data *data)
 	// {
 	// 	rt_clear_image(data->image);
 	// }
+	rt_clear_image(data->image);
 	data->pixel_index = 0;
 	data->samples_since_last_movement = 0;
 }

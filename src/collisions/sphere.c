@@ -56,5 +56,6 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 					info.distance), sphere.origin));
 	info.rgb = sphere.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
+	info.flip_factor = 1;
 	return (info);
 }

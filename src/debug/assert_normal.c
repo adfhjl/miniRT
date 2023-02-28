@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_debug.h                                         :+:    :+:            */
+/*   assert_normal.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/20 17:06:56 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/20 17:06:56 by sbos          ########   odam.nl         */
+/*   Created: 2023/02/28 14:21:09 by sbos          #+#    #+#                 */
+/*   Updated: 2023/02/28 14:21:09 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_DEBUG_H
-# define RT_DEBUG_H
+#include "minirt.h"
 
-# include "minirt.h"
+#define MAG_EPSILON 0.000001
 
-t_status	rt_draw_debug_lines(t_data *data);
+void	rt_assert_normal(t_vector vector)
+{
+	t_vector	normalized;
+	float		mag;
 
-void	rt_print_scene(t_data *data);
-
-// TODO: REMOVE THIS BEFORE HANDING IN!!!
-void	rt_assert_normal(t_vector vector);
-
-#endif
+	normalized = rt_normalized(vector);
+	mag = rt_mag(normalized);
+	assert(mag > 1 - MAG_EPSILON && mag < 1 + MAG_EPSILON);
+	// assert(vector.x == normalized.x);
+	// assert(vector.y == normalized.y);
+	// assert(vector.z == normalized.z);
+}

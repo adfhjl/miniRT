@@ -18,7 +18,8 @@
 
 			// "args": [ "scenes/shapes/plane/four-planes-rotated.rt" ],
 			// "args": [ "scenes/fun/lava-world.rt" ],
-			"args": [ "scenes/fun/plasma.rt" ],
+			// "args": [ "scenes/fun/plasma.rt" ],
+			"args": [ "scenes/fun/plane.rt" ],
 			// "args": [ "scenes/fun/test.rt" ],
 			// "args": [ "scenes/valid/shapes/plane-sphere.rt" ],
 			// "args": [ "scenes/valid/shapes/plane/dutch-flag.rt" ],
@@ -65,7 +66,8 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/fun/plasma.rt" ],
+			"args": [ "scenes/fun/plane.rt" ],
+			// "args": [ "scenes/fun/plasma.rt" ],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build Release",
 			"internalConsoleOptions": "openOnSessionStart"

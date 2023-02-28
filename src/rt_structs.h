@@ -52,6 +52,7 @@ struct s_hit_info
 	t_vector	surface_normal;
 	t_rgb		rgb;
 	t_rgb		emissive;
+	float		flip_factor;
 };
 
 typedef struct s_voronoi_seed

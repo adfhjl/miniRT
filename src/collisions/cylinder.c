@@ -131,5 +131,6 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
 	info.rgb = cylinder.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);
+	info.flip_factor = 1;
 	return (info);
 }
