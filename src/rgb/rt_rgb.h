@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   skip_separator_comma.c                             :+:    :+:            */
+/*   rt_rgb.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 14:42:14 by sbos          #+#    #+#                 */
-/*   Updated: 2023/01/24 14:42:14 by sbos          ########   odam.nl         */
+/*   Created: 2023/03/01 19:17:04 by sbos          #+#    #+#                 */
+/*   Updated: 2023/03/01 19:17:04 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef RT_RGB_H
+# define RT_RGB_H
 
-#include "utils/rt_utils.h"
+# include "minirt.h"
 
-t_status	rt_skip_separator_comma(char **line_ptr)
-{
-	if (**line_ptr != ',')
-		return (rt_print_error(ERROR_EXPECTED_COMMA));
-	(*line_ptr)++;
-	return (OK);
-}
+t_rgb	rt_add_rgb(t_rgb a, t_rgb b);
+
+t_rgb	rt_multiply_rgb(t_rgb a, t_rgb b);
+
+t_rgb	rt_scale_rgb(t_rgb v, float f);
+
+#endif

@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+#include "utils/rt_utils.h"
+
 t_status	rt_parse_float(char **line_ptr, float *field_ptr)
 {
 	char	*float_end;

@@ -13,8 +13,9 @@
 #include "minirt.h"
 
 #include "get_structs/rt_get_structs.h"
-#include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
+#include "vectors/rt_vectors.h"
+#include "utils/rt_utils.h"
 
 // Explanation:
 // Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/

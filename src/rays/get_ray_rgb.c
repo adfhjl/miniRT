@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_get_ray_rgb.c                                   :+:    :+:            */
+/*   get_ray_rgb.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -14,8 +14,10 @@
 
 #include "collisions/rt_collisions.h"
 #include "get_structs/rt_get_structs.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
+#include "rgb/rt_rgb.h"
+#include "utils/rt_utils.h"
 #include "debug/rt_debug.h" // TODO: REMOVE
 
 static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)

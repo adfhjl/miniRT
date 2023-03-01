@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+#include "vectors/rt_vectors.h"
+
 #define MAG_EPSILON 0.000001
 
 void	rt_assert_normal(t_vector vector)

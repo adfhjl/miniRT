@@ -14,7 +14,7 @@
 
 #include "debug/rt_debug.h"
 #include "draw/rt_draw.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 
 void	rt_key_hook(mlx_key_data_t keydata, void *param)
 {

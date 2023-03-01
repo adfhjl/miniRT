@@ -47,8 +47,8 @@ CFILES :=\
 	src/draw/shoot_rays.c\
 	src/draw/voronoi.c\
 	src/get_structs/get_rgb.c\
-	src/get_structs/rt_get_ray.c\
-	src/get_structs/rt_get_vector.c\
+	src/get_structs/get_ray.c\
+	src/get_structs/get_vector.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
@@ -67,24 +67,27 @@ CFILES :=\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/input_hooks/input_hooks.c\
-	src/mathematics/rt_add.c\
-	src/mathematics/rt_cross.c\
-	src/mathematics/rt_dot.c\
-	src/mathematics/rt_get_ray_point.c\
-	src/mathematics/rt_mag.c\
-	src/mathematics/rt_multiply_rgb.c\
-	src/mathematics/rt_normalized.c\
-	src/mathematics/rt_scale.c\
-	src/mathematics/rt_sub.c\
-	src/mathematics/solve_quadratic.c\
-	src/rays/rt_get_ray_rgb.c\
+	src/rays/get_ray_point.c\
+	src/rays/get_ray_rgb.c\
+	src/rgb/add.c\
+	src/rgb/multiply.c\
+	src/rgb/scale.c\
 	src/utils/print_error.c\
 	src/utils/random.c\
+	src/utils/solve_quadratic.c\
+	src/vectors/add.c\
+	src/vectors/cross.c\
+	src/vectors/dot.c\
+	src/vectors/mag.c\
+	src/vectors/normalized.c\
+	src/vectors/rotate_around_axis.c\
+	src/vectors/scale.c\
+	src/vectors/sub.c\
 	src/main.c
 
 ################################################################################
 
-INCLUDES := -I src -I libft -I MLX42/include
+INCLUDES := -I src -I libft -I . -I MLX42/include
 OBJDIR := obj
 OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH := libft/libft.a

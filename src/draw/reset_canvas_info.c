@@ -13,7 +13,7 @@
 #include "minirt.h"
 
 #include "draw/rt_draw.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
 
 // forward = (0, 0, 1);

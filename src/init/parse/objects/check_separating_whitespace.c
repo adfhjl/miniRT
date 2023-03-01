@@ -12,7 +12,9 @@
 
 #include "minirt.h"
 
-#include "src/helper_headers/ft_defines.h"
+#include "utils/rt_utils.h"
+
+#include "libft/src/helper_headers/ft_defines.h"
 
 t_status	rt_check_separating_whitespace(char **line_ptr)
 {

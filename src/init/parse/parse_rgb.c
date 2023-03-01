@@ -13,7 +13,8 @@
 #include "minirt.h"
 
 #include "init/parse/rt_parse.h"
-#include "mathematics/rt_mathematics.h"
+#include "rgb/rt_rgb.h"
+#include "utils/rt_utils.h"
 
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {

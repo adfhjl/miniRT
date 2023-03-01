@@ -13,7 +13,7 @@
 #include "minirt.h"
 
 #include "get_structs/rt_get_structs.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
 
 // Equation 1:

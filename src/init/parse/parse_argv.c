@@ -13,6 +13,7 @@
 #include "minirt.h"
 
 #include "init/parse/rt_parse.h"
+#include "utils/rt_utils.h"
 
 #include <fcntl.h>
 #include <unistd.h>

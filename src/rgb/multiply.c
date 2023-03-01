@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_get_ray_point.c                                 :+:    :+:            */
+/*   multiply.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:34:22 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/24 16:35:39 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/02/01 16:23:04 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/02/01 17:16:45 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	rt_get_ray_point(t_ray ray, float t)
+t_rgb	rt_multiply_rgb(t_rgb a, t_rgb b)
 {
-	return ((t_vector){
-		.x = ray.pos.x + (t * ray.dir.x),
-		.y = ray.pos.y + (t * ray.dir.y),
-		.z = ray.pos.z + (t * ray.dir.z)
+	return ((t_rgb){
+		.r = a.r * b.r,
+		.g = a.g * b.g,
+		.b = a.b * b.b
 	});
 }

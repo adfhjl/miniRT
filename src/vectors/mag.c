@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_normalized.c                                    :+:    :+:            */
+/*   mag.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:45:30 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/24 16:46:02 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/01/24 16:42:37 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/02/13 16:09:50 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 
-t_vector	rt_normalized(t_vector v)
+float	rt_mag2(t_vector v)
 {
-	return (rt_scale(v, 1 / rt_mag(v)));
+	return (rt_dot(v, v));
+}
+
+float	rt_mag(t_vector v)
+{
+	return (sqrtf(rt_mag2(v)));
 }

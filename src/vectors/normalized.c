@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_get_ray.c                                       :+:    :+:            */
+/*   normalized.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sbos <sbos@student.codam.nl>                 +#+                     */
+/*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/02/10 19:51:59 by sbos          #+#    #+#                 */
-/*   Updated: 2023/02/10 19:51:59 by sbos          ########   odam.nl         */
+/*   Created: 2023/01/24 16:45:30 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/01/24 16:46:02 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_ray	rt_get_ray(t_vector pos, t_vector dir)
+#include "vectors/rt_vectors.h"
+
+t_vector	rt_normalized(t_vector v)
 {
-	return ((t_ray){.pos=pos, .dir=dir});
+	return (rt_scale(v, 1 / rt_mag(v)));
 }

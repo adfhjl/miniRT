@@ -15,7 +15,8 @@
 #include "draw/rt_draw.h"
 #include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
+#include "utils/rt_utils.h"
 
 static void	rt_init_available(t_data *data)
 {

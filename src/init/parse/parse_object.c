@@ -14,6 +14,7 @@
 
 #include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
+#include "utils/rt_utils.h"
 
 static t_status	rt_set_object_type(char *token, t_object *object)
 {

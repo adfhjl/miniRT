@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_dot.c                                           :+:    :+:            */
+/*   cross.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:37:41 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/01/24 16:38:05 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/01/24 16:38:40 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/01/24 16:39:12 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-float	rt_dot(t_vector a, t_vector b)
+t_vector	rt_cross(t_vector a, t_vector b)
 {
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
+	return ((t_vector){
+		.x = a.y * b.z - a.z * b.y,
+		.y = a.z * b.x - a.x * b.z,
+		.z = a.x * b.y - a.y * b.x
+	});
 }

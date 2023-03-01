@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+#include "utils/rt_utils.h"
+
 #include "../MLX42/src/font/font.h"
 
 static char	*rt_get_nbr_string(int nbr, char *appended_string)

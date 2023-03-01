@@ -20,4 +20,6 @@ t_status	rt_print_error(t_error ph_error);
 void		rt_shuffle(uint32_t *arr, size_t length);
 float		rt_random_float_01(void);
 
+t_quadratic	rt_solve_quadratic(float a, float b, float c);
+
 #endif

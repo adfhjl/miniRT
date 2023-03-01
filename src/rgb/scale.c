@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_mag.c                                           :+:    :+:            */
+/*   scale.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
+/*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:42:37 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/13 16:09:50 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/03/01 19:17:48 by sbos          #+#    #+#                 */
+/*   Updated: 2023/03/01 19:17:48 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-#include "mathematics/rt_mathematics.h"
-
-float	rt_mag2(t_vector v)
+t_rgb	rt_scale_rgb(t_rgb v, float f)
 {
-	return (rt_dot(v, v));
-}
-
-float	rt_mag(t_vector v)
-{
-	return (sqrtf(rt_mag2(v)));
+	return ((t_rgb){
+		.r = v.r * f,
+		.g = v.g * f,
+		.b = v.b * f
+	});
 }

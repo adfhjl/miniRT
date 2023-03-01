@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_scale.c                                         :+:    :+:            */
+/*   dot.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbenneko <vbenneko@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/24 16:41:00 by vbenneko      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:15:08 by vbenneko      ########   odam.nl         */
+/*   Created: 2023/01/24 16:37:41 by vbenneko      #+#    #+#                 */
+/*   Updated: 2023/01/24 16:38:05 by vbenneko      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	rt_scale(t_vector v, float f)
+float	rt_dot(t_vector a, t_vector b)
 {
-	return ((t_vector){
-		.x = v.x * f,
-		.y = v.y * f,
-		.z = v.z * f
-	});
-}
-
-t_rgb	rt_scale_rgb(t_rgb v, float f)
-{
-	return ((t_rgb){
-		.r = v.r * f,
-		.g = v.g * f,
-		.b = v.b * f
-	});
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
