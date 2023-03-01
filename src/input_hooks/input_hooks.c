@@ -60,8 +60,8 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 		if (keydata.key == MLX_KEY_F)
 		{
-			data->cursor_frozen = !data->cursor_frozen;
-			if (data->cursor_frozen)
+			data->frozen = !data->frozen;
+			if (data->frozen)
 				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_NORMAL);
 			else
 				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
@@ -95,7 +95,7 @@ void	rt_cursor_hook(double x, double y, void *param)
 	float	dy;
 
 	data = param;
-	if (data->camera == NULL || data->cursor_frozen)
+	if (data->camera == NULL || data->frozen)
 		return ;
 
 	dx = (float)x - data->scaled_window_center_x;

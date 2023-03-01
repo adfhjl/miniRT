@@ -50,24 +50,24 @@ void	rt_draw_loop(void *param)
 {
 	t_data *const	data = param;
 
-	if (data->cursor_frozen)
-		return ;
-
-	if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+	if (!data->frozen)
 	{
-		rt_reset_canvas_info(data);
+		if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+		{
+			rt_reset_canvas_info(data);
+		}
+		data->moved_cursor = false;
+
+		mlx_set_mouse_pos(data->mlx, data->scaled_window_center_x, data->scaled_window_center_y);
 	}
-	data->moved_cursor = false;
-
-	mlx_set_mouse_pos(data->mlx, data->scaled_window_center_x, data->scaled_window_center_y);
-
 	if (data->camera != NULL)
 	{
-		rt_update_camera_pos(data);
+		if (!data->frozen)
+			rt_update_camera_pos(data);
 		// rt_generate_noise(data);
 		rt_shoot_rays(data);
 	}
 
-	if (rt_draw_debug_lines(data) == ERROR)
+	if (!data->frozen && rt_draw_debug_lines(data) == ERROR)
 		mlx_close_window(data->mlx);
 }

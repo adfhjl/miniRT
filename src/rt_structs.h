@@ -104,7 +104,7 @@ struct s_data
 
 	// TODO: Put in struct
 	bool		draw_debug;
-	bool		cursor_frozen;
+	bool		frozen;
 	int			draw_mode; // Maybe in this struct as well?
 	//
 

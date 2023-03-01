@@ -122,7 +122,8 @@ static void	rt_shoot_normal_ray(t_data *data)
 	x = location % UNSCALED_WINDOW_WIDTH;
 	y = location / UNSCALED_WINDOW_WIDTH;
 	rgb = rt_shoot_ray(x, y, location, data);
-	rt_put_rgb(data->image, x, y, rgb);
+	if (!data->frozen)
+		rt_put_rgb(data->image, x, y, rgb);
 }
 
 void	rt_shoot_rays(t_data *data)

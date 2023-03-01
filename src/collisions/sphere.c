@@ -17,6 +17,9 @@
 #include "rays/rt_rays.h"
 
 // Explanation:
+// Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/
+// 			minimal-ray-tracer-rendering-simple-shapes/
+// 			ray-sphere-intersection.html#:~:text=Analytic%20Solution
 // The equation for a sphere is x^2 + y^2 + z^2 = R^2.
 // If x, y, z are coordinates of P, then it's P^2 - R^2 = 0.
 // The equation for a ray where O is origin, D is direction, and
