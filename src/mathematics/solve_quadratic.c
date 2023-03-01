@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+// Note: If a is positive, solution_plus >= solution_minus
+//       If a is negtive, solution_minus >= solution_plus
 t_quadratic	rt_solve_quadratic(float a, float b, float c)
 {
 	t_quadratic	q;
@@ -24,9 +26,9 @@ t_quadratic	rt_solve_quadratic(float a, float b, float c)
 		q.solution = false;
 		return (q);
 	}
-	q.solution_negative = (-b - sqrtf(discriminant)) / 2 * a;
-	q.solution_positive = (-b + sqrtf(discriminant)) / 2 * a;
-	if (q.solution_negative < 0 && q.solution_positive < 0)
+	q.solution_minus = (-b - sqrtf(discriminant)) / (2 * a);
+	q.solution_plus = (-b + sqrtf(discriminant)) / (2 * a);
+	if (q.solution_minus < 0 && q.solution_plus < 0)
 		q.solution = false;
 	return (q);
 }

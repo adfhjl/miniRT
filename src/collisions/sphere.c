@@ -44,13 +44,13 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 			rt_mag2(sphere_to_ray_pos) - sphere.diameter * sphere.diameter / 4);
 	if (!q.solution)
 		return ((t_hit_info){.distance = INFINITY});
-	info.distance = q.solution_negative;
-	if (q.solution_negative < 0)
-		info.distance = q.solution_positive;
+	info.distance = q.solution_minus;
+	if (q.solution_minus < 0)
+		info.distance = q.solution_plus;
 	collision = rt_get_ray_point(ray, info.distance);
 	sphere_to_collision = rt_sub(collision, sphere.pos);
 	info.surface_normal = rt_normalized(sphere_to_collision);
-	if (q.solution_negative < 0)
+	if (q.solution_minus < 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
 	info.emissive = rt_get_rgb(0, 0, 0);

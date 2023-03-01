@@ -57,8 +57,8 @@ struct s_hit_info
 struct s_quadratic
 {
 	bool	solution;
-	float	solution_negative;
-	float	solution_positive;
+	float	solution_minus;
+	float	solution_plus;
 }	s_quadratic;
 
 typedef struct s_voronoi_seed
