@@ -16,6 +16,17 @@
 #include "mathematics/rt_mathematics.h"
 #include "rays/rt_rays.h"
 
+// Explanation:
+// The equation for a sphere is x^2 + y^2 + z^2 = R^2.
+// If x, y, z are coordinates of P, then it's P^2 - R^2 = 0.
+// The equation for a ray where O is origin, D is direction, and
+// t is distance, is O + Dt.
+// Substitute to get (O + Dt)^2 - R^2 = 0 ->
+// O^2 + (Dt)^2 + 2ODt - R^2 = 0 ->
+// D^2t^2 + 2ODt + O^2 - R^2 = 0.
+// This is a quadratic equation: at^2 + bt + c = 0
+// So a = D^2, b = 2OD, and c = O^2 - R^2.
+// O is sphere_to_ray_pos, to make the ray origin relative to the sphere center.
 t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 {
 	t_vector	sphere_to_ray_pos;
@@ -26,8 +37,8 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 
 	sphere_to_ray_pos = rt_sub(ray.pos, sphere.pos);
 	q = rt_solve_quadratic(rt_mag2(ray.dir),
-		2 * rt_dot(ray.dir, sphere_to_ray_pos),
-		rt_mag2(sphere_to_ray_pos) - sphere.diameter * sphere.diameter / 4);
+			2 * rt_dot(ray.dir, sphere_to_ray_pos),
+			rt_mag2(sphere_to_ray_pos) - sphere.diameter * sphere.diameter / 4);
 	if (!q.solution)
 		return ((t_hit_info){.distance = INFINITY});
 	info.distance = q.solution_negative;
