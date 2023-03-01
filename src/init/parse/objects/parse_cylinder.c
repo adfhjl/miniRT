@@ -17,7 +17,7 @@
 
 t_status	rt_parse_cylinder(char **line_ptr, t_object *object)
 {
-	if (rt_parse_vector(line_ptr, &object->origin) == ERROR
+	if (rt_parse_vector(line_ptr, &object->pos) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_normal(line_ptr, &object->normal) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR

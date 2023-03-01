@@ -27,23 +27,23 @@ static bool	rt_any_movement_key_pressed(t_data *data)
 		|| data->shift_held);
 }
 
-static void	rt_update_camera_origin(t_data *data)
+static void	rt_update_camera_pos(t_data *data)
 {
 	float	delta_move;
 
 	delta_move = data->movement_speed * (float)data->mlx->delta_time;
 	if (data->w_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_forward), delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_forward), delta_move);
 	if (data->a_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), -delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_right), -delta_move);
 	if (data->s_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_forward), -delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_forward), -delta_move);
 	if (data->d_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->camera_right), delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_right), delta_move);
 	if (data->space_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->world_up), delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->world_up), delta_move);
 	if (data->shift_held)
-		data->camera->origin = rt_get_ray_point(rt_get_ray(data->camera->origin, data->world_up), -delta_move);
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->world_up), -delta_move);
 }
 
 void	rt_draw_loop(void *param)
@@ -63,7 +63,7 @@ void	rt_draw_loop(void *param)
 
 	if (data->camera != NULL)
 	{
-		rt_update_camera_origin(data);
+		rt_update_camera_pos(data);
 		// rt_generate_noise(data);
 		rt_shoot_rays(data);
 	}

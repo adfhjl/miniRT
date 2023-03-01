@@ -88,12 +88,12 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			break ;
 		}
 
-		ray.origin = rt_add(ray.origin, rt_scale(ray.normal, hit_info.distance));
+		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
 		// TODO: Play around with NUDGE values.
-		ray.origin = rt_add(ray.origin, rt_scale(hit_info.surface_normal, NUDGE));
+		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, NUDGE));
 
-		ray.normal = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
-		rt_assert_normal(ray.normal);
+		ray.dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
+		rt_assert_normal(ray.dir);
 
 		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 

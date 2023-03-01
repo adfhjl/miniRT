@@ -29,14 +29,14 @@ struct s_vector
 
 struct s_ray
 {
-	t_vector	origin;
-	t_vector	normal;
+	t_vector	pos;
+	t_vector	dir;
 };
 
 struct s_object
 {
 	float			ratio;
-	t_vector		origin;
+	t_vector		pos;
 	t_vector		normal;
 	float			fov;
 	t_rgb			rgb;

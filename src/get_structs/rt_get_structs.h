@@ -17,7 +17,7 @@
 
 t_rgb		rt_get_rgb(float r, float g, float b);
 
-t_ray		rt_get_ray(t_vector origin, t_vector normal);
+t_ray		rt_get_ray(t_vector pos, t_vector normal);
 
 t_vector	rt_get_vector(float x, float y, float z);
 

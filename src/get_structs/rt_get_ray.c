@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-t_ray	rt_get_ray(t_vector origin, t_vector normal)
+t_ray	rt_get_ray(t_vector pos, t_vector dir)
 {
-	return ((t_ray){.origin=origin, .normal=normal});
+	return ((t_ray){.pos=pos, .dir=dir});
 }

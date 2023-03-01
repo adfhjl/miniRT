@@ -18,7 +18,7 @@
 
 static t_ray	rt_translate_ray(t_ray ray, t_object cylinder)
 {
-	return (rt_get_ray(rt_sub(ray.origin, cylinder.origin), ray.normal));
+	return (rt_get_ray(rt_sub(ray.pos, cylinder.pos), ray.dir));
 }
 
 // https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula#Statement
@@ -34,8 +34,8 @@ static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
 1. Dot product between cylinder.normal and {0, 1, 0} gives the sin() of the angle between the two
 2. theta = asinf(angle)
 3. rotation_axis = rt_cross(cylinder.normal, {0, 1, 0})
-4. ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta)
-5. ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta)
+4. ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta)
+5. ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta)
 */
 static t_ray	rt_rotate_ray(t_ray ray, t_object cylinder000)
 {
@@ -47,9 +47,9 @@ static t_ray	rt_rotate_ray(t_ray ray, t_object cylinder000)
 	angle = rt_dot(cylinder000.normal, (t_vector){0, 1, 0});
 	theta = acosf(angle);
 	rotation_axis = rt_normalized(rt_cross(cylinder000.normal, (t_vector){0, 1, 0}));
-	ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta);
-	ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta);
-	rt_assert_normal(ray.normal);
+	ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta);
+	ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
+	rt_assert_normal(ray.dir);
 	return (ray);
 }
 
@@ -64,9 +64,9 @@ static t_ray	rt_adjust_ray(t_ray ray, t_object cylinder)
 // static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 // {
 // 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
-// 	const float	a = rt_mag2(adjusted_ray.normal);
-// 	const float	b = 2 * rt_dot(adjusted_ray.normal, adjusted_ray.origin);
-// 	const float	c = rt_mag2(adjusted_ray.origin)
+// 	const float	a = rt_mag2(adjusted_ray.dir);
+// 	const float	b = 2 * rt_dot(adjusted_ray.dir, adjusted_ray.pos);
+// 	const float	c = rt_mag2(adjusted_ray.pos)
 // 		- cylinder.diameter * cylinder.diameter / 4;
 // 	const float	d = (b * b) - (4 * a * c);
 // 	float		distance;
@@ -80,13 +80,13 @@ static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder)
 {
 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
 	t_ray	flattened_ray = adjusted_ray;
-	flattened_ray.origin.y = 0;
-	flattened_ray.normal.y = 0;
-	float mag = rt_mag(flattened_ray.normal);
-	flattened_ray.normal = rt_scale(flattened_ray.normal, 1 / mag);
-	const float	a = rt_mag2(flattened_ray.normal);
-	const float	b = 2 * rt_dot(flattened_ray.normal, flattened_ray.origin);
-	const float	c = rt_mag2(flattened_ray.origin)
+	flattened_ray.pos.y = 0;
+	flattened_ray.dir.y = 0;
+	float mag = rt_mag(flattened_ray.dir);
+	flattened_ray.dir = rt_scale(flattened_ray.dir, 1 / mag);
+	const float	a = rt_mag2(flattened_ray.dir);
+	const float	b = 2 * rt_dot(flattened_ray.dir, flattened_ray.pos);
+	const float	c = rt_mag2(flattened_ray.pos)
 		- cylinder.diameter * cylinder.diameter / 4;
 	const float	d = (b * b) - (4 * a * c);
 	float		distance;
@@ -116,7 +116,7 @@ static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
 	t_vector	surface_abnormal;
 
 	// TODO: Maybe normalize all of these?
-	point_direction = rt_sub(ray_point, cylinder.origin);
+	point_direction = rt_sub(ray_point, cylinder.pos);
 	perpendicular = rt_cross(cylinder.normal, point_direction);
 	surface_abnormal = rt_cross(perpendicular, cylinder.normal);
 	return (rt_normalized(surface_abnormal));

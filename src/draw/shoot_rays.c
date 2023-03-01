@@ -28,7 +28,7 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
 	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
 	dir = rt_normalized(pixel_ray);
-	return (rt_get_ray(data->camera->origin, dir));
+	return (rt_get_ray(data->camera->pos, dir));
 }
 
 // Linear blend where an interpolation of 0.0f means old is returned,

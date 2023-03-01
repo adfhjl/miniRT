@@ -26,34 +26,6 @@ static void	rt_print_rgb(t_rgb rgb)
 	printf(" %i,%i,%i", r, g, b);
 }
 
-static void	rt_print_object_rgb(t_object object)
-{
-	if (object.type == OBJECT_TYPE_AMBIENT)
-		rt_print_rgb(object.rgb);
-	else if (object.type == OBJECT_TYPE_LIGHT)
-		rt_print_rgb(object.rgb);
-	else if (object.type == OBJECT_TYPE_SPHERE)
-		rt_print_rgb(object.rgb);
-	else if (object.type == OBJECT_TYPE_PLANE)
-		rt_print_rgb(object.rgb);
-	else if (object.type == OBJECT_TYPE_CYLINDER)
-		rt_print_rgb(object.rgb);
-}
-
-static void	rt_print_object_origin(t_object object)
-{
-	if (object.type == OBJECT_TYPE_CAMERA)
-		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
-	else if (object.type == OBJECT_TYPE_LIGHT)
-		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
-	else if (object.type == OBJECT_TYPE_SPHERE)
-		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
-	else if (object.type == OBJECT_TYPE_PLANE)
-		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
-	else if (object.type == OBJECT_TYPE_CYLINDER)
-		printf(" %.1f,%.1f,%.1f", object.origin.x, object.origin.y, object.origin.z);
-}
-
 void	rt_print_scene(t_data *data)
 {
 	char	*object_type_strings[] = {
@@ -76,7 +48,12 @@ void	rt_print_scene(t_data *data)
 
 		printf("%s", object_type_strings[object.type]);
 
-		rt_print_object_origin(object);
+		if (object.type == OBJECT_TYPE_CAMERA
+		|| object.type == OBJECT_TYPE_LIGHT
+		|| object.type == OBJECT_TYPE_SPHERE
+		|| object.type == OBJECT_TYPE_PLANE
+		|| object.type == OBJECT_TYPE_CYLINDER)
+			printf(" %.1f,%.1f,%.1f", object.pos.x, object.pos.y, object.pos.z);
 
 		if (object.type == OBJECT_TYPE_AMBIENT
 		|| object.type == OBJECT_TYPE_LIGHT)
@@ -94,7 +71,12 @@ void	rt_print_scene(t_data *data)
 		if (object.type == OBJECT_TYPE_CYLINDER)
 			printf(" %.1f", object.height);
 
-		rt_print_object_rgb(object);
+		if (object.type == OBJECT_TYPE_AMBIENT
+		|| object.type == OBJECT_TYPE_LIGHT
+		|| object.type == OBJECT_TYPE_SPHERE
+		|| object.type == OBJECT_TYPE_PLANE
+		|| object.type == OBJECT_TYPE_CYLINDER)
+			rt_print_rgb(object.rgb);
 
 		if (object.type == OBJECT_TYPE_CAMERA)
 			printf(" %.1f", object.fov);
