@@ -13,11 +13,12 @@
 #include "minirt.h"
 
 #include "draw/rt_draw.h"
-#include "vectors/rt_vectors.h"
-#include "rays/rt_rays.h"
 #include "get_structs/rt_get_structs.h"
+#include "rays/rt_rays.h"
+#include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
-static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
+static t_ray	rt_create_ray(float x, float y, t_data *data)
 {
 	t_vector	pixel_ray_x;
 	t_vector	pixel_ray_y;
@@ -43,7 +44,10 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	t_ray	ray;
 	t_rgb	rgb;
 
-	ray = rt_create_ray(x, y, data);
+	ray = rt_create_ray(
+		(rt_random_float_01() * 2.f - 1.f) * (float)AA_RADIUS + x,
+		(rt_random_float_01() * 2.f - 1.f) * (float)AA_RADIUS + y,
+		data);
 	rgb = rt_get_ray_rgb(ray, data);
 
 	rgb.r = rt_lerp(data->pixel_channel_floats[location * 4 + 0], rgb.r, 1.0f / (data->samples_since_last_movement + 1));

@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 400
-# define UNSCALED_WINDOW_HEIGHT 400
+# define UNSCALED_WINDOW_WIDTH 100
+# define UNSCALED_WINDOW_HEIGHT 100
 
 # define BACKGROUND_R 0.1f
 # define BACKGROUND_G 0.1f
@@ -44,7 +44,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 2
+# define PIXEL_SCALE 7
 
 // # define MAX_UPDATE_RADIUS 20
 
@@ -75,5 +75,8 @@
 # define PLANE_EMISSIVE_FACTOR 0.0f
 # define SPHERE_EMISSIVE_FACTOR 0.0f
 # define CYLINDER_EMISSIVE_FACTOR 0.0f
+
+// Anti-aliasing radius
+# define AA_RADIUS 1
 
 #endif
