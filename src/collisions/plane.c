@@ -15,6 +15,7 @@
 #include "get_structs/rt_get_structs.h"
 #include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
+#include "rgb/rt_rgb.h"
 
 // Equation 1:
 // ray.pos + ray.dir * t = rayEnd
@@ -53,6 +54,6 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	if (rt_dot(ray.dir, info.surface_normal) > 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = plane.rgb;
-	info.emissive = rt_get_rgb(0, 0, 0);
+	info.emissive = rt_scale_rgb(info.rgb, PLANE_EMISSIVE_FACTOR);
 	return (info);
 }

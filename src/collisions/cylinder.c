@@ -15,6 +15,7 @@
 #include "debug/rt_debug.h"
 #include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
+#include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
 
@@ -28,16 +29,18 @@
 static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 {
 	// TODO: Maybe don't use shitty {0, 1, 0}
+	t_vector	world_up;
 	float		angle;
 	float		theta;
 	t_vector	rotation_axis;
 
+	world_up = (t_vector){0, 1, 0};
 	ray = rt_get_ray(rt_sub(ray.pos, cylinder.pos), ray.dir);
 	if (cylinder.normal.x != 0.0f || cylinder.normal.z != 0.0f)
 	{
-		angle = rt_dot(cylinder.normal, (t_vector){0, 1, 0});
+		angle = rt_dot(cylinder.normal, world_up);
 		theta = acosf(angle);
-		rotation_axis = rt_normalized(rt_cross(cylinder.normal, (t_vector){0, 1, 0}));
+		rotation_axis = rt_normalized(rt_cross(cylinder.normal, world_up));
 		ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta);
 		ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
 		rt_assert_normal(ray.dir);
@@ -106,6 +109,6 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	if (inside)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = cylinder.rgb;
-	info.emissive = rt_get_rgb(0, 0, 0);
+	info.emissive = rt_scale_rgb(info.rgb, CYLINDER_EMISSIVE_FACTOR);
 	return (info);
 }

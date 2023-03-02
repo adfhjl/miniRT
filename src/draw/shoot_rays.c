@@ -66,7 +66,7 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	// 	sample_index++;
 	// }
 
-	// rgb = rt_get_rgb(0, 0, 0);
+	// rgb = (t_rgb){0, 0, 0};
 	// sample_index = 0;
 	// while (sample_index < SAMPLES_PER_PIXEL)
 	// {

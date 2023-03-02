@@ -82,7 +82,6 @@ struct s_data
 
 	t_object	*ambient;
 	t_object	*camera;
-	t_object	*light;
 
 	int			scaled_window_width;
 	int			scaled_window_height;

@@ -46,7 +46,6 @@ static bool	rt_camera_is_invalid(t_data *data)
 {
 	if (data->camera == NULL)
 		return (false);
-	data->world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	data->camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
 	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
 		return (true);
@@ -76,7 +75,6 @@ static void	rt_assign_capitalized_objects(t_data *data)
 {
 	data->ambient = rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects);
 	data->camera = rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects);
-	data->light = rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects);
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
@@ -87,7 +85,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
 
-	data->light->diameter = LIGHT_DIAMETER;
+	data->world_up = (t_vector){0, 1, 0};
 
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));

@@ -40,8 +40,11 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 		else if (data->objects[i].type == OBJECT_TYPE_LIGHT)
 		{
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
-			new_hit_info.rgb = rt_scale_rgb(new_hit_info.rgb, data->light->ratio);
-			new_hit_info.emissive = rt_scale_rgb(new_hit_info.rgb, LIGHT_BRIGHTNESS_FACTOR);
+			if (new_hit_info.distance != INFINITY)
+			{
+				new_hit_info.rgb = rt_scale_rgb(new_hit_info.rgb, data->objects[i].ratio);
+				new_hit_info.emissive = new_hit_info.rgb;
+			}
 		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
@@ -63,7 +66,7 @@ static t_vector	rt_random_unit_vector(void)
 	float r = sqrtf(1.0f - z * z);
 	float x = r * cosf(a);
 	float y = r * sinf(a);
-	return (rt_get_vector(x, y, z));
+	return ((t_vector){x, y, z});
 }
 
 t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
@@ -74,9 +77,11 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	t_rgb		background;
 	size_t		bounce_index;
 
-	rgb = rt_get_rgb(0, 0, 0);
-	throughput = rt_get_rgb(1, 1, 1);
-	background = rt_get_rgb(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B);
+	rgb = (t_rgb){0, 0, 0};
+	throughput = (t_rgb){1, 1, 1};
+
+	// TODO: Replace this with ambient!
+	background = (t_rgb){BACKGROUND_R, BACKGROUND_G, BACKGROUND_B};
 
 	bounce_index = 0;
 	while (bounce_index <= MAX_BOUNCES_PER_RAY)

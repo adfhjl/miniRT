@@ -23,5 +23,6 @@ t_status	rt_parse_light(char **line_ptr, t_object *object)
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_rgb(line_ptr, &object->rgb) == ERROR)
 		return (ERROR);
+	object->diameter = LIGHT_DIAMETER;
 	return (OK);
 }

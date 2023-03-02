@@ -14,8 +14,9 @@
 
 #include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
-#include "vectors/rt_vectors.h"
+#include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
 // Explanation:
 // Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/
@@ -54,6 +55,6 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 	if (q.solution_minus < 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
-	info.emissive = rt_get_rgb(0, 0, 0);
+	info.emissive = rt_scale_rgb(info.rgb, SPHERE_EMISSIVE_FACTOR);
 	return (info);
 }

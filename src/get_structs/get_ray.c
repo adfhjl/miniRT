@@ -14,5 +14,5 @@
 
 t_ray	rt_get_ray(t_vector pos, t_vector dir)
 {
-	return ((t_ray){.pos=pos, .dir=dir});
+	return ((t_ray){pos, dir});
 }

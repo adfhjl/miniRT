@@ -15,8 +15,8 @@
 t_vector	rt_scale(t_vector v, float f)
 {
 	return ((t_vector){
-		.x = v.x * f,
-		.y = v.y * f,
-		.z = v.z * f
+		v.x * f,
+		v.y * f,
+		v.z * f
 	});
 }

@@ -20,8 +20,9 @@
 			// "args": [ "scenes/fun/lava-world.rt" ],
 			// "args": [ "scenes/fun/plane.rt" ],
 			// "args": [ "scenes/fun/plasma.rt" ],
+			"args": [ "scenes/bonus_only/extra-light.rt" ],
 			// "args": [ "scenes/shapes/sphere/inside-sphere-light-outside.rt" ],
-			"args": [ "scenes/shapes/sphere/inside-sphere-light-inside.rt" ],
+			// "args": [ "scenes/shapes/sphere/inside-sphere-light-inside.rt" ],
 			// "args": [ "scenes/fun/test.rt" ],
 			// "args": [ "scenes/valid/shapes/plane-sphere.rt" ],
 			// "args": [ "scenes/valid/shapes/plane/dutch-flag.rt" ],
@@ -70,8 +71,11 @@
 
 			// "args": [ "scenes/fun/plane.rt" ],
 			// "args": [ "scenes/fun/plasma.rt" ],
+			"args": [ "scenes/bonus_only/extra-light.rt" ],
+			// "args": [ "scenes/fun/amog_pringles.rt" ],
+			// "args": [ "scenes/shapes/cylinder/diagonal.rt" ],
 			// "args": [ "scenes/shapes/sphere/inside-sphere-light-outside.rt" ],
-			"args": [ "scenes/shapes/sphere/inside-sphere-light-inside.rt" ],
+			// "args": [ "scenes/shapes/sphere/inside-sphere-light-inside.rt" ],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build Release",
 			"internalConsoleOptions": "openOnSessionStart"

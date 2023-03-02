@@ -15,8 +15,8 @@
 t_rgb	rt_add_rgb(t_rgb a, t_rgb b)
 {
 	return ((t_rgb){
-		.r = a.r + b.r,
-		.g = a.g + b.g,
-		.b = a.b + b.b
+		a.r + b.r,
+		a.g + b.g,
+		a.b + b.b
 	});
 }

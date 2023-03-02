@@ -15,8 +15,8 @@
 t_vector	rt_add(t_vector a, t_vector b)
 {
 	return ((t_vector){
-		.x = a.x + b.x,
-		.y = a.y + b.y,
-		.z = a.z + b.z
+		a.x + b.x,
+		a.y + b.y,
+		a.z + b.z
 	});
 }

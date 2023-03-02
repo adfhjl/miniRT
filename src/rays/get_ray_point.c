@@ -15,8 +15,8 @@
 t_vector	rt_get_ray_point(t_ray ray, float t)
 {
 	return ((t_vector){
-		.x = ray.pos.x + (t * ray.dir.x),
-		.y = ray.pos.y + (t * ray.dir.y),
-		.z = ray.pos.z + (t * ray.dir.z)
+		ray.pos.x + (t * ray.dir.x),
+		ray.pos.y + (t * ray.dir.y),
+		ray.pos.z + (t * ray.dir.z)
 	});
 }

@@ -15,8 +15,8 @@
 t_rgb	rt_scale_rgb(t_rgb v, float f)
 {
 	return ((t_rgb){
-		.r = v.r * f,
-		.g = v.g * f,
-		.b = v.b * f
+		v.r * f,
+		v.g * f,
+		v.b * f
 	});
 }

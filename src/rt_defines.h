@@ -28,7 +28,6 @@
 # define UNRENDERED_B 10
 
 # define NUDGE 0.01f
-# define LIGHT_BRIGHTNESS_FACTOR 25.0f
 
 # define MOVEMENT_SPEED 7.0f
 # define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
@@ -37,7 +36,7 @@
 
 # define ROTATION_SPEED 0.003f
 
-# define RAYS_PER_FRAME 100000
+# define RAYS_PER_FRAME 160000
 // # define GENERATED_NOISE_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
@@ -72,5 +71,13 @@
 # define LIGHT_DIAMETER 1.0f
 
 // TODO: Add three defines for plane, sphere, and cylinder emission RGBs
+
+// TODO: Set to 0 before eval
+# define MULTIPLE_LIGHTS_ALLOWED 1
+
+// TODO: Test these
+# define PLANE_EMISSIVE_FACTOR 0.0f
+# define SPHERE_EMISSIVE_FACTOR 0.0f
+# define CYLINDER_EMISSIVE_FACTOR 0.0f
 
 #endif
