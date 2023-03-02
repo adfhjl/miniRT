@@ -33,7 +33,7 @@ static t_ray	rt_create_ray(uint32_t x, uint32_t y, t_data *data)
 
 // Linear blend where an interpolation of 0.0f means old is returned,
 // while 1.0f means new is returned.
-static float	rt_mix(float old, float new, float interpolation)
+static float	rt_lerp(float old, float new, float interpolation)
 {
 	return (old * (1 - interpolation) + new * interpolation);
 }
@@ -46,9 +46,9 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	ray = rt_create_ray(x, y, data);
 	rgb = rt_get_ray_rgb(ray, data);
 
-	rgb.r = rt_mix(data->pixel_channel_floats[location * 4 + 0], rgb.r, 1.0f / (data->samples_since_last_movement + 1));
-	rgb.g = rt_mix(data->pixel_channel_floats[location * 4 + 1], rgb.g, 1.0f / (data->samples_since_last_movement + 1));
-	rgb.b = rt_mix(data->pixel_channel_floats[location * 4 + 2], rgb.b, 1.0f / (data->samples_since_last_movement + 1));
+	rgb.r = rt_lerp(data->pixel_channel_floats[location * 4 + 0], rgb.r, 1.0f / (data->samples_since_last_movement + 1));
+	rgb.g = rt_lerp(data->pixel_channel_floats[location * 4 + 1], rgb.g, 1.0f / (data->samples_since_last_movement + 1));
+	rgb.b = rt_lerp(data->pixel_channel_floats[location * 4 + 2], rgb.b, 1.0f / (data->samples_since_last_movement + 1));
 
 	data->pixel_channel_floats[location * 4 + 0] = rgb.r;
 	data->pixel_channel_floats[location * 4 + 1] = rgb.g;
