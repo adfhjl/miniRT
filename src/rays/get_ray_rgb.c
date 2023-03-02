@@ -72,16 +72,14 @@ static t_vector	rt_random_unit_vector(void)
 t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 {
 	t_rgb		rgb;
+	t_rgb		background;
 	t_rgb		throughput;
 	t_hit_info	hit_info;
-	t_rgb		background;
 	size_t		bounce_index;
 
 	rgb = (t_rgb){0, 0, 0};
-	throughput = (t_rgb){1, 1, 1};
-
-	// TODO: Replace this with ambient!
 	background = (t_rgb){BACKGROUND_R, BACKGROUND_G, BACKGROUND_B};
+	throughput = (t_rgb){1, 1, 1};
 
 	bounce_index = 0;
 	while (bounce_index <= MAX_BOUNCES_PER_RAY)
@@ -104,7 +102,9 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 
-		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
+ 		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
+
+		rgb = rt_add_rgb(rgb, rt_multiply_rgb(rt_scale_rgb(data->ambient->rgb, data->ambient->ratio), throughput));
 
 		bounce_index++;
 	}

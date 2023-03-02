@@ -62,10 +62,6 @@
 // so that the object's own RGB only contributes 10% of the RGB.
 // # define REFLECTION_CONTRIBUTION 0.5f
 
-// TODO: Average the samples over time as well
-// TODO: Don't sample pixels multiple times that immediately flew into the sky.
-// # define SAMPLES_PER_PIXEL 1
-
 // TODO: Before handing the project in, set this to a tiny value so it's
 // really close to a point light, which is probably what the subject intended.
 # define LIGHT_DIAMETER 1.0f

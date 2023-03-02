@@ -55,30 +55,6 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	data->pixel_channel_floats[location * 4 + 2] = rgb.b;
 
 	return (rgb);
-
-	// size_t	sample_index;
-	// t_rgb	rgbs[SAMPLES_PER_PIXEL];
-
-	// sample_index = 0;
-	// while (sample_index < SAMPLES_PER_PIXEL)
-	// {
-	// 	rgbs[sample_index] = rt_get_ray_rgb(ray, data);
-	// 	sample_index++;
-	// }
-
-	// rgb = (t_rgb){0, 0, 0};
-	// sample_index = 0;
-	// while (sample_index < SAMPLES_PER_PIXEL)
-	// {
-	// 	rgb.r += rgbs[sample_index].r;
-	// 	rgb.g += rgbs[sample_index].g;
-	// 	rgb.b += rgbs[sample_index].b;
-	// 	sample_index++;
-	// }
-
-	// rgb.r /= SAMPLES_PER_PIXEL;
-	// rgb.g /= SAMPLES_PER_PIXEL;
-	// rgb.b /= SAMPLES_PER_PIXEL;
 }
 
 // static void	rt_shoot_voronoi_ray(t_data *data)
