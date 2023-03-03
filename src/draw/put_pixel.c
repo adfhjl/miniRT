@@ -20,6 +20,8 @@ uint32_t	rt_convert_color(t_rgb rgb)
 	uint32_t	g;
 	uint32_t	b;
 
+	rgb = rt_scale_rgb(rgb, EXPOSURE);
+	rgb = rt_aces_film(rgb);
 	rgb = rt_linear_to_srgb(rgb);
 	r = (uint32_t)(rgb.r * 255.0f);
 	g = (uint32_t)(rgb.g * 255.0f);

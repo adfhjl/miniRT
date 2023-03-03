@@ -82,4 +82,7 @@
 # define LIGHT_G 0
 # define LIGHT_B 0
 
+// The higher this number, the brighter the scene.
+# define EXPOSURE 0.5f
+
 #endif

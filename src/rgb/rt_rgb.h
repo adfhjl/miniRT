@@ -15,11 +15,17 @@
 
 # include "minirt.h"
 
+t_rgb	rt_aces_film(t_rgb x);
+
 t_rgb	rt_add_rgb(t_rgb a, t_rgb b);
 t_rgb	rt_add_scalar_rgb(t_rgb a, float b);
 
+t_rgb	rt_clamp_rgb(t_rgb a, float lower, float upper);
+
 t_rgb	rt_linear_to_srgb(t_rgb rgb);
 t_rgb	rt_srgb_to_linear(t_rgb rgb);
+
+t_rgb	rt_divide_rgb(t_rgb a, t_rgb b);
 
 t_rgb	rt_multiply_rgb(t_rgb a, t_rgb b);
 

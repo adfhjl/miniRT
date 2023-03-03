@@ -67,8 +67,11 @@ CFILES :=\
 	src/input_hooks/input_hooks.c\
 	src/rays/get_ray_point.c\
 	src/rays/get_ray_rgb.c\
+	src/rgb/aces_film.c\
 	src/rgb/add.c\
+	src/rgb/clamp.c\
 	src/rgb/color_conversion.c\
+	src/rgb/divide.c\
 	src/rgb/multiply.c\
 	src/rgb/scale.c\
 	src/utils/lerp.c\

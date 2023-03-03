@@ -42,32 +42,9 @@ static t_rgb	rt_less_than(t_rgb f, float value)
         (f.b < value) ? 1.0f : 0.0f};
 }
 
-static float	rt_min(float a, float b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-static float	rt_max(float a, float b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-static t_rgb	rt_clamp(t_rgb a, float lower, float upper)
-{
-	return ((t_rgb){
-		rt_min(rt_max(a.r, lower), upper),
-		rt_min(rt_max(a.g, lower), upper),
-		rt_min(rt_max(a.b, lower), upper)
-	});
-}
-
 t_rgb	rt_linear_to_srgb(t_rgb rgb)
 {
-    rgb = rt_clamp(rgb, 0.0f, 1.0f);
+    rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
 
     return rt_mix(
         rt_add_scalar_rgb(rt_scale_rgb(rt_pow(rgb, 1.0f / 2.4f), 1.055f), -0.055f),
@@ -78,7 +55,7 @@ t_rgb	rt_linear_to_srgb(t_rgb rgb)
 
 t_rgb	rt_srgb_to_linear(t_rgb rgb)
 {
-    rgb = rt_clamp(rgb, 0.0f, 1.0f);
+    rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
 
     return rt_mix(
         rt_pow(rt_scale_rgb(rt_add_scalar_rgb(rgb, 0.055f), 1.0f / 1.055f), 2.4f),
