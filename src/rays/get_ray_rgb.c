@@ -24,10 +24,12 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
 	t_hit_info	hit_info;
 	t_hit_info	new_hit_info;
+	t_rgb		light_rgb;
 	size_t		i;
 
 	hit_info.distance = INFINITY;
 	new_hit_info.distance = INFINITY;
+	light_rgb = (t_rgb){LIGHT_R, LIGHT_G, LIGHT_B};
 	i = 0;
 	while (i < ft_vector_get_size(data->objects))
 	{
@@ -42,8 +44,8 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 			if (new_hit_info.distance != INFINITY)
 			{
-				new_hit_info.rgb = rt_scale_rgb(new_hit_info.rgb, data->objects[i].ratio);
-				new_hit_info.emissive = rt_scale_rgb(new_hit_info.rgb, LIGHT_EMISSIVE_FACTOR);
+				new_hit_info.emissive = rt_scale_rgb(rt_scale_rgb(new_hit_info.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
+				new_hit_info.rgb = light_rgb;
 			}
 		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?

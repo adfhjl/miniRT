@@ -16,8 +16,8 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 400
-# define UNSCALED_WINDOW_HEIGHT 400
+# define UNSCALED_WINDOW_WIDTH 200
+# define UNSCALED_WINDOW_HEIGHT 200
 
 # define BACKGROUND_R 0.4f
 # define BACKGROUND_G 0.5f
@@ -36,7 +36,7 @@
 
 # define ROTATION_SPEED 0.003f
 
-# define RAYS_PER_FRAME 160000
+# define RAYS_PER_FRAME 5000
 // # define GENERATED_NOISE_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
@@ -44,7 +44,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 2
+# define PIXEL_SCALE 4
 
 // # define MAX_UPDATE_RADIUS 20
 
@@ -55,7 +55,7 @@
 // TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
 // TODO: It can still be diffuse with a value higher than 0
 // if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
-# define MAX_BOUNCES_PER_RAY 2
+# define MAX_BOUNCES_PER_RAY 8
 
 // 0.0 means that reflection doesn't occur, so the render is diffuse.
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
@@ -64,7 +64,7 @@
 
 // TODO: Before handing the project in, set this to a tiny value so it's
 // really close to a point light, which is probably what the subject intended.
-# define LIGHT_DIAMETER 1.0f
+# define LIGHT_DIAMETER 10.0f
 
 // TODO: Add three defines for plane, sphere, and cylinder emission RGBs
 
@@ -77,5 +77,9 @@
 # define LIGHT_EMISSIVE_FACTOR 20.0f
 
 # define ANTI_ALIAS_RADIUS 0.5f
+
+# define LIGHT_R 0
+# define LIGHT_G 0
+# define LIGHT_B 0
 
 #endif
