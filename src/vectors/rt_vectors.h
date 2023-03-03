@@ -15,9 +15,6 @@
 
 # include "minirt.h"
 
-t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
-				float theta);
-
 t_vector	rt_add(t_vector a, t_vector b);
 
 t_vector	rt_cross(t_vector a, t_vector b);
@@ -28,6 +25,9 @@ float		rt_mag2(t_vector v);
 float		rt_mag(t_vector v);
 
 t_vector	rt_normalized(t_vector v);
+
+t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
+				float theta);
 
 t_vector	rt_scale(t_vector v, float f);
 

@@ -16,12 +16,12 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 100
-# define UNSCALED_WINDOW_HEIGHT 100
+# define UNSCALED_WINDOW_WIDTH 400
+# define UNSCALED_WINDOW_HEIGHT 400
 
-# define BACKGROUND_R 0.1f
-# define BACKGROUND_G 0.1f
-# define BACKGROUND_B 0.1f
+# define BACKGROUND_R 0.4f
+# define BACKGROUND_G 0.5f
+# define BACKGROUND_B 0.7f
 
 # define UNRENDERED_R 10
 # define UNRENDERED_G 10
@@ -44,7 +44,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 7
+# define PIXEL_SCALE 2
 
 // # define MAX_UPDATE_RADIUS 20
 
@@ -55,7 +55,7 @@
 // TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
 // TODO: It can still be diffuse with a value higher than 0
 // if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
-# define MAX_BOUNCES_PER_RAY 1
+# define MAX_BOUNCES_PER_RAY 2
 
 // 0.0 means that reflection doesn't occur, so the render is diffuse.
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
@@ -71,12 +71,11 @@
 // TODO: Set to 0 before eval
 # define MULTIPLE_LIGHTS_ALLOWED 1
 
-// TODO: Test these
 # define PLANE_EMISSIVE_FACTOR 0.0f
 # define SPHERE_EMISSIVE_FACTOR 0.0f
 # define CYLINDER_EMISSIVE_FACTOR 0.0f
+# define LIGHT_EMISSIVE_FACTOR 20.0f
 
-// Anti-aliasing radius
-# define AA_RADIUS 1
+# define ANTI_ALIAS_RADIUS 0.5f
 
 #endif

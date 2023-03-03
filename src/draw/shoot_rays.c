@@ -32,21 +32,14 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 	return (rt_get_ray(data->camera->pos, dir));
 }
 
-// Linear blend where an interpolation of 0.0f means old is returned,
-// while 1.0f means new is returned.
-static float	rt_lerp(float old, float new, float interpolation)
-{
-	return (old * (1 - interpolation) + new * interpolation);
-}
-
 static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *data)
 {
 	t_ray	ray;
 	t_rgb	rgb;
 
 	ray = rt_create_ray(
-		(rt_random_float_01() * 2.f - 1.f) * (float)AA_RADIUS + x,
-		(rt_random_float_01() * 2.f - 1.f) * (float)AA_RADIUS + y,
+		(rt_random_float_01() * 2.f - 1.f) * ANTI_ALIAS_RADIUS + x,
+		(rt_random_float_01() * 2.f - 1.f) * ANTI_ALIAS_RADIUS + y,
 		data);
 	rgb = rt_get_ray_rgb(ray, data);
 

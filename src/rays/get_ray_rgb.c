@@ -43,7 +43,7 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			if (new_hit_info.distance != INFINITY)
 			{
 				new_hit_info.rgb = rt_scale_rgb(new_hit_info.rgb, data->objects[i].ratio);
-				new_hit_info.emissive = new_hit_info.rgb;
+				new_hit_info.emissive = rt_scale_rgb(new_hit_info.rgb, LIGHT_EMISSIVE_FACTOR);
 			}
 		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
@@ -78,7 +78,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	size_t		bounce_index;
 
 	rgb = (t_rgb){0, 0, 0};
-	background = (t_rgb){BACKGROUND_R, BACKGROUND_G, BACKGROUND_B};
+	background = rt_srgb_to_linear((t_rgb){BACKGROUND_R, BACKGROUND_G, BACKGROUND_B});
 	throughput = (t_rgb){1, 1, 1};
 
 	bounce_index = 0;

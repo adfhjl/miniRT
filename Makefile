@@ -68,8 +68,10 @@ CFILES :=\
 	src/rays/get_ray_point.c\
 	src/rays/get_ray_rgb.c\
 	src/rgb/add.c\
+	src/rgb/color_conversion.c\
 	src/rgb/multiply.c\
 	src/rgb/scale.c\
+	src/utils/lerp.c\
 	src/utils/print_error.c\
 	src/utils/random.c\
 	src/utils/solve_quadratic.c\

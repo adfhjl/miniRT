@@ -15,6 +15,8 @@
 
 # include "minirt.h"
 
+float		rt_lerp(float old, float new, float t);
+
 t_status	rt_print_error(t_error ph_error);
 
 void		rt_shuffle(uint32_t *arr, size_t length);
