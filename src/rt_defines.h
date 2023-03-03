@@ -16,27 +16,24 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
+// Integer from 1 to infinity.
+// This is the resolution of the scene that actually gets rendered.
+// If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
+// window will be 500 pixels wide.
 # define UNSCALED_WINDOW_WIDTH 200
 # define UNSCALED_WINDOW_HEIGHT 200
 
-# define BACKGROUND_R 0.4f
-# define BACKGROUND_G 0.5f
-# define BACKGROUND_B 0.7f
+// Float from 0 to infinity.
+// A really small value used to nudge the ray up to make sure floating-point
+// shenanigans didn't cause the ray to accidentally end up on the wrong side.
+// TODO: Play around with SURFACE_NORMAL_NUDGE values.
+# define SURFACE_NORMAL_NUDGE 0.01f
 
-# define UNRENDERED_R 10
-# define UNRENDERED_G 10
-# define UNRENDERED_B 10
-
-# define NUDGE 0.01f
-
-# define MOVEMENT_SPEED 7.0f
-# define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
-# define MAX_MOVEMENT_SPEED 50.0f
-# define MIN_MOVEMENT_SPEED 0.5f
-
-# define ROTATION_SPEED 0.003f
-
+// Integer between 1 and infinity.
+// How many rays are shot per frame.
+// Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
 # define RAYS_PER_FRAME 5000
+
 // # define GENERATED_NOISE_PER_FRAME 100
 
 # define DEBUG_DRAWING_DEPTH 1
@@ -71,18 +68,75 @@
 // TODO: Set to 0 before eval
 # define MULTIPLE_LIGHTS_ALLOWED 1
 
+// Float between 0 and infinity.
+// A value of 0 means no anti-aliasing occurs.
+// A value of 1 means that the first ray shot from the camera into the scene
+// can be randomly moved up to one pixel up/down/left/right.
+# define ANTI_ALIAS_RADIUS 0.5f
+
+// Float between 0 and infinity.
+// The higher this number, the brighter the scene.
+# define EXPOSURE 0.5f
+
+// MOVEMENT ////////////////////////////////////////////////////////////////////
+
+# define MOVEMENT_SPEED 7.0f
+# define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
+# define MAX_MOVEMENT_SPEED 50.0f
+# define MIN_MOVEMENT_SPEED 0.5f
+# define ROTATION_SPEED 0.003f
+
+// OBJECT MATERIALS ////////////////////////////////////////////////////////////
+// Floats between 0 and infinity.
+
+// A value of 0 means the object type isn't emissive.
+// A value of 10 means the object emits 10x its RGB value.
 # define PLANE_EMISSIVE_FACTOR 0.0f
 # define SPHERE_EMISSIVE_FACTOR 0.0f
 # define CYLINDER_EMISSIVE_FACTOR 0.0f
 # define LIGHT_EMISSIVE_FACTOR 20.0f
 
-# define ANTI_ALIAS_RADIUS 0.5f
+// What percentage of the light that hits this object
+// is going to be reflected specularly, instead of diffusely.
+# define PLANE_SPECULAR_FACTOR 0.0f
+# define SPHERE_SPECULAR_FACTOR 0.0f
+# define CYLINDER_SPECULAR_FACTOR 0.0f
 
-# define LIGHT_R 0
-# define LIGHT_G 0
-# define LIGHT_B 0
+// How rough the surface is, which controls how blurry the reflection is.
+// A value of 0 is a very sharp clean mirror-like reflection,
+// and a value of 1 is so blurry it looks just like diffuse.
+# define PLANE_ROUGHNESS_FACTOR 0.0f
+# define SPHERE_ROUGHNESS_FACTOR 0.0f
+# define CYLINDER_ROUGHNESS_FACTOR 0.0f
 
-// The higher this number, the brighter the scene.
-# define EXPOSURE 0.5f
+// RGB /////////////////////////////////////////////////////////////////////////
+// Floats between 0 and 1.
+
+# define BACKGROUND_R 0.4f
+# define BACKGROUND_G 0.5f
+# define BACKGROUND_B 0.7f
+
+# define UNRENDERED_R 0.05f
+# define UNRENDERED_G 0.05f
+# define UNRENDERED_B 0.05f
+
+# define LIGHT_R 0.0f
+# define LIGHT_G 0.0f
+# define LIGHT_B 0.0f
+
+// SPECULAR RGB ////////////////////////////////////////////////////////////////
+// Floats between 0 and 1.
+
+# define PLANE_SPECULAR_R 0.0f
+# define PLANE_SPECULAR_G 0.0f
+# define PLANE_SPECULAR_B 0.0f
+
+# define SPHERE_SPECULAR_R 0.0f
+# define SPHERE_SPECULAR_G 0.0f
+# define SPHERE_SPECULAR_B 0.0f
+
+# define CYLINDER_SPECULAR_R 0.0f
+# define CYLINDER_SPECULAR_G 0.0f
+# define CYLINDER_SPECULAR_B 0.0f
 
 #endif

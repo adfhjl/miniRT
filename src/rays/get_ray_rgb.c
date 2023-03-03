@@ -96,8 +96,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		}
 
 		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
-		// TODO: Play around with NUDGE values.
-		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, NUDGE));
+		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, SURFACE_NORMAL_NUDGE));
 
 		ray.dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
 		rt_assert_normal(ray.dir);

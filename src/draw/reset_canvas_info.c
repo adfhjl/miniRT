@@ -71,15 +71,9 @@ static void	rt_clear_image(mlx_image_t *image)
 {
 	uint32_t	x;
 	uint32_t	y;
-	t_rgb		unrendered_rgb;
 	uint32_t	color;
 
-	unrendered_rgb = (t_rgb){
-		UNRENDERED_R / 255.f,
-		UNRENDERED_G / 255.f,
-		UNRENDERED_B / 255.f
-	};
-	color = rt_convert_color(unrendered_rgb);
+	color = rt_convert_color((t_rgb){UNRENDERED_R, UNRENDERED_G, UNRENDERED_B});
 	y = 0;
 	while (y < UNSCALED_WINDOW_HEIGHT)
 	{
