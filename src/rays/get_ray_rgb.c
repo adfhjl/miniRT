@@ -44,7 +44,7 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 			if (new_hit_info.distance != INFINITY)
 			{
-				new_hit_info.emissive = rt_scale_rgb(rt_scale_rgb(new_hit_info.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
+				new_hit_info.emissive = rt_scale(rt_scale(new_hit_info.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
 				new_hit_info.rgb = light_rgb;
 			}
 		}
@@ -91,21 +91,32 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		if (hit_info.distance == INFINITY)
 		{
-			rgb = rt_add_rgb(rgb, rt_multiply_rgb(background, throughput));
+			rgb = rt_add(rgb, rt_multiply_rgb(background, throughput));
 			break ;
 		}
 
 		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
 		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, SURFACE_NORMAL_NUDGE));
 
-		ray.dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
-		rt_assert_normal(ray.dir);
+		float	do_specular;
 
-		rgb = rt_add_rgb(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
+		do_specular = 0;
+		if (rt_random_float_01() < hit_info.specularity)
+			do_specular = 1;
 
- 		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
+		t_vector	diffuse_ray_dir;
+		t_vector	specular_ray_dir;
 
-		rgb = rt_add_rgb(rgb, rt_multiply_rgb(rt_scale_rgb(data->ambient->rgb, data->ambient->ratio), throughput));
+		diffuse_ray_dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
+		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
+		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.roughness * hit_info.roughness));
+		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
+
+		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
+
+ 		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, hit_info.specular_color, do_specular));
+
+		rgb = rt_add(rgb, rt_multiply_rgb(rt_scale(data->ambient->rgb, data->ambient->ratio), throughput));
 
 		bounce_index++;
 	}

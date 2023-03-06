@@ -55,6 +55,9 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 	if (q.solution_minus < 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
-	info.emissive = rt_scale_rgb(info.rgb, SPHERE_EMISSIVE_FACTOR);
+	info.emissive = rt_scale(info.rgb, SPHERE_EMISSIVE_FACTOR);
+	info.specularity = SPHERE_SPECULAR_FACTOR;
+	info.roughness = SPHERE_ROUGHNESS_FACTOR;
+	info.specular_color = (t_rgb){SPHERE_SPECULAR_R, SPHERE_SPECULAR_G, SPHERE_SPECULAR_B};
 	return (info);
 }

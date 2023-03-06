@@ -54,6 +54,9 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	if (rt_dot(ray.dir, info.surface_normal) > 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = plane.rgb;
-	info.emissive = rt_scale_rgb(info.rgb, PLANE_EMISSIVE_FACTOR);
+	info.emissive = rt_scale(info.rgb, PLANE_EMISSIVE_FACTOR);
+	info.specularity = PLANE_SPECULAR_FACTOR;
+	info.roughness = PLANE_ROUGHNESS_FACTOR;
+	info.specular_color = (t_rgb){PLANE_SPECULAR_R, PLANE_SPECULAR_G, PLANE_SPECULAR_B};
 	return (info);
 }

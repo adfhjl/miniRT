@@ -18,6 +18,7 @@ CC := gcc
 # TODO: Remove extra flags before the eval
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 CFLAGS += -Wno-overlength-strings # Needed to include MLX42's font.h
+CFLAGS += -Wno-missing-braces # Needed for brace initializing t_vector
 
 ################################################################################
 
@@ -73,8 +74,8 @@ CFILES :=\
 	src/rgb/color_conversion.c\
 	src/rgb/divide.c\
 	src/rgb/multiply.c\
-	src/rgb/scale.c\
 	src/utils/lerp.c\
+	src/utils/mix.c\
 	src/utils/print_error.c\
 	src/utils/random.c\
 	src/utils/solve_quadratic.c\
@@ -83,6 +84,7 @@ CFILES :=\
 	src/vectors/dot.c\
 	src/vectors/mag.c\
 	src/vectors/normalized.c\
+	src/vectors/reflect.c\
 	src/vectors/rotate_around_axis.c\
 	src/vectors/scale.c\
 	src/vectors/sub.c\

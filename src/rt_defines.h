@@ -87,8 +87,8 @@
 # define ROTATION_SPEED 0.003f
 
 // OBJECT MATERIALS ////////////////////////////////////////////////////////////
-// Floats between 0 and infinity.
 
+// Floats between 0 and infinity.
 // A value of 0 means the object type isn't emissive.
 // A value of 10 means the object emits 10x its RGB value.
 # define PLANE_EMISSIVE_FACTOR 0.0f
@@ -96,18 +96,20 @@
 # define CYLINDER_EMISSIVE_FACTOR 0.0f
 # define LIGHT_EMISSIVE_FACTOR 20.0f
 
+// Floats between 0 and 1.
 // What percentage of the light that hits this object
 // is going to be reflected specularly, instead of diffusely.
-# define PLANE_SPECULAR_FACTOR 0.0f
-# define SPHERE_SPECULAR_FACTOR 0.0f
-# define CYLINDER_SPECULAR_FACTOR 0.0f
+# define PLANE_SPECULAR_FACTOR 0.5f
+# define SPHERE_SPECULAR_FACTOR 0.5f
+# define CYLINDER_SPECULAR_FACTOR 0.5f
 
+// Floats between 0 and 1.
 // How rough the surface is, which controls how blurry the reflection is.
 // A value of 0 is a very sharp clean mirror-like reflection,
 // and a value of 1 is so blurry it looks just like diffuse.
-# define PLANE_ROUGHNESS_FACTOR 0.0f
-# define SPHERE_ROUGHNESS_FACTOR 0.0f
-# define CYLINDER_ROUGHNESS_FACTOR 0.0f
+# define PLANE_ROUGHNESS_FACTOR 0.5f
+# define SPHERE_ROUGHNESS_FACTOR 0.5f
+# define CYLINDER_ROUGHNESS_FACTOR 0.5f
 
 // RGB /////////////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.
@@ -127,16 +129,16 @@
 // SPECULAR RGB ////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.
 
-# define PLANE_SPECULAR_R 0.0f
-# define PLANE_SPECULAR_G 0.0f
-# define PLANE_SPECULAR_B 0.0f
+# define PLANE_SPECULAR_R 0.6f
+# define PLANE_SPECULAR_G 0.3f
+# define PLANE_SPECULAR_B 0.2f
 
-# define SPHERE_SPECULAR_R 0.0f
-# define SPHERE_SPECULAR_G 0.0f
-# define SPHERE_SPECULAR_B 0.0f
+# define SPHERE_SPECULAR_R 0.2f
+# define SPHERE_SPECULAR_G 0.6f
+# define SPHERE_SPECULAR_B 0.3f
 
-# define CYLINDER_SPECULAR_R 0.0f
-# define CYLINDER_SPECULAR_G 0.0f
-# define CYLINDER_SPECULAR_B 0.0f
+# define CYLINDER_SPECULAR_R 0.2f
+# define CYLINDER_SPECULAR_G 0.3f
+# define CYLINDER_SPECULAR_B 0.6f
 
 #endif

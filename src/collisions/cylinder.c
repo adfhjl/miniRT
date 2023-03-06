@@ -28,7 +28,6 @@
 */
 static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 {
-	// TODO: Maybe don't use shitty {0, 1, 0}
 	t_vector	world_up;
 	float		angle;
 	float		theta;
@@ -109,6 +108,9 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	if (inside)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = cylinder.rgb;
-	info.emissive = rt_scale_rgb(info.rgb, CYLINDER_EMISSIVE_FACTOR);
+	info.emissive = rt_scale(info.rgb, CYLINDER_EMISSIVE_FACTOR);
+	info.specularity = CYLINDER_SPECULAR_FACTOR;
+	info.roughness = CYLINDER_ROUGHNESS_FACTOR;
+	info.specular_color = (t_rgb){CYLINDER_SPECULAR_R, CYLINDER_SPECULAR_G, CYLINDER_SPECULAR_B};
 	return (info);
 }

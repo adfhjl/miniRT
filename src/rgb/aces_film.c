@@ -32,11 +32,11 @@ t_rgb	rt_aces_film(t_rgb a)
 	t_rgb	b;
 	t_rgb	c;
 
-	b = rt_scale_rgb(a, 2.51f);
+	b = rt_scale(a, 2.51f);
 	b = rt_add_scalar_rgb(b, 0.03f);
 	b = rt_multiply_rgb(a, b);
 
-	c = rt_scale_rgb(a, 2.43f);
+	c = rt_scale(a, 2.43f);
 	c = rt_add_scalar_rgb(c, 0.59f);
 	c = rt_multiply_rgb(a, c);
 	c = rt_add_scalar_rgb(c, 0.14f);

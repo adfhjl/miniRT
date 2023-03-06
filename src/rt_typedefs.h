@@ -13,7 +13,7 @@
 #ifndef RT_TYPEDEFS_H
 # define RT_TYPEDEFS_H
 
-typedef struct s_rgb		t_rgb;
+typedef struct s_vector		t_rgb;
 typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_object		t_object;

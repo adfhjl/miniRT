@@ -13,18 +13,23 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-struct s_rgb
-{
-	float	r;
-	float	g;
-	float	b;
-};
-
 struct s_vector
 {
-	float	x;
-	float	y;
-	float	z;
+	union
+	{
+		float	x;
+		float	r;
+	};
+	union
+	{
+		float	y;
+		float	g;
+	};
+	union
+	{
+		float	z;
+		float	b;
+	};
 };
 
 struct s_ray
@@ -52,7 +57,7 @@ struct s_hit_info
 	t_vector	surface_normal;
 	t_rgb		rgb;
 	t_rgb		emissive;
-	float		percent_specular;
+	float		specularity;
 	float		roughness;
 	t_rgb		specular_color;
 };
