@@ -98,24 +98,23 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
 		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, SURFACE_NORMAL_NUDGE));
 
-		float	do_specular;
-
-		do_specular = 0;
-		if (rt_random_float_01() < hit_info.specularity)
-			do_specular = 1;
-
 		t_vector	diffuse_ray_dir;
 		t_vector	specular_ray_dir;
 
+		// Calculate the diffuse and specular ray directions.
 		diffuse_ray_dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
 		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
+		// Note how the specular ray direction doesn't call random().
+		// This means it'll always go the same direction.
 		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.roughness * hit_info.roughness));
-		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
+		// The boolean check is what causes specular highlights.
+		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, rt_random_float_01() < hit_info.specularity);
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 
- 		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, hit_info.rgb, do_specular));
+		throughput = rt_multiply_rgb(throughput, hit_info.rgb);
 
+		// Russian roulette.
 		float p = rt_max(throughput.r, rt_max(throughput.g, throughput.b));
 		if (rt_random_float_01() > p)
 			break ;

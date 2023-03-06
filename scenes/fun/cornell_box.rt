@@ -31,5 +31,5 @@ sp 0,-9.5,20 6 229,127,229 # Blogpost 2
 
 # Right ball
 # sp -9,-9.5,20 6 191,229,229 # Blogpost 1
-sp -9,-9.5,20 6 127,229,229 # Blogpost 2
-# sp -9,-9.5,20 6 0,0,255 # Blogpost 2
+# sp -9,-9.5,20 6 127,229,229 # Blogpost 2
+sp -9,-9.5,20 6 0,0,255 # Blogpost 2
