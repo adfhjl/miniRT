@@ -32,7 +32,7 @@
 // Integer between 1 and infinity.
 // How many rays are shot per frame.
 // Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
-# define RAYS_PER_FRAME 5000
+# define RAYS_PER_FRAME 10000
 
 // # define GENERATED_NOISE_PER_FRAME 100
 
@@ -99,8 +99,8 @@
 // Floats between 0 and 1.
 // What percentage of the light that hits this object
 // is going to be reflected specularly, instead of diffusely.
-# define PLANE_SPECULAR_FACTOR 0.5f
-# define SPHERE_SPECULAR_FACTOR 0.5f
+# define PLANE_SPECULAR_FACTOR 0.1f
+# define SPHERE_SPECULAR_FACTOR 0.1f
 # define CYLINDER_SPECULAR_FACTOR 0.5f
 
 // Floats between 0 and 1.
@@ -129,16 +129,16 @@
 // SPECULAR RGB ////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.
 
-# define PLANE_SPECULAR_R 0.6f
-# define PLANE_SPECULAR_G 0.3f
-# define PLANE_SPECULAR_B 0.2f
+# define PLANE_SPECULAR_R 1.0f
+# define PLANE_SPECULAR_G 1.0f
+# define PLANE_SPECULAR_B 1.0f
 
-# define SPHERE_SPECULAR_R 0.2f
-# define SPHERE_SPECULAR_G 0.6f
-# define SPHERE_SPECULAR_B 0.3f
+# define SPHERE_SPECULAR_R 1.0f
+# define SPHERE_SPECULAR_G 1.0f
+# define SPHERE_SPECULAR_B 1.0f
 
-# define CYLINDER_SPECULAR_R 0.2f
-# define CYLINDER_SPECULAR_G 0.3f
-# define CYLINDER_SPECULAR_B 0.6f
+# define CYLINDER_SPECULAR_R 1.0f
+# define CYLINDER_SPECULAR_G 1.0f
+# define CYLINDER_SPECULAR_B 1.0f
 
 #endif

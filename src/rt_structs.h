@@ -91,6 +91,8 @@ struct s_data
 	t_object	*ambient;
 	t_object	*camera;
 
+	double		seconds_ran;
+
 	int			scaled_window_width;
 	int			scaled_window_height;
 	int			scaled_window_center_x;
