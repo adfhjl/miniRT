@@ -75,6 +75,7 @@ CFILES :=\
 	src/rgb/divide.c\
 	src/rgb/multiply.c\
 	src/utils/lerp.c\
+	src/utils/max.c\
 	src/utils/mix.c\
 	src/utils/print_error.c\
 	src/utils/random.c\

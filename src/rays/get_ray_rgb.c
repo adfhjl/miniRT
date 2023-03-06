@@ -116,6 +116,11 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
  		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, hit_info.specular_color, do_specular));
 
+		float p = rt_max(throughput.r, rt_max(throughput.g, throughput.b));
+		if (rt_random_float_01() > p)
+			break ;
+		throughput = rt_scale(throughput, 1.0f / p);
+
 		rgb = rt_add(rgb, rt_multiply_rgb(rt_scale(data->ambient->rgb, data->ambient->ratio), throughput));
 
 		bounce_index++;

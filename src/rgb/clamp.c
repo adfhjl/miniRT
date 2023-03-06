@@ -12,16 +12,11 @@
 
 #include "minirt.h"
 
+#include "utils/rt_utils.h"
+
 static float	rt_min(float a, float b)
 {
 	if (a < b)
-		return (a);
-	return (b);
-}
-
-static float	rt_max(float a, float b)
-{
-	if (a > b)
 		return (a);
 	return (b);
 }
