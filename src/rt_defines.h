@@ -61,7 +61,7 @@
 
 // TODO: Before handing the project in, set this to a tiny value so it's
 // really close to a point light, which is probably what the subject intended.
-# define LIGHT_DIAMETER 10.0f
+# define LIGHT_DIAMETER 1000.0f
 
 // TODO: Add three defines for plane, sphere, and cylinder emission RGBs
 
