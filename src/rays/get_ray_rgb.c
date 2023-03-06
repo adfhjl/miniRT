@@ -114,7 +114,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 
- 		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, hit_info.specular_color, do_specular));
+ 		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, hit_info.rgb, do_specular));
 
 		float p = rt_max(throughput.r, rt_max(throughput.g, throughput.b));
 		if (rt_random_float_01() > p)

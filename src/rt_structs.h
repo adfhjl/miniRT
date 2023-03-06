@@ -59,7 +59,6 @@ struct s_hit_info
 	t_rgb		emissive;
 	float		specularity;
 	float		roughness;
-	t_rgb		specular_color;
 };
 
 struct s_quadratic

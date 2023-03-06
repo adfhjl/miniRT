@@ -126,19 +126,4 @@
 # define LIGHT_G 0.0f
 # define LIGHT_B 0.0f
 
-// SPECULAR RGB ////////////////////////////////////////////////////////////////
-// Floats between 0 and 1.
-
-# define PLANE_SPECULAR_R 0.9f
-# define PLANE_SPECULAR_G 0.9f
-# define PLANE_SPECULAR_B 0.9f
-
-# define SPHERE_SPECULAR_R 0.9f
-# define SPHERE_SPECULAR_G 0.9f
-# define SPHERE_SPECULAR_B 0.9f
-
-# define CYLINDER_SPECULAR_R 0.9f
-# define CYLINDER_SPECULAR_G 0.9f
-# define CYLINDER_SPECULAR_B 0.9f
-
 #endif

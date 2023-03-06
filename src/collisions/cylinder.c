@@ -111,6 +111,5 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	info.emissive = rt_scale(info.rgb, CYLINDER_EMISSIVE_FACTOR);
 	info.specularity = CYLINDER_SPECULAR_FACTOR;
 	info.roughness = CYLINDER_ROUGHNESS_FACTOR;
-	info.specular_color = (t_rgb){CYLINDER_SPECULAR_R, CYLINDER_SPECULAR_G, CYLINDER_SPECULAR_B};
 	return (info);
 }
