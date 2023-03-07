@@ -1,0 +1,25 @@
+# Original Shadertoy:
+# https://www.shadertoy.com/view/dsKGzh#
+
+A 0.05 255,255,255
+# L 0,512.48,-5 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
+L 0,512.47,-5 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
+C 0,0,-55 0,0,1 90
+
+# Ceiling
+sp 0,5012.5,0 10000 178,178,178
+
+# Floor
+sp 0,-5013,0 10000 178,178,178
+
+# Back wall
+pl 0,0,5 0,0,-1 0,0,0
+
+# Top-left sphere
+sp 5,2,-5 5.6 0,127,255
+
+# Combined sphere left
+sp -2.5,-8,-5 5.6 0,127,255
+
+# Combined sphere right
+sp -6.0,-8,-5 5.6 0,127,255

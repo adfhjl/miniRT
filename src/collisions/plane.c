@@ -49,12 +49,12 @@ static t_rgb	rt_get_checkerboard_rgb(t_ray ray, t_hit_info info)
 	float		z;
 
 	pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
-	x = rt_abs(fmodf(floorf(pos.y * X_LINE_FREQUENCY), 2));
-	y = rt_abs(fmodf(floorf(pos.x * Y_LINE_FREQUENCY), 2));
+	x = rt_abs(fmodf(floorf(pos.x * X_LINE_FREQUENCY), 2));
+	y = rt_abs(fmodf(floorf(pos.y * Y_LINE_FREQUENCY), 2));
 	z = rt_abs(fmodf(floorf(pos.z * Z_LINE_FREQUENCY), 2));
 	if (rt_xor3((bool)x, (bool)y, (bool)z))
-		return ((t_vector){1, 1, 1});
-	return ((t_vector){0, 0, 0});
+		return ((t_vector){0, 0, 0});
+	return ((t_vector){1, 1, 1});
 }
 
 // Equation 1:

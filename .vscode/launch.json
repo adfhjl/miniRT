@@ -16,7 +16,9 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/fun/cornell_box.rt" ],
+			"args": [ "scenes/fun/inter_refract.rt" ],
+			// "args": [ "scenes/fun/zebra.rt" ],
+			// "args": [ "scenes/fun/cornell_box.rt" ],
 			// "args": [ "scenes/shapes/plane/four-planes-rotated.rt" ],
 			// "args": [ "scenes/fun/amog_pringles.rt" ],
 			// "args": [ "scenes/fun/lava-world.rt" ],
@@ -71,7 +73,9 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/fun/cornell_box.rt" ],
+			"args": [ "scenes/fun/inter_refract.rt" ],
+			// "args": [ "scenes/fun/zebra.rt" ],
+			// "args": [ "scenes/fun/cornell_box.rt" ],
 			// "args": [ "scenes/fun/plane.rt" ],
 			// "args": [ "scenes/fun/plasma.rt" ],
 			// "args": [ "scenes/bonus_only/extra-light.rt" ],

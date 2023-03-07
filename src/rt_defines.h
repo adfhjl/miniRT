@@ -20,8 +20,8 @@
 // This is the resolution of the scene that actually gets rendered.
 // If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
 // window will be 500 pixels wide.
-# define UNSCALED_WINDOW_WIDTH 400
-# define UNSCALED_WINDOW_HEIGHT 400
+# define UNSCALED_WINDOW_WIDTH 640
+# define UNSCALED_WINDOW_HEIGHT 360
 
 // Float from 0 to infinity.
 // A really small value used to nudge the ray up to make sure floating-point
@@ -77,9 +77,9 @@
 // The higher this number, the brighter the scene.
 # define EXPOSURE 0.5f
 
-# define X_LINE_FREQUENCY 1.0f
-# define Y_LINE_FREQUENCY 1.0f
-# define Z_LINE_FREQUENCY 1.0f
+# define X_LINE_FREQUENCY 2.0f
+# define Y_LINE_FREQUENCY 0.0f
+# define Z_LINE_FREQUENCY 0.0f
 # define DRAW_CHECKERBOARD_LINES 1
 
 // MOVEMENT ////////////////////////////////////////////////////////////////////
