@@ -85,6 +85,9 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 		if (keydata.key == MLX_KEY_L)
 			rt_print_scene(data);
+
+		if (keydata.key == MLX_KEY_BACKSPACE)
+			rt_reset_canvas_info(data);
 	}
 }
 
