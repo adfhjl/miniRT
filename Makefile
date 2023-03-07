@@ -47,7 +47,6 @@ CFILES :=\
 	src/draw/reset_canvas_info.c\
 	src/draw/shoot_rays.c\
 	src/draw/voronoi.c\
-	src/get_structs/get_ray.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
@@ -74,6 +73,7 @@ CFILES :=\
 	src/rgb/color_conversion.c\
 	src/rgb/divide.c\
 	src/rgb/multiply.c\
+	src/utils/get_ray.c\
 	src/utils/lerp.c\
 	src/utils/max.c\
 	src/utils/mix.c\

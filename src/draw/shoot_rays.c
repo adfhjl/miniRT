@@ -13,7 +13,6 @@
 #include "minirt.h"
 
 #include "draw/rt_draw.h"
-#include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"

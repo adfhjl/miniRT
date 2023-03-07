@@ -13,7 +13,6 @@
 #include "minirt.h"
 
 #include "debug/rt_debug.h"
-#include "get_structs/rt_get_structs.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
