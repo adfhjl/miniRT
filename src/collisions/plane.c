@@ -17,6 +17,46 @@
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 
+static float	rt_abs(float n)
+{
+	if (n < 0)
+		return (-n);
+	return (n);
+}
+
+// x == y == z is an XOR:
+// x y z r
+// 0 0 0 0
+// 1 0 0 1
+// 0 1 0 1
+// 0 0 1 1
+// 1 1 0 0
+// 1 0 1 0
+// 0 1 1 0
+// 1 1 1 1
+static bool		rt_xor3(bool x, bool y, bool z)
+{
+	return (x ^ y ^ z);
+}
+
+// fmodf is the remainder operation; so fmodf(-3.5f, 1.0f) is -0.5f
+// floorf rounds towards -infinity: floorf(-3.1) is -4.0f
+static t_rgb	rt_get_checkerboard_rgb(t_ray ray, t_hit_info info)
+{
+	t_vector	pos;
+	float		x;
+	float		y;
+	float		z;
+
+	pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
+	x = rt_abs(fmodf(floorf(pos.y * X_LINE_FREQUENCY), 2));
+	y = rt_abs(fmodf(floorf(pos.x * Y_LINE_FREQUENCY), 2));
+	z = rt_abs(fmodf(floorf(pos.z * Z_LINE_FREQUENCY), 2));
+	if (rt_xor3((bool)x, (bool)y, (bool)z))
+		return ((t_vector){1, 1, 1});
+	return ((t_vector){0, 0, 0});
+}
+
 // Equation 1:
 // ray.pos + ray.dir * t = rayEnd
 //
@@ -43,8 +83,8 @@
 // t = dot(plane.pos - ray.pos, plane.normal) / denom
 t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 {
-	t_hit_info	info;
 	float		denom;
+	t_hit_info	info;
 
 	denom = rt_dot(ray.dir, plane.normal);
 	if (denom == 0)
@@ -54,7 +94,9 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	if (rt_dot(ray.dir, info.surface_normal) > 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = plane.rgb;
-	info.emissive = rt_scale(info.rgb, PLANE_EMISSIVE_FACTOR);
+	if (DRAW_CHECKERBOARD_LINES)
+		info.rgb = rt_get_checkerboard_rgb(ray, info);
+	info.emissive = rt_scale(plane.rgb, PLANE_EMISSIVE_FACTOR);
 	info.specularity = PLANE_SPECULAR_FACTOR;
 	info.roughness = PLANE_ROUGHNESS_FACTOR;
 	return (info);

@@ -77,6 +77,11 @@
 // The higher this number, the brighter the scene.
 # define EXPOSURE 0.5f
 
+# define X_LINE_FREQUENCY 1.0f
+# define Y_LINE_FREQUENCY 1.0f
+# define Z_LINE_FREQUENCY 1.0f
+# define DRAW_CHECKERBOARD_LINES 1
+
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
 # define MOVEMENT_SPEED 7.0f
