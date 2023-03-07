@@ -58,8 +58,7 @@
 // so that the object's own RGB only contributes 10% of the RGB.
 // # define REFLECTION_CONTRIBUTION 0.5f
 
-// TODO: Before handing the project in, set this to a tiny value so it's
-// really close to a point light, which is probably what the subject intended.
+// TODO: Set to 1.0f before eval
 # define LIGHT_DIAMETER 1000.0f
 
 // TODO: Add three defines for plane, sphere, and cylinder emission RGBs
@@ -80,7 +79,7 @@
 # define X_LINE_FREQUENCY 2.0f
 # define Y_LINE_FREQUENCY 0.0f
 # define Z_LINE_FREQUENCY 0.0f
-# define DRAW_CHECKERBOARD_LINES 1
+# define DRAW_LINES 1
 
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 

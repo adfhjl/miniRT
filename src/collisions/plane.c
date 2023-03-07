@@ -93,7 +93,7 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	if (rt_dot(ray.dir, info.surface_normal) > 0)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = plane.rgb;
-	if (DRAW_CHECKERBOARD_LINES)
+	if (DRAW_LINES)
 		info.rgb = rt_get_checkerboard_rgb(ray, info);
 	info.emissive = rt_scale(plane.rgb, PLANE_EMISSIVE_FACTOR);
 	info.specularity = PLANE_SPECULAR_FACTOR;
