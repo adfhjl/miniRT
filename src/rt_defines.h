@@ -84,7 +84,7 @@
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
 # define MOVEMENT_SPEED 7.0f
-# define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
+# define MOVEMENT_SPEED_SCROLL 1.2f
 # define MAX_MOVEMENT_SPEED 50.0f
 # define MIN_MOVEMENT_SPEED 0.5f
 # define ROTATION_SPEED 0.003f
@@ -102,17 +102,32 @@
 // Floats between 0 and 1.
 // What percentage of the light that hits this object
 // is going to be reflected specularly, instead of diffusely.
-# define PLANE_SPECULAR_FACTOR 0.0f
-# define SPHERE_SPECULAR_FACTOR 0.3f
-# define CYLINDER_SPECULAR_FACTOR 0.5f
+# define PLANE_SPECULAR_CHANCE 0.0f
+# define SPHERE_SPECULAR_CHANCE 0.02f
+# define CYLINDER_SPECULAR_CHANCE 0.0f
 
 // Floats between 0 and 1.
 // How rough the surface is, which controls how blurry the reflection is.
 // A value of 0 is a very sharp clean mirror-like reflection,
 // and a value of 1 is so blurry it looks just like diffuse.
-# define PLANE_ROUGHNESS_FACTOR 0.0f
-# define SPHERE_ROUGHNESS_FACTOR 0.2f
-# define CYLINDER_ROUGHNESS_FACTOR 0.5f
+# define PLANE_SPECULAR_ROUGHNESS 0.0f
+# define SPHERE_SPECULAR_ROUGHNESS 0.01f
+# define CYLINDER_SPECULAR_ROUGHNESS 0.0f
+
+// Floats between 0 and 1.
+# define PLANE_INDEX_OF_REFRACTION 0.0f
+# define SPHERE_INDEX_OF_REFRACTION 1.1f
+# define CYLINDER_INDEX_OF_REFRACTION 0.0f
+
+// Floats between 0 and 1.
+# define PLANE_REFRACTION_CHANCE 0.0f
+# define SPHERE_REFRACTION_CHANCE 0.9f
+# define CYLINDER_REFRACTION_CHANCE 0.0f
+
+// Floats between 0 and 1.
+# define PLANE_REFRACTION_ROUGHNESS 0.0f
+# define SPHERE_REFRACTION_ROUGHNESS 0.1f
+# define CYLINDER_REFRACTION_ROUGHNESS 0.0f
 
 // RGB /////////////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.

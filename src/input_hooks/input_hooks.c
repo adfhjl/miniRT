@@ -129,9 +129,9 @@ void	rt_scroll_hook(double dx, double dy, void *param)
 	(void)dx;
 	data = param;
 	// if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
-	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL;
 	// else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
-	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL;
 	if (dy > 0)
 	{
 		data->camera->fov *= 0.8f;

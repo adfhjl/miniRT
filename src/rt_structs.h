@@ -57,8 +57,11 @@ struct s_hit_info
 	t_vector	surface_normal;
 	t_rgb		rgb;
 	t_rgb		emissive;
-	float		specularity;
-	float		roughness;
+	float		specular_chance;
+	float		specular_roughness;
+	float		index_of_refraction;
+	float		refraction_chance;
+	float		refraction_roughness;
 };
 
 struct s_quadratic

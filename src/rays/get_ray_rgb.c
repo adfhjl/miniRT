@@ -105,9 +105,9 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
 		// Note how the specular ray direction doesn't call random().
 		// This means it'll always go the same direction.
-		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.roughness * hit_info.roughness));
+		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.specular_roughness * hit_info.specular_roughness));
 		// The boolean check is what causes specular highlights.
-		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, rt_random_float_01() < hit_info.specularity);
+		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, rt_random_float_01() < hit_info.specular_chance);
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 

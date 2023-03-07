@@ -55,7 +55,10 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = sphere.rgb;
 	info.emissive = rt_scale(info.rgb, SPHERE_EMISSIVE_FACTOR);
-	info.specularity = SPHERE_SPECULAR_FACTOR;
-	info.roughness = SPHERE_ROUGHNESS_FACTOR;
+	info.specular_chance = SPHERE_SPECULAR_CHANCE;
+	info.specular_roughness = SPHERE_SPECULAR_ROUGHNESS;
+	info.index_of_refraction = SPHERE_INDEX_OF_REFRACTION;
+	info.refraction_chance = SPHERE_REFRACTION_CHANCE;
+	info.refraction_roughness = SPHERE_REFRACTION_ROUGHNESS;
 	return (info);
 }

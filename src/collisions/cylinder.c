@@ -108,7 +108,10 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 	info.rgb = cylinder.rgb;
 	info.emissive = rt_scale(info.rgb, CYLINDER_EMISSIVE_FACTOR);
-	info.specularity = CYLINDER_SPECULAR_FACTOR;
-	info.roughness = CYLINDER_ROUGHNESS_FACTOR;
+	info.specular_chance = CYLINDER_SPECULAR_CHANCE;
+	info.specular_roughness = CYLINDER_SPECULAR_ROUGHNESS;
+	info.index_of_refraction = CYLINDER_INDEX_OF_REFRACTION;
+	info.refraction_chance = CYLINDER_REFRACTION_CHANCE;
+	info.refraction_roughness = CYLINDER_REFRACTION_ROUGHNESS;
 	return (info);
 }
