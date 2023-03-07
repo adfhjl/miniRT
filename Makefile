@@ -157,4 +157,7 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
+.PHONY: bonus
+bonus: all
+
 ################################################################################
