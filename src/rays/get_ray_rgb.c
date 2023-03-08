@@ -135,6 +135,20 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		do_specular = rt_random_float_01() < specular_chance;
 
+		// get the probability for choosing the ray type we chose
+		float ray_probability;
+		if (do_specular == 1.0f)
+		{
+			ray_probability = specular_chance;
+		}
+		else
+		{
+			ray_probability = 1.0f - specular_chance;
+		}
+
+		// avoid numerical issues causing a divide by zero, or nearly so (more important later, when we add refraction)
+		ray_probability = rt_max(ray_probability, 0.001f);
+
 		// Calculate the diffuse and specular ray directions.
 		diffuse_ray_dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
 		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
@@ -149,6 +163,10 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		// TODO: {1, 1, 1} probably isn't correct, as the wiki page on specular highlights
 		// states that the specular color is most often the light color. (gold being an exception)
 		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, (t_rgb){1, 1, 1}, do_specular));
+
+		// since we chose randomly between diffuse and specular,
+		// we need to account for the times we didn't do one or the other.
+		throughput = rt_scale(throughput, 1.0f / ray_probability);
 
 		// Russian roulette.
 		float p = rt_max(throughput.r, rt_max(throughput.g, throughput.b));
