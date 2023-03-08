@@ -72,6 +72,7 @@ CFILES :=\
 	src/rgb/clamp.c\
 	src/rgb/color_conversion.c\
 	src/rgb/divide.c\
+	src/rgb/exp_rgb.c\
 	src/rgb/multiply.c\
 	src/utils/get_ray.c\
 	src/utils/lerp.c\
@@ -86,6 +87,7 @@ CFILES :=\
 	src/vectors/mag.c\
 	src/vectors/normalized.c\
 	src/vectors/reflect.c\
+	src/vectors/refract.c\
 	src/vectors/rotate_around_axis.c\
 	src/vectors/scale.c\
 	src/vectors/sub.c\

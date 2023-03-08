@@ -115,54 +115,91 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			break ;
 		}
 
-		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
-		ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, SURFACE_NORMAL_NUDGE));
+		// do absorption if we are hitting from inside the object
+		if (hit_info.inside)
+		{
+			// TODO: Ask Alan whether hit_info.rgb makes sense here
+			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(hit_info.rgb, -hit_info.distance)));
+		}
 
-		t_vector	diffuse_ray_dir;
-		t_vector	specular_ray_dir;
-
-		float		specular_chance;
-		// float		refraction_chance;
-		float		do_specular;
+		float	specular_chance;
+		float	refraction_chance;
 
 		specular_chance = hit_info.specular_chance;
-		// refraction_chance = hit_info.refraction_chance;
+		refraction_chance = hit_info.refraction_chance;
 
 		if (specular_chance > 0.0f)
 		{
-			specular_chance = rt_fresnel_reflect_amount(1.0f, hit_info.index_of_refraction, ray.dir, hit_info.surface_normal, hit_info.specular_chance, 1.0f);
+			specular_chance = rt_fresnel_reflect_amount(
+				hit_info.inside ? hit_info.index_of_refraction : 1.0f,
+				!hit_info.inside ? hit_info.index_of_refraction : 1.0f,
+				ray.dir, hit_info.surface_normal, hit_info.specular_chance, 1.0f);
+
+			float chance_multiplier;
+			chance_multiplier = (1.0f - specular_chance) / (1.0f - hit_info.specular_chance);
+			refraction_chance *= chance_multiplier;
 		}
 
-		do_specular = rt_random_float_01() < specular_chance;
+		float	do_specular;
+		float	do_refraction;
+		float	ray_select_roll;
+		float	ray_probability;
+		do_specular = 0.0f;
+		do_refraction = 0.0f;
+		ray_select_roll = rt_random_float_01();
 
-		// get the probability for choosing the ray type we chose
-		float ray_probability;
-		if (do_specular == 1.0f)
+		if (specular_chance > 0.0f && ray_select_roll < specular_chance)
 		{
+			do_specular = 1.0f;
 			ray_probability = specular_chance;
+		}
+		else if (refraction_chance > 0.0f && ray_select_roll < specular_chance + refraction_chance)
+		{
+			do_refraction = 1.0f;
+			ray_probability = refraction_chance;
 		}
 		else
 		{
-			ray_probability = 1.0f - specular_chance;
+			ray_probability = 1.0f - (specular_chance + refraction_chance);
 		}
 
 		// avoid numerical issues causing a divide by zero, or nearly so (more important later, when we add refraction)
 		ray_probability = rt_max(ray_probability, 0.001f);
 
+		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, hit_info.distance));
+		// TODO: Using surface_normal here may be wrong. The original code has an if-statement for + or -.
+		if (do_refraction == 1.0f)
+		{
+			ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, -SURFACE_NORMAL_NUDGE));
+		}
+		else
+		{
+			ray.pos = rt_add(ray.pos, rt_scale(hit_info.surface_normal, SURFACE_NORMAL_NUDGE));
+		}
+
 		// Calculate the diffuse and specular ray directions.
+		t_vector	diffuse_ray_dir;
 		diffuse_ray_dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
+		t_vector	specular_ray_dir;
 		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
 		// Note how the specular ray direction doesn't call random().
 		// This means it'll always go the same direction.
 		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.specular_roughness * hit_info.specular_roughness));
+
+		t_vector	refraction_ray_dir;
+		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.index_of_refraction : 1.0f / hit_info.index_of_refraction);
+		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.refraction_roughness*hit_info.refraction_roughness));
+
 		// The boolean check is what causes specular highlights.
 		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
+		ray.dir = rt_mix(ray.dir, refraction_ray_dir, do_refraction);
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 
 		// TODO: {1, 1, 1} probably isn't correct, as the wiki page on specular highlights
 		// states that the specular color is most often the light color. (gold being an exception)
-		throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, (t_rgb){1, 1, 1}, do_specular));
+		if (do_refraction == 0.0f)
+			throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, (t_rgb){1, 1, 1}, do_specular));
 
 		// since we chose randomly between diffuse and specular,
 		// we need to account for the times we didn't do one or the other.

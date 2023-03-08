@@ -113,5 +113,6 @@ t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 	info.index_of_refraction = CYLINDER_INDEX_OF_REFRACTION;
 	info.refraction_chance = CYLINDER_REFRACTION_CHANCE;
 	info.refraction_roughness = CYLINDER_REFRACTION_ROUGHNESS;
+	info.inside = false;
 	return (info);
 }

@@ -15,6 +15,7 @@
 #include "init/parse/rt_parse.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {

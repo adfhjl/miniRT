@@ -101,5 +101,6 @@ t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
 	info.index_of_refraction = PLANE_INDEX_OF_REFRACTION;
 	info.refraction_chance = PLANE_REFRACTION_CHANCE;
 	info.refraction_roughness = PLANE_REFRACTION_ROUGHNESS;
+	info.inside = false;
 	return (info);
 }

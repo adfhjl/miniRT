@@ -28,6 +28,8 @@ t_vector	rt_normalized(t_vector v);
 
 t_vector	rt_reflect(t_vector d, t_vector n);
 
+t_vector	rt_refract(t_vector incident, t_vector normal, float eta);
+
 t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
 				float theta);
 

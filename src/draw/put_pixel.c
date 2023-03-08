@@ -13,6 +13,7 @@
 #include "minirt.h"
 
 #include "rgb/rt_rgb.h"
+#include "vectors/rt_vectors.h"
 
 uint32_t	rt_convert_color(t_rgb rgb)
 {

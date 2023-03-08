@@ -20,10 +20,10 @@
 // This is the resolution of the scene that actually gets rendered.
 // If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
 // window will be 500 pixels wide.
-# define UNSCALED_WINDOW_WIDTH 200
-# define UNSCALED_WINDOW_HEIGHT 200
-// # define UNSCALED_WINDOW_WIDTH 640
-// # define UNSCALED_WINDOW_HEIGHT 360
+// # define UNSCALED_WINDOW_WIDTH 200
+// # define UNSCALED_WINDOW_HEIGHT 200
+# define UNSCALED_WINDOW_WIDTH 640
+# define UNSCALED_WINDOW_HEIGHT 360
 
 // Float from 0 to infinity.
 // A really small value used to nudge the ray up to make sure floating-point
@@ -42,7 +42,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 4
+# define PIXEL_SCALE 2
 
 // # define MAX_UPDATE_RADIUS 20
 
@@ -81,7 +81,7 @@
 # define X_LINE_FREQUENCY 2.0f
 # define Y_LINE_FREQUENCY 0.0f
 # define Z_LINE_FREQUENCY 0.0f
-# define DRAW_LINES 0
+# define DRAW_LINES 1
 
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
@@ -117,9 +117,9 @@
 # define CYLINDER_SPECULAR_ROUGHNESS 0.0f
 
 // Floats between 0 and 1.
-# define PLANE_INDEX_OF_REFRACTION 0.0f
+# define PLANE_INDEX_OF_REFRACTION 1.0f
 # define SPHERE_INDEX_OF_REFRACTION 1.1f
-# define CYLINDER_INDEX_OF_REFRACTION 0.0f
+# define CYLINDER_INDEX_OF_REFRACTION 1.0f
 
 // Floats between 0 and 1.
 # define PLANE_REFRACTION_CHANCE 0.0f

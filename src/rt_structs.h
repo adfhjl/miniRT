@@ -62,6 +62,7 @@ struct s_hit_info
 	float		index_of_refraction;
 	float		refraction_chance;
 	float		refraction_roughness;
+	bool		inside;
 };
 
 struct s_quadratic

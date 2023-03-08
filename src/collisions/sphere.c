@@ -51,8 +51,12 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 	collision = rt_get_ray_point(ray, info.distance);
 	sphere_to_collision = rt_sub(collision, sphere.pos);
 	info.surface_normal = rt_normalized(sphere_to_collision);
+	info.inside = false;
 	if (q.solution_minus < 0)
+	{
 		info.surface_normal = rt_scale(info.surface_normal, -1);
+		info.inside = true;
+	}
 	info.rgb = sphere.rgb;
 	info.emissive = rt_scale(info.rgb, SPHERE_EMISSIVE_FACTOR);
 	info.specular_chance = SPHERE_SPECULAR_CHANCE;

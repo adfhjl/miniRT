@@ -13,6 +13,7 @@
 #include "minirt.h"
 
 #include "rgb/rt_rgb.h"
+#include "vectors/rt_vectors.h"
 
 // ACES tone mapping curve fit to go from HDR to LDR
 // https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
