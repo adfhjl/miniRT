@@ -103,7 +103,7 @@
 // What percentage of the light that hits this object
 // is going to be reflected specularly, instead of diffusely.
 # define PLANE_SPECULAR_CHANCE 0.0f
-# define SPHERE_SPECULAR_CHANCE 0.02f
+# define SPHERE_SPECULAR_CHANCE 0.1f
 # define CYLINDER_SPECULAR_CHANCE 0.0f
 
 // Floats between 0 and 1.
@@ -111,7 +111,7 @@
 // A value of 0 is a very sharp clean mirror-like reflection,
 // and a value of 1 is so blurry it looks just like diffuse.
 # define PLANE_SPECULAR_ROUGHNESS 0.0f
-# define SPHERE_SPECULAR_ROUGHNESS 0.01f
+# define SPHERE_SPECULAR_ROUGHNESS 0.1f
 # define CYLINDER_SPECULAR_ROUGHNESS 0.0f
 
 // Floats between 0 and 1.

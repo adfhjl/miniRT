@@ -2,8 +2,7 @@
 # https://www.shadertoy.com/view/dsKGzh#
 
 A 0.05 255,255,255
-# L 0,512.48,-5 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
-L 0,512.47,-5 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
+L 0,512.48,-5 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
 C 0,0,-55 0,0,1 90
 
 # Ceiling
