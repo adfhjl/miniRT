@@ -17,7 +17,7 @@
 
 t_ray		rt_get_ray(t_vector pos, t_vector normal);
 
-float		rt_lerp(float old, float new, float t);
+float		rt_lerp(float old, float new_, float t);
 
 float		rt_max(float a, float b);
 

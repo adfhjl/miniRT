@@ -13,8 +13,8 @@
 #include "minirt.h"
 
 // Linear blend where an interpolation of 0.0f means old is returned,
-// while 1.0f means new is returned.
-float	rt_lerp(float old, float new, float t)
+// while 1.0f means new_ is returned.
+float	rt_lerp(float old, float new_, float t)
 {
-	return (old * (1 - t) + new * t);
+	return (old * (1 - t) + new_ * t);
 }

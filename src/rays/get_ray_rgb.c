@@ -19,28 +19,28 @@
 #include "utils/rt_utils.h"
 #include "debug/rt_debug.h" // TODO: REMOVE
 
-// static float	rt_fresnel_reflect_amount(float n1, float n2, t_vector normal,
-// 					t_vector incident, float f0, float f90)
-// {
-// 	// Schlick aproximation
-// 	float r0 = (n1-n2) / (n1+n2);
-// 	r0 *= r0;
-// 	float cosX = -dot(normal, incident);
-// 	if (n1 > n2)
-// 	{
-// 		float n = n1/n2;
-// 		float sinT2 = n*n*(1.0-cosX*cosX);
-// 		// Total internal reflection
-// 		if (sinT2 > 1.0)
-// 			return (f90);
-// 		cosX = sqrt(1.0-sinT2);
-// 	}
-// 	float x = 1.0-cosX;
-// 	float ret = r0+(1.0-r0)*x*x*x*x*x;
+static float	rt_fresnel_reflect_amount(float n1, float n2, t_vector normal,
+					t_vector incident, float f0, float f90)
+{
+	// Schlick aproximation
+	float r0 = (n1-n2) / (n1+n2);
+	r0 *= r0;
+	float cosX = -rt_dot(normal, incident);
+	if (n1 > n2)
+	{
+		float n = n1/n2;
+		float sinT2 = n*n*(1.0f-cosX*cosX);
+		// Total internal reflection
+		if (sinT2 > 1.0f)
+			return (f90);
+		cosX = sqrtf(1.0f-sinT2);
+	}
+	float x = 1.0f-cosX;
+	float ret = r0+(1.0f-r0)*x*x*x*x*x;
 
-// 	// adjust reflect multiplier for object reflectivity
-// 	return (mix(f0, f90, ret));
-// }
+	// adjust reflect multiplier for object reflectivity
+	return (rt_lerp(f0, f90, ret));
+}
 
 // Source:
 // https://blog.demofox.org/2020/05/25/
@@ -121,9 +121,19 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		t_vector	diffuse_ray_dir;
 		t_vector	specular_ray_dir;
 
+		float		specular_chance;
+		// float		refraction_chance;
 		float		do_specular;
 
-		do_specular = rt_random_float_01() < hit_info.specular_chance;
+		specular_chance = hit_info.specular_chance;
+		// refraction_chance = hit_info.refraction_chance;
+
+		if (specular_chance > 0.0f)
+		{
+			specular_chance = rt_fresnel_reflect_amount(1.0f, hit_info.index_of_refraction, ray.dir, hit_info.surface_normal, hit_info.specular_chance, 1.0f);
+		}
+
+		do_specular = rt_random_float_01() < specular_chance;
 
 		// Calculate the diffuse and specular ray directions.
 		diffuse_ray_dir = rt_normalized(rt_add(hit_info.surface_normal, rt_random_unit_vector()));
