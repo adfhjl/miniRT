@@ -52,8 +52,8 @@ static t_rgb	rt_get_checkerboard_rgb(t_ray ray, t_hit_info info)
 	y = rt_abs(fmodf(floorf(pos.y * Y_LINE_FREQUENCY), 2));
 	z = rt_abs(fmodf(floorf(pos.z * Z_LINE_FREQUENCY), 2));
 	if (rt_xor3((bool)x, (bool)y, (bool)z))
-		return ((t_vector){0, 0, 0});
-	return ((t_vector){1, 1, 1});
+		return (info.rgb);
+	return (rt_sub((t_vector){1, 1, 1}, info.rgb));
 }
 
 // Equation 1:
