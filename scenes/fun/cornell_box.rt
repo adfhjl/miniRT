@@ -2,14 +2,14 @@
 # https://www.shadertoy.com/view/DsV3zR
 
 A 0.05 255,255,255
-L 0,512.48,20 1 255,229,178 # # define LIGHT_DIAMETER 1000.0f
-C 0,0,-10 0,0,1 90 # Because of "vec3 sceneTranslation = vec3(0.0f, 0.0f, 10.0f);"
-
-# Ceiling
-pl 0,12.5,20 0,-1,0 178,178,178
+L 0,512.48,20 1 255,229,178 # define LIGHT_DIAMETER 1000.0f
+C 0,0,-10 0,0,1 90
 
 # Floor
 pl 0,-12.45,20 0,1,0 178,178,178
+
+# Ceiling
+pl 0,12.5,20 0,-1,0 178,178,178
 
 # Back wall
 pl 0,0,25 0,0,-1 178,178,178
@@ -21,14 +21,10 @@ pl 12.5,0,20 1,0,0 178,25,25
 pl -12.5,0,20 -1,0,0 25,178,25
 
 # Left sphere
-# sp 9,-9.5,20 6 229,229,191 # Blogpost 1
 sp 9,-9.5,20 6 229,229,127 # Blogpost 2
 
 # Center sphere
-# sp 0,-9.5,20 6 229,191,229 # Blogpost 1
 sp 0,-9.5,20 6 229,127,229 # Blogpost 2
 
 # Right sphere
-# sp -9,-9.5,20 6 191,229,229 # Blogpost 1
-# sp -9,-9.5,20 6 127,229,229 # Blogpost 2
 sp -9,-9.5,20 6 0,0,255 # Blogpost 2

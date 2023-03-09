@@ -20,10 +20,8 @@
 // This is the resolution of the scene that actually gets rendered.
 // If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
 // window will be 500 pixels wide.
-// # define UNSCALED_WINDOW_WIDTH 200
-// # define UNSCALED_WINDOW_HEIGHT 200
-# define UNSCALED_WINDOW_WIDTH 640
-# define UNSCALED_WINDOW_HEIGHT 360
+# define UNSCALED_WINDOW_WIDTH 200
+# define UNSCALED_WINDOW_HEIGHT 200
 
 // Float from 0 to infinity.
 // A really small value used to nudge the ray up to make sure floating-point
@@ -42,7 +40,7 @@
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 2
+# define PIXEL_SCALE 5
 
 // # define MAX_UPDATE_RADIUS 20
 
