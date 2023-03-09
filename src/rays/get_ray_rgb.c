@@ -118,8 +118,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		// do absorption if we are hitting from inside the object
 		if (hit_info.inside)
 		{
-			// TODO: Ask Alan whether hit_info.rgb makes sense here
-			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(hit_info.rgb, -hit_info.distance)));
+			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(rt_sub((t_vector){1, 1, 1}, hit_info.rgb), -hit_info.distance)));
 		}
 
 		float	specular_chance;
@@ -196,8 +195,6 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
 
-		// TODO: {1, 1, 1} probably isn't correct, as the wiki page on specular highlights
-		// states that the specular color is most often the light color. (gold being an exception)
 		if (do_refraction == 0.0f)
 			throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, (t_rgb){1, 1, 1}, do_specular));
 

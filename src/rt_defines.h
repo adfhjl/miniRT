@@ -123,7 +123,7 @@
 
 // Floats between 0 and 1.
 # define PLANE_REFRACTION_CHANCE 0.0f
-# define SPHERE_REFRACTION_CHANCE 0.9f
+# define SPHERE_REFRACTION_CHANCE 0.5f
 # define CYLINDER_REFRACTION_CHANCE 0.0f
 
 // Floats between 0 and 1.
