@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 // static void	rt_update_densities(t_data *data, uint32_t update_radius, uint32_t emptiest_x, uint32_t emptiest_y)
 // {

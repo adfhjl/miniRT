@@ -13,7 +13,7 @@
 #ifndef RT_RGB_H
 # define RT_RGB_H
 
-# include "minirt.h"
+#include "rt_structs.h"
 
 t_rgb	rt_aces_film(t_rgb x);
 

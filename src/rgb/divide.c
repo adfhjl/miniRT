@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 // TODO: Divide by 0 gives INFINITY. Can this ever happen?
 t_rgb	rt_divide_rgb(t_rgb a, t_rgb b)

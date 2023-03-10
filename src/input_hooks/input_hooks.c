@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
-#include "debug/rt_debug.h"
+#include "debug/rt_debug.h" // TODO: REMOVE
 #include "draw/rt_draw.h"
 #include "vectors/rt_vectors.h"
 

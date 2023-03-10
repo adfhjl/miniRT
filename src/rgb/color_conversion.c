@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 static t_rgb	rt_pow(t_rgb a, float b)
 {

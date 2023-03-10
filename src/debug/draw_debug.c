@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/nbr/ft_nbr.h"
+#include "libft/src/str/ft_str.h"
+#include "libft/src/allocating/ft_allocating.h"
+
+#include "rt_structs.h"
 
 #include "utils/rt_utils.h"
 

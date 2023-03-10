@@ -13,6 +13,14 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
+# include "rt_defines.h"
+# include "rt_enums.h"
+# include "rt_typedefs.h"
+
+# include <stddef.h>
+
+# include "MLX42/MLX42.h"
+
 struct s_vector
 {
 	union

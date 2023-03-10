@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/allocating/ft_allocating.h"
+
+#include "rt_structs.h"
 
 #include "init/rt_init.h"
 

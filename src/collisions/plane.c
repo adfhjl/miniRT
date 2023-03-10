@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
 #include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
+
+#include <math.h>
 
 // Equation 1:
 // ray.pos + ray.dir * t = rayEnd

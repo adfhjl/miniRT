@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
 
-// #if BONUS == 1
 t_status	rt_parse_ambient(char **line_ptr, t_object *ambient)
 {
 	if (rt_parse_range_float(line_ptr, &ambient->ratio, 0, 1) == ERROR
@@ -24,4 +23,3 @@ t_status	rt_parse_ambient(char **line_ptr, t_object *ambient)
 		return (ERROR);
 	return (OK);
 }
-// #endif

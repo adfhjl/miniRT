@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_structs.h"
 
 #include <stdio.h>
 

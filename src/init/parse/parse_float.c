@@ -10,9 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/nbr/ft_nbr.h"
+
+#include "rt_structs.h"
 
 #include "utils/rt_utils.h"
+
+#include <math.h>
 
 t_status	rt_parse_float(char **line_ptr, float *field_ptr)
 {

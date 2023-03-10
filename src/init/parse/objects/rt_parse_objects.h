@@ -13,8 +13,6 @@
 #ifndef RT_PARSE_OBJECTS_H
 # define RT_PARSE_OBJECTS_H
 
-# include "minirt.h"
-
 t_status	rt_check_separating_whitespace(char **line_ptr);
 
 t_status	rt_parse_ambient(char **line_ptr, t_object *ambient);

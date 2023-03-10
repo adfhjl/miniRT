@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 // https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula#Statement
 t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,

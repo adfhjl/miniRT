@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 float	rt_mag2(t_vector v)
 {

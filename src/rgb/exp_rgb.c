@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
+
+#include <math.h>
 
 t_rgb	rt_exp_rgb(t_rgb rgb)
 {

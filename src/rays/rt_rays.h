@@ -13,8 +13,6 @@
 #ifndef RT_RAYS_H
 # define RT_RAYS_H
 
-# include "minirt.h"
-
 t_vector	rt_get_ray_point(t_ray ray, float t);
 
 t_rgb		rt_get_ray_rgb(t_ray ray, t_data *data);

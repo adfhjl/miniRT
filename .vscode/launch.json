@@ -16,7 +16,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/fun/inter_refract.rt" ],
+			"args": [ "scenes/fun/refraction.rt" ],
 			// "args": [ "scenes/fun/zebra.rt" ],
 			// "args": [ "scenes/fun/cornell_box.rt" ],
 			// "args": [ "scenes/shapes/plane/four_planes_rotated.rt" ],
@@ -73,7 +73,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/fun/inter_refract.rt" ],
+			"args": [ "scenes/fun/refraction.rt" ],
 			// "args": [ "scenes/fun/zebra.rt" ],
 			// "args": [ "scenes/fun/cornell_box.rt" ],
 			// "args": [ "scenes/fun/plane.rt" ],

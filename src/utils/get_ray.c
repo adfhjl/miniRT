@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 t_ray	rt_get_ray(t_vector pos, t_vector dir)
 {

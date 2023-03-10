@@ -10,14 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_non_bonus_defines.h" // TODO: REMOVE
+#include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
 #include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
+
 #include "debug/rt_debug.h" // TODO: REMOVE
+
+#include <math.h>
 
 static float	rt_fresnel_reflect_amount(float n1, float n2, t_vector normal,
 					t_vector incident, float f0, float f90)
@@ -80,7 +86,7 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 				// TODO: Can I get rid of LIGHT_EMISSIVE_FACTOR?
 				new_hit_info.material.emissive = rt_scale(rt_scale(new_hit_info.material.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
 				// TODO: Can I just set this to the rgb?
-				new_hit_info.material.rgb = (t_rgb){LIGHT_R, LIGHT_G, LIGHT_B};
+				new_hit_info.material.rgb = (t_rgb){0, 0, 0};
 			}
 		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
@@ -92,6 +98,34 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	}
 	return (hit_info);
 }
+
+// static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
+// {
+// 	t_hit_info	hit_info;
+// 	t_hit_info	new_hit_info;
+// 	size_t		i;
+
+// 	hit_info.distance = INFINITY;
+// 	new_hit_info.distance = INFINITY;
+// 	i = 0;
+// 	while (i < ft_vector_get_size(data->objects))
+// 	{
+// 		if (data->objects[i].type == OBJECT_TYPE_PLANE)
+// 			new_hit_info = rt_get_plane_collision_info(ray, data->objects[i]);
+// 		else if (data->objects[i].type == OBJECT_TYPE_SPHERE
+// 			|| data->objects[i].type == OBJECT_TYPE_LIGHT)
+// 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
+// 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
+// 			new_hit_info = rt_get_cylinder_collision_info(ray, data->objects[i]);
+// 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
+// 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
+// 		if (new_hit_info.distance > 0
+// 			&& new_hit_info.distance < hit_info.distance)
+// 			hit_info = new_hit_info;
+// 		i++;
+// 	}
+// 	return (hit_info);
+// }
 
 t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 {
@@ -188,12 +222,26 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.material.specular_roughness * hit_info.material.specular_roughness));
 
 		t_vector	refraction_ray_dir;
+		rt_assert_normal(ray.dir);
+		rt_assert_normal(hit_info.surface_normal);
 		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.material.index_of_refraction : 1.0f / hit_info.material.index_of_refraction);
+
+		// Total Internal Reflection has occurred.
+		// if (refraction_ray_dir.x == 0 && refraction_ray_dir.y == 0 && refraction_ray_dir.z == 0)
+		// 	return (rgb);
+			// return ((t_vector){1, 0, 0});
+
+		// rt_assert_normal(refraction_ray_dir);
 		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.material.refraction_roughness * hit_info.material.refraction_roughness));
+		// rt_assert_normal(refraction_ray_dir);
 
 		// The boolean check is what causes specular highlights.
+		// rt_assert_normal(ray.dir);
 		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
+		// rt_assert_normal(ray.dir);
+		// t_vector	old_ray_dir = ray.dir; (void)old_ray_dir; // TODO: REMOVE
 		ray.dir = rt_mix(ray.dir, refraction_ray_dir, do_refraction);
+		// rt_assert_normal(ray.dir);
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.material.emissive, throughput));
 

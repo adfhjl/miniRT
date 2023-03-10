@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "rgb/rt_rgb.h"
 #include "vectors/rt_vectors.h"

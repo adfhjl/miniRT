@@ -101,15 +101,13 @@ CFILES +=\
 	src/collisions/get_line_rgb_bonus.c\
 	src/init/parse/objects/parse_cylinder_bonus.c\
 	src/init/parse/objects/parse_plane_bonus.c\
-	src/init/parse/objects/parse_sphere_bonus.c\
-
+	src/init/parse/objects/parse_sphere_bonus.c
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
 	src/init/parse/objects/parse_cylinder.c\
 	src/init/parse/objects/parse_plane.c\
-	src/init/parse/objects/parse_sphere.c\
-
+	src/init/parse/objects/parse_sphere.c
 endif
 
 ################################################################################

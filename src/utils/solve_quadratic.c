@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
+
+#include <math.h>
 
 // Note: If a is positive, solution_plus >= solution_minus
 //       If a is negtive, solution_minus >= solution_plus

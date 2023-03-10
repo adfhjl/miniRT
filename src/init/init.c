@@ -10,13 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_structs.h"
 
 #include "draw/rt_draw.h"
 #include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
 #include "vectors/rt_vectors.h"
 #include "utils/rt_utils.h"
+
+#include <math.h> // TODO: REMOVE
 
 static void	rt_init_available(t_data *data)
 {

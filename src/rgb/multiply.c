@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 t_rgb	rt_multiply_rgb(t_rgb a, t_rgb b)
 {

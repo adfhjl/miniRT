@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-
 #include "rgb/rt_rgb.h"
 #include "vectors/rt_vectors.h"
 

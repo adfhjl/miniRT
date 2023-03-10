@@ -93,9 +93,4 @@
 # define UNRENDERED_G 0.05f
 # define UNRENDERED_B 0.05f
 
-// TODO: Get rid of this?
-# define LIGHT_R 0.0f
-# define LIGHT_G 0.0f
-# define LIGHT_B 0.0f
-
 #endif

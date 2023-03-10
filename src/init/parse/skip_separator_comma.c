@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/error/ft_error.h"
+
+#include "rt_enums.h"
+#include "rt_typedefs.h"
 
 #include "utils/rt_utils.h"
 

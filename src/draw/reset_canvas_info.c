@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "draw/rt_draw.h"
 #include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
+
+#include <assert.h> // TODO: REMOVE
+#include <math.h> // TODO: REMOVE
 
 // forward = (0, 0, 1);
 //

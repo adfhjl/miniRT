@@ -13,8 +13,6 @@
 #ifndef RT_VECTORS_H
 # define RT_VECTORS_H
 
-# include "minirt.h"
-
 t_vector	rt_add(t_vector a, t_vector b);
 
 t_vector	rt_cross(t_vector a, t_vector b);

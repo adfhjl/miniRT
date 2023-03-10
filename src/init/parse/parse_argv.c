@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/gnl/get_next_line.h"
+#include "libft/src/mem/ft_mem.h"
+#include "libft/src/str/ft_str.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
 #include "utils/rt_utils.h"

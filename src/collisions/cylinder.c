@@ -10,14 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
-#include "debug/rt_debug.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
+
+#include "debug/rt_debug.h" // TODO: REMOVE
 
 /*
 1. Dot product between cylinder.normal and {0, 1, 0} gives the sin() of the angle between the two
@@ -41,6 +44,7 @@ static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 		theta = acosf(angle);
 		rotation_axis = rt_normalized(rt_cross(cylinder.normal, world_up));
 		ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta);
+		rt_assert_normal(ray.dir);
 		ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
 		rt_assert_normal(ray.dir);
 	}

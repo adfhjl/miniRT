@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 // x == y == z is an XOR:
 // x y z r

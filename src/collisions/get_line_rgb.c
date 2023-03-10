@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 t_rgb	rt_get_line_rgb(t_ray ray, t_hit_info info, t_object object)
 {

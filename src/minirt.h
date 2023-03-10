@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// TODO: GET RID OF THIS HEADER
+
 #ifndef MINIRT_H
 # define MINIRT_H
 

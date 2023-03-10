@@ -13,8 +13,6 @@
 #ifndef RT_DRAW_H
 # define RT_DRAW_H
 
-# include "minirt.h"
-
 void	rt_generate_noise(t_data *data);
 
 void	rt_draw_loop(void *param);

@@ -10,9 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
+
+#include "debug/rt_debug.h" // TODO: REMOVE
 
 // For the incident vector I and surface normal N, and the
 // ratio of indices of refraction eta, return the refraction
@@ -25,6 +29,8 @@ t_vector	rt_refract(t_vector incident, t_vector normal, float eta)
 	float		k;
 	t_vector	l;
 
+	rt_assert_normal(incident);
+	rt_assert_normal(normal);
 	k = 1.0f - eta * eta *
 		(1.0f - rt_dot(normal, incident) * rt_dot(normal, incident));
 	if (k < 0.0f)

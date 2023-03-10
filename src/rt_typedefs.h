@@ -13,6 +13,8 @@
 #ifndef RT_TYPEDEFS_H
 # define RT_TYPEDEFS_H
 
+# include "libft/src/error/ft_error.h"
+
 typedef struct s_vector		t_rgb;
 typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;

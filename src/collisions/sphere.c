@@ -10,13 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 // Explanation:
 // Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/

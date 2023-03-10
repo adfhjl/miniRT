@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "draw/rt_draw.h"
 #include "rays/rt_rays.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
+
+#include "debug/rt_debug.h" // TODO: REMOVE
 
 static t_ray	rt_create_ray(float x, float y, t_data *data)
 {
@@ -28,6 +30,7 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
 	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
 	dir = rt_normalized(pixel_ray);
+	rt_assert_normal(dir);
 	return (rt_get_ray(data->camera->pos, dir));
 }
 

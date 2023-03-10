@@ -10,12 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "vectors/rt_vectors.h"
 
+#include "assert.h" // TODO: REMOVE
+
 #define MAG_EPSILON 0.000001
 
+// TODO: Comment this ifdef stuff back in
+// #ifdef DEBUG
 void	rt_assert_normal(t_vector vector)
 {
 	t_vector	normalized;
@@ -28,3 +32,9 @@ void	rt_assert_normal(t_vector vector)
 	// assert(vector.y == normalized.y);
 	// assert(vector.z == normalized.z);
 }
+// #else
+// void	rt_assert_normal(t_vector vector)
+// {
+// 	(void)vector;
+// }
+// #endif
