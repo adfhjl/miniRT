@@ -48,10 +48,10 @@ t_rgb	rt_get_line_rgb(t_ray ray, t_hit_info info, t_object object)
 	float		z;
 
 	pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
-	x = rt_abs(fmodf(floorf(pos.x * object.x_line_frequency), 2));
-	y = rt_abs(fmodf(floorf(pos.y * object.y_line_frequency), 2));
-	z = rt_abs(fmodf(floorf(pos.z * object.z_line_frequency), 2));
+	x = rt_abs(fmodf(floorf(pos.x * object.material.line_frequency.x), 2));
+	y = rt_abs(fmodf(floorf(pos.y * object.material.line_frequency.y), 2));
+	z = rt_abs(fmodf(floorf(pos.z * object.material.line_frequency.z), 2));
 	if (rt_xor3((bool)x, (bool)y, (bool)z))
-		return (info.material.rgb);
-	return (rt_sub((t_vector){1, 1, 1}, info.material.rgb));
+		return (rt_sub((t_vector){1, 1, 1}, info.material.rgb));
+	return (info.material.rgb);
 }

@@ -48,13 +48,14 @@ struct s_ray
 
 struct s_material
 {
-	t_rgb	rgb;
-	t_rgb	emissive;
-	float	specular_chance;
-	float	specular_roughness;
-	float	index_of_refraction;
-	float	refraction_chance;
-	float	refraction_roughness;
+	t_rgb		rgb;
+	t_rgb		emissive;
+	float		specular_chance;
+	float		specular_roughness;
+	float		index_of_refraction;
+	float		refraction_chance;
+	float		refraction_roughness;
+	t_vector	line_frequency;
 };
 
 struct s_object
@@ -66,9 +67,6 @@ struct s_object
 	float			diameter;
 	float			height;
 	t_material		material;
-	float			x_line_frequency;
-	float			y_line_frequency;
-	float			z_line_frequency;
 	t_object_type	type;
 };
 

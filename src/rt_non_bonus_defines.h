@@ -22,11 +22,6 @@
 // This define exists to make lamps brighter than the rt scene format allows.
 # define LIGHT_EMISSIVE_FACTOR 20.0f
 
-// TODO: Set these in the bonus .rt!
-// # define X_LINE_FREQUENCY 2.0f
-// # define Y_LINE_FREQUENCY 0.0f
-// # define Z_LINE_FREQUENCY 0.0f
-
 // OBJECT MATERIALS ////////////////////////////////////////////////////////////
 
 // Floats between 0 and 1.

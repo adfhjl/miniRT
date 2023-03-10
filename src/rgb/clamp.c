@@ -21,11 +21,16 @@ static float	rt_min(float a, float b)
 	return (b);
 }
 
+static float	rt_clamp(float n, float lower, float upper)
+{
+	return (rt_min(rt_max(n, lower), upper));
+}
+
 t_rgb	rt_clamp_rgb(t_rgb a, float lower, float upper)
 {
 	return ((t_rgb){
-		rt_min(rt_max(a.r, lower), upper),
-		rt_min(rt_max(a.g, lower), upper),
-		rt_min(rt_max(a.b, lower), upper)
+		rt_clamp(a.r, lower, upper),
+		rt_clamp(a.g, lower, upper),
+		rt_clamp(a.b, lower, upper)
 	});
 }
