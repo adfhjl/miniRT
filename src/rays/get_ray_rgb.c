@@ -77,8 +77,10 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 			if (new_hit_info.distance != INFINITY)
 			{
-				new_hit_info.emissive = rt_scale(rt_scale(new_hit_info.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
-				new_hit_info.rgb = (t_rgb){LIGHT_R, LIGHT_G, LIGHT_B};
+				// TODO: Can I get rid of LIGHT_EMISSIVE_FACTOR?
+				new_hit_info.material.emissive = rt_scale(rt_scale(new_hit_info.material.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
+				// TODO: Can I just set this to the rgb?
+				new_hit_info.material.rgb = (t_rgb){LIGHT_R, LIGHT_G, LIGHT_B};
 			}
 		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
@@ -118,24 +120,24 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		// do absorption if we are hitting from inside the object
 		if (hit_info.inside)
 		{
-			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(rt_sub((t_vector){1, 1, 1}, hit_info.rgb), -hit_info.distance)));
+			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(rt_sub((t_vector){1, 1, 1}, hit_info.material.rgb), -hit_info.distance)));
 		}
 
 		float	specular_chance;
 		float	refraction_chance;
 
-		specular_chance = hit_info.specular_chance;
-		refraction_chance = hit_info.refraction_chance;
+		specular_chance = hit_info.material.specular_chance;
+		refraction_chance = hit_info.material.refraction_chance;
 
 		if (specular_chance > 0.0f)
 		{
 			specular_chance = rt_fresnel_reflect_amount(
-				hit_info.inside ? hit_info.index_of_refraction : 1.0f,
-				!hit_info.inside ? hit_info.index_of_refraction : 1.0f,
-				ray.dir, hit_info.surface_normal, hit_info.specular_chance, 1.0f);
+				hit_info.inside ? hit_info.material.index_of_refraction : 1.0f,
+				!hit_info.inside ? hit_info.material.index_of_refraction : 1.0f,
+				ray.dir, hit_info.surface_normal, hit_info.material.specular_chance, 1.0f);
 
 			float chance_multiplier;
-			chance_multiplier = (1.0f - specular_chance) / (1.0f - hit_info.specular_chance);
+			chance_multiplier = (1.0f - specular_chance) / (1.0f - hit_info.material.specular_chance);
 			refraction_chance *= chance_multiplier;
 		}
 
@@ -183,20 +185,20 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		specular_ray_dir = rt_reflect(ray.dir, hit_info.surface_normal);
 		// Note how the specular ray direction doesn't call random().
 		// This means it'll always go the same direction.
-		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.specular_roughness * hit_info.specular_roughness));
+		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.material.specular_roughness * hit_info.material.specular_roughness));
 
 		t_vector	refraction_ray_dir;
-		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.index_of_refraction : 1.0f / hit_info.index_of_refraction);
-		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.refraction_roughness*hit_info.refraction_roughness));
+		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.material.index_of_refraction : 1.0f / hit_info.material.index_of_refraction);
+		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.material.refraction_roughness * hit_info.material.refraction_roughness));
 
 		// The boolean check is what causes specular highlights.
 		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
 		ray.dir = rt_mix(ray.dir, refraction_ray_dir, do_refraction);
 
-		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.emissive, throughput));
+		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.material.emissive, throughput));
 
 		if (do_refraction == 0.0f)
-			throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.rgb, (t_rgb){1, 1, 1}, do_specular));
+			throughput = rt_multiply_rgb(throughput, rt_mix(hit_info.material.rgb, (t_rgb){1, 1, 1}, do_specular));
 
 		// since we chose randomly between diffuse and specular,
 		// we need to account for the times we didn't do one or the other.
@@ -208,7 +210,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			break ;
 		throughput = rt_scale(throughput, 1.0f / p);
 
-		rgb = rt_add(rgb, rt_multiply_rgb(rt_scale(data->ambient->rgb, data->ambient->ratio), throughput));
+		rgb = rt_add(rgb, rt_multiply_rgb(rt_scale(data->ambient->material.rgb, data->ambient->ratio), throughput));
 
 		bounce_index++;
 	}

@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+#include "collisions/rt_collisions.h"
 #include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
 #include "utils/rt_utils.h"
@@ -57,12 +58,7 @@ t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 		info.surface_normal = rt_scale(info.surface_normal, -1);
 		info.inside = true;
 	}
-	info.rgb = sphere.rgb;
-	info.emissive = rt_scale(info.rgb, SPHERE_EMISSIVE_FACTOR);
-	info.specular_chance = SPHERE_SPECULAR_CHANCE;
-	info.specular_roughness = SPHERE_SPECULAR_ROUGHNESS;
-	info.index_of_refraction = SPHERE_INDEX_OF_REFRACTION;
-	info.refraction_chance = SPHERE_REFRACTION_CHANCE;
-	info.refraction_roughness = SPHERE_REFRACTION_ROUGHNESS;
+	info.material = sphere.material;
+	info.material.rgb = rt_get_line_rgb(ray, info, sphere);
 	return (info);
 }

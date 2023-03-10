@@ -48,7 +48,7 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 		ft_free(&string);
 		if (images_ptr[data->debug_image_index] == NULL)
 			return (rt_print_error(ERROR_MLX));
-		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_DEPTH);
+		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_MLX_DEPTH);
 	}
 	data->debug_image_index++;
 	return (OK);

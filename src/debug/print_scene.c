@@ -76,7 +76,7 @@ void	rt_print_scene(t_data *data)
 		|| object.type == OBJECT_TYPE_SPHERE
 		|| object.type == OBJECT_TYPE_PLANE
 		|| object.type == OBJECT_TYPE_CYLINDER)
-			rt_print_rgb(object.rgb);
+			rt_print_rgb(object.material.rgb);
 
 		if (object.type == OBJECT_TYPE_CAMERA)
 			printf(" %.1f", object.fov);

@@ -6,7 +6,7 @@
 			"label": "Build Debug",
 			"type": "shell",
 			"command": "make",
-			"args": [ "DEBUG=1", "SAN=1" ],
+			"args": [ "DEBUG=1", "SAN=1", "BONUS=1" ],
 			// "args": [ "DEBUG=1" ],
 			"problemMatcher": [ "$gcc" ],
 			"group": "build",
@@ -18,7 +18,7 @@
 			"label": "Build Release",
 			"type": "shell",
 			"command": "make",
-			"args": [ "O3=1" ],
+			"args": [ "O3=1", "BONUS=1" ],
 			"problemMatcher": [ "$gcc" ],
 			"group": "build",
 			"presentation": {

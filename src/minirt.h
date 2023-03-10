@@ -16,9 +16,11 @@
 # include "libft.h"
 # include "MLX42/MLX42.h"
 
-# include "rt_enums.h"
 # include "rt_typedefs.h"
+
 # include "rt_defines.h"
+# include "rt_enums.h"
+# include "rt_non_bonus_defines.h"
 # include "rt_structs.h"
 
 # include <math.h>

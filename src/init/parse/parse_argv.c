@@ -48,7 +48,7 @@ static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 			seen_ambient = true;
 		if (object->type == OBJECT_TYPE_CAMERA)
 			seen_camera = true;
-		if (object->type == OBJECT_TYPE_LIGHT && !MULTIPLE_LIGHTS_ALLOWED)
+		if (object->type == OBJECT_TYPE_LIGHT && !BONUS)
 			seen_light = true;
 		object_index++;
 	}

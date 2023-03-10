@@ -15,14 +15,14 @@
 #include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
 
-t_status	rt_parse_light(char **line_ptr, t_object *object)
+t_status	rt_parse_light(char **line_ptr, t_object *light)
 {
-	if (rt_parse_vector(line_ptr, &object->pos) == ERROR
+	if (rt_parse_vector(line_ptr, &light->pos) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &object->ratio, 0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &light->ratio, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &object->rgb) == ERROR)
+		|| rt_parse_rgb(line_ptr, &light->material.rgb) == ERROR)
 		return (ERROR);
-	object->diameter = LIGHT_DIAMETER;
+	light->diameter = LIGHT_DIAMETER;
 	return (OK);
 }

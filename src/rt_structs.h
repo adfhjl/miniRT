@@ -38,16 +38,29 @@ struct s_ray
 	t_vector	dir;
 };
 
+struct s_material
+{
+	t_rgb	rgb;
+	t_rgb	emissive;
+	float	specular_chance;
+	float	specular_roughness;
+	float	index_of_refraction;
+	float	refraction_chance;
+	float	refraction_roughness;
+};
+
 struct s_object
 {
 	float			ratio;
 	t_vector		pos;
 	t_vector		normal;
 	float			fov;
-	t_rgb			rgb;
-	t_rgb			emissive;
 	float			diameter;
 	float			height;
+	t_material		material;
+	float			x_line_frequency;
+	float			y_line_frequency;
+	float			z_line_frequency;
 	t_object_type	type;
 };
 
@@ -55,13 +68,7 @@ struct s_hit_info
 {
 	float		distance;
 	t_vector	surface_normal;
-	t_rgb		rgb;
-	t_rgb		emissive;
-	float		specular_chance;
-	float		specular_roughness;
-	float		index_of_refraction;
-	float		refraction_chance;
-	float		refraction_roughness;
+	t_material	material;
 	bool		inside;
 };
 
