@@ -74,21 +74,11 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	{
 		if (data->objects[i].type == OBJECT_TYPE_PLANE)
 			new_hit_info = rt_get_plane_collision_info(ray, data->objects[i]);
-		else if (data->objects[i].type == OBJECT_TYPE_SPHERE)
+		else if (data->objects[i].type == OBJECT_TYPE_SPHERE
+			|| data->objects[i].type == OBJECT_TYPE_LIGHT)
 			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
 		else if (data->objects[i].type == OBJECT_TYPE_CYLINDER)
 			new_hit_info = rt_get_cylinder_collision_info(ray, data->objects[i]);
-		else if (data->objects[i].type == OBJECT_TYPE_LIGHT)
-		{
-			new_hit_info = rt_get_sphere_collision_info(ray, data->objects[i]);
-			if (new_hit_info.distance != INFINITY)
-			{
-				// TODO: Can I get rid of LIGHT_EMISSIVE_FACTOR?
-				new_hit_info.material.emissive = rt_scale(rt_scale(new_hit_info.material.rgb, data->objects[i].ratio), LIGHT_EMISSIVE_FACTOR);
-				// TODO: Can I just set this to the rgb?
-				new_hit_info.material.rgb = (t_rgb){0, 0, 0};
-			}
-		}
 		// TODO: Shouldn't new_hit_info.distance always be positive anyways?
 		// TODO: And right now the "> 0" means hit_info.distance will never be 0; is that intended?
 		if (new_hit_info.distance > 0
@@ -226,6 +216,8 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		rt_assert_normal(hit_info.surface_normal);
 		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.material.index_of_refraction : 1.0f / hit_info.material.index_of_refraction);
 
+		// TODO: What to do in this case?
+		// TODO: Tom told me to check whether my refractive indices are correct, and my normals are pointing the correct way.
 		// Total Internal Reflection has occurred.
 		// if (refraction_ray_dir.x == 0 && refraction_ray_dir.y == 0 && refraction_ray_dir.z == 0)
 		// 	return (rgb);

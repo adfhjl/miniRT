@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_cylinder.c                                   :+:    :+:            */
+/*   parse_light_bonus.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -10,26 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_non_bonus_defines.h"
 #include "rt_structs.h"
 
 #include "init/parse/objects/rt_parse_objects.h"
+#include "init/parse/rt_parse.h"
 #include "vectors/rt_vectors.h"
 
-static void	rt_set_non_bonus_defines(t_object *cylinder)
+t_status	rt_parse_light(char **line_ptr, t_object *light)
 {
-	cylinder->material.specular_chance = CYLINDER_SPECULAR_CHANCE;
-	cylinder->material.specular_roughness = CYLINDER_SPECULAR_ROUGHNESS;
-	cylinder->material.index_of_refraction = CYLINDER_INDEX_OF_REFRACTION;
-	cylinder->material.refraction_chance = CYLINDER_REFRACTION_CHANCE;
-	cylinder->material.refraction_roughness = CYLINDER_REFRACTION_ROUGHNESS;
-}
-
-t_status	rt_parse_cylinder(char **line_ptr, t_object *cylinder)
-{
-	if (rt_parse_cylinder_basics(line_ptr, cylinder) == ERROR)
+	if (rt_parse_light_basics(line_ptr, light) == ERROR
+	|| rt_check_separating_whitespace(line_ptr) == ERROR
+	|| rt_parse_float(line_ptr, &light->diameter) == ERROR
+	|| rt_parse_material(line_ptr, &light->material) == ERROR)
 		return (ERROR);
-	cylinder->material.emissive = (t_vector){0, 0, 0};
-	rt_set_non_bonus_defines(cylinder);
+	light->material.emissive = rt_scale(light->material.emissive, light->ratio);
 	return (OK);
 }

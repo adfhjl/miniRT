@@ -11,3 +11,13 @@
 /* ************************************************************************** */
 
 #include "rt_structs.h"
+
+#include "init/parse/objects/rt_parse_objects.h"
+
+t_status	rt_parse_sphere(char **line_ptr, t_object *sphere)
+{
+	if (rt_parse_sphere_basics(line_ptr, sphere) == ERROR
+	|| rt_parse_material(line_ptr, &sphere->material) == ERROR)
+		return (ERROR);
+	return (OK);
+}

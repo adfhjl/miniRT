@@ -56,7 +56,10 @@ CFILES :=\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
-	src/init/parse/objects/parse_light.c\
+	src/init/parse/objects/parse_cylinder_basics.c\
+	src/init/parse/objects/parse_light_basics.c\
+	src/init/parse/objects/parse_plane_basics.c\
+	src/init/parse/objects/parse_sphere_basics.c\
 	src/init/parse/parse_argv.c\
 	src/init/parse/parse_float.c\
 	src/init/parse/parse_normal.c\
@@ -100,12 +103,15 @@ ifdef BONUS
 CFILES +=\
 	src/collisions/get_line_rgb_bonus.c\
 	src/init/parse/objects/parse_cylinder_bonus.c\
+	src/init/parse/objects/parse_light_bonus.c\
+	src/init/parse/objects/parse_material_bonus.c\
 	src/init/parse/objects/parse_plane_bonus.c\
 	src/init/parse/objects/parse_sphere_bonus.c
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
 	src/init/parse/objects/parse_cylinder.c\
+	src/init/parse/objects/parse_light.c\
 	src/init/parse/objects/parse_plane.c\
 	src/init/parse/objects/parse_sphere.c
 endif
