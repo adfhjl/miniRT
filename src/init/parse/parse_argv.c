@@ -23,43 +23,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static bool	rt_seen_capitalized_object_before(t_object_type object_type,
-				bool seen_ambient, bool seen_camera, bool seen_light)
-{
-	return ((object_type == OBJECT_TYPE_AMBIENT && seen_ambient)
-		|| (object_type == OBJECT_TYPE_CAMERA && seen_camera)
-		|| (object_type == OBJECT_TYPE_LIGHT && seen_light));
-}
-
-static bool	rt_has_duplicate_capitalized_object(t_object *objects)
-{
-	size_t		object_index;
-	bool		seen_ambient;
-	bool		seen_camera;
-	bool		seen_light;
-	t_object	*object;
-
-	object_index = 0;
-	seen_ambient = false;
-	seen_camera = false;
-	seen_light = false;
-	while (object_index < ft_vector_get_size(objects))
-	{
-		object = &objects[object_index];
-		if (rt_seen_capitalized_object_before(object->type, seen_ambient,
-				seen_camera, seen_light))
-			return (true);
-		if (object->type == OBJECT_TYPE_AMBIENT)
-			seen_ambient = true;
-		if (object->type == OBJECT_TYPE_CAMERA)
-			seen_camera = true;
-		if (object->type == OBJECT_TYPE_LIGHT && !BONUS)
-			seen_light = true;
-		object_index++;
-	}
-	return (false);
-}
-
 static t_status	rt_parse_scene_file(int fd, t_data *data)
 {
 	t_object	object;

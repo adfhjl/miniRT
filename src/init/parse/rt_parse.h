@@ -13,6 +13,10 @@
 #ifndef RT_PARSE_H
 # define RT_PARSE_H
 
+# include <stdbool.h>
+
+bool		rt_has_duplicate_capitalized_object(t_object *objects);
+
 t_status	rt_parse_argv(char *argv[], t_data *data);
 
 t_status	rt_parse_float(char **line_ptr, float *field_ptr);

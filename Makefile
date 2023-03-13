@@ -32,12 +32,6 @@ ifdef SAN
 CFLAGS += -fsanitize=address
 endif
 
-ifdef BONUS
-CFLAGS += -DBONUS=1
-else
-CFLAGS += -DBONUS=0
-endif
-
 ################################################################################
 
 CFILES :=\
@@ -106,14 +100,16 @@ CFILES +=\
 	src/init/parse/objects/parse_light_bonus.c\
 	src/init/parse/objects/parse_material_bonus.c\
 	src/init/parse/objects/parse_plane_bonus.c\
-	src/init/parse/objects/parse_sphere_bonus.c
+	src/init/parse/objects/parse_sphere_bonus.c\
+	src/init/parse/has_duplicate_object.c
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
 	src/init/parse/objects/parse_cylinder.c\
 	src/init/parse/objects/parse_light.c\
 	src/init/parse/objects/parse_plane.c\
-	src/init/parse/objects/parse_sphere.c
+	src/init/parse/objects/parse_sphere.c\
+	src/init/parse/has_duplicate_object_bonus.c
 endif
 
 ################################################################################
