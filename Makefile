@@ -183,6 +183,7 @@ fclean: clean
 re: fclean all
 
 .PHONY: bonus
-bonus: all
+bonus:
+	@$(MAKE) all BONUS=1
 
 ################################################################################
