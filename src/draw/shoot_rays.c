@@ -45,13 +45,13 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 		data);
 	rgb = rt_get_ray_rgb(ray, data);
 
-	rgb.r = rt_lerp(data->pixel_channel_floats[location * 4 + 0], rgb.r, 1.0f / (data->samples_since_last_movement + 1));
-	rgb.g = rt_lerp(data->pixel_channel_floats[location * 4 + 1], rgb.g, 1.0f / (data->samples_since_last_movement + 1));
-	rgb.b = rt_lerp(data->pixel_channel_floats[location * 4 + 2], rgb.b, 1.0f / (data->samples_since_last_movement + 1));
+	data->pixel_channel_doubles[location * 4 + 0] += (double)rgb.r;
+	data->pixel_channel_doubles[location * 4 + 1] += (double)rgb.g;
+	data->pixel_channel_doubles[location * 4 + 2] += (double)rgb.b;
 
-	data->pixel_channel_floats[location * 4 + 0] = rgb.r;
-	data->pixel_channel_floats[location * 4 + 1] = rgb.g;
-	data->pixel_channel_floats[location * 4 + 2] = rgb.b;
+	rgb.r = (float)(data->pixel_channel_doubles[location * 4 + 0] / (data->samples_since_last_movement + 1));
+	rgb.g = (float)(data->pixel_channel_doubles[location * 4 + 1] / (data->samples_since_last_movement + 1));
+	rgb.b = (float)(data->pixel_channel_doubles[location * 4 + 2] / (data->samples_since_last_movement + 1));
 
 	return (rgb);
 }
