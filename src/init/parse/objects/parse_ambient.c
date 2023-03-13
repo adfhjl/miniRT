@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
 
-t_status	rt_parse_ambient(char **line_ptr, t_object *object)
+t_status	rt_parse_ambient(char **line_ptr, t_object *ambient)
 {
-	if (rt_parse_range_float(line_ptr, &object->ambient.ratio, 0, 1) == ERROR
+	if (rt_parse_range_float(line_ptr, &ambient->ratio, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &object->ambient.rgb) == ERROR)
+		|| rt_parse_rgb(line_ptr, &ambient->material.rgb) == ERROR)
 		return (ERROR);
 	return (OK);
 }

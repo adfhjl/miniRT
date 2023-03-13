@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/char/ft_char.h"
+#include "libft/src/str/ft_str.h"
+
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
+#include "utils/rt_utils.h"
 
 static t_status	rt_set_object_type(char *token, t_object *object)
 {

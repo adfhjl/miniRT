@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
-#include "mathematics/rt_mathematics.h"
+#include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
+
+#include <math.h>
 
 t_status	rt_parse_normal(char **line_ptr, t_vector *vector)
 {

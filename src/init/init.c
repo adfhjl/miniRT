@@ -10,12 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_structs.h"
 
 #include "draw/rt_draw.h"
 #include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
+#include "utils/rt_utils.h"
+
+#include <math.h> // TODO: REMOVE
 
 static void	rt_init_available(t_data *data)
 {
@@ -41,26 +46,10 @@ static void	rt_init_available(t_data *data)
 	}
 }
 
-static t_status	rt_calloc_blue_noise_arrays(t_data *data)
-{
-	data->available = ft_calloc(data->pixel_count,
-			sizeof(*data->available));
-	data->available_inverse = ft_calloc(data->pixel_count,
-			sizeof(*data->available_inverse));
-	data->densities = ft_calloc(data->pixel_count,
-			sizeof(*data->densities));
-	if (data->available == NULL
-		|| data->available_inverse == NULL
-		|| data->densities == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-	return (OK);
-}
-
 static bool	rt_camera_is_invalid(t_data *data)
 {
 	if (data->camera == NULL)
 		return (false);
-	data->world_up = (t_vector){.x = 0.0f, .y = 1.0f, .z = 0.0f};
 	data->camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
 	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
 		return (true);
@@ -88,22 +77,20 @@ static t_object	*rt_get_object_ptr(t_object_type searched_object_type,
 
 static void	rt_assign_capitalized_objects(t_data *data)
 {
-	data->ambient
-		= &rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects)->ambient;
-	data->camera
-		= &rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects)->camera;
-	data->light
-		= &rt_get_object_ptr(OBJECT_TYPE_LIGHT, data->objects)->light;
+	data->ambient = rt_get_object_ptr(OBJECT_TYPE_AMBIENT, data->objects);
+	data->camera = rt_get_object_ptr(OBJECT_TYPE_CAMERA, data->objects);
 }
 
 t_status	rt_init(int argc, char *argv[], t_data *data)
 {
-	ft_bzero(data, sizeof(*data));
 	if (argc != 2)
 		return (rt_print_error(ERROR_INVALID_ARGC));
 	if (rt_parse_argv(argv, data) == ERROR)
 		return (ERROR);
 	rt_assign_capitalized_objects(data);
+
+	data->world_up = (t_vector){0, 1, 0};
+
 	if (rt_camera_is_invalid(data))
 		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
 
@@ -143,23 +130,12 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->draw_debug = DEBUG_DRAW_ON_BY_DEFAULT;
 	data->draw_mode = DEFAULT_DRAW_MODE;
 
-	data->reflection_contribution = REFLECTION_CONTRIBUTION;
-
-	data->voronoi.distances = ft_calloc(data->pixel_count, sizeof(*data->voronoi.distances));
-	if (data->voronoi.distances == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
+	// data->reflection_contribution = REFLECTION_CONTRIBUTION;
 
 	// TODO: Make sure it isn't 2x necessary
 	data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
 	if (data->voronoi.stack == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
-
-	data->voronoi.visited = ft_calloc(data->pixel_count, sizeof(*data->voronoi.visited));
-	if (data->voronoi.visited == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
-
-	if (rt_calloc_blue_noise_arrays(data) == ERROR)
-		return (ERROR);
 
 	rt_init_available(data);
 

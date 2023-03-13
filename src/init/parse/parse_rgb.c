@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
-#include "mathematics/rt_mathematics.h"
+#include "rgb/rt_rgb.h"
+#include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
 t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 {
@@ -30,6 +32,6 @@ t_status	rt_parse_rgb(char **line_ptr, t_rgb *rgb)
 		return (ERROR);
 	if (**line_ptr == ',')
 		return (rt_print_error(ERROR_UNEXPECTED_COMMA));
-	*rgb = rt_scale_rgb(*rgb, 1.0f / 255.0f);
+	*rgb = rt_scale(*rgb, 1.0f / 255.0f);
 	return (OK);
 }

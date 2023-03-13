@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
 #include "draw/rt_draw.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 #include "rays/rt_rays.h"
+
+#include <assert.h> // TODO: REMOVE
+#include <math.h> // TODO: REMOVE
 
 // forward = (0, 0, 1);
 //
@@ -71,15 +74,9 @@ static void	rt_clear_image(mlx_image_t *image)
 {
 	uint32_t	x;
 	uint32_t	y;
-	t_rgb		unrendered_rgb;
 	uint32_t	color;
 
-	unrendered_rgb = (t_rgb){
-		UNRENDERED_R / 255.f,
-		UNRENDERED_G / 255.f,
-		UNRENDERED_B / 255.f
-	};
-	color = rt_convert_color(unrendered_rgb);
+	color = rt_convert_color((t_rgb){UNRENDERED_R, UNRENDERED_G, UNRENDERED_B});
 	y = 0;
 	while (y < UNSCALED_WINDOW_HEIGHT)
 	{
@@ -93,30 +90,31 @@ static void	rt_clear_image(mlx_image_t *image)
 	}
 }
 
-static void	rt_reset_voronoi(t_data *data)
-{
-	size_t	i;
+// static void	rt_reset_voronoi(t_data *data)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (i < data->pixel_count)
-	{
-		data->voronoi.distances[i] = UINT32_MAX;
-		data->voronoi.visited[i] = false;
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < data->pixel_count)
+// 	{
+// 		data->voronoi.distances[i] = UINT32_MAX;
+// 		data->voronoi.visited[i] = false;
+// 		i++;
+// 	}
+// }
 
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	if (data->draw_mode == DRAW_MODE_VORONOI)
-	{
-		rt_reset_voronoi(data);
-	}
-	else if (data->draw_mode == DRAW_MODE_BLUE_NOISE
-		|| data->draw_mode == DRAW_MODE_NORMAL)
-	{
-		rt_clear_image(data->image);
-	}
-	data->pixel_index = data->pixel_count;
+	// if (data->draw_mode == DRAW_MODE_VORONOI)
+	// {
+	// 	rt_reset_voronoi(data);
+	// }
+	// else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
+	// {
+	// 	rt_clear_image(data->image);
+	// }
+	rt_clear_image(data->image);
+	data->pixel_index = 0;
+	data->samples_since_last_movement = 0;
 }

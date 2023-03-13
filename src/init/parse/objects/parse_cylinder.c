@@ -10,22 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_non_bonus_defines.h"
+#include "rt_structs.h"
 
-#include "init/parse/rt_parse.h"
 #include "init/parse/objects/rt_parse_objects.h"
+#include "vectors/rt_vectors.h"
 
-t_status	rt_parse_cylinder(char **line_ptr, t_object *object)
+static void	rt_set_non_bonus_defines(t_object *cylinder)
 {
-	if (rt_parse_vector(line_ptr, &object->cylinder.origin) == ERROR
-		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_normal(line_ptr, &object->cylinder.normal) == ERROR
-		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_float(line_ptr, &object->cylinder.diameter) == ERROR
-		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_float(line_ptr, &object->cylinder.height) == ERROR
-		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &object->cylinder.rgb) == ERROR)
+	cylinder->material.specular_chance = CYLINDER_SPECULAR_CHANCE;
+	cylinder->material.specular_roughness = CYLINDER_SPECULAR_ROUGHNESS;
+	cylinder->material.index_of_refraction = CYLINDER_INDEX_OF_REFRACTION;
+	cylinder->material.refraction_chance = CYLINDER_REFRACTION_CHANCE;
+	cylinder->material.refraction_roughness = CYLINDER_REFRACTION_ROUGHNESS;
+}
+
+t_status	rt_parse_cylinder(char **line_ptr, t_object *cylinder)
+{
+	if (rt_parse_cylinder_basics(line_ptr, cylinder) == ERROR)
 		return (ERROR);
+	cylinder->material.emissive = (t_vector){0, 0, 0};
+	rt_set_non_bonus_defines(cylinder);
 	return (OK);
 }

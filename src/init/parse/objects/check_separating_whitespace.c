@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/helper_headers/ft_defines.h"
+#include "libft/src/str/ft_str.h"
 
-#include "src/helper_headers/ft_defines.h"
+#include "utils/rt_utils.h"
 
 t_status	rt_check_separating_whitespace(char **line_ptr)
 {

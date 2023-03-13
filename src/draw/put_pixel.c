@@ -10,19 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
-static uint32_t	rt_get_rgb_channel(float n)
-{
-	return ((uint32_t)((-(1.f / expf(n * 2)) + 1) * 255));
-}
+#include "rgb/rt_rgb.h"
+#include "vectors/rt_vectors.h"
 
 uint32_t	rt_convert_color(t_rgb rgb)
 {
-	const uint32_t	r = rt_get_rgb_channel(rgb.r * 2);
-	const uint32_t	g = rt_get_rgb_channel(rgb.g * 2);
-	const uint32_t	b = rt_get_rgb_channel(rgb.b * 2);
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
 
+	rgb = rt_scale(rgb, EXPOSURE);
+	rgb = rt_aces_film(rgb);
+	rgb = rt_linear_to_srgb(rgb);
+	r = (uint32_t)(rgb.r * 255.0f);
+	g = (uint32_t)(rgb.g * 255.0f);
+	b = (uint32_t)(rgb.b * 255.0f);
 	return (0xFF000000 | (b << 16) | (g << 8) | r);
 }
 

@@ -10,125 +10,109 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
+#include "collisions/rt_collisions.h"
 #include "rays/rt_rays.h"
+#include "rgb/rt_rgb.h"
+#include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
-static t_ray	rt_translate_ray(t_ray ray, t_cylinder cylinder)
-{
-	return (rt_get_ray(rt_sub(ray.origin, cylinder.origin), ray.normal));
-}
+#include <math.h>
 
-// https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula#Statement
-static t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
-				float theta)
-{
-	return (rt_add(rt_add(rt_scale(v, cosf(theta)),
-	rt_scale(rt_cross(rotation_axis, v), sinf(theta))),
-	rt_scale(rotation_axis, rt_dot(rotation_axis, v) * (1 - cosf(theta)))));
-}
+#include "debug/rt_debug.h" // TODO: REMOVE
 
 /*
 1. Dot product between cylinder.normal and {0, 1, 0} gives the sin() of the angle between the two
 2. theta = asinf(angle)
 3. rotation_axis = rt_cross(cylinder.normal, {0, 1, 0})
-4. ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta)
-5. ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta)
+4. ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta)
+5. ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta)
 */
-static t_ray	rt_rotate_ray(t_ray ray, t_cylinder cylinder000)
+static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 {
-	// TODO: Maybe don't use shitty {0, 1, 0}
+	t_vector	world_up;
 	float		angle;
 	float		theta;
 	t_vector	rotation_axis;
 
-	angle = rt_dot(cylinder000.normal, (t_vector){0, 1, 0});
-	theta = acosf(angle);
-	rotation_axis = rt_normalized(rt_cross(cylinder000.normal, (t_vector){0, 1, 0}));
-	ray.origin = rt_rotate_around_axis(ray.origin, rotation_axis, theta);
-	ray.normal = rt_rotate_around_axis(ray.normal, rotation_axis, theta);
-	return (ray);
-}
-
-static t_ray	rt_adjust_ray(t_ray ray, t_cylinder cylinder)
-{
-	ray = rt_translate_ray(ray, cylinder);
+	world_up = (t_vector){0, 1, 0};
+	ray = rt_get_ray(rt_sub(ray.pos, cylinder.pos), ray.dir);
 	if (cylinder.normal.x != 0.0f || cylinder.normal.z != 0.0f)
-		ray = rt_rotate_ray(ray, cylinder);
+	{
+		angle = rt_dot(cylinder.normal, world_up);
+		theta = acosf(angle);
+		rotation_axis = rt_normalized(rt_cross(cylinder.normal, world_up));
+		ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta);
+		rt_assert_normal(ray.dir);
+		ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
+		rt_assert_normal(ray.dir);
+	}
 	return (ray);
 }
 
-// static float	rt_get_cylinder_distance(t_ray ray, t_cylinder cylinder)
-// {
-// 	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
-// 	const float	a = rt_dot(adjusted_ray.normal, adjusted_ray.normal);
-// 	const float	b = 2 * rt_dot(adjusted_ray.normal, adjusted_ray.origin);
-// 	const float	c = rt_dot(adjusted_ray.origin, adjusted_ray.origin)
-// 		- cylinder.diameter * cylinder.diameter / 4;
-// 	const float	d = (b * b) - (4 * a * c);
-// 	float		distance;
-
-// 	if (d < 0)
-// 		return (INFINITY);
-// 	distance = (-b - sqrtf(d)) / (2 * a);
-// }
-
-static float	rt_get_cylinder_distance(t_ray ray, t_cylinder cylinder)
+// Note: not normalized, this is intended
+static t_ray	rt_get_flattened_ray(t_ray ray)
 {
-	const t_ray	adjusted_ray = rt_adjust_ray(ray, cylinder);
-	t_ray	flattened_ray = adjusted_ray;
-	flattened_ray.origin.y = 0;
-	flattened_ray.normal.y = 0;
-	float mag = rt_mag(flattened_ray.normal);
-	flattened_ray.normal = rt_scale(flattened_ray.normal, 1 / mag);
-	const float	a = rt_dot(flattened_ray.normal, flattened_ray.normal);
-	const float	b = 2 * rt_dot(flattened_ray.normal, flattened_ray.origin);
-	const float	c = rt_dot(flattened_ray.origin, flattened_ray.origin)
-		- cylinder.diameter * cylinder.diameter / 4;
-	const float	d = (b * b) - (4 * a * c);
-	float		distance;
+	ray.pos.y = 0;
+	ray.dir.y = 0;
+	return (ray);
+}
 
-	if (d < 0)
+static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder,
+					bool *inside)
+{
+	t_ray		perspective_ray;
+	t_ray		flattened_ray;
+	t_quadratic	q;
+	t_vector	v;
+
+	*inside = false;
+	perspective_ray = rt_get_perspective_ray(ray, cylinder);
+	flattened_ray = rt_get_flattened_ray(perspective_ray);
+	q = rt_solve_quadratic(rt_mag2(flattened_ray.dir),
+			2 * rt_dot(flattened_ray.dir, flattened_ray.pos),
+			rt_mag2(flattened_ray.pos) - cylinder.diameter * cylinder.diameter / 4);
+	if (!q.solution)
 		return (INFINITY);
-	distance = (-b - sqrtf(d)) / (2 * a) / mag;
-	if (distance > 0) {
-		t_vector	v = rt_get_ray_point(adjusted_ray, distance);
+	if (q.solution_minus > 0) {
+		v = rt_get_ray_point(perspective_ray, q.solution_minus);
 		if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
-			return (distance);
+			return (q.solution_minus);
 	}
-	distance = (-b + sqrtf(d)) / (2 * a) / mag;
-	if (distance > 0) {
-		t_vector	v = rt_get_ray_point(adjusted_ray, distance);
-		if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
-			return (distance);
-			// return (-distance); // TODO: geen -
-	}
+	*inside = true;
+	v = rt_get_ray_point(perspective_ray, q.solution_plus);
+	if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
+		return (q.solution_plus);
 	return (INFINITY);
 }
 
 static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
-				t_cylinder cylinder)
+				t_object cylinder)
 {
 	t_vector	point_direction;
 	t_vector	perpendicular;
 	t_vector	surface_abnormal;
 
-	// TODO: Maybe normalize all of these?
-	point_direction = rt_sub(ray_point, cylinder.origin);
+	point_direction = rt_sub(ray_point, cylinder.pos);
 	perpendicular = rt_cross(cylinder.normal, point_direction);
 	surface_abnormal = rt_cross(perpendicular, cylinder.normal);
 	return (rt_normalized(surface_abnormal));
 }
 
-t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object *object)
+t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
 {
-	const t_cylinder	cylinder = object->cylinder;
-	t_hit_info			info;
+	t_hit_info	info;
+	bool		inside;
 
-	info.distance = rt_get_cylinder_distance(ray, cylinder);
+	info.distance = rt_get_cylinder_distance(ray, cylinder, &inside);
 	if (info.distance == INFINITY)
 		return ((t_hit_info){.distance = INFINITY});
-	info.object = object;
 	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
+	if (inside)
+		info.surface_normal = rt_scale(info.surface_normal, -1);
+	info.inside = false;
+	info.material = cylinder.material;
+	info.material.rgb = rt_get_line_rgb(ray, info, cylinder);
 	return (info);
 }

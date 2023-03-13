@@ -13,89 +13,77 @@
 #ifndef RT_STRUCTS_H
 # define RT_STRUCTS_H
 
-struct s_rgb
-{
-	float	r;
-	float	g;
-	float	b;
-};
+# include "rt_defines.h"
+# include "rt_enums.h"
+# include "rt_typedefs.h"
+
+# include <stddef.h>
+
+# include "MLX42/MLX42.h"
 
 struct s_vector
 {
-	float	x;
-	float	y;
-	float	z;
+	union
+	{
+		float	x;
+		float	r;
+	};
+	union
+	{
+		float	y;
+		float	g;
+	};
+	union
+	{
+		float	z;
+		float	b;
+	};
 };
 
 struct s_ray
 {
-	t_vector	origin;
-	t_vector	normal;
+	t_vector	pos;
+	t_vector	dir;
 };
 
-struct s_ambient
+struct s_material
 {
-	float	ratio;
-	t_rgb	rgb;
-};
-
-struct s_camera
-{
-	t_vector	origin;
-	t_vector	normal;
-	float		fov;
-};
-
-struct s_light
-{
-	t_vector	origin;
-	float		ratio;
 	t_rgb		rgb;
-};
-
-struct s_sphere
-{
-	t_vector	origin;
-	float		diameter;
-	t_rgb		rgb;
-};
-
-struct s_plane
-{
-	t_vector	origin;
-	t_vector	normal;
-	t_rgb		rgb;
-};
-
-struct s_cylinder
-{
-	t_vector	origin;
-	t_vector	normal;
-	float		diameter;
-	float		height;
-	t_rgb		rgb;
+	t_rgb		emissive;
+	float		specular_chance;
+	float		specular_roughness;
+	float		index_of_refraction;
+	float		refraction_chance;
+	float		refraction_roughness;
+	t_vector	line_frequency;
 };
 
 struct s_object
 {
-	union
-	{
-		t_ambient	ambient;
-		t_camera	camera;
-		t_light		light;
-		t_sphere	sphere;
-		t_plane		plane;
-		t_cylinder	cylinder;
-	};
+	float			ratio;
+	t_vector		pos;
+	t_vector		normal;
+	float			fov;
+	float			diameter;
+	float			height;
+	t_material		material;
 	t_object_type	type;
 };
 
 struct s_hit_info
 {
-	t_object		*object;
-	float			distance;
-	t_vector		surface_normal;
+	float		distance;
+	t_vector	surface_normal;
+	t_material	material;
+	bool		inside;
 };
+
+struct s_quadratic
+{
+	bool	solution;
+	float	solution_minus;
+	float	solution_plus;
+}	s_quadratic;
 
 typedef struct s_voronoi_seed
 {
@@ -105,9 +93,9 @@ typedef struct s_voronoi_seed
 
 typedef struct s_voronoi
 {
-	uint32_t		*distances;
+	uint32_t		distances[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 	t_voronoi_seed	*stack;
-	bool			*visited;
+	bool			visited[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 }	t_voronoi;
 
 struct s_data
@@ -115,9 +103,11 @@ struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_object	*objects;
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
+
+	t_object	*ambient;
+	t_object	*camera;
+
+	double		seconds_ran;
 
 	int			scaled_window_width;
 	int			scaled_window_height;
@@ -132,11 +122,14 @@ struct s_data
 
 	size_t		debug_image_index;
 
-	float		reflection_contribution;
+	// float		reflection_contribution;
+
+	size_t		samples_since_last_movement;
+	float		pixel_channel_floats[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT * 4];
 
 	// TODO: Put in struct
 	bool		draw_debug;
-	bool		cursor_frozen;
+	bool		frozen;
 	int			draw_mode; // Maybe in this struct as well?
 	//
 
@@ -161,9 +154,9 @@ struct s_data
 	// TODO: Put in struct
 	uint32_t	pixel_count;
 
-	uint32_t	*available;
-	uint32_t	*available_inverse;
-	float		*densities;
+	uint32_t	available[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	uint32_t	available_inverse[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	float		densities[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 
 	uint32_t	available_count;
 

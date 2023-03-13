@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/error/ft_error.h"
+
+#include "rt_enums.h"
+#include "rt_typedefs.h"
+
+#include "utils/rt_utils.h"
 
 t_status	rt_skip_separator_comma(char **line_ptr)
 {

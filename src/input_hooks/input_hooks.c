@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
-#include "debug/rt_debug.h"
+#include "debug/rt_debug.h" // TODO: REMOVE
 #include "draw/rt_draw.h"
-#include "mathematics/rt_mathematics.h"
+#include "vectors/rt_vectors.h"
 
 void	rt_key_hook(mlx_key_data_t keydata, void *param)
 {
@@ -60,8 +60,8 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 		if (keydata.key == MLX_KEY_F)
 		{
-			data->cursor_frozen = !data->cursor_frozen;
-			if (data->cursor_frozen)
+			data->frozen = !data->frozen;
+			if (data->frozen)
 				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_NORMAL);
 			else
 				mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
@@ -85,6 +85,9 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 		if (keydata.key == MLX_KEY_L)
 			rt_print_scene(data);
+
+		if (keydata.key == MLX_KEY_BACKSPACE)
+			rt_reset_canvas_info(data);
 	}
 }
 
@@ -95,7 +98,7 @@ void	rt_cursor_hook(double x, double y, void *param)
 	float	dy;
 
 	data = param;
-	if (data->camera == NULL || data->cursor_frozen)
+	if (data->camera == NULL || data->frozen)
 		return ;
 
 	dx = (float)x - data->scaled_window_center_x;
@@ -114,6 +117,7 @@ void	rt_cursor_hook(double x, double y, void *param)
 	// offet_rotation = rt_add(data->camera->normal, rotation);
 
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
+	rt_assert_normal(data->camera->normal);
 
 	data->moved_cursor = true;
 }
@@ -125,9 +129,9 @@ void	rt_scroll_hook(double dx, double dy, void *param)
 	(void)dx;
 	data = param;
 	// if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
-	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL;
 	// else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
-	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL_FACTOR;
+	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL;
 	if (dy > 0)
 	{
 		data->camera->fov *= 0.8f;

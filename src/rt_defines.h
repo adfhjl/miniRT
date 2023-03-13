@@ -16,54 +16,81 @@
 # define WINDOW_TITLE "miniRT"
 # define SYSTEM_ERROR_STATUS -1
 
-# define UNSCALED_WINDOW_WIDTH 500
-# define UNSCALED_WINDOW_HEIGHT 500
+// Integer from 1 to infinity.
+// This is the resolution of the scene that actually gets rendered.
+// If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
+// window will be 500 pixels wide.
+# define UNSCALED_WINDOW_WIDTH 200
+# define UNSCALED_WINDOW_HEIGHT 200
+// TODO: Set this to 1 before eval.
+# define PIXEL_SCALE 5
 
-# define BACKGROUND_R 0
-# define BACKGROUND_G 0
-# define BACKGROUND_B 0
-// # define BACKGROUND_R 20
-// # define BACKGROUND_G 20
-// # define BACKGROUND_B 20
+// Float from 0 to infinity.
+// A really small value used to nudge the ray up to make sure floating-point
+// shenanigans didn't cause the ray to accidentally end up on the wrong side.
+# define SURFACE_NORMAL_NUDGE 0.01f
 
-# define UNRENDERED_R 10
-# define UNRENDERED_G 10
-# define UNRENDERED_B 10
+// Integer between 1 and infinity.
+// How many rays are shot per frame.
+// Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
+# define RAYS_PER_FRAME 20000
 
-# define EPSILON 1.0e-4f
-# define LIGHT_BRIGHTNESS_FACTOR 500.0f
+// # define GENERATED_NOISE_PER_FRAME 100
 
-# define MOVEMENT_SPEED 7.0f
-# define MOVEMENT_SPEED_SCROLL_FACTOR 1.2f
-# define MAX_MOVEMENT_SPEED 50.0f
-# define MIN_MOVEMENT_SPEED 0.5f
+# define DEBUG_DRAWING_MLX_DEPTH 1
 
-# define ROTATION_SPEED 0.003f
-
-# define RAYS_PER_FRAME 45000
-# define GENERATED_NOISE_PER_FRAME 100
-
-# define DEBUG_DRAWING_DEPTH 1
-
+// TODO: Set this to 0 before the eval.
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
+
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
-# define PIXEL_SCALE 2
-
-# define MAX_UPDATE_RADIUS 10
+// # define MAX_UPDATE_RADIUS 20
 
 // TODO: As an optimization, make this dynamically happen so that it happens
 // frequently at the start and infrequently at the end.
-# define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
+// # define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
 
 // TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
 // TODO: It can still be diffuse with a value higher than 0
 // if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
-# define MAX_BOUNCES_PER_RAY 10
+// TODO: Set this to 1 before eval.
+# define MAX_BOUNCES_PER_RAY 8
 
 // 0.0 means that reflection doesn't occur, so the render is diffuse.
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
 // so that the object's own RGB only contributes 10% of the RGB.
-# define REFLECTION_CONTRIBUTION 0.5f
+// # define REFLECTION_CONTRIBUTION 0.5f
+
+// TODO: Add three defines for plane, sphere, and cylinder emission RGBs
+
+// Float between 0 and infinity.
+// A value of 0 means no anti-aliasing occurs.
+// A value of 1 means that the first ray shot from the camera into the scene
+// can be randomly moved up to one pixel up/down/left/right.
+// TODO: Set to 0.0f before eval.
+# define ANTI_ALIAS_RADIUS 0.5f
+
+// Float between 0 and infinity.
+// The higher this number, the brighter the scene.
+# define EXPOSURE 0.5f
+
+// MOVEMENT ////////////////////////////////////////////////////////////////////
+
+# define MOVEMENT_SPEED 7.0f
+# define MOVEMENT_SPEED_SCROLL 1.2f
+# define MAX_MOVEMENT_SPEED 50.0f
+# define MIN_MOVEMENT_SPEED 0.5f
+# define ROTATION_SPEED 0.003f
+
+// RGB /////////////////////////////////////////////////////////////////////////
+// Floats between 0 and 1.
+
+# define BACKGROUND_R 0.4f
+# define BACKGROUND_G 0.5f
+# define BACKGROUND_B 0.7f
+
+# define UNRENDERED_R 0.05f
+# define UNRENDERED_G 0.05f
+# define UNRENDERED_B 0.05f
 
 #endif

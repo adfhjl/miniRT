@@ -10,9 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/gnl/get_next_line.h"
+#include "libft/src/mem/ft_mem.h"
+#include "libft/src/str/ft_str.h"
+#include "libft/src/vector/ft_vector.h"
+
+#include "rt_structs.h"
 
 #include "init/parse/rt_parse.h"
+#include "utils/rt_utils.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -47,7 +53,7 @@ static bool	rt_has_duplicate_capitalized_object(t_object *objects)
 			seen_ambient = true;
 		if (object->type == OBJECT_TYPE_CAMERA)
 			seen_camera = true;
-		if (object->type == OBJECT_TYPE_LIGHT)
+		if (object->type == OBJECT_TYPE_LIGHT && !BONUS)
 			seen_light = true;
 		object_index++;
 	}

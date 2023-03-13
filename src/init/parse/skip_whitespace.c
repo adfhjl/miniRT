@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/char/ft_char.h"
 
 void	rt_skip_whitespace(char **line_ptr)
 {

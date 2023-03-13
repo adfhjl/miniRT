@@ -13,12 +13,8 @@
 #ifndef RT_RAYS_H
 # define RT_RAYS_H
 
-t_rgb			rt_get_point_rgb(t_ray ray, t_hit_info info, t_data *data,
-					t_rgb object_color);
+t_vector	rt_get_ray_point(t_ray ray, float t);
 
-t_hit_info		rt_get_hit_info(t_ray ray, t_data *data);
-t_rgb			rt_get_ray_rgb(t_ray ray, t_data *data, int depth);
-
-t_ray			rt_get_ray(t_vector origin, t_vector normal);
+t_rgb		rt_get_ray_rgb(t_ray ray, t_data *data);
 
 #endif

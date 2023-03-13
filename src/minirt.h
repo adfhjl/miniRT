@@ -10,22 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// TODO: GET RID OF THIS HEADER
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
 # include "libft.h"
 # include "MLX42/MLX42.h"
 
-# include "rt_enums.h"
 # include "rt_typedefs.h"
+
 # include "rt_defines.h"
+# include "rt_enums.h"
+# include "rt_non_bonus_defines.h"
 # include "rt_structs.h"
-
-# include "utils/rt_utils.h"
-# include "mathematics/rt_mathematics.h"
-
-// TODO: think if wanna include next line
-// #include "rays/rt_rays.h"
 
 # include <math.h>
 

@@ -10,50 +10,57 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt_structs.h"
 
-#include "mathematics/rt_mathematics.h"
+#include "collisions/rt_collisions.h"
 #include "rays/rt_rays.h"
+#include "rgb/rt_rgb.h"
+#include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
-// TODO: Maybe write this
-// static float	rt_quadratic_formula(*solution_1, *solution_2)
-// {
-// 	// *solution_1 = INFINITY;
-// 	// *solution_2 = INFINITY;
-// 	return (distance);
-// }
+#include <math.h>
 
-static float	get_sphere_distance(t_sphere sphere, t_ray ray)
+// Explanation:
+// Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/
+// 			minimal-ray-tracer-rendering-simple-shapes/
+// 			ray-sphere-intersection.html#:~:text=Analytic%20Solution
+// The equation for a sphere is x^2 + y^2 + z^2 = R^2.
+// If x, y, z are coordinates of P, then it's P^2 - R^2 = 0.
+// The equation for a ray where O is origin, D is direction, and
+// t is distance, is O + Dt.
+// Substitute to get (O + Dt)^2 - R^2 = 0 ->
+// O^2 + (Dt)^2 + 2ODt - R^2 = 0 ->
+// D^2t^2 + 2ODt + O^2 - R^2 = 0.
+// This is a quadratic equation: at^2 + bt + c = 0
+// So a = D^2, b = 2OD, and c = O^2 - R^2.
+// O is sphere_to_ray_pos, to make the ray origin relative to the sphere center.
+t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
 {
-	const float	a = rt_dot(ray.normal, ray.normal);
-	const float	b = 2 * rt_dot(ray.normal, rt_sub(ray.origin, sphere.origin));
-	const float	c = rt_dot(rt_sub(ray.origin, sphere.origin), rt_sub(ray.origin,
-				sphere.origin)) - sphere.diameter * sphere.diameter / 4;
-	const float	d = (b * b) - (4 * a * c);
-	float		distance;
+	t_vector	sphere_to_ray_pos;
+	t_quadratic	q;
+	t_hit_info	info;
+	t_vector	collision;
+	t_vector	sphere_to_collision;
 
-	if (d < 0)
-		return (INFINITY);
-	distance = (-b - sqrtf(d)) / (2 * a);
-	if (distance <= 0)
-	{
-		distance = (-b + sqrtf(d)) / (2 * a);
-		if (distance <= 0)
-			return (INFINITY);
-	}
-	return (distance);
-}
-
-t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object *object)
-{
-	const t_sphere	sphere = object->sphere;
-	t_hit_info		info;
-
-	info.distance = get_sphere_distance(sphere, ray);
-	if (info.distance == INFINITY)
+	sphere_to_ray_pos = rt_sub(ray.pos, sphere.pos);
+	q = rt_solve_quadratic(rt_mag2(ray.dir),
+			2 * rt_dot(ray.dir, sphere_to_ray_pos),
+			rt_mag2(sphere_to_ray_pos) - sphere.diameter * sphere.diameter / 4);
+	if (!q.solution)
 		return ((t_hit_info){.distance = INFINITY});
-	info.object = object;
-	info.surface_normal = rt_normalized(rt_sub(rt_get_ray_point(ray,
-					info.distance), sphere.origin));
+	info.distance = q.solution_minus;
+	if (q.solution_minus < 0)
+		info.distance = q.solution_plus;
+	collision = rt_get_ray_point(ray, info.distance);
+	sphere_to_collision = rt_sub(collision, sphere.pos);
+	info.surface_normal = rt_normalized(sphere_to_collision);
+	info.inside = false;
+	if (q.solution_minus < 0)
+	{
+		info.surface_normal = rt_scale(info.surface_normal, -1);
+		info.inside = true;
+	}
+	info.material = sphere.material;
+	info.material.rgb = rt_get_line_rgb(ray, info, sphere);
 	return (info);
 }

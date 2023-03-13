@@ -17,7 +17,8 @@ CC := gcc
 
 # TODO: Remove extra flags before the eval
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
-CFLAGS += -Wno-overlength-strings # MLX42
+CFLAGS += -Wno-overlength-strings # Needed to include MLX42's font.h
+CFLAGS += -Wno-missing-braces # Needed for brace initializing t_vector
 
 ################################################################################
 
@@ -31,12 +32,19 @@ ifdef SAN
 CFLAGS += -fsanitize=address
 endif
 
+ifdef BONUS
+CFLAGS += -DBONUS=1
+else
+CFLAGS += -DBONUS=0
+endif
+
 ################################################################################
 
 CFILES :=\
 	src/collisions/cylinder.c\
 	src/collisions/plane.c\
 	src/collisions/sphere.c\
+	src/debug/assert_normal.c\
 	src/debug/draw_debug.c\
 	src/debug/print_scene.c\
 	src/draw/blue_noise.c\
@@ -48,10 +56,10 @@ CFILES :=\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\
-	src/init/parse/objects/parse_cylinder.c\
-	src/init/parse/objects/parse_light.c\
-	src/init/parse/objects/parse_plane.c\
-	src/init/parse/objects/parse_sphere.c\
+	src/init/parse/objects/parse_cylinder_basics.c\
+	src/init/parse/objects/parse_light_basics.c\
+	src/init/parse/objects/parse_plane_basics.c\
+	src/init/parse/objects/parse_sphere_basics.c\
 	src/init/parse/parse_argv.c\
 	src/init/parse/parse_float.c\
 	src/init/parse/parse_normal.c\
@@ -63,25 +71,54 @@ CFILES :=\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/input_hooks/input_hooks.c\
-	src/mathematics/rt_add.c\
-	src/mathematics/rt_cross.c\
-	src/mathematics/rt_dot.c\
-	src/mathematics/rt_get_ray_point.c\
-	src/mathematics/rt_mag.c\
-	src/mathematics/rt_multiply_rgb.c\
-	src/mathematics/rt_normalized.c\
-	src/mathematics/rt_scale.c\
-	src/mathematics/rt_sub.c\
-	src/rays/rt_get_point_rgb.c\
-	src/rays/rt_get_ray_rgb.c\
-	src/rays/rt_get_ray.c\
+	src/rays/get_ray_point.c\
+	src/rays/get_ray_rgb.c\
+	src/rgb/aces_film.c\
+	src/rgb/add.c\
+	src/rgb/clamp.c\
+	src/rgb/color_conversion.c\
+	src/rgb/divide.c\
+	src/rgb/exp_rgb.c\
+	src/rgb/multiply.c\
+	src/utils/get_ray.c\
+	src/utils/lerp.c\
+	src/utils/max.c\
+	src/utils/mix.c\
 	src/utils/print_error.c\
-	src/utils/shuffle.c\
+	src/utils/random.c\
+	src/utils/solve_quadratic.c\
+	src/vectors/add.c\
+	src/vectors/cross.c\
+	src/vectors/dot.c\
+	src/vectors/mag.c\
+	src/vectors/normalized.c\
+	src/vectors/reflect.c\
+	src/vectors/refract.c\
+	src/vectors/rotate_around_axis.c\
+	src/vectors/scale.c\
+	src/vectors/sub.c\
 	src/main.c
+
+ifdef BONUS
+CFILES +=\
+	src/collisions/get_line_rgb_bonus.c\
+	src/init/parse/objects/parse_cylinder_bonus.c\
+	src/init/parse/objects/parse_light_bonus.c\
+	src/init/parse/objects/parse_material_bonus.c\
+	src/init/parse/objects/parse_plane_bonus.c\
+	src/init/parse/objects/parse_sphere_bonus.c
+else
+CFILES +=\
+	src/collisions/get_line_rgb.c\
+	src/init/parse/objects/parse_cylinder.c\
+	src/init/parse/objects/parse_light.c\
+	src/init/parse/objects/parse_plane.c\
+	src/init/parse/objects/parse_sphere.c
+endif
 
 ################################################################################
 
-INCLUDES := -I src -I libft -I MLX42/include
+INCLUDES := -I src -I libft -I . -I MLX42/include
 OBJDIR := obj
 OBJFILES := $(addprefix $(OBJDIR)/,$(CFILES:c=o))
 LIBFT_PATH := libft/libft.a
@@ -144,5 +181,9 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
+
+.PHONY: bonus
+bonus:
+	@$(MAKE) all BONUS=1
 
 ################################################################################

@@ -10,7 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/nbr/ft_nbr.h"
+#include "libft/src/str/ft_str.h"
+#include "libft/src/allocating/ft_allocating.h"
+
+#include "rt_structs.h"
+
+#include "utils/rt_utils.h"
 
 #include "../MLX42/src/font/font.h"
 
@@ -46,7 +52,7 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 		ft_free(&string);
 		if (images_ptr[data->debug_image_index] == NULL)
 			return (rt_print_error(ERROR_MLX));
-		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_DEPTH);
+		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_MLX_DEPTH);
 	}
 	data->debug_image_index++;
 	return (OK);
@@ -54,12 +60,13 @@ static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
 
 t_status	rt_draw_debug_lines(t_data *data)
 {
-	static mlx_image_t	*images[4] = {0};
+	static mlx_image_t	*images[5] = {0};
 
 	data->debug_image_index = 0;
 	rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
 	rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
 	rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
 	rt_draw_debug_line(data, images, (int)ft_get_bytes_allocated(), " bytes allocated");
+	rt_draw_debug_line(data, images, (int)data->seconds_ran, " seconds ran");
 	return (OK);
 }

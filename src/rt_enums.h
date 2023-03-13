@@ -50,7 +50,6 @@ typedef enum e_draw_mode
 	DRAW_MODE_NORMAL,
 	DRAW_MODE_BLUE_NOISE,
 	DRAW_MODE_VORONOI,
-	DRAW_MODE_COUNT,
 }	t_draw_mode;
 
 #endif
