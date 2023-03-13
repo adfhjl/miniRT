@@ -16,7 +16,8 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/bonus_only/refraction.rt" ],
+			"args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
+			// "args": [ "scenes/bonus_only/refraction.rt" ],
 			// "args": [ "scenes/fun/refraction.rt" ],
 			// "args": [ "scenes/fun/zebra.rt" ],
 			// "args": [ "scenes/fun/cornell_box.rt" ],
@@ -74,7 +75,8 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
 
-			"args": [ "scenes/bonus_only/refraction.rt" ],
+			"args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
+			// "args": [ "scenes/bonus_only/refraction.rt" ],
 			// "args": [ "scenes/fun/refraction.rt" ],
 			// "args": [ "scenes/fun/zebra.rt" ],
 			// "args": [ "scenes/fun/cornell_box.rt" ],

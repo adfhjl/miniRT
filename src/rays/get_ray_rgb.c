@@ -141,7 +141,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			break ;
 		}
 
-		// do absorption if we are hitting from inside the object
+		// Do absorption if we are hitting from inside the object.
 		if (hit_info.inside)
 		{
 			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(rt_sub((t_vector){1, 1, 1}, hit_info.material.rgb), -hit_info.distance)));
@@ -216,24 +216,21 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		rt_assert_normal(hit_info.surface_normal);
 		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.material.index_of_refraction : 1.0f / hit_info.material.index_of_refraction);
 
-		// TODO: What to do in this case?
-		// TODO: Tom told me to check whether my refractive indices are correct, and my normals are pointing the correct way.
 		// Total Internal Reflection has occurred.
-		// if (refraction_ray_dir.x == 0 && refraction_ray_dir.y == 0 && refraction_ray_dir.z == 0)
-		// 	return (rgb);
-			// return ((t_vector){1, 0, 0});
+		if (refraction_ray_dir.x == 0 && refraction_ray_dir.y == 0 && refraction_ray_dir.z == 0)
+		{
+			do_specular = 1.0f;
+			do_refraction = 0.0f;
+		}
 
-		// rt_assert_normal(refraction_ray_dir);
 		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.material.refraction_roughness * hit_info.material.refraction_roughness));
-		// rt_assert_normal(refraction_ray_dir);
+		rt_assert_normal(refraction_ray_dir);
 
 		// The boolean check is what causes specular highlights.
-		// rt_assert_normal(ray.dir);
 		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
-		// rt_assert_normal(ray.dir);
-		// t_vector	old_ray_dir = ray.dir; (void)old_ray_dir; // TODO: REMOVE
+		rt_assert_normal(ray.dir);
 		ray.dir = rt_mix(ray.dir, refraction_ray_dir, do_refraction);
-		// rt_assert_normal(ray.dir);
+		rt_assert_normal(ray.dir);
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.material.emissive, throughput));
 
