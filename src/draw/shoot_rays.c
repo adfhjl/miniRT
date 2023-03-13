@@ -34,6 +34,13 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 	return (rt_get_ray(data->camera->pos, dir));
 }
 
+// Linear blend where an interpolation of 0.0 means old is returned,
+// while 1.0 means new_ is returned.
+static double	rt_lerp_double(double old, double new_, double t)
+{
+	return (old * (1 - t) + new_ * t);
+}
+
 static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *data)
 {
 	t_ray	ray;
@@ -45,13 +52,13 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 		data);
 	rgb = rt_get_ray_rgb(ray, data);
 
-	data->pixel_channel_doubles[location * 4 + 0] += (double)rgb.r;
-	data->pixel_channel_doubles[location * 4 + 1] += (double)rgb.g;
-	data->pixel_channel_doubles[location * 4 + 2] += (double)rgb.b;
+	data->pixel_channel_doubles[location * 4 + 0] = rt_lerp_double(data->pixel_channel_doubles[location * 4 + 0], (double)rgb.r, 1.0 / (data->samples_since_last_movement + 1));
+	data->pixel_channel_doubles[location * 4 + 1] = rt_lerp_double(data->pixel_channel_doubles[location * 4 + 1], (double)rgb.g, 1.0 / (data->samples_since_last_movement + 1));
+	data->pixel_channel_doubles[location * 4 + 2] = rt_lerp_double(data->pixel_channel_doubles[location * 4 + 2], (double)rgb.b, 1.0 / (data->samples_since_last_movement + 1));
 
-	rgb.r = (float)(data->pixel_channel_doubles[location * 4 + 0] / (data->samples_since_last_movement + 1));
-	rgb.g = (float)(data->pixel_channel_doubles[location * 4 + 1] / (data->samples_since_last_movement + 1));
-	rgb.b = (float)(data->pixel_channel_doubles[location * 4 + 2] / (data->samples_since_last_movement + 1));
+	rgb.r = (float)data->pixel_channel_doubles[location * 4 + 0];
+	rgb.g = (float)data->pixel_channel_doubles[location * 4 + 1];
+	rgb.b = (float)data->pixel_channel_doubles[location * 4 + 2];
 
 	return (rgb);
 }
