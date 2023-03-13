@@ -56,6 +56,7 @@ struct s_material
 	float		refraction_chance;
 	float		refraction_roughness;
 	t_vector	line_frequency;
+	t_vector	line_offset;
 };
 
 struct s_object

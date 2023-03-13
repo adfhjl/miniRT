@@ -35,7 +35,9 @@ t_status	rt_parse_material(char **line_ptr, t_material *material)
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_range_float(line_ptr, &material->refraction_roughness, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_vector(line_ptr, &material->line_frequency) == ERROR)
+		|| rt_parse_vector(line_ptr, &material->line_frequency) == ERROR
+		|| rt_check_separating_whitespace(line_ptr) == ERROR
+		|| rt_parse_vector(line_ptr, &material->line_offset) == ERROR)
 		return (ERROR);
 	material->emissive = rt_scale(material->emissive, emissive_factor);
 	return (OK);

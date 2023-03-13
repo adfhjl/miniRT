@@ -38,20 +38,26 @@ static float	rt_abs(float n)
 	return (n);
 }
 
+static bool	rt_is_striped(float n, float frequency)
+{
+	return ((bool)rt_abs(fmodf(floorf(n * frequency), 2)));
+}
+
 // fmodf is the remainder operation; so fmodf(-3.5f, 1.0f) is -0.5f
 // floorf rounds towards -infinity: floorf(-3.1) is -4.0f
 t_rgb	rt_get_line_rgb(t_ray ray, t_hit_info info, t_object object)
 {
 	t_vector	pos;
-	float		x;
-	float		y;
-	float		z;
+	bool		x;
+	bool		y;
+	bool		z;
 
 	pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
-	x = rt_abs(fmodf(floorf(pos.x * object.material.line_frequency.x), 2));
-	y = rt_abs(fmodf(floorf(pos.y * object.material.line_frequency.y), 2));
-	z = rt_abs(fmodf(floorf(pos.z * object.material.line_frequency.z), 2));
-	if (rt_xor3((bool)x, (bool)y, (bool)z))
+	pos = rt_add(pos, object.material.line_offset);
+	x = rt_is_striped(pos.x, object.material.line_frequency.x);
+	y = rt_is_striped(pos.y, object.material.line_frequency.y);
+	z = rt_is_striped(pos.z, object.material.line_frequency.z);
+	if (rt_xor3(x, y, z))
 		return (rt_sub((t_vector){1, 1, 1}, info.material.rgb));
 	return (info.material.rgb);
 }
