@@ -68,7 +68,7 @@ void	rt_draw_loop(void *param)
 		rt_shoot_rays(data);
 	}
 
-	if (!data->frozen && rt_draw_debug_lines(data) == ERROR)
+	if (rt_draw_debug_lines(data) == ERROR)
 		mlx_close_window(data->mlx);
 
 	data->seconds_ran += data->mlx->delta_time;
