@@ -22,6 +22,37 @@
 
 #include "debug/rt_debug.h" // TODO: REMOVE
 
+static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
+				t_object cylinder)
+{
+	t_vector	point_direction;
+	t_vector	perpendicular;
+	t_vector	surface_abnormal;
+
+	point_direction = rt_sub(ray_point, cylinder.pos);
+	perpendicular = rt_cross(cylinder.normal, point_direction);
+	surface_abnormal = rt_cross(perpendicular, cylinder.normal);
+	return (rt_normalized(surface_abnormal));
+}
+
+static void	rt_update_info(t_ray ray, t_object cylinder, t_hit_info *info,
+				float distance)
+{
+	info->distance = distance;
+	info->surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, distance), cylinder);
+	info->inside = false;
+	info->material = cylinder.material;
+	info->material.rgb = rt_get_line_rgb(ray, *info, cylinder);
+}
+
+// Note: not normalized, this is intended
+static t_ray	rt_get_flattened_ray(t_ray ray)
+{
+	ray.pos.y = 0;
+	ray.dir.y = 0;
+	return (ray);
+}
+
 /*
 1. Dot product between cylinder.normal and {0, 1, 0} gives the sin() of the angle between the two
 2. theta = asinf(angle)
@@ -48,14 +79,6 @@ static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 		ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
 		rt_assert_normal(ray.dir, "b");
 	}
-	return (ray);
-}
-
-// Note: not normalized, this is intended
-static t_ray	rt_get_flattened_ray(t_ray ray)
-{
-	ray.pos.y = 0;
-	ray.dir.y = 0;
 	return (ray);
 }
 
@@ -87,32 +110,17 @@ static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder,
 	return (INFINITY);
 }
 
-static t_vector	rt_get_cylinder_surface_normal(t_vector ray_point,
-				t_object cylinder)
+void	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder,
+			t_hit_info *info)
 {
-	t_vector	point_direction;
-	t_vector	perpendicular;
-	t_vector	surface_abnormal;
+	float	distance;
+	bool	inside;
 
-	point_direction = rt_sub(ray_point, cylinder.pos);
-	perpendicular = rt_cross(cylinder.normal, point_direction);
-	surface_abnormal = rt_cross(perpendicular, cylinder.normal);
-	return (rt_normalized(surface_abnormal));
-}
-
-t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder)
-{
-	t_hit_info	info;
-	bool		inside;
-
-	info.distance = rt_get_cylinder_distance(ray, cylinder, &inside);
-	if (info.distance == INFINITY)
-		return ((t_hit_info){.distance = INFINITY});
-	info.surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, info.distance), cylinder);
-	if (inside)
-		info.surface_normal = rt_scale(info.surface_normal, -1);
-	info.inside = false;
-	info.material = cylinder.material;
-	info.material.rgb = rt_get_line_rgb(ray, info, cylinder);
-	return (info);
+	distance = rt_get_cylinder_distance(ray, cylinder, &inside);
+	if (distance > 0 && distance < info->distance)
+	{
+		rt_update_info(ray, cylinder, info, distance);
+		if (inside)
+			info->surface_normal = rt_scale(info->surface_normal, -1);
+	}
 }

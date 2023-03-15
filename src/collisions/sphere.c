@@ -20,6 +20,33 @@
 
 #include <math.h>
 
+static float	rt_get_distance(t_quadratic q)
+{
+	if (q.solution_minus < 0)
+		return (q.solution_plus);
+	return (q.solution_minus);
+}
+
+static void	rt_update_info(t_ray ray, t_object sphere, t_hit_info *info,
+				t_quadratic q)
+{
+	t_vector	collision;
+	t_vector	sphere_to_collision;
+
+	info->distance = rt_get_distance(q);
+	collision = rt_get_ray_point(ray, info->distance);
+	sphere_to_collision = rt_sub(collision, sphere.pos);
+	info->surface_normal = rt_normalized(sphere_to_collision);
+	info->inside = false;
+	if (q.solution_minus < 0)
+	{
+		info->surface_normal = rt_scale(info->surface_normal, -1);
+		info->inside = true;
+	}
+	info->material = sphere.material;
+	info->material.rgb = rt_get_line_rgb(ray, *info, sphere);
+}
+
 // Explanation:
 // Source:	https://www.scratchapixel.com/lessons/3d-basic-rendering/
 // 			minimal-ray-tracer-rendering-simple-shapes/
@@ -34,33 +61,20 @@
 // This is a quadratic equation: at^2 + bt + c = 0
 // So a = D^2, b = 2OD, and c = O^2 - R^2.
 // O is sphere_to_ray_pos, to make the ray origin relative to the sphere center.
-t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere)
+void	rt_get_sphere_collision_info(t_ray ray, t_object sphere,
+			t_hit_info *info)
 {
 	t_vector	sphere_to_ray_pos;
 	t_quadratic	q;
-	t_hit_info	info;
-	t_vector	collision;
-	t_vector	sphere_to_collision;
+	float		distance;
 
 	sphere_to_ray_pos = rt_sub(ray.pos, sphere.pos);
 	q = rt_solve_quadratic(rt_mag2(ray.dir),
 			2 * rt_dot(ray.dir, sphere_to_ray_pos),
 			rt_mag2(sphere_to_ray_pos) - sphere.diameter * sphere.diameter / 4);
 	if (!q.solution)
-		return ((t_hit_info){.distance = INFINITY});
-	info.distance = q.solution_minus;
-	if (q.solution_minus < 0)
-		info.distance = q.solution_plus;
-	collision = rt_get_ray_point(ray, info.distance);
-	sphere_to_collision = rt_sub(collision, sphere.pos);
-	info.surface_normal = rt_normalized(sphere_to_collision);
-	info.inside = false;
-	if (q.solution_minus < 0)
-	{
-		info.surface_normal = rt_scale(info.surface_normal, -1);
-		info.inside = true;
-	}
-	info.material = sphere.material;
-	info.material.rgb = rt_get_line_rgb(ray, info, sphere);
-	return (info);
+		return ;
+	distance = rt_get_distance(q);
+	if (distance > 0 && distance < info->distance)
+		rt_update_info(ray, sphere, info, q);
 }

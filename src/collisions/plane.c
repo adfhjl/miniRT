@@ -19,6 +19,18 @@
 
 #include <math.h>
 
+static void	rt_update_info(t_ray ray, t_object plane, t_hit_info *info,
+			float distance)
+{
+	info->distance = distance;
+	info->surface_normal = plane.normal;
+	if (rt_dot(ray.dir, info->surface_normal) > 0)
+		info->surface_normal = rt_scale(info->surface_normal, -1);
+	info->inside = false;
+	info->material = plane.material;
+	info->material.rgb = rt_get_line_rgb(ray, *info, plane);
+}
+
 // Equation 1:
 // ray.pos + ray.dir * t = rayEnd
 //
@@ -43,20 +55,16 @@
 //
 // denom = dot(ray.dir, plane.normal):
 // t = dot(plane.pos - ray.pos, plane.normal) / denom
-t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane)
+void	rt_get_plane_collision_info(t_ray ray, t_object plane,
+			t_hit_info *info)
 {
-	float		denom;
-	t_hit_info	info;
+	float	denom;
+	float	distance;
 
 	denom = rt_dot(ray.dir, plane.normal);
 	if (denom == 0)
-		return ((t_hit_info){.distance = INFINITY});
-	info.distance = rt_dot(rt_sub(plane.pos, ray.pos), plane.normal) / denom;
-	info.surface_normal = plane.normal;
-	if (rt_dot(ray.dir, info.surface_normal) > 0)
-		info.surface_normal = rt_scale(info.surface_normal, -1);
-	info.inside = false;
-	info.material = plane.material;
-	info.material.rgb = rt_get_line_rgb(ray, info, plane);
-	return (info);
+		return ;
+	distance = rt_dot(rt_sub(plane.pos, ray.pos), plane.normal) / denom;
+	if (distance > 0 && distance < info->distance)
+		rt_update_info(ray, plane, info, distance);
 }

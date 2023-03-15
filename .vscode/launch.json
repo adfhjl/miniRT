@@ -24,7 +24,8 @@
 			"MIMode": "lldb",
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
-			"args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
+			// "args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
+			"args": [ "scenes/bonus_only/refraction.rt" ],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Bonus: Release",
 			"internalConsoleOptions": "openOnSessionStart"

@@ -13,12 +13,15 @@
 #ifndef RT_COLLISIONS_H
 # define RT_COLLISIONS_H
 
-t_hit_info	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder);
+void	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder,
+				t_hit_info *info);
 
 t_rgb		rt_get_line_rgb(t_ray ray, t_hit_info info, t_object object);
 
-t_hit_info	rt_get_plane_collision_info(t_ray ray, t_object plane);
+void	rt_get_plane_collision_info(t_ray ray, t_object plane,
+				t_hit_info *info);
 
-t_hit_info	rt_get_sphere_collision_info(t_ray ray, t_object sphere);
+void	rt_get_sphere_collision_info(t_ray ray, t_object sphere,
+				t_hit_info *info);
 
 #endif
