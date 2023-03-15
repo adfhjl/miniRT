@@ -26,18 +26,19 @@
 // desired results.
 t_vector	rt_refract(t_vector incident, t_vector normal, float eta)
 {
+	float		angle;
 	float		k;
 	t_vector	l;
 
 	rt_assert_normal(incident, "j");
 	rt_assert_normal(normal, "k");
-	k = 1.0f - eta * eta *
-		(1.0f - rt_dot(normal, incident) * rt_dot(normal, incident));
-	if (k < 0.0f)
+	angle = rt_dot(normal, incident);
+	k = 1.0f - eta * eta * (1.0f - angle * angle);
+	if (k < 0.0f) // If total internal reflection occurred.
 		return ((t_vector){0, 0, 0});
 	else
 	{
-		l = rt_scale(normal, (eta * rt_dot(normal, incident) + sqrtf(k)));
+		l = rt_scale(normal, (eta * angle + sqrtf(k)));
 		return (rt_sub(rt_scale(incident, eta), l));
 	}
 }
