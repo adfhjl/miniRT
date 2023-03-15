@@ -14,8 +14,13 @@
 
 #include "utils/rt_utils.h"
 
+// The if-statements are there in case either a or b is NaN.
 t_rgb	rt_mix(t_rgb a, t_rgb b, float t)
 {
+	if (t == 0.0f)
+		return (a);
+	if (t == 1.0f)
+		return (b);
 	return ((t_rgb){
 		rt_lerp(a.r, b.r, t),
 		rt_lerp(a.g, b.g, t),
