@@ -18,12 +18,8 @@
 
 t_status	rt_parse_material(char **line_ptr, t_material *material)
 {
-	float	emissive_factor;
-
 	if (rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_rgb(line_ptr, &material->emissive) == ERROR
-		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_float(line_ptr, &emissive_factor) == ERROR
+		|| rt_parse_rgb(line_ptr, &material->emissive_original) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_range_float(line_ptr, &material->specular_chance, 0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
@@ -39,6 +35,5 @@ t_status	rt_parse_material(char **line_ptr, t_material *material)
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_vector(line_ptr, &material->line_offset) == ERROR)
 		return (ERROR);
-	material->emissive = rt_scale(material->emissive, emissive_factor);
 	return (OK);
 }

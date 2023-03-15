@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   print_scene.c                                      :+:    :+:            */
+/*   print_scene_bonus.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -82,6 +82,24 @@ void	rt_print_scene(t_data *data)
 
 		if (object.type == OBJECT_TYPE_CAMERA)
 			printf(" %.2f", object.fov);
+
+		if (object.type == OBJECT_TYPE_LIGHT)
+			printf(" %.2f", object.diameter);
+
+		if (object.type == OBJECT_TYPE_LIGHT
+		|| object.type == OBJECT_TYPE_SPHERE
+		|| object.type == OBJECT_TYPE_PLANE
+		|| object.type == OBJECT_TYPE_CYLINDER)
+		{
+			rt_print_rgb(object.material.emissive_original);
+			printf(" %.2f", object.material.specular_chance);
+			printf(" %.2f", object.material.specular_roughness);
+			printf(" %.2f", object.material.index_of_refraction);
+			printf(" %.2f", object.material.refraction_chance);
+			printf(" %.2f", object.material.refraction_roughness);
+			printf(" %.2f,%.2f,%.2f", object.material.line_frequency.x, object.material.line_frequency.y, object.material.line_frequency.z);
+			printf(" %.2f,%.2f,%.2f", object.material.line_offset.x, object.material.line_offset.y, object.material.line_offset.z);
+		}
 
 		printf("\n");
 

@@ -49,6 +49,7 @@ struct s_ray
 struct s_material
 {
 	t_rgb		rgb;
+	t_rgb		emissive_original;
 	t_rgb		emissive;
 	float		specular_chance;
 	float		specular_roughness;

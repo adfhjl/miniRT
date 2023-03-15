@@ -23,6 +23,6 @@ t_status	rt_parse_light(char **line_ptr, t_object *light)
 	|| rt_parse_float(line_ptr, &light->diameter) == ERROR
 	|| rt_parse_material(line_ptr, &light->material) == ERROR)
 		return (ERROR);
-	light->material.emissive = rt_scale(light->material.emissive, light->ratio);
+	light->material.emissive = rt_scale(rt_scale(light->material.emissive_original, LIGHT_EMISSIVE_FACTOR), light->ratio);
 	return (OK);
 }

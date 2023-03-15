@@ -29,7 +29,6 @@ t_status	rt_parse_cylinder(char **line_ptr, t_object *cylinder)
 {
 	if (rt_parse_cylinder_basics(line_ptr, cylinder) == ERROR)
 		return (ERROR);
-	cylinder->material.emissive = (t_vector){0, 0, 0};
 	rt_set_non_bonus_defines(cylinder);
 	return (OK);
 }

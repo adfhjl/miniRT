@@ -18,10 +18,6 @@
 // TODO: Set to 1.0f before eval
 # define LIGHT_DIAMETER 1000.0f
 
-// Float between 0 and infinity.
-// This define exists to make lamps brighter than the rt scene format allows.
-# define LIGHT_EMISSIVE_FACTOR 20.0f
-
 // OBJECT MATERIALS ////////////////////////////////////////////////////////////
 
 // Floats between 0 and 1.

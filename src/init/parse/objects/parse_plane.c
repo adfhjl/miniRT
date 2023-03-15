@@ -29,7 +29,6 @@ t_status	rt_parse_plane(char **line_ptr, t_object *plane)
 {
 	if (rt_parse_plane_basics(line_ptr, plane) == ERROR)
 		return (ERROR);
-	plane->material.emissive = (t_vector){0, 0, 0};
 	rt_set_non_bonus_defines(plane);
 	return (OK);
 }

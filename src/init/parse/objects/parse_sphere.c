@@ -29,7 +29,6 @@ t_status	rt_parse_sphere(char **line_ptr, t_object *sphere)
 {
 	if (rt_parse_sphere_basics(line_ptr, sphere) == ERROR)
 		return (ERROR);
-	sphere->material.emissive = (t_vector){0, 0, 0};
 	rt_set_non_bonus_defines(sphere);
 	return (OK);
 }

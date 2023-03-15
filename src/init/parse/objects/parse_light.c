@@ -32,9 +32,5 @@ t_status	rt_parse_light(char **line_ptr, t_object *light)
 		return (ERROR);
 	rt_set_non_bonus_defines(light);
 	light->material.emissive = rt_scale(rt_scale(light->material.rgb, LIGHT_EMISSIVE_FACTOR), light->ratio);
-
-	// // TODO: Do I want this?
-	// light->material.rgb = (t_rgb){0, 0, 0};
-
 	return (OK);
 }

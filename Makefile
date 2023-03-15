@@ -40,7 +40,6 @@ CFILES :=\
 	src/collisions/sphere.c\
 	src/debug/assert_normal.c\
 	src/debug/draw_debug.c\
-	src/debug/print_scene.c\
 	src/draw/blue_noise.c\
 	src/draw/draw.c\
 	src/draw/put_pixel.c\
@@ -96,6 +95,7 @@ CFILES :=\
 ifdef BONUS
 CFILES +=\
 	src/collisions/get_line_rgb_bonus.c\
+	src/debug/print_scene_bonus.c\
 	src/init/parse/objects/parse_cylinder_bonus.c\
 	src/init/parse/objects/parse_light_bonus.c\
 	src/init/parse/objects/parse_material_bonus.c\
@@ -105,6 +105,7 @@ CFILES +=\
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
+	src/debug/print_scene.c\
 	src/init/parse/objects/parse_cylinder.c\
 	src/init/parse/objects/parse_light.c\
 	src/init/parse/objects/parse_plane.c\

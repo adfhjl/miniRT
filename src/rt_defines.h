@@ -74,6 +74,10 @@
 // The higher this number, the brighter the scene.
 # define EXPOSURE 0.5f
 
+// Float between 0 and infinity.
+// This define exists to make lamps brighter than the rt scene format allows.
+# define LIGHT_EMISSIVE_FACTOR 20.0f
+
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
 # define MOVEMENT_SPEED 7.0f
