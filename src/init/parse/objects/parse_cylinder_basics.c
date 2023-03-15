@@ -15,6 +15,8 @@
 #include "init/parse/objects/rt_parse_objects.h"
 #include "init/parse/rt_parse.h"
 
+#include "utils/rt_utils.h"
+
 t_status	rt_parse_cylinder_basics(char **line_ptr, t_object *cylinder)
 {
 	if (rt_parse_vector(line_ptr, &cylinder->pos) == ERROR
@@ -27,5 +29,7 @@ t_status	rt_parse_cylinder_basics(char **line_ptr, t_object *cylinder)
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_rgb(line_ptr, &cylinder->material.rgb) == ERROR)
 		return (ERROR);
+	if (cylinder->diameter <= 0 || cylinder->height <= 0)
+		return (rt_print_error(ERROR_FLOAT_OUT_OF_RANGE));
 	return (OK);
 }
