@@ -2,94 +2,56 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Debug",
-
+			"name": "Bonus: Debug",
 			// Prints to the debug console instead of the terminal
 			// Can't see statics in debugger
 			"type": "cppdbg",
 			"MIMode": "lldb",
-
 			// Doesn't support expression-based breakpoints
 			// Casting in watch window will give "invalid syntax"
 			// "type": "lldb",
-
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
-
-			"args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
-			// "args": [ "scenes/bonus_only/refraction.rt" ],
-			// "args": [ "scenes/fun/refraction.rt" ],
-			// "args": [ "scenes/fun/zebra.rt" ],
-			// "args": [ "scenes/fun/cornell_box.rt" ],
-			// "args": [ "scenes/shapes/plane/four_planes_rotated.rt" ],
-			// "args": [ "scenes/fun/amog_pringles.rt" ],
-			// "args": [ "scenes/fun/lava_world.rt" ],
-			// "args": [ "scenes/fun/plane.rt" ],
-			// "args": [ "scenes/fun/plasma.rt" ],
-			// "args": [ "scenes/bonus_only/extra_light.rt" ],
-			// "args": [ "scenes/shapes/sphere/inside_sphere_light_outside.rt" ],
-			// "args": [ "scenes/shapes/sphere/inside_sphere_light_inside.rt" ],
-			// "args": [ "scenes/fun/test.rt" ],
-			// "args": [ "scenes/valid/shapes/plane_sphere.rt" ],
-			// "args": [ "scenes/valid/shapes/plane/dutch_flag.rt" ],
-
-			// "args": [ "scenes/invalid/zero_normal.rt" ],
-			// "args": [ "scenes/invalid/nearly_zero_normal.rt" ],
-
-			// "args": [ "scenes/invalid/camera_looking_straight_down.rt" ],
-			// "args": [ "scenes/invalid/camera_looking_nearly_straight_down.rt" ],
-
-			// "args": [ "scenes/valid/shapes/plane/triple_intersect.rt" ],
-			// "args": [ "scenes/valid/negative_normal_rgb_factor.rt" ],
-
-			// "args": [ "scenes/invalid/too_big_float.rt" ],
-			// "args": [ "scenes/valid/many_decimals.rt" ],
-			// "args": [ "scenes/valid/shapes/plane/upsidedown.rt" ],
-			// "args": [ "scenes/valid/shapes/plane/one_plane.rt" ],
-			// "args": [ "scenes/valid/normalized_normal.rt" ],
-
-			// "args": [ "scenes/valid/no_trailing_newline.rt" ],
-			// "args": [ "scenes/valid/example.rt" ],
-			// "args": [ "scenes/valid/empty.rt" ],
-			// "args": [ "scenes/valid/light_under_plane.rt" ],
-
-			// "args": [ "scenes/valid/shapes/plane/light_in_plane.rt" ],
-			// "args": [ "testfile.rt" ],
-
+			"args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
+			// "args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build Debug",
+			"preLaunchTask": "Bonus: Debug",
 			"internalConsoleOptions": "openOnSessionStart"
 		},
 		{
-			"name": "Release",
-
-			// Prints to the debug console instead of the terminal
-			// Can't see statics in debugger
+			"name": "Bonus: Release",
 			"type": "cppdbg",
 			"MIMode": "lldb",
-
-			// Doesn't support expression-based breakpoints
-			// Casting in watch window will give "invalid syntax"
-			// "type": "lldb",
-
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
-
-			"args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
-			// "args": [ "scenes/bonus_only/refraction.rt" ],
-			// "args": [ "scenes/fun/refraction.rt" ],
-			// "args": [ "scenes/fun/zebra.rt" ],
-			// "args": [ "scenes/fun/cornell_box.rt" ],
-			// "args": [ "scenes/fun/plane.rt" ],
-			// "args": [ "scenes/fun/plasma.rt" ],
-			// "args": [ "scenes/bonus_only/extra_light.rt" ],
-			// "args": [ "scenes/shapes/plane/four_planes_rotated.rt" ],
-			// "args": [ "scenes/fun/amog_pringles.rt" ],
-			// "args": [ "scenes/shapes/cylinder/diagonal.rt" ],
-			// "args": [ "scenes/shapes/sphere/inside_sphere_light_outside.rt" ],
-			// "args": [ "scenes/shapes/sphere/inside_sphere_light_inside.rt" ],
+			"args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build Release",
+			"preLaunchTask": "Bonus: Release",
+			"internalConsoleOptions": "openOnSessionStart"
+		},
+		{
+			"name": "Non-bonus: Debug",
+			"type": "cppdbg",
+			"MIMode": "lldb",
+			"request": "launch",
+			"program": "${workspaceFolder}/miniRT",
+			"args": [ "scenes/invalid/no_light.rt" ],
+			"cwd": "${workspaceFolder}",
+			"preLaunchTask": "Non-bonus: Debug",
+			"internalConsoleOptions": "openOnSessionStart"
+		},
+		{
+			"name": "Non-bonus: Release",
+			"type": "cppdbg",
+			"MIMode": "lldb",
+			"request": "launch",
+			"program": "${workspaceFolder}/miniRT",
+			"args": [ "scenes/invalid/no_ambient.rt" ],
+			// "args": [ "scenes/invalid/zero_cylinder_diameter.rt" ],
+			// "args": [ "scenes/invalid/zero_cylinder_height.rt" ],
+			// "args": [ "scenes/invalid/zero_sphere_diameter.rt" ],
+			"cwd": "${workspaceFolder}",
+			"preLaunchTask": "Non-bonus: Release",
 			"internalConsoleOptions": "openOnSessionStart"
 		}
 	]

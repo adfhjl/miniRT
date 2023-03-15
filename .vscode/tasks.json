@@ -3,7 +3,7 @@
 	"tasks": [
 		// TODO: Figure out how I can use "-j" here without MLX build failing.
 		{
-			"label": "Build Debug",
+			"label": "Bonus: Debug",
 			"type": "shell",
 			"command": "make",
 			"args": [ "bonus", "DEBUG=1", "SAN=1" ],
@@ -14,10 +14,32 @@
 			},
 		},
 		{
-			"label": "Build Release",
+			"label": "Bonus: Release",
 			"type": "shell",
 			"command": "make",
 			"args": [ "bonus", "O3=1" ],
+			"problemMatcher": [ "$gcc" ],
+			"group": "build",
+			"presentation": {
+				"reveal": "silent",
+			},
+		},
+		{
+			"label": "Non-bonus: Debug",
+			"type": "shell",
+			"command": "make",
+			"args": [ "DEBUG=1", "SAN=1" ],
+			"problemMatcher": [ "$gcc" ],
+			"group": "build",
+			"presentation": {
+				"reveal": "silent",
+			},
+		},
+		{
+			"label": "Non-bonus: Release",
+			"type": "shell",
+			"command": "make",
+			"args": [ "O3=1" ],
 			"problemMatcher": [ "$gcc" ],
 			"group": "build",
 			"presentation": {
