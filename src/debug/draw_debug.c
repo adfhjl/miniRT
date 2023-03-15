@@ -20,6 +20,25 @@
 
 #include "../MLX42/src/font/font.h"
 
+static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
+					char *string, bool draw)
+{
+	if (images_ptr[data->debug_image_index] != NULL)
+	{
+		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);
+		images_ptr[data->debug_image_index] = NULL;
+	}
+	if (draw)
+	{
+		images_ptr[data->debug_image_index] = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT * (int)data->debug_image_index);
+		if (images_ptr[data->debug_image_index] == NULL)
+			return (rt_print_error(ERROR_MLX));
+		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_MLX_DEPTH);
+	}
+	data->debug_image_index++;
+	return (OK);
+}
+
 static char	*rt_get_nbr_string(int nbr, char *appended_string)
 {
 	char	*nbr_string;
@@ -33,40 +52,30 @@ static char	*rt_get_nbr_string(int nbr, char *appended_string)
 	return (nbr_string_full);
 }
 
-static t_status	rt_draw_debug_line(t_data *data, mlx_image_t **images_ptr,
+static t_status	rt_draw_debug_nbr_line(t_data *data, mlx_image_t **images_ptr,
 					int nbr, char *appended_string)
 {
 	char	*string;
 
-	if (images_ptr[data->debug_image_index] != NULL)
-	{
-		mlx_delete_image(data->mlx, images_ptr[data->debug_image_index]);
-		images_ptr[data->debug_image_index] = NULL;
-	}
-	if (data->draw_debug)
-	{
-		string = rt_get_nbr_string(nbr, appended_string);
-		if (string == NULL)
-			return (rt_print_error(ERROR_SYSTEM));
-		images_ptr[data->debug_image_index] = mlx_put_string(data->mlx, string, 0, FONT_HEIGHT * (int)data->debug_image_index);
-		ft_free(&string);
-		if (images_ptr[data->debug_image_index] == NULL)
-			return (rt_print_error(ERROR_MLX));
-		mlx_set_instance_depth(&images_ptr[data->debug_image_index]->instances[0], DEBUG_DRAWING_MLX_DEPTH);
-	}
-	data->debug_image_index++;
+	string = rt_get_nbr_string(nbr, appended_string);
+	if (string == NULL)
+		return (rt_print_error(ERROR_SYSTEM));
+	if (rt_draw_debug_line(data, images_ptr, string, data->draw_debug) == ERROR)
+		return (ERROR);
+	ft_free(&string);
 	return (OK);
 }
 
 t_status	rt_draw_debug_lines(t_data *data)
 {
-	static mlx_image_t	*images[5] = {0};
+	static mlx_image_t	*images[6] = {0};
 
 	data->debug_image_index = 0;
-	rt_draw_debug_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
-	rt_draw_debug_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
-	rt_draw_debug_line(data, images, (int)ft_get_allocation_count(), " allocations");
-	rt_draw_debug_line(data, images, (int)ft_get_bytes_allocated(), " bytes allocated");
-	rt_draw_debug_line(data, images, (int)data->seconds_ran, " seconds ran");
+	rt_draw_debug_nbr_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
+	rt_draw_debug_nbr_line(data, images, (int)(1000 * data->mlx->delta_time), " ms/frame");
+	rt_draw_debug_nbr_line(data, images, (int)ft_get_allocation_count(), " allocations");
+	rt_draw_debug_nbr_line(data, images, (int)ft_get_bytes_allocated(), " bytes allocated");
+	rt_draw_debug_nbr_line(data, images, (int)data->seconds_ran, " seconds ran");
+	rt_draw_debug_line(data, images, "frozen", data->frozen);
 	return (OK);
 }
