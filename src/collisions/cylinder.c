@@ -44,9 +44,9 @@ static t_ray	rt_get_perspective_ray(t_ray ray, t_object cylinder)
 		theta = acosf(angle);
 		rotation_axis = rt_normalized(rt_cross(cylinder.normal, world_up));
 		ray.pos = rt_rotate_around_axis(ray.pos, rotation_axis, theta);
-		rt_assert_normal(ray.dir);
+		rt_assert_normal(ray.dir, "a");
 		ray.dir = rt_rotate_around_axis(ray.dir, rotation_axis, theta);
-		rt_assert_normal(ray.dir);
+		rt_assert_normal(ray.dir, "b");
 	}
 	return (ray);
 }

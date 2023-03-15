@@ -30,7 +30,7 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
 	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
 	dir = rt_normalized(pixel_ray);
-	rt_assert_normal(dir);
+	rt_assert_normal(dir, "c");
 	return (rt_get_ray(data->camera->pos, dir));
 }
 

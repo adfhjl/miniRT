@@ -29,8 +29,8 @@ t_vector	rt_refract(t_vector incident, t_vector normal, float eta)
 	float		k;
 	t_vector	l;
 
-	rt_assert_normal(incident);
-	rt_assert_normal(normal);
+	rt_assert_normal(incident, "j");
+	rt_assert_normal(normal, "k");
 	k = 1.0f - eta * eta *
 		(1.0f - rt_dot(normal, incident) * rt_dot(normal, incident));
 	if (k < 0.0f)

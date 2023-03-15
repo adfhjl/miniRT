@@ -212,8 +212,8 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		specular_ray_dir = rt_normalized(rt_mix(specular_ray_dir, diffuse_ray_dir, hit_info.material.specular_roughness * hit_info.material.specular_roughness));
 
 		t_vector	refraction_ray_dir;
-		rt_assert_normal(ray.dir);
-		rt_assert_normal(hit_info.surface_normal);
+		rt_assert_normal(ray.dir, "e");
+		rt_assert_normal(hit_info.surface_normal, "f");
 		refraction_ray_dir = rt_refract(ray.dir, hit_info.surface_normal, hit_info.inside ? hit_info.material.index_of_refraction : 1.0f / hit_info.material.index_of_refraction);
 
 		// Total Internal Reflection has occurred.
@@ -224,13 +224,12 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		}
 
 		refraction_ray_dir = rt_normalized(rt_mix(refraction_ray_dir, rt_normalized(rt_sub(rt_random_unit_vector(), hit_info.surface_normal)), hit_info.material.refraction_roughness * hit_info.material.refraction_roughness));
-		rt_assert_normal(refraction_ray_dir);
 
 		// The boolean check is what causes specular highlights.
 		ray.dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
-		rt_assert_normal(ray.dir);
+		rt_assert_normal(ray.dir, "h");
 		ray.dir = rt_mix(ray.dir, refraction_ray_dir, do_refraction);
-		rt_assert_normal(ray.dir);
+		rt_assert_normal(ray.dir, "i");
 
 		rgb = rt_add(rgb, rt_multiply_rgb(hit_info.material.emissive, throughput));
 
