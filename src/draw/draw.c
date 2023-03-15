@@ -60,13 +60,11 @@ void	rt_draw_loop(void *param)
 
 		mlx_set_mouse_pos(data->mlx, data->scaled_window_center_x, data->scaled_window_center_y);
 	}
-	if (data->camera != NULL)
-	{
-		if (!data->frozen)
-			rt_update_camera_pos(data);
-		// rt_generate_noise(data);
-		rt_shoot_rays(data);
-	}
+
+	if (!data->frozen)
+		rt_update_camera_pos(data);
+	// rt_generate_noise(data);
+	rt_shoot_rays(data);
 
 	if (rt_draw_debug_lines(data) == ERROR)
 		mlx_close_window(data->mlx);

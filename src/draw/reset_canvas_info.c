@@ -46,9 +46,6 @@ static void	rt_update_canvas_info(t_data *data)
 {
 	t_vector	camera_normal;
 
-	if (data->camera == NULL)
-		return ;
-
 	camera_normal = data->camera->normal;
 
 	data->camera_right = rt_normalized(rt_cross(camera_normal, data->world_up));

@@ -101,7 +101,7 @@ CFILES +=\
 	src/init/parse/objects/parse_material_bonus.c\
 	src/init/parse/objects/parse_plane_bonus.c\
 	src/init/parse/objects/parse_sphere_bonus.c\
-	src/init/parse/has_duplicate_object.c
+	src/init/parse/check_capitalized_object_counts_bonus.c
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
@@ -109,7 +109,7 @@ CFILES +=\
 	src/init/parse/objects/parse_light.c\
 	src/init/parse/objects/parse_plane.c\
 	src/init/parse/objects/parse_sphere.c\
-	src/init/parse/has_duplicate_object_bonus.c
+	src/init/parse/check_capitalized_object_counts.c
 endif
 
 ################################################################################

@@ -31,8 +31,8 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_FAILED_TO_PARSE_FLOAT] = "Failed to parse a float",
 	[ERROR_FLOAT_OUT_OF_RANGE] = "Encountered a float that was too big/small",
 	[ERROR_UNEXPECTED_EXTRA_FIELD] = "Encountered an unexpected extra field",
-	[ERROR_DUPLICATE_CAPITALIZED_OBJECT]
-		= "Encountered a duplicate capitalized object",
+	[ERROR_WRONG_CAPITALIZED_OBJECT_COUNT]
+		= "Wrong capitalized object count",
 	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace",
 	[ERROR_INVALID_CAMERA_NORMAL] = "Invalid x=0, z=0 camera normal",
 	[ERROR_INVALID_ZERO_NORMAL] = "Invalid x=0, y=0, z=0 normal",

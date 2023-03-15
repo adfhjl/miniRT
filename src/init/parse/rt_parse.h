@@ -15,7 +15,7 @@
 
 # include <stdbool.h>
 
-bool		rt_has_duplicate_capitalized_object(t_object *objects);
+t_status	rt_check_capitalized_object_counts(t_object *objects);
 
 t_status	rt_parse_argv(char *argv[], t_data *data);
 

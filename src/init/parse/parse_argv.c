@@ -67,7 +67,7 @@ t_status	rt_parse_argv(char *argv[], t_data *data)
 		return (ERROR);
 	}
 	close(fd);
-	if (rt_has_duplicate_capitalized_object(data->objects))
-		return (rt_print_error(ERROR_DUPLICATE_CAPITALIZED_OBJECT));
+	if (rt_check_capitalized_object_counts(data->objects) == ERROR)
+		return (ERROR);
 	return (OK);
 }

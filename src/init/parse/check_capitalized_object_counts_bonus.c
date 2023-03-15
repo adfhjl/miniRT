@@ -1,43 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   has_duplicate_object.c                             :+:    :+:            */
+/*   check_capitalized_object_counts_bonus.c            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/13 17:01:25 by sbos          #+#    #+#                 */
-/*   Updated: 2023/03/13 17:01:25 by sbos          ########   odam.nl         */
+/*   Created: 2023/03/13 17:02:30 by sbos          #+#    #+#                 */
+/*   Updated: 2023/03/13 17:02:30 by sbos          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft/src/vector/ft_vector.h"
 
-bool	rt_has_duplicate_capitalized_object(t_object *objects)
+#include "rt_structs.h"
+
+#include "utils/rt_utils.h"
+
+t_status	rt_check_capitalized_object_counts(t_object *objects)
 {
 	size_t		object_index;
-	bool		seen_ambient;
-	bool		seen_camera;
-	bool		seen_light;
+	size_t		ambient_count;
+	size_t		camera_count;
+	size_t		light_count;
 	t_object	*object;
 
 	object_index = 0;
-	seen_ambient = false;
-	seen_camera = false;
-	seen_light = false;
+	ambient_count = 0;
+	camera_count = 0;
+	light_count = 0;
 	while (object_index < ft_vector_get_size(objects))
 	{
 		object = &objects[object_index];
-		if ((object->type == OBJECT_TYPE_AMBIENT && seen_ambient)
-			|| (object->type == OBJECT_TYPE_CAMERA && seen_camera)
-			|| (object->type == OBJECT_TYPE_LIGHT && seen_light))
-			return (true);
 		if (object->type == OBJECT_TYPE_AMBIENT)
-			seen_ambient = true;
-		if (object->type == OBJECT_TYPE_CAMERA)
-			seen_camera = true;
-		if (object->type == OBJECT_TYPE_LIGHT)
-			seen_light = true;
+			ambient_count++;
+		else if (object->type == OBJECT_TYPE_CAMERA)
+			camera_count++;
+		else if (object->type == OBJECT_TYPE_LIGHT)
+			light_count++;
 		object_index++;
 	}
-	return (false);
+	if (ambient_count != 1 || camera_count != 1 || light_count == 0)
+		return (rt_print_error(ERROR_WRONG_CAPITALIZED_OBJECT_COUNT));
+	return (OK);
 }

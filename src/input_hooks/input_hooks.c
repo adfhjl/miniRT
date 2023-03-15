@@ -98,7 +98,7 @@ void	rt_cursor_hook(double x, double y, void *param)
 	float	dy;
 
 	data = param;
-	if (data->camera == NULL || data->frozen)
+	if (data->frozen)
 		return ;
 
 	dx = (float)x - data->scaled_window_center_x;

@@ -48,8 +48,6 @@ static void	rt_init_available(t_data *data)
 
 static bool	rt_camera_is_invalid(t_data *data)
 {
-	if (data->camera == NULL)
-		return (false);
 	data->camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
 	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
 		return (true);
