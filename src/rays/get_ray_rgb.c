@@ -60,6 +60,63 @@ static t_vector	rt_random_unit_vector(void)
 	return ((t_vector){x, y, z});
 }
 
+static void	rt_update_ray_pos(t_ray *ray, t_hit_info info,
+				float do_refraction)
+{
+	float	nudge;
+
+	ray->pos = rt_add(ray->pos, rt_scale(ray->dir, info.distance));
+	nudge = SURFACE_NORMAL_NUDGE;
+	if (do_refraction == 1.0f)
+		nudge *= -1;
+	ray->pos = rt_add(ray->pos, rt_scale(info.surface_normal, nudge));
+}
+
+static float	rt_get_ray_action(float *do_specular, float *do_refraction, float specular_chance, float refraction_chance)
+{
+	float	ray_select_roll;
+	float	ray_probability;
+
+	ray_select_roll = rt_random_float_01();
+	if (specular_chance > 0.0f && ray_select_roll < specular_chance)
+	{
+		*do_specular = 1.0f;
+		ray_probability = specular_chance;
+	}
+	else if (refraction_chance > 0.0f && ray_select_roll < specular_chance + refraction_chance)
+	{
+		*do_refraction = 1.0f;
+		ray_probability = refraction_chance;
+	}
+	else
+		ray_probability = 1.0f - (specular_chance + refraction_chance);
+	// Avoids numerical issues causing a divide by zero.
+	ray_probability = rt_max(ray_probability, 0.001f);
+	return (ray_probability);
+}
+
+static void	rt_get_specular_and_refraction_chances(float *specular_chance,
+				float *refraction_chance, t_ray ray, t_hit_info info)
+{
+	float	n1;
+	float	n2;
+
+	if (*specular_chance > 0.0f)
+	{
+		n1 = 1.0f;
+		if (info.inside)
+			n1 = info.material.index_of_refraction;
+		n2 = info.material.index_of_refraction;
+		if (info.inside)
+			n2 = 1.0f;
+		*specular_chance = rt_fresnel_reflect_amount(n1, n2, ray.dir,
+			info.surface_normal, info.material.specular_chance, 1.0f);
+		float chance_multiplier;
+		chance_multiplier = (1.0f - *specular_chance) / (1.0f - info.material.specular_chance);
+		*refraction_chance *= chance_multiplier;
+	}
+}
+
 static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 {
 	t_hit_info	info;
@@ -104,70 +161,34 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 			break ;
 		}
 
-		// Do absorption if we are hitting from inside the object.
+		// Does absorption if we are hitting from inside the object.
 		if (info.inside)
-		{
 			throughput = rt_multiply_rgb(throughput, rt_exp_rgb(rt_scale(rt_sub((t_vector){1, 1, 1}, info.material.rgb), -info.distance)));
-		}
+
+
 
 		float	specular_chance;
 		float	refraction_chance;
 
 		specular_chance = info.material.specular_chance;
 		refraction_chance = info.material.refraction_chance;
+		rt_get_specular_and_refraction_chances(&specular_chance, &refraction_chance, ray, info);
 
-		if (specular_chance > 0.0f)
-		{
-			float	n1;
-			float	n2;
 
-			n1 = 1.0f;
-			if (info.inside)
-				n1 = info.material.index_of_refraction;
-			n2 = info.material.index_of_refraction;
-			if (info.inside)
-				n2 = 1.0f;
-
-			specular_chance = rt_fresnel_reflect_amount(n1, n2, ray.dir,
-				info.surface_normal, info.material.specular_chance, 1.0f);
-
-			float chance_multiplier;
-			chance_multiplier = (1.0f - specular_chance) / (1.0f - info.material.specular_chance);
-			refraction_chance *= chance_multiplier;
-		}
 
 		float	do_specular;
 		float	do_refraction;
-		float	ray_select_roll;
 		float	ray_probability;
+
 		do_specular = 0.0f;
 		do_refraction = 0.0f;
-		ray_select_roll = rt_random_float_01();
+		ray_probability = rt_get_ray_action(&do_specular, &do_refraction, specular_chance, refraction_chance);
 
-		if (specular_chance > 0.0f && ray_select_roll < specular_chance)
-		{
-			do_specular = 1.0f;
-			ray_probability = specular_chance;
-		}
-		else if (refraction_chance > 0.0f && ray_select_roll < specular_chance + refraction_chance)
-		{
-			do_refraction = 1.0f;
-			ray_probability = refraction_chance;
-		}
-		else
-		{
-			ray_probability = 1.0f - (specular_chance + refraction_chance);
-		}
 
-		// avoid numerical issues causing a divide by zero, or nearly so (more important later, when we add refraction)
-		ray_probability = rt_max(ray_probability, 0.001f);
 
-		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
-		float	nudge;
-		nudge = SURFACE_NORMAL_NUDGE;
-		if (do_refraction == 1.0f)
-			nudge *= -1;
-		ray.pos = rt_add(ray.pos, rt_scale(info.surface_normal, nudge));
+		rt_update_ray_pos(&ray, info, do_refraction);
+
+
 
 		// Calculate the diffuse and specular ray directions.
 		t_vector	diffuse_ray_dir;
