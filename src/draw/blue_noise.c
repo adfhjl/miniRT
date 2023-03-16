@@ -81,9 +81,6 @@
 
 // 	emptiest = INFINITY;
 
-// 	// TODO: I suspect a lot of time is spent in here, but I'm not sure without profiling.
-// 	// If this is slow, look at v3 linked at the top for a priority queue example to try for a new v5.
-// 	// Maybe sort on every insertion for fast lookup?
 // 	uint32_t	i;
 
 // 	i = 0;

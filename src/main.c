@@ -16,7 +16,7 @@
 
 #include "init/rt_init.h"
 
-#include <stdlib.h> // TODO: REMOVE!
+#include <stdlib.h> // TODO: REMOVE
 
 void	rt_check_leaks(void)
 {
@@ -25,10 +25,6 @@ void	rt_check_leaks(void)
 
 void	rt_cleanup(t_data *data)
 {
-	// TODO: In so_long I had to create a texture and free it manually.
-	// I presume that this same code snippet is necessary for this project.
-	// if (data->texture.data != NULL)
-	// 	mlx_delete_texture(data->texture.data);
 	if (data->mlx != NULL)
 		mlx_terminate(data->mlx);
 	ft_free_allocations();

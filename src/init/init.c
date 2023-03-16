@@ -22,34 +22,34 @@
 
 #include <math.h> // TODO: REMOVE
 
-static void	rt_init_available(t_data *data)
-{
-	uint32_t	index;
+// static void	rt_init_available(t_data *data)
+// {
+// 	uint32_t	index;
 
-	index = 0;
-	while (index < data->pixel_count)
-	{
-		data->available[index] = index;
-		data->densities[index] = 0;
-		index++;
-	}
+// 	index = 0;
+// 	while (index < data->pixel_count)
+// 	{
+// 		data->available[index] = index;
+// 		data->densities[index] = 0;
+// 		index++;
+// 	}
 
-	rt_shuffle(data->available, data->pixel_count);
+// 	rt_shuffle(data->available, data->pixel_count);
 
-	uint32_t	value;
-	index = 0;
-	while (index < data->pixel_count)
-	{
-		value = data->available[index];
-		data->available_inverse[value] = index;
-		index++;
-	}
-}
+// 	uint32_t	value;
+// 	index = 0;
+// 	while (index < data->pixel_count)
+// 	{
+// 		value = data->available[index];
+// 		data->available_inverse[value] = index;
+// 		index++;
+// 	}
+// }
 
 static bool	rt_camera_is_invalid(t_data *data)
 {
-	data->camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
-	if (isnan(data->camera_right.x) || isnan(data->camera_right.y) || isnan(data->camera_right.z))
+	data->canvas.camera_right = rt_normalized(rt_cross(data->camera->normal, data->world_up));
+	if (isnan(data->canvas.camera_right.x) || isnan(data->canvas.camera_right.y) || isnan(data->canvas.camera_right.z))
 		return (true);
 	return (data->camera
 	&& data->camera->normal.x == 0
@@ -99,7 +99,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->scaled_window_center_y = data->scaled_window_height / 2;
 
 	data->pixel_count = UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT;
-	data->available_count = data->pixel_count;
+	// data->available_count = data->pixel_count;
 
 	data->mlx = mlx_init(data->scaled_window_width, data->scaled_window_height, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
@@ -110,9 +110,6 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	mlx_scroll_hook(data->mlx, &rt_scroll_hook, data);
 
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
-
-	// TODO: Change the cursor to a hand when rotating any object but the camera
-	// mlx_set_cursor
 
 	data->image = mlx_new_image(data->mlx, (uint32_t)data->scaled_window_width, (uint32_t)data->scaled_window_height);
 	if (data->image == NULL)
@@ -130,19 +127,18 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 
 	// data->reflection_contribution = REFLECTION_CONTRIBUTION;
 
-	// TODO: Make sure it isn't 2x necessary
-	data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
-	if (data->voronoi.stack == NULL)
-		return (rt_print_error(ERROR_SYSTEM));
+	// data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
+	// if (data->voronoi.stack == NULL)
+	// 	return (rt_print_error(ERROR_SYSTEM));
 
-	rt_init_available(data);
+	// rt_init_available(data);
 
 	rt_reset_canvas_info(data);
 
 	// SQRT2, because radius is circular.
 	// It is the width/height multiplier necessary to reach the bottom-right
 	// of the canvas starting from the top-left of the canvas.
-	data->starting_update_radius = (uint32_t)fmaxf(UNSCALED_WINDOW_WIDTH * (float)M_SQRT2, UNSCALED_WINDOW_HEIGHT * (float)M_SQRT2);
+	// data->starting_update_radius = (uint32_t)fmaxf(UNSCALED_WINDOW_WIDTH * (float)M_SQRT2, UNSCALED_WINDOW_HEIGHT * (float)M_SQRT2);
 
 	return (OK);
 }

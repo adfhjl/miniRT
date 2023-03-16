@@ -25,17 +25,17 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 	if (keydata.action == MLX_RELEASE)
 	{
 		if (keydata.key == MLX_KEY_W)
-			data->w_held = false;
+			data->held.w_held = false;
 		if (keydata.key == MLX_KEY_A)
-			data->a_held = false;
+			data->held.a_held = false;
 		if (keydata.key == MLX_KEY_S)
-			data->s_held = false;
+			data->held.s_held = false;
 		if (keydata.key == MLX_KEY_D)
-			data->d_held = false;
+			data->held.d_held = false;
 		if (keydata.key == MLX_KEY_SPACE)
-			data->space_held = false;
+			data->held.space_held = false;
 		if (keydata.key == MLX_KEY_LEFT_SHIFT)
-			data->shift_held = false;
+			data->held.shift_held = false;
 	}
 	else if (keydata.action == MLX_PRESS)
 	{
@@ -43,17 +43,17 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			mlx_close_window(data->mlx);
 
 		if (keydata.key == MLX_KEY_W)
-			data->w_held = true;
+			data->held.w_held = true;
 		if (keydata.key == MLX_KEY_A)
-			data->a_held = true;
+			data->held.a_held = true;
 		if (keydata.key == MLX_KEY_S)
-			data->s_held = true;
+			data->held.s_held = true;
 		if (keydata.key == MLX_KEY_D)
-			data->d_held = true;
+			data->held.d_held = true;
 		if (keydata.key == MLX_KEY_SPACE)
-			data->space_held = true;
+			data->held.space_held = true;
 		if (keydata.key == MLX_KEY_LEFT_SHIFT)
-			data->shift_held = true;
+			data->held.shift_held = true;
 
 		if (keydata.key == MLX_KEY_G)
 			data->draw_debug = !data->draw_debug;
@@ -105,16 +105,12 @@ void	rt_cursor_hook(double x, double y, void *param)
 	dy = -((float)y - data->scaled_window_center_y);
 
 	t_vector	rotation_right;
-	rotation_right = rt_scale(data->camera_right, (float)dx * ROTATION_SPEED);
+	rotation_right = rt_scale(data->canvas.camera_right, (float)dx * ROTATION_SPEED);
 	t_vector	rotation_up;
-	rotation_up = rt_scale(data->camera_up, (float)dy * ROTATION_SPEED);
+	rotation_up = rt_scale(data->canvas.camera_up, (float)dy * ROTATION_SPEED);
 
 	t_vector	rotation;
 	rotation = rt_add(rotation_right, rotation_up);
-
-	// TODO: This may feel better when used in the rt_add() statement below.
-	// t_vector	offet_rotation;
-	// offet_rotation = rt_add(data->camera->normal, rotation);
 
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
 	rt_assert_normal(data->camera->normal, "d");

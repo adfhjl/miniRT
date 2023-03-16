@@ -1,7 +1,6 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		// TODO: Figure out how I can use "-j" here without MLX build failing.
 		{
 			"label": "Bonus: Debug",
 			"type": "shell",

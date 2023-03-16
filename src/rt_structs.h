@@ -85,20 +85,39 @@ struct s_quadratic
 	bool	solution;
 	float	solution_minus;
 	float	solution_plus;
-}	s_quadratic;
+};
 
-typedef struct s_voronoi_seed
+struct s_canvas
 {
-	int32_t	x;
-	int32_t	y;
-}	t_voronoi_seed;
+	t_vector	camera_forward;
+	t_vector	camera_right;
+	t_vector	camera_up;
+	float		distance_per_pixel;
+	t_vector	top_left;
+};
 
-typedef struct s_voronoi
+struct s_held
 {
-	uint32_t		distances[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-	t_voronoi_seed	*stack;
-	bool			visited[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-}	t_voronoi;
+	bool	w_held;
+	bool	a_held;
+	bool	s_held;
+	bool	d_held;
+	bool	space_held;
+	bool	shift_held;
+};
+
+// typedef struct s_voronoi_seed
+// {
+// 	int32_t	x;
+// 	int32_t	y;
+// }	t_voronoi_seed;
+
+// typedef struct s_voronoi
+// {
+// 	uint32_t		distances[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+// 	t_voronoi_seed	*stack;
+// 	bool			visited[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+// }	t_voronoi;
 
 struct s_data
 {
@@ -120,51 +139,36 @@ struct s_data
 
 	float		movement_speed;
 
-	t_voronoi	voronoi;
+	// t_voronoi	voronoi;
 
 	size_t		debug_image_index;
 
 	// float		reflection_contribution;
 
+	uint32_t	pixel_index;
+	uint32_t	pixel_count;
+
 	size_t		samples_since_last_movement;
 	double		pixel_channel_doubles[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT * 4];
 
-	// TODO: Put in struct
 	bool		draw_debug;
 	bool		frozen;
-	int			draw_mode; // Maybe in this struct as well?
-	//
+	int			draw_mode;
 
-	// TODO: Put in struct
 	t_vector	world_up;
-	t_vector	camera_forward;
-	t_vector	camera_right;
-	t_vector	camera_up;
-	float		dist_per_pix;
-	t_vector	canvas_top_left;
-	//
+
+	t_canvas	canvas;
+
+	t_held		held;
 
 	// TODO: Put in struct
-	bool		w_held;
-	bool		a_held;
-	bool		s_held;
-	bool		d_held;
-	bool		space_held;
-	bool		shift_held;
-	//
+	// uint32_t	available[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	// uint32_t	available_inverse[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	// float		densities[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
 
-	// TODO: Put in struct
-	uint32_t	pixel_count;
+	// uint32_t	available_count;
 
-	uint32_t	available[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-	uint32_t	available_inverse[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-	float		densities[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-
-	uint32_t	available_count;
-
-	uint32_t	starting_update_radius;
-
-	uint32_t	pixel_index;
+	// uint32_t	starting_update_radius;
 	//
 };
 

@@ -26,9 +26,9 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 	t_vector	pixel_ray;
 	t_vector	dir;
 
-	pixel_ray_x = rt_scale(data->camera_right, x * data->dist_per_pix);
-	pixel_ray_y = rt_scale(data->camera_up, y * -data->dist_per_pix);
-	pixel_ray = rt_add(rt_add(data->canvas_top_left, pixel_ray_x), pixel_ray_y);
+	pixel_ray_x = rt_scale(data->canvas.camera_right, x * data->canvas.distance_per_pixel);
+	pixel_ray_y = rt_scale(data->canvas.camera_up, y * -data->canvas.distance_per_pixel);
+	pixel_ray = rt_add(rt_add(data->canvas.top_left, pixel_ray_x), pixel_ray_y);
 	dir = rt_normalized(pixel_ray);
 	rt_assert_normal(dir, "c");
 	return (rt_get_ray(data->camera->pos, dir));
@@ -113,7 +113,6 @@ void	rt_shoot_rays(t_data *data)
 	size_t		ray_index;
 
 	ray_index = 0;
-	// TODO: Maybe don't stop drawing in DRAW_MODE_NORMAL until the frame has been completely drawn, no matter what?
 	while (ray_index < RAYS_PER_FRAME)
 	{
 		// if (data->draw_mode == DRAW_MODE_VORONOI)

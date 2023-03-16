@@ -7,7 +7,7 @@
 # Allow .c and .h files
 !*.[ch]
 
-# TODO: Remove this before the eval
+# TODO: REMOVE
 !.vscode/launch.json
 !.vscode/tasks.json
 

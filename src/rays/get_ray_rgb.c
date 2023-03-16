@@ -12,7 +12,6 @@
 
 #include "libft/src/vector/ft_vector.h"
 
-#include "rt_non_bonus_defines.h" // TODO: REMOVE
 #include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
@@ -97,7 +96,6 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	bounce_index = 0;
 	while (bounce_index <= MAX_BOUNCES_PER_RAY)
 	{
-		// TODO: Don't shoot rays to pixels that immediately had info.distance == INFINITY
 		info = rt_get_hit_info(ray, data);
 
 		if (info.distance == INFINITY)
@@ -120,10 +118,18 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 
 		if (specular_chance > 0.0f)
 		{
-			specular_chance = rt_fresnel_reflect_amount(
-				info.inside ? info.material.index_of_refraction : 1.0f,
-				!info.inside ? info.material.index_of_refraction : 1.0f,
-				ray.dir, info.surface_normal, info.material.specular_chance, 1.0f);
+			float	n1;
+			float	n2;
+
+			n1 = 1.0f;
+			if (info.inside)
+				n1 = info.material.index_of_refraction;
+			n2 = info.material.index_of_refraction;
+			if (info.inside)
+				n2 = 1.0f;
+
+			specular_chance = rt_fresnel_reflect_amount(n1, n2, ray.dir,
+				info.surface_normal, info.material.specular_chance, 1.0f);
 
 			float chance_multiplier;
 			chance_multiplier = (1.0f - specular_chance) / (1.0f - info.material.specular_chance);
@@ -157,15 +163,11 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		ray_probability = rt_max(ray_probability, 0.001f);
 
 		ray.pos = rt_add(ray.pos, rt_scale(ray.dir, info.distance));
-		// TODO: Using surface_normal here may be wrong. The original code has an if-statement for + or -.
+		float	nudge;
+		nudge = SURFACE_NORMAL_NUDGE;
 		if (do_refraction == 1.0f)
-		{
-			ray.pos = rt_add(ray.pos, rt_scale(info.surface_normal, -SURFACE_NORMAL_NUDGE));
-		}
-		else
-		{
-			ray.pos = rt_add(ray.pos, rt_scale(info.surface_normal, SURFACE_NORMAL_NUDGE));
-		}
+			nudge *= -1;
+		ray.pos = rt_add(ray.pos, rt_scale(info.surface_normal, nudge));
 
 		// Calculate the diffuse and specular ray directions.
 		t_vector	diffuse_ray_dir;
@@ -179,7 +181,11 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 		t_vector	refraction_ray_dir;
 		rt_assert_normal(ray.dir, "e");
 		rt_assert_normal(info.surface_normal, "f");
-		refraction_ray_dir = rt_refract(ray.dir, info.surface_normal, info.inside ? info.material.index_of_refraction : 1.0f / info.material.index_of_refraction);
+		float	eta;
+		eta = 1.0f / info.material.index_of_refraction;
+		if (info.inside)
+			eta = info.material.index_of_refraction;
+		refraction_ray_dir = rt_refract(ray.dir, info.surface_normal, eta);
 
 		// Total internal reflection has occurred.
 		if (refraction_ray_dir.x == 0 && refraction_ray_dir.y == 0 && refraction_ray_dir.z == 0)

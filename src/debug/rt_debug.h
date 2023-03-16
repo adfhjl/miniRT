@@ -17,7 +17,7 @@ t_status	rt_draw_debug_lines(t_data *data);
 
 void	rt_print_scene(t_data *data);
 
-// TODO: REMOVE THIS BEFORE HANDING IN!!!
+// TODO: REMOVE
 void	rt_assert_normal(t_vector vector, char *location);
 
 #endif

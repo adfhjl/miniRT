@@ -50,9 +50,6 @@
 // frequently at the start and infrequently at the end.
 // # define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
 
-// TODO: Set this to 0 before the eval, since only diffuse lighting is allowed.
-// TODO: It can still be diffuse with a value higher than 0
-// if "REFLECTION_NOISINESS" is added to add some randomness to the reflection.
 // TODO: Set this to 1 before eval.
 # define MAX_BOUNCES_PER_RAY 8
 
@@ -60,8 +57,6 @@
 // 0.9 means that reflected rays recursively contribute 90% of the RGB,
 // so that the object's own RGB only contributes 10% of the RGB.
 // # define REFLECTION_CONTRIBUTION 0.5f
-
-// TODO: Add three defines for plane, sphere, and cylinder emission RGBs
 
 // Float between 0 and infinity.
 // A value of 0 means no anti-aliasing occurs.

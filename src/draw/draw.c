@@ -17,14 +17,14 @@
 #include "rays/rt_rays.h"
 #include "utils/rt_utils.h"
 
-static bool	rt_any_movement_key_pressed(t_data *data)
+static bool	rt_any_movement_key_pressed(t_held held)
 {
-	return (data->w_held
-		|| data->a_held
-		|| data->s_held
-		|| data->d_held
-		|| data->space_held
-		|| data->shift_held);
+	return (held.w_held
+		|| held.a_held
+		|| held.s_held
+		|| held.d_held
+		|| held.space_held
+		|| held.shift_held);
 }
 
 static void	rt_update_camera_pos(t_data *data)
@@ -32,17 +32,17 @@ static void	rt_update_camera_pos(t_data *data)
 	float	delta_move;
 
 	delta_move = data->movement_speed * (float)data->mlx->delta_time;
-	if (data->w_held)
-		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_forward), delta_move);
-	if (data->a_held)
-		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_right), -delta_move);
-	if (data->s_held)
-		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_forward), -delta_move);
-	if (data->d_held)
-		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->camera_right), delta_move);
-	if (data->space_held)
+	if (data->held.w_held)
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->canvas.camera_forward), delta_move);
+	if (data->held.a_held)
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->canvas.camera_right), -delta_move);
+	if (data->held.s_held)
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->canvas.camera_forward), -delta_move);
+	if (data->held.d_held)
+		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->canvas.camera_right), delta_move);
+	if (data->held.space_held)
 		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->world_up), delta_move);
-	if (data->shift_held)
+	if (data->held.shift_held)
 		data->camera->pos = rt_get_ray_point(rt_get_ray(data->camera->pos, data->world_up), -delta_move);
 }
 
@@ -52,7 +52,7 @@ void	rt_draw_loop(void *param)
 
 	if (!data->frozen)
 	{
-		if (rt_any_movement_key_pressed(data) || data->moved_cursor)
+		if (rt_any_movement_key_pressed(data->held) || data->moved_cursor)
 		{
 			rt_reset_canvas_info(data);
 		}

@@ -22,6 +22,8 @@ typedef struct s_material	t_material;
 typedef struct s_object		t_object;
 typedef struct s_hit_info	t_hit_info;
 typedef struct s_quadratic	t_quadratic;
+typedef struct s_canvas		t_canvas;
+typedef struct s_held		t_held;
 typedef struct s_data		t_data;
 
 typedef t_status			(*t_parse_fn)(char **line_ptr, t_object *object);

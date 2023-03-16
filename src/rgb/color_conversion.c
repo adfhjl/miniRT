@@ -37,11 +37,18 @@ static t_rgb	rt_mix_linear(t_rgb a, t_rgb b, t_rgb t)
 
 static t_rgb	rt_less_than(t_rgb f, float value)
 {
-	// TODO: Don't use ternaries
-    return (t_rgb){
-        (f.r < value) ? 1.0f : 0.0f,
-        (f.g < value) ? 1.0f : 0.0f,
-        (f.b < value) ? 1.0f : 0.0f};
+	t_rgb	rgb;
+
+	rgb.r = 0;
+	if (f.r < value)
+		rgb.r = 1;
+	rgb.g = 0;
+	if (f.g < value)
+		rgb.g = 1;
+	rgb.b = 0;
+	if (f.b < value)
+		rgb.b = 1;
+	return (rgb);
 }
 
 t_rgb	rt_linear_to_srgb(t_rgb rgb)

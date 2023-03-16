@@ -41,30 +41,26 @@
 //
 // tan(0) is 0, tan() until 90 degrees is positive, 90 is NAN (+-inf)
 // width = abs(-2 * tan(35o));
-// TODO: Call this every frame
 static void	rt_update_canvas_info(t_data *data)
 {
 	t_vector	camera_normal;
 
 	camera_normal = data->camera->normal;
 
-	data->camera_right = rt_normalized(rt_cross(camera_normal, data->world_up));
-	assert(!isnan(data->camera_right.x) && !isnan(data->camera_right.y) && !isnan(data->camera_right.z));
+	data->canvas.camera_right = rt_normalized(rt_cross(camera_normal, data->world_up));
+	assert(!isnan(data->canvas.camera_right.x) && !isnan(data->canvas.camera_right.y) && !isnan(data->canvas.camera_right.z));
 
-	data->camera_forward = rt_cross(data->world_up, data->camera_right);
-	data->camera_up = rt_cross(data->camera_right, camera_normal);
-	// TODO: If this assert is never ever triggered in any of the scenes, remove it
-	assert(!isnan(data->camera_up.x) && !isnan(data->camera_up.y) && !isnan(data->camera_up.z));
-	// if (isnan(data->camera_up.x) || isnan(data->camera_up.y) || isnan(data->camera_up.z))
-	// 	return (ERROR);
+	data->canvas.camera_forward = rt_cross(data->world_up, data->canvas.camera_right);
+	data->canvas.camera_up = rt_cross(data->canvas.camera_right, camera_normal);
+	assert(!isnan(data->canvas.camera_up.x) && !isnan(data->canvas.camera_up.y) && !isnan(data->canvas.camera_up.z));
 
 	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
-	data->dist_per_pix = canvas_width / UNSCALED_WINDOW_WIDTH;
-	float canvas_height = data->dist_per_pix * UNSCALED_WINDOW_HEIGHT;
-	t_vector left_canvas_side = rt_add(rt_scale(data->camera_right, -canvas_width / 2), camera_normal);
-	t_vector top_canvas_side = rt_add(rt_scale(data->camera_up, canvas_height / 2), camera_normal);
-	data->canvas_top_left = rt_add(left_canvas_side, top_canvas_side);
+	data->canvas.distance_per_pixel = canvas_width / UNSCALED_WINDOW_WIDTH;
+	float canvas_height = data->canvas.distance_per_pixel * UNSCALED_WINDOW_HEIGHT;
+	t_vector left_canvas_side = rt_add(rt_scale(data->canvas.camera_right, -canvas_width / 2), camera_normal);
+	t_vector top_canvas_side = rt_add(rt_scale(data->canvas.camera_up, canvas_height / 2), camera_normal);
+	data->canvas.top_left = rt_add(left_canvas_side, top_canvas_side);
 }
 
 static void	rt_clear_image(mlx_image_t *image)
