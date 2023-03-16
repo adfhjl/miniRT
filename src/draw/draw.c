@@ -27,23 +27,32 @@ static bool	rt_any_movement_key_pressed(t_held held)
 		|| held.shift_held);
 }
 
+static void	rt_move_camera_pos(t_data *data, t_vector direction,
+				float delta_movement)
+{
+	t_ray	direction_ray;
+
+	direction_ray = rt_get_ray(data->camera->pos, direction);
+	data->camera->pos = rt_get_ray_endpoint(direction_ray, delta_movement);
+}
+
 static void	rt_update_camera_pos(t_data *data)
 {
-	float	delta_move;
+	float	delta_movement;
 
-	delta_move = data->movement_speed * (float)data->mlx->delta_time;
+	delta_movement = data->movement_speed * (float)data->mlx->delta_time;
 	if (data->held.w_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->canvas.camera_forward), delta_move);
+		rt_move_camera_pos(data, data->canvas.camera_forward, delta_movement);
 	if (data->held.a_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->canvas.camera_right), -delta_move);
+		rt_move_camera_pos(data, data->canvas.camera_right, -delta_movement);
 	if (data->held.s_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->canvas.camera_forward), -delta_move);
+		rt_move_camera_pos(data, data->canvas.camera_forward, -delta_movement);
 	if (data->held.d_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->canvas.camera_right), delta_move);
+		rt_move_camera_pos(data, data->canvas.camera_right, delta_movement);
 	if (data->held.space_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->world_up), delta_move);
+		rt_move_camera_pos(data, data->world_up, delta_movement);
 	if (data->held.shift_held)
-		data->camera->pos = rt_get_ray_endpoint(rt_get_ray(data->camera->pos, data->world_up), -delta_move);
+		rt_move_camera_pos(data, data->world_up, -delta_movement);
 }
 
 void	rt_draw_loop(void *param)

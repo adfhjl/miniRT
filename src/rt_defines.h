@@ -75,11 +75,8 @@
 
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
-# define MOVEMENT_SPEED 7.0f
-# define MOVEMENT_SPEED_SCROLL 1.2f
-# define MAX_MOVEMENT_SPEED 50.0f
-# define MIN_MOVEMENT_SPEED 0.5f
-# define ROTATION_SPEED 0.003f
+# define MOVEMENT_SPEED 15.0f
+# define ROTATION_SPEED 0.004f
 
 // RGB /////////////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.

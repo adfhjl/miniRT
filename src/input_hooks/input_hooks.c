@@ -93,28 +93,23 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 
 void	rt_cursor_hook(double x, double y, void *param)
 {
-	t_data	*data;
-	float	dx;
-	float	dy;
+	t_data		*data;
+	float		dx;
+	float		dy;
+	t_vector	rotation_right;
+	t_vector	rotation_up;
+	t_vector	rotation;
 
 	data = param;
 	if (data->frozen)
 		return ;
-
 	dx = (float)x - data->scaled_window_center_x;
 	dy = -((float)y - data->scaled_window_center_y);
-
-	t_vector	rotation_right;
 	rotation_right = rt_scale(data->canvas.camera_right, (float)dx * ROTATION_SPEED);
-	t_vector	rotation_up;
 	rotation_up = rt_scale(data->canvas.camera_up, (float)dy * ROTATION_SPEED);
-
-	t_vector	rotation;
 	rotation = rt_add(rotation_right, rotation_up);
-
 	data->camera->normal = rt_normalized(rt_add(data->camera->normal, rotation));
 	rt_assert_normal(data->camera->normal, "d");
-
 	data->moved_cursor = true;
 }
 
@@ -124,10 +119,6 @@ void	rt_scroll_hook(double dx, double dy, void *param)
 
 	(void)dx;
 	data = param;
-	// if (dy > 0 && data->movement_speed < MAX_MOVEMENT_SPEED)
-	// 	data->movement_speed *= MOVEMENT_SPEED_SCROLL;
-	// else if (dy < 0 && data->movement_speed > MIN_MOVEMENT_SPEED)
-	// 	data->movement_speed /= MOVEMENT_SPEED_SCROLL;
 	if (dy > 0)
 	{
 		data->camera->fov *= 0.8f;
