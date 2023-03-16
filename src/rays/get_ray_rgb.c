@@ -44,6 +44,13 @@ static bool	rt_russian_roulette(t_vector *throughput)
 	return (false);
 }
 
+// Since we chose randomly between diffuse and specular,
+// we need to account for the times we didn't do one or the other.
+static t_rgb	rt_account_probability(t_rgb throughput, float ray_probability)
+{
+	return (rt_scale(throughput, 1.0f / ray_probability));
+}
+
 static t_rgb	rt_update_throughput(float do_refraction, t_rgb rgb,
 					float do_specular, t_rgb throughput)
 {
@@ -123,18 +130,19 @@ static void	rt_get_diffuse_and_specular_ray_dir(t_vector *diffuse_ray_dir,
 			rt_mix(*specular_ray_dir, *diffuse_ray_dir, t));
 }
 
-static void	rt_update_ray_dir(t_ray *ray, t_bouncing *b)
+static void	rt_update_ray_dir(t_ray *ray, t_hit_info info,
+				float do_specular, float do_refraction)
 {
 	t_vector	diffuse_ray_dir;
 	t_vector	specular_ray_dir;
 	t_vector	refraction_ray_dir;
 
-	rt_get_diffuse_and_specular_ray_dir(&diffuse_ray_dir, &specular_ray_dir, b->info, *ray);
-	refraction_ray_dir = rt_get_refraction_ray_dir(b->info, *ray, &b->do_specular, &b->do_refraction);
+	rt_get_diffuse_and_specular_ray_dir(&diffuse_ray_dir, &specular_ray_dir, info, *ray);
+	refraction_ray_dir = rt_get_refraction_ray_dir(info, *ray, &do_specular, &do_refraction);
 	// The boolean check is what causes specular highlights.
-	ray->dir = rt_mix(diffuse_ray_dir, specular_ray_dir, b->do_specular);
+	ray->dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
 	rt_assert_normal(ray->dir, "h");
-	ray->dir = rt_mix(ray->dir, refraction_ray_dir, b->do_refraction);
+	ray->dir = rt_mix(ray->dir, refraction_ray_dir, do_refraction);
 	rt_assert_normal(ray->dir, "i");
 }
 
@@ -156,6 +164,8 @@ static float	rt_get_ray_action(float *do_specular, float *do_refraction,
 	float	ray_select_roll;
 	float	ray_probability;
 
+	*do_specular = 0.0f;
+	*do_refraction = 0.0f;
 	ray_select_roll = rt_random_float_01();
 	if (specular_chance > 0.0f && ray_select_roll < specular_chance)
 	{
@@ -204,15 +214,15 @@ static float	rt_fresnel_reflect_amount(float n1, float n2, t_vector normal,
 	return (rt_lerp(f0, f90, ret));
 }
 
-static void	rt_update_specular_and_refraction_chances(t_bouncing *b, float *specular_chance,
+static void	rt_update_specular_and_refraction_chances(float *specular_chance,
 				float *refraction_chance, t_ray ray, t_hit_info info)
 {
 	float	n1;
 	float	n2;
 	float	chance_multiplier;
 
-	b->specular_chance = b->info.material.specular_chance;
-	b->refraction_chance = b->info.material.refraction_chance;
+	*specular_chance = info.material.specular_chance;
+	*refraction_chance = info.material.refraction_chance;
 	if (*specular_chance > 0.0f)
 	{
 		n1 = 1.0f;
@@ -232,16 +242,16 @@ static void	rt_update_specular_and_refraction_chances(t_bouncing *b, float *spec
 // Uses Beer's law to get a multiplier for light that travels
 // through the object, to make that light decrease:
 // multiplier = e^(-absorb * distance)
-static t_rgb	rt_absorb(t_bouncing b)
+static t_rgb	rt_absorb(t_hit_info info, t_rgb throughput)
 {
 	t_rgb	white;
 	t_rgb	absorb;
 	t_rgb	multiplier;
 
 	white = (t_rgb){1, 1, 1};
-	absorb = rt_sub(white, b.info.material.rgb);
-	multiplier = rt_exp_rgb(rt_scale(absorb, -b.info.distance));
-	return (rt_multiply_rgb(b.throughput, multiplier));
+	absorb = rt_sub(white, info.material.rgb);
+	multiplier = rt_exp_rgb(rt_scale(absorb, -info.distance));
+	return (rt_multiply_rgb(throughput, multiplier));
 }
 
 static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
@@ -265,66 +275,30 @@ static t_hit_info	rt_get_hit_info(t_ray ray, t_data *data)
 	return (info);
 }
 
-static bool	rt_bounce(t_bouncing *b, t_ray *ray, t_data *data)
+static bool	rt_bounce(t_bouncing *b, t_data *data)
 {
-	b->info = rt_get_hit_info(*ray, data);
-
+	b->info = rt_get_hit_info(b->ray, data);
 	if (b->info.distance == INFINITY)
 	{
 		b->rgb = rt_add(b->rgb, rt_multiply_rgb(b->background, b->throughput));
 		return (true);
 	}
-
-
-
-	// Does absorption if we are hitting from inside the object.
 	if (b->info.inside)
-		b->throughput = rt_absorb(*b);
-
-
-
-	rt_update_specular_and_refraction_chances(b, &b->specular_chance, &b->refraction_chance, *ray, b->info);
-
-
-
-
-	b->do_specular = 0.0f;
-	b->do_refraction = 0.0f;
-	b->ray_probability = rt_get_ray_action(&b->do_specular, &b->do_refraction, b->specular_chance, b->refraction_chance);
-
-
-
-	rt_update_ray_pos(ray, b->info, b->do_refraction);
-
-
-
-	rt_update_ray_dir(ray, b);
-
-
-
-	b->rgb = rt_add(b->rgb, rt_multiply_rgb(b->info.material.emissive, b->throughput));
-
-
-
-	b->throughput = rt_update_throughput(b->do_refraction, b->info.material.rgb, b->do_specular, b->throughput);
-
-
-
-	// Since we chose randomly between diffuse and specular,
-	// we need to account for the times we didn't do one or the other.
-	b->throughput = rt_scale(b->throughput, 1.0f / b->ray_probability);
-
-
-
+		b->throughput = rt_absorb(b->info, b->throughput);
+	rt_update_specular_and_refraction_chances(&b->specular_chance,
+		&b->refraction_chance, b->ray, b->info);
+	b->ray_probability = rt_get_ray_action(&b->do_specular,
+		&b->do_refraction, b->specular_chance, b->refraction_chance);
+	rt_update_ray_pos(&b->ray, b->info, b->do_refraction);
+	rt_update_ray_dir(&b->ray, b->info, b->do_specular, b->do_refraction);
+	b->rgb = rt_add(b->rgb, rt_multiply_rgb(b->info.material.emissive,
+		b->throughput));
+	b->throughput = rt_update_throughput(b->do_refraction, b->info.material.rgb,
+		b->do_specular, b->throughput);
+	b->throughput = rt_account_probability(b->throughput, b->ray_probability);
 	if (rt_russian_roulette(&b->throughput))
 		return (true);
-
-
-
 	b->rgb = rt_apply_ambient(b->rgb, data->ambient, b->throughput);
-
-
-
 	return (false);
 }
 
@@ -333,6 +307,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	t_bouncing	b;
 	size_t		bounce_index;
 
+	b.ray = ray;
 	b.rgb = (t_rgb){0, 0, 0};
 	b.throughput = (t_rgb){1, 1, 1};
 	b.background = rt_srgb_to_linear(
@@ -340,7 +315,7 @@ t_rgb	rt_get_ray_rgb(t_ray ray, t_data *data)
 	bounce_index = 0;
 	while (bounce_index <= MAX_BOUNCES_PER_RAY)
 	{
-		if (rt_bounce(&b, &ray, data))
+		if (rt_bounce(&b, data))
 			break ;
 		bounce_index++;
 	}

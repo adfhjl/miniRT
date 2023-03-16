@@ -63,7 +63,7 @@ CFILES :=\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/input_hooks/input_hooks.c\
-	src/rays/get_ray_point.c\
+	src/rays/get_ray_endpoint.c\
 	src/rays/get_ray_rgb.c\
 	src/rgb/aces_film.c\
 	src/rgb/add.c\

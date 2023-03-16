@@ -39,7 +39,7 @@ static void	rt_update_info(t_ray ray, t_object cylinder, t_hit_info *info,
 				float distance)
 {
 	info->distance = distance;
-	info->surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_point(ray, distance), cylinder);
+	info->surface_normal = rt_get_cylinder_surface_normal(rt_get_ray_endpoint(ray, distance), cylinder);
 	info->inside = false;
 	info->material = cylinder.material;
 	info->material.rgb = rt_get_line_rgb(ray, *info, cylinder);
@@ -99,12 +99,12 @@ static float	rt_get_cylinder_distance(t_ray ray, t_object cylinder,
 	if (!q.solution)
 		return (INFINITY);
 	if (q.solution_minus > 0) {
-		v = rt_get_ray_point(perspective_ray, q.solution_minus);
+		v = rt_get_ray_endpoint(perspective_ray, q.solution_minus);
 		if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
 			return (q.solution_minus);
 	}
 	*inside = true;
-	v = rt_get_ray_point(perspective_ray, q.solution_plus);
+	v = rt_get_ray_endpoint(perspective_ray, q.solution_plus);
 	if (v.y <= cylinder.height / 2 && v.y >= -cylinder.height / 2)
 		return (q.solution_plus);
 	return (INFINITY);

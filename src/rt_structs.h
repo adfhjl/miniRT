@@ -108,6 +108,7 @@ struct s_held
 
 struct s_bouncing
 {
+	t_ray		ray;
 	t_rgb		rgb;
 	t_rgb		throughput;
 	t_rgb		background;

@@ -34,7 +34,7 @@ static void	rt_update_info(t_ray ray, t_object sphere, t_hit_info *info,
 	t_vector	sphere_to_collision;
 
 	info->distance = rt_get_distance(q);
-	collision = rt_get_ray_point(ray, info->distance);
+	collision = rt_get_ray_endpoint(ray, info->distance);
 	sphere_to_collision = rt_sub(collision, sphere.pos);
 	info->surface_normal = rt_normalized(sphere_to_collision);
 	info->inside = false;
