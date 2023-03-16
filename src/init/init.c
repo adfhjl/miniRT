@@ -17,8 +17,8 @@
 #include "draw/rt_draw.h"
 #include "init/parse/rt_parse.h"
 #include "input_hooks/rt_input_hooks.h"
-#include "vectors/rt_vectors.h"
 #include "utils/rt_utils.h"
+#include "vectors/rt_vectors.h"
 
 #include <math.h> // TODO: REMOVE
 

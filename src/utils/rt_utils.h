@@ -15,13 +15,13 @@
 
 # include "rt_structs.h"
 
+t_vector	rt_get_ray_endpoint(t_ray ray, float t);
+
 t_ray		rt_get_ray(t_vector pos, t_vector normal);
 
 float		rt_lerp(float old, float new_, float t);
 
 float		rt_max(float a, float b);
-
-t_rgb		rt_mix(t_rgb a, t_rgb b, float t);
 
 t_status	rt_print_error(t_error ph_error);
 

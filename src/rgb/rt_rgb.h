@@ -28,6 +28,8 @@ t_rgb	rt_divide_rgb(t_rgb a, t_rgb b);
 
 t_rgb	rt_exp_rgb(t_rgb rgb);
 
+t_rgb	rt_mix(t_rgb a, t_rgb b, float t);
+
 t_rgb	rt_multiply_rgb(t_rgb a, t_rgb b);
 
 #endif

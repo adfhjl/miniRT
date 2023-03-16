@@ -13,7 +13,7 @@
 #include "rt_structs.h"
 
 #include "draw/rt_draw.h"
-#include "rays/rt_rays.h"
+#include "tracing/rt_tracing.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
 
@@ -50,7 +50,7 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 		(rt_random_float_01() * 2.f - 1.f) * ANTI_ALIAS_RADIUS + x,
 		(rt_random_float_01() * 2.f - 1.f) * ANTI_ALIAS_RADIUS + y,
 		data);
-	rgb = rt_get_ray_rgb(ray, data);
+	rgb = rt_trace(ray, data);
 
 	data->pixel_channel_doubles[location * 4 + 0] = rt_lerp_double(data->pixel_channel_doubles[location * 4 + 0], (double)rgb.r, 1.0 / (data->samples_since_last_movement + 1));
 	data->pixel_channel_doubles[location * 4 + 1] = rt_lerp_double(data->pixel_channel_doubles[location * 4 + 1], (double)rgb.g, 1.0 / (data->samples_since_last_movement + 1));

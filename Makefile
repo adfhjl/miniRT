@@ -63,19 +63,24 @@ CFILES :=\
 	src/init/parse/skip_whitespace.c\
 	src/init/init.c\
 	src/input_hooks/input_hooks.c\
-	src/rays/get_ray_endpoint.c\
-	src/rays/get_ray_rgb.c\
 	src/rgb/aces_film.c\
 	src/rgb/add.c\
 	src/rgb/clamp.c\
 	src/rgb/color_conversion.c\
 	src/rgb/divide.c\
-	src/rgb/exp_rgb.c\
+	src/rgb/exp.c\
+	src/rgb/mix.c\
 	src/rgb/multiply.c\
+	src/tracing/get_action.c\
+	src/tracing/get_dirs.c\
+	src/tracing/throughput.c\
+	src/tracing/trace.c\
+	src/tracing/update_chances.c\
+	src/tracing/update_ray.c\
+	src/utils/get_ray_endpoint.c\
 	src/utils/get_ray.c\
 	src/utils/lerp.c\
 	src/utils/max.c\
-	src/utils/mix.c\
 	src/utils/print_error.c\
 	src/utils/random.c\
 	src/utils/solve_quadratic.c\

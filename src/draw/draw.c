@@ -14,7 +14,7 @@
 
 #include "draw/rt_draw.h"
 #include "debug/rt_debug.h"
-#include "rays/rt_rays.h"
+#include "tracing/rt_tracing.h"
 #include "utils/rt_utils.h"
 
 static bool	rt_any_movement_key_pressed(t_held held)

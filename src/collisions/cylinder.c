@@ -13,8 +13,8 @@
 #include "rt_structs.h"
 
 #include "collisions/rt_collisions.h"
-#include "rays/rt_rays.h"
 #include "rgb/rt_rgb.h"
+#include "tracing/rt_tracing.h"
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
 
