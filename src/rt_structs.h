@@ -106,6 +106,19 @@ struct s_held
 	bool	shift_held;
 };
 
+struct s_bouncing
+{
+	t_rgb		rgb;
+	t_rgb		throughput;
+	t_rgb		background;
+	t_hit_info	info;
+	float		specular_chance;
+	float		refraction_chance;
+	float		do_specular;
+	float		do_refraction;
+	float		ray_probability;
+};
+
 // typedef struct s_voronoi_seed
 // {
 // 	int32_t	x;
