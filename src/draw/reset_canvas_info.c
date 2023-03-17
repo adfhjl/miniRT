@@ -83,27 +83,10 @@ static void	rt_clear_image(mlx_image_t *image)
 	}
 }
 
-// static void	rt_reset_voronoi(t_data *data)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (i < data->pixel_count)
-// 	{
-// 		data->voronoi.distances[i] = UINT32_MAX;
-// 		data->voronoi.visited[i] = false;
-// 		i++;
-// 	}
-// }
-
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	// if (data->draw_mode == DRAW_MODE_VORONOI)
-	// {
-	// 	rt_reset_voronoi(data);
-	// }
-	// else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
+	// if (data->draw_mode == DRAW_MODE_NOISE)
 	// {
 	// 	rt_clear_image(data->image);
 	// }

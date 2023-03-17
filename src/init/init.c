@@ -125,12 +125,6 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->draw_debug = DEBUG_DRAW_ON_BY_DEFAULT;
 	data->draw_mode = DEFAULT_DRAW_MODE;
 
-	// data->reflection_contribution = REFLECTION_CONTRIBUTION;
-
-	// data->voronoi.stack = ft_vector_new_reserved(sizeof(*data->voronoi.stack), data->pixel_count);
-	// if (data->voronoi.stack == NULL)
-	// 	return (rt_print_error(ERROR_SYSTEM));
-
 	// rt_init_available(data);
 
 	rt_reset_canvas_info(data);

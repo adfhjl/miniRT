@@ -74,12 +74,7 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		}
 		if (keydata.key == MLX_KEY_B)
 		{
-			data->draw_mode = DRAW_MODE_BLUE_NOISE;
-			rt_reset_canvas_info(data);
-		}
-		if (keydata.key == MLX_KEY_V)
-		{
-			data->draw_mode = DRAW_MODE_VORONOI;
+			data->draw_mode = DRAW_MODE_NOISE;
 			rt_reset_canvas_info(data);
 		}
 

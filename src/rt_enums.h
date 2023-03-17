@@ -48,8 +48,7 @@ typedef enum e_object_type
 typedef enum e_draw_mode
 {
 	DRAW_MODE_NORMAL,
-	DRAW_MODE_BLUE_NOISE,
-	DRAW_MODE_VORONOI,
+	DRAW_MODE_NOISE,
 }	t_draw_mode;
 
 #endif

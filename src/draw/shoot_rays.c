@@ -63,21 +63,6 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	return (rgb);
 }
 
-// static void	rt_shoot_voronoi_ray(t_data *data)
-// {
-// 	uint32_t	location;
-// 	uint32_t	x;
-// 	uint32_t	y;
-// 	t_rgb		rgb;
-
-// 	data->pixel_index--;
-// 	location = data->available[data->pixel_index];
-// 	x = location % UNSCALED_WINDOW_WIDTH;
-// 	y = location / UNSCALED_WINDOW_WIDTH;
-// 	rgb = rt_shoot_ray(x, y, data);
-// 	rt_voronoi_floodfill((int32_t)x, (int32_t)y, rgb, data);
-// }
-
 // static void	rt_shoot_blue_noise_ray(t_data *data)
 // {
 // 	uint32_t	location;
@@ -115,13 +100,7 @@ void	rt_shoot_rays(t_data *data)
 	ray_index = 0;
 	while (ray_index < RAYS_PER_FRAME)
 	{
-		// if (data->draw_mode == DRAW_MODE_VORONOI)
-		// {
-		// 	if (data->pixel_index <= data->available_count)
-		// 		return ;
-		// 	rt_shoot_voronoi_ray(data);
-		// }
-		// else if (data->draw_mode == DRAW_MODE_BLUE_NOISE)
+		// if (data->draw_mode == DRAW_MODE_NOISE)
 		// {
 		// 	if (data->pixel_index <= data->available_count)
 		// 		return ;

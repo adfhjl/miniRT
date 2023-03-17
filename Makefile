@@ -44,7 +44,6 @@ CFILES :=\
 	src/draw/put_pixel.c\
 	src/draw/reset_canvas_info.c\
 	src/draw/shoot_rays.c\
-	src/draw/voronoi.c\
 	src/init/parse/objects/check_separating_whitespace.c\
 	src/init/parse/objects/parse_ambient.c\
 	src/init/parse/objects/parse_camera.c\

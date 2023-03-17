@@ -20,10 +20,10 @@
 // This is the resolution of the scene that actually gets rendered.
 // If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
 // window will be 500 pixels wide.
-# define UNSCALED_WINDOW_WIDTH 200
-# define UNSCALED_WINDOW_HEIGHT 200
+# define UNSCALED_WINDOW_WIDTH 1000
+# define UNSCALED_WINDOW_HEIGHT 1000
 // TODO: Set this to 1 before eval.
-# define PIXEL_SCALE 5
+# define PIXEL_SCALE 1
 
 // Float from 0 to infinity.
 // A really small value used to nudge the ray up to make sure floating-point
@@ -52,11 +52,6 @@
 
 // TODO: Set this to 1 before eval.
 # define MAX_BOUNCES_PER_RAY 8
-
-// 0.0 means that reflection doesn't occur, so the render is diffuse.
-// 0.9 means that reflected rays recursively contribute 90% of the RGB,
-// so that the object's own RGB only contributes 10% of the RGB.
-// # define REFLECTION_CONTRIBUTION 0.5f
 
 // Float between 0 and infinity.
 // A value of 0 means no anti-aliasing occurs.

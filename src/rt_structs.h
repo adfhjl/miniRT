@@ -120,19 +120,6 @@ struct s_bouncing
 	float		ray_probability;
 };
 
-// typedef struct s_voronoi_seed
-// {
-// 	int32_t	x;
-// 	int32_t	y;
-// }	t_voronoi_seed;
-
-// typedef struct s_voronoi
-// {
-// 	uint32_t		distances[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-// 	t_voronoi_seed	*stack;
-// 	bool			visited[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-// }	t_voronoi;
-
 struct s_data
 {
 	mlx_t		*mlx;
@@ -153,11 +140,7 @@ struct s_data
 
 	float		movement_speed;
 
-	// t_voronoi	voronoi;
-
 	size_t		debug_image_index;
-
-	// float		reflection_contribution;
 
 	uint32_t	pixel_index;
 	uint32_t	pixel_count;
