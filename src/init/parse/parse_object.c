@@ -55,7 +55,7 @@ static char	*rt_parse_object_type(char **line_ptr)
 	rt_skip_non_whitespace(line_ptr);
 	end = *line_ptr;
 	token_len = (size_t)(end - start);
-	token = ft_substr(*line_ptr - token_len, 0, token_len);
+	token = ft_substr(*line_ptr - token_len, 0, token_len, "token");
 	if (token == NULL)
 		rt_print_error(ERROR_SYSTEM);
 	return (token);

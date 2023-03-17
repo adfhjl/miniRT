@@ -51,7 +51,8 @@ static char	*rt_get_nbr_string(int nbr, char *appended_string)
 	nbr_string = ft_itoa(nbr);
 	if (nbr_string == NULL)
 		return (NULL);
-	nbr_string_full = ft_strjoin(nbr_string, appended_string);
+	nbr_string_full = ft_strjoin(nbr_string, appended_string,
+			"debug nbr string full");
 	ft_free(&nbr_string);
 	return (nbr_string_full);
 }

@@ -28,7 +28,7 @@ static t_status	rt_parse_scene_file(int fd, t_data *data)
 	t_object	object;
 	char		*line;
 
-	data->objects = ft_vector_new(sizeof(*data->objects));
+	data->objects = ft_vector_new(sizeof(*data->objects), "vector of t_object");
 	if (data->objects == NULL)
 		return (rt_print_error(ERROR_SYSTEM));
 	while (true)
