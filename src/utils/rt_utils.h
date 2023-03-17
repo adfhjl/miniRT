@@ -15,6 +15,8 @@
 
 # include "rt_structs.h"
 
+t_status	rt_draw_debug_lines(t_data *data);
+
 t_vector	rt_get_ray_endpoint(t_ray ray, float t);
 
 t_ray		rt_get_ray(t_vector pos, t_vector normal);

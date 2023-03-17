@@ -24,7 +24,7 @@ static float	rt_get_sq_radius(float diameter)
 	return (diameter / 2 * diameter / 2);
 }
 
-// Note: not normalized, but this is intended.
+// Note: this is not normalized, but this is intended.
 static t_ray	rt_get_flattened_ray(t_ray ray)
 {
 	ray.pos.y = 0;

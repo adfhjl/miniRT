@@ -39,7 +39,6 @@ CFILES :=\
 	src/collisions/plane.c\
 	src/collisions/sphere.c\
 	src/debug/assert_normal.c\
-	src/debug/draw_debug.c\
 	src/draw/draw.c\
 	src/draw/put_pixel.c\
 	src/draw/reset_canvas_info.c\
@@ -83,6 +82,7 @@ CFILES :=\
 	src/tracing/trace.c\
 	src/tracing/update_chances.c\
 	src/tracing/update_ray.c\
+	src/utils/draw_debug_lines.c\
 	src/utils/get_ray_endpoint.c\
 	src/utils/get_ray.c\
 	src/utils/lerp.c\

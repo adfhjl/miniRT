@@ -13,8 +13,6 @@
 #ifndef RT_DEBUG_H
 # define RT_DEBUG_H
 
-t_status	rt_draw_debug_lines(t_data *data);
-
 // TODO: REMOVE
 void		rt_assert_normal(t_vector vector, char *location);
 
