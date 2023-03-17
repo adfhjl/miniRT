@@ -53,22 +53,18 @@ static t_rgb	rt_less_than(t_rgb f, float value)
 
 t_rgb	rt_linear_to_srgb(t_rgb rgb)
 {
-    rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
-
-    return rt_mix_linear(
-        rt_add_scalar_rgb(rt_scale(rt_pow(rgb, 1.0f / 2.4f), 1.055f), -0.055f),
-        rt_scale(rgb, 12.92f),
-        rt_less_than(rgb, 0.0031308f)
-    );
+	rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
+	return (rt_mix_linear(rt_add_scalar_rgb(rt_scale(rt_pow(
+						rgb, 1.0f / 2.4f), 1.055f), -0.055f),
+			rt_scale(rgb, 12.92f),
+			rt_less_than(rgb, 0.0031308f)));
 }
 
 t_rgb	rt_srgb_to_linear(t_rgb rgb)
 {
-    rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
-
-    return rt_mix_linear(
-        rt_pow(rt_scale(rt_add_scalar_rgb(rgb, 0.055f), 1.0f / 1.055f), 2.4f),
-        rt_scale(rgb, 1.0f / 12.92f),
-        rt_less_than(rgb, 0.04045f)
-    );
+	rgb = rt_clamp_rgb(rgb, 0.0f, 1.0f);
+	return (rt_mix_linear(rt_pow(rt_scale(rt_add_scalar_rgb(
+						rgb, 0.055f), 1.0f / 1.055f), 2.4f),
+			rt_scale(rgb, 1.0f / 12.92f),
+			rt_less_than(rgb, 0.04045f)));
 }

@@ -19,10 +19,12 @@
 t_status	rt_parse_light(char **line_ptr, t_object *light)
 {
 	if (rt_parse_light_basics(line_ptr, light) == ERROR
-	|| rt_check_separating_whitespace(line_ptr) == ERROR
-	|| rt_parse_float(line_ptr, &light->diameter) == ERROR
-	|| rt_parse_material(line_ptr, &light->material) == ERROR)
+		|| rt_check_separating_whitespace(line_ptr) == ERROR
+		|| rt_parse_float(line_ptr, &light->diameter) == ERROR
+		|| rt_parse_material(line_ptr, &light->material) == ERROR)
 		return (ERROR);
-	light->material.emissive = rt_scale(rt_scale(light->material.emissive_original, LIGHT_EMISSIVE_FACTOR), light->ratio);
+	light->material.emissive = rt_scale(
+			rt_scale(light->material.emissive_original, LIGHT_EMISSIVE_FACTOR),
+			light->ratio);
 	return (OK);
 }

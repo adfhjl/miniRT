@@ -17,7 +17,7 @@
 t_status	rt_parse_cylinder(char **line_ptr, t_object *cylinder)
 {
 	if (rt_parse_cylinder_basics(line_ptr, cylinder) == ERROR
-	|| rt_parse_material(line_ptr, &cylinder->material) == ERROR)
+		|| rt_parse_material(line_ptr, &cylinder->material) == ERROR)
 		return (ERROR);
 	return (OK);
 }

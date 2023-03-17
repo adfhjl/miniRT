@@ -21,15 +21,19 @@ t_status	rt_parse_material(char **line_ptr, t_material *material)
 	if (rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_rgb(line_ptr, &material->emissive_original) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &material->specular_chance, 0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &material->specular_chance,
+			0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &material->specular_roughness, 0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &material->specular_roughness,
+			0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_float(line_ptr, &material->index_of_refraction) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &material->refraction_chance, 0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &material->refraction_chance,
+			0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
-		|| rt_parse_range_float(line_ptr, &material->refraction_roughness, 0, 1) == ERROR
+		|| rt_parse_range_float(line_ptr, &material->refraction_roughness,
+			0, 1) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR
 		|| rt_parse_vector(line_ptr, &material->line_frequency) == ERROR
 		|| rt_check_separating_whitespace(line_ptr) == ERROR

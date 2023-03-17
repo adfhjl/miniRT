@@ -146,7 +146,8 @@ struct s_data
 	uint32_t	pixel_count;
 
 	size_t		samples_since_last_movement;
-	double		pixel_channel_doubles[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT * 4];
+	double		pixel_channel_doubles[
+		UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT * 4];
 
 	bool		draw_debug;
 	bool		frozen;

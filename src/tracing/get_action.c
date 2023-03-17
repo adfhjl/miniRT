@@ -12,6 +12,7 @@
 
 #include "utils/rt_utils.h"
 
+// The rt_max(probability, 0.001f) avoids dividing by zero later on.
 float	rt_get_ray_action(float *do_specular, float *do_refraction,
 					float specular_chance, float refraction_chance)
 {
@@ -34,7 +35,6 @@ float	rt_get_ray_action(float *do_specular, float *do_refraction,
 	}
 	else
 		ray_probability = 1.0f - (specular_chance + refraction_chance);
-	// Avoids numerical issues causing a divide by zero.
 	ray_probability = rt_max(ray_probability, 0.001f);
 	return (ray_probability);
 }

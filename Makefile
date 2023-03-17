@@ -60,8 +60,15 @@ CFILES :=\
 	src/init/parse/parse_vector.c\
 	src/init/parse/skip_separator_comma.c\
 	src/init/parse/skip_whitespace.c\
+	src/init/assign_capitalized_objects.c\
 	src/init/init.c\
-	src/input_hooks/input_hooks.c\
+	src/input_hooks/cursor_hook.c\
+	src/input_hooks/key_hook.c\
+	src/input_hooks/scroll_hook.c\
+	src/print/print_rgb.c\
+	src/print/print_vector.c\
+	src/print/try_print.c\
+	src/print/try_print2.c\
 	src/rgb/aces_film.c\
 	src/rgb/add.c\
 	src/rgb/clamp.c\
@@ -98,22 +105,22 @@ CFILES :=\
 ifdef BONUS
 CFILES +=\
 	src/collisions/get_line_rgb_bonus.c\
-	src/debug/print_scene_bonus.c\
 	src/init/parse/objects/parse_cylinder_bonus.c\
 	src/init/parse/objects/parse_light_bonus.c\
 	src/init/parse/objects/parse_material_bonus.c\
 	src/init/parse/objects/parse_plane_bonus.c\
 	src/init/parse/objects/parse_sphere_bonus.c\
-	src/init/parse/check_capitalized_object_counts_bonus.c
+	src/init/parse/check_capitalized_object_counts_bonus.c\
+	src/print/print_scene_bonus.c
 else
 CFILES +=\
 	src/collisions/get_line_rgb.c\
-	src/debug/print_scene.c\
 	src/init/parse/objects/parse_cylinder.c\
 	src/init/parse/objects/parse_light.c\
 	src/init/parse/objects/parse_plane.c\
 	src/init/parse/objects/parse_sphere.c\
-	src/init/parse/check_capitalized_object_counts.c
+	src/init/parse/check_capitalized_object_counts.c\
+	src/print/print_scene.c
 endif
 
 ################################################################################

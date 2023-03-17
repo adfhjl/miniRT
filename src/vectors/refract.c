@@ -24,6 +24,7 @@
 // The input parameters for the incident vector I and the
 // surface normal N must already be normalized to get the
 // desired results.
+// k < 0.0f if total internal reflection occurred.
 t_vector	rt_refract(t_vector incident, t_vector normal, float eta)
 {
 	float		angle;
@@ -34,7 +35,7 @@ t_vector	rt_refract(t_vector incident, t_vector normal, float eta)
 	rt_assert_normal(normal, "k");
 	angle = rt_dot(normal, incident);
 	k = 1.0f - eta * eta * (1.0f - angle * angle);
-	if (k < 0.0f) // If total internal reflection occurred.
+	if (k < 0.0f)
 		return ((t_vector){0, 0, 0});
 	else
 	{

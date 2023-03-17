@@ -29,7 +29,10 @@ void	rt_assert_normal(t_vector vector, char *location)
 	if (!(mag > 1 - MAG_EPSILON && mag < 1 + MAG_EPSILON))
 	{
 		printf("location: %s\n", location);
-		printf("mag: %f, vector: (%f,%f,%f), normalized: (%f,%f,%f)\n", mag, vector.x, vector.y, vector.z, normalized.x, normalized.y, normalized.z);
+		printf("mag: %f, vector: (%f,%f,%f), normalized: (%f,%f,%f)\n",
+			mag,
+			vector.x, vector.y, vector.z,
+			normalized.x, normalized.y, normalized.z);
 		assert(mag > 1 - MAG_EPSILON && mag < 1 + MAG_EPSILON);
 	}
 }

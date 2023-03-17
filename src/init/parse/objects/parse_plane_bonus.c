@@ -17,7 +17,7 @@
 t_status	rt_parse_plane(char **line_ptr, t_object *plane)
 {
 	if (rt_parse_plane_basics(line_ptr, plane) == ERROR
-	|| rt_parse_material(line_ptr, &plane->material) == ERROR)
+		|| rt_parse_material(line_ptr, &plane->material) == ERROR)
 		return (ERROR);
 	return (OK);
 }

@@ -76,13 +76,13 @@ static bool	rt_bounce(t_bouncing *b, t_data *data)
 	rt_update_specular_and_refraction_chances(&b->specular_chance,
 		&b->refraction_chance, b->ray, b->info);
 	b->ray_probability = rt_get_ray_action(&b->do_specular,
-		&b->do_refraction, b->specular_chance, b->refraction_chance);
+			&b->do_refraction, b->specular_chance, b->refraction_chance);
 	rt_update_ray_pos(&b->ray, b->info, b->do_refraction);
 	rt_update_ray_dir(&b->ray, b->info, b->do_specular, b->do_refraction);
 	b->rgb = rt_add(b->rgb, rt_multiply_rgb(b->info.material.emissive,
-		b->throughput));
+				b->throughput));
 	b->throughput = rt_update_throughput(b->do_refraction, b->info.material.rgb,
-		b->do_specular, b->throughput);
+			b->do_specular, b->throughput);
 	b->throughput = rt_account_probability(b->throughput, b->ray_probability);
 	if (rt_russian_roulette(&b->throughput))
 		return (true);

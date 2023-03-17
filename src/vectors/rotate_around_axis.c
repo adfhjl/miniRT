@@ -20,7 +20,12 @@
 t_vector	rt_rotate_around_axis(t_vector v, t_vector rotation_axis,
 				float theta)
 {
-	return (rt_add(rt_add(rt_scale(v, cosf(theta)),
-	rt_scale(rt_cross(rotation_axis, v), sinf(theta))),
-	rt_scale(rotation_axis, rt_dot(rotation_axis, v) * (1 - cosf(theta)))));
+	t_vector	a;
+	t_vector	b;
+	t_vector	c;
+
+	a = rt_scale(v, cosf(theta));
+	b = rt_scale(rt_cross(rotation_axis, v), sinf(theta));
+	c = rt_scale(rotation_axis, rt_dot(rotation_axis, v) * (1 - cosf(theta)));
+	return (rt_add(rt_add(a, b), c));
 }

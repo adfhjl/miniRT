@@ -64,15 +64,13 @@ static void	rt_update_canvas_info(t_data *data)
 	camera_dir = data->camera->normal;
 	canvas = &data->canvas;
 	canvas->camera_right = rt_normalized(rt_cross(camera_dir, data->world_up));
-	assert(!isnan(canvas->camera_right.x) && !isnan(canvas->camera_right.y) && !isnan(canvas->camera_right.z));
 	canvas->camera_forward = rt_cross(data->world_up, canvas->camera_right);
 	canvas->camera_up = rt_cross(canvas->camera_right, camera_dir);
-	assert(!isnan(canvas->camera_up.x) && !isnan(canvas->camera_up.y) && !isnan(canvas->camera_up.z));
 	half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
 	canvas_width = fabsf(-2 * tanf(half_fov_rad));
 	canvas->distance_per_pixel = canvas_width / UNSCALED_WINDOW_WIDTH;
-	canvas->top_left = rt_get_canvas_top_left(
-			canvas_width, *canvas, camera_dir);
+	canvas->top_left = rt_get_canvas_top_left(canvas_width, *canvas,
+			camera_dir);
 }
 
 static void	rt_clear_image(mlx_image_t *image)

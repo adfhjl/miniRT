@@ -69,6 +69,8 @@ t_vector	rt_get_refraction_ray_dir(t_hit_info info, t_ray ray,
 	return (rt_normalized(rt_mix(refraction_ray_dir, diffuse_ray_dir, t)));
 }
 
+// Note how the specular ray direction doesn't call random().
+// This means it'll always go the same direction.
 void	rt_get_diffuse_and_specular_ray_dir(t_vector *diffuse_ray_dir,
 			t_vector *specular_ray_dir, t_hit_info info, t_ray ray)
 {
@@ -77,8 +79,6 @@ void	rt_get_diffuse_and_specular_ray_dir(t_vector *diffuse_ray_dir,
 	*diffuse_ray_dir = rt_normalized(
 			rt_add(info.surface_normal, rt_random_unit_vector()));
 	*specular_ray_dir = rt_reflect(ray.dir, info.surface_normal);
-	// Note how the specular ray direction doesn't call random().
-	// This means it'll always go the same direction.
 	t = info.material.specular_roughness * info.material.specular_roughness;
 	*specular_ray_dir = rt_normalized(
 			rt_mix(*specular_ray_dir, *diffuse_ray_dir, t));

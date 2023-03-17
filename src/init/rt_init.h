@@ -13,6 +13,8 @@
 #ifndef RT_INIT_H
 # define RT_INIT_H
 
+void		rt_assign_capitalized_objects(t_data *data);
+
 t_status	rt_init(int argc, char *argv[], t_data *data);
 
 #endif
