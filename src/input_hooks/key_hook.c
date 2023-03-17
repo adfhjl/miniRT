@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/src/allocating/ft_allocating.h"
+
 #include "rt_structs.h"
 
 #include "draw/rt_draw.h"
@@ -93,5 +95,7 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 			rt_print_scene(data);
 		if (keydata.key == MLX_KEY_BACKSPACE)
 			rt_reset_canvas_info(data);
+		if (keydata.key == MLX_KEY_M)
+			ft_print_allocations();
 	}
 }

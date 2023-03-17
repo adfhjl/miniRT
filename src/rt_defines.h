@@ -33,7 +33,7 @@
 // Integer between 1 and infinity.
 // How many rays are shot per frame.
 // Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
-# define RAYS_PER_FRAME 20000
+# define RAYS_PER_FRAME 10000
 
 # define DEBUG_DRAWING_MLX_DEPTH 1
 
