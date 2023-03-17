@@ -19,6 +19,19 @@
 #include <assert.h> // TODO: REMOVE
 #include <math.h> // TODO: REMOVE
 
+static t_vector	rt_get_canvas_top_left(float canvas_width, t_canvas canvas,
+					t_vector camera_dir)
+{
+	t_vector	left_canvas_side;
+	float		canvas_height;
+	t_vector	top_canvas_side;
+
+	left_canvas_side = rt_scale(canvas.camera_right, -canvas_width / 2);
+	canvas_height = canvas.distance_per_pixel * UNSCALED_WINDOW_HEIGHT;
+	top_canvas_side = rt_scale(canvas.camera_up, canvas_height / 2);
+	return (rt_add(rt_add(left_canvas_side, top_canvas_side), camera_dir));
+}
+
 // forward = (0, 0, 1);
 //
 // leftmost = (sin(-35o), 0, cos(-35o))
@@ -43,24 +56,23 @@
 // width = abs(-2 * tan(35o));
 static void	rt_update_canvas_info(t_data *data)
 {
-	t_vector	camera_normal;
+	t_vector	camera_dir;
+	t_canvas	*canvas;
+	float		half_fov_rad;
+	float		canvas_width;
 
-	camera_normal = data->camera->normal;
-
-	data->canvas.camera_right = rt_normalized(rt_cross(camera_normal, data->world_up));
-	assert(!isnan(data->canvas.camera_right.x) && !isnan(data->canvas.camera_right.y) && !isnan(data->canvas.camera_right.z));
-
-	data->canvas.camera_forward = rt_cross(data->world_up, data->canvas.camera_right);
-	data->canvas.camera_up = rt_cross(data->canvas.camera_right, camera_normal);
-	assert(!isnan(data->canvas.camera_up.x) && !isnan(data->canvas.camera_up.y) && !isnan(data->canvas.camera_up.z));
-
-	float half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
-	float canvas_width = fabsf(-2 * tanf(half_fov_rad));
-	data->canvas.distance_per_pixel = canvas_width / UNSCALED_WINDOW_WIDTH;
-	float canvas_height = data->canvas.distance_per_pixel * UNSCALED_WINDOW_HEIGHT;
-	t_vector left_canvas_side = rt_add(rt_scale(data->canvas.camera_right, -canvas_width / 2), camera_normal);
-	t_vector top_canvas_side = rt_add(rt_scale(data->canvas.camera_up, canvas_height / 2), camera_normal);
-	data->canvas.top_left = rt_add(left_canvas_side, top_canvas_side);
+	camera_dir = data->camera->normal;
+	canvas = &data->canvas;
+	canvas->camera_right = rt_normalized(rt_cross(camera_dir, data->world_up));
+	assert(!isnan(canvas->camera_right.x) && !isnan(canvas->camera_right.y) && !isnan(canvas->camera_right.z));
+	canvas->camera_forward = rt_cross(data->world_up, canvas->camera_right);
+	canvas->camera_up = rt_cross(canvas->camera_right, camera_dir);
+	assert(!isnan(canvas->camera_up.x) && !isnan(canvas->camera_up.y) && !isnan(canvas->camera_up.z));
+	half_fov_rad = data->camera->fov / 2 * ((float)M_PI / 180);
+	canvas_width = fabsf(-2 * tanf(half_fov_rad));
+	canvas->distance_per_pixel = canvas_width / UNSCALED_WINDOW_WIDTH;
+	canvas->top_left = rt_get_canvas_top_left(
+			canvas_width, *canvas, camera_dir);
 }
 
 static void	rt_clear_image(mlx_image_t *image)
