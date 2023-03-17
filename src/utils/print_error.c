@@ -34,7 +34,7 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_WRONG_CAPITALIZED_OBJECT_COUNT]
 		= "Wrong capitalized object count",
 	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace",
-	[ERROR_INVALID_CAMERA_NORMAL] = "Invalid x=0, z=0 camera normal",
+	[ERROR_INVALID_CAMERA_DIR] = "Invalid x=0, z=0 camera direction",
 	[ERROR_INVALID_ZERO_NORMAL] = "Invalid x=0, y=0, z=0 normal",
 	};
 	char		*error_message;

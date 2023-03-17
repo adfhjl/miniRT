@@ -41,12 +41,14 @@ static void	rt_update_info(t_ray ray, t_object plane, t_hit_info *info,
 // dot(ray.pos + ray.dir * t - plane.pos, plane.normal) = 0
 //
 // Solve for t:
-// Fact: The dot product is distributive; that is, dot(v1 + v2, v3) = dot(v1, v3) + dot(v2, v3)
+// Fact: The dot product is distributive:
+// dot(v1 + v2, v3) = dot(v1, v3) + dot(v2, v3)
 // dot(ray.dir * t, plane.normal) + dot(ray.pos - plane.pos, plane.normal) = 0
 //
 // dot(ray.dir * t, plane.normal) = -dot(ray.pos - plane.pos, plane.normal)
 //
-// Fact: The dot product abides to scalar multiplication; that is, dot(s1 * v1, v2) = s1 * dot(v1, v2)
+// Fact: The dot product abides to scalar multiplication:
+// dot(s1 * v1, v2) = s1 * dot(v1, v2)
 // t * dot(ray.dir, plane.normal) = -dot(ray.pos - plane.pos, plane.normal)
 //
 // t = -dot(ray.pos - plane.pos, plane.normal) / dot(ray.dir, plane.normal)

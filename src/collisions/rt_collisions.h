@@ -16,6 +16,8 @@
 void	rt_get_cylinder_collision_info(t_ray ray, t_object cylinder,
 			t_hit_info *info);
 
+float	rt_get_cylinder_distance(t_ray ray, t_object cylinder, bool *inside);
+
 t_rgb	rt_get_line_rgb(t_ray ray, t_hit_info info, t_object object);
 
 void	rt_get_plane_collision_info(t_ray ray, t_object plane,

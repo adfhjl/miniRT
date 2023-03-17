@@ -79,7 +79,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->world_up = (t_vector){0, 1, 0};
 
 	if (rt_camera_is_invalid(data))
-		return (rt_print_error(ERROR_INVALID_CAMERA_NORMAL));
+		return (rt_print_error(ERROR_INVALID_CAMERA_DIR));
 
 	data->scaled_window_width = UNSCALED_WINDOW_WIDTH * PIXEL_SCALE;
 	data->scaled_window_height = UNSCALED_WINDOW_HEIGHT * PIXEL_SCALE;

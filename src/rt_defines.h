@@ -20,8 +20,8 @@
 // This is the resolution of the scene that actually gets rendered.
 // If UNSCALED_WINDOW_WIDTH is 100 and the PIXEL_SCALE is 5, then the MLX
 // window will be 500 pixels wide.
-# define UNSCALED_WINDOW_WIDTH 1000
-# define UNSCALED_WINDOW_HEIGHT 1000
+# define UNSCALED_WINDOW_WIDTH 1280
+# define UNSCALED_WINDOW_HEIGHT 720
 // TODO: Set this to 1 before eval.
 # define PIXEL_SCALE 1
 
