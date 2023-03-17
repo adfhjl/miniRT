@@ -40,7 +40,7 @@
 // TODO: Set this to 0 before the eval.
 # define DEBUG_DRAW_ON_BY_DEFAULT 1
 
-# define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
+# define DEFAULT_DRAW_MODE DRAW_MODE_NOISE
 
 // # define MAX_UPDATE_RADIUS 20
 

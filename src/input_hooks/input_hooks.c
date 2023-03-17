@@ -70,12 +70,12 @@ void	rt_key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_N)
 		{
 			data->draw_mode = DRAW_MODE_NORMAL;
-			rt_reset_canvas_info(data);
+			data->pixel_index = 0;
 		}
 		if (keydata.key == MLX_KEY_B)
 		{
 			data->draw_mode = DRAW_MODE_NOISE;
-			rt_reset_canvas_info(data);
+			data->pixel_index = 0;
 		}
 
 		if (keydata.key == MLX_KEY_L)
