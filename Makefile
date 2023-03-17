@@ -39,8 +39,8 @@ CFILES :=\
 	src/collisions/sphere.c\
 	src/debug/assert_normal.c\
 	src/debug/draw_debug.c\
-	src/draw/blue_noise.c\
 	src/draw/draw.c\
+	src/draw/noise.c\
 	src/draw/put_pixel.c\
 	src/draw/reset_canvas_info.c\
 	src/draw/shoot_rays.c\

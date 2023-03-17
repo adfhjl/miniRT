@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   blue_noise.c                                       :+:    :+:            */
+/*   noise.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sbos <sbos@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -155,7 +155,7 @@
 // 	noise_gen_index = 0;
 // 	while (noise_gen_index < GENERATED_NOISE_PER_FRAME && data->available_count > 0)
 // 	{
-// 		if (noise_gen_index % NOISE_PER_UPDATE_RADIUS_RECALCULATION == 0)
+// 		if (noise_gen_index % 10 == 0)
 // 		{
 // 			unavailable = rt_max(data->pixel_count - data->available_count, 1);
 // 			update_radius = (uint32_t)(

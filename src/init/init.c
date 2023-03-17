@@ -22,29 +22,18 @@
 
 #include <math.h> // TODO: REMOVE
 
-// static void	rt_init_available(t_data *data)
-// {
-// 	uint32_t	index;
+static void	rt_init_noise_indices(t_data *data)
+{
+	uint32_t	index;
 
-// 	index = 0;
-// 	while (index < data->pixel_count)
-// 	{
-// 		data->available[index] = index;
-// 		data->densities[index] = 0;
-// 		index++;
-// 	}
-
-// 	rt_shuffle(data->available, data->pixel_count);
-
-// 	uint32_t	value;
-// 	index = 0;
-// 	while (index < data->pixel_count)
-// 	{
-// 		value = data->available[index];
-// 		data->available_inverse[value] = index;
-// 		index++;
-// 	}
-// }
+	index = 0;
+	while (index < data->pixel_count)
+	{
+		data->noise_indices[index] = index;
+		index++;
+	}
+	rt_shuffle(data->noise_indices, data->pixel_count);
+}
 
 static bool	rt_camera_is_invalid(t_data *data)
 {
@@ -99,7 +88,6 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->scaled_window_center_y = data->scaled_window_height / 2;
 
 	data->pixel_count = UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT;
-	// data->available_count = data->pixel_count;
 
 	data->mlx = mlx_init(data->scaled_window_width, data->scaled_window_height, WINDOW_TITLE, false);
 	if (data->mlx == NULL || !mlx_loop_hook(data->mlx, &rt_draw_loop, data))
@@ -125,7 +113,7 @@ t_status	rt_init(int argc, char *argv[], t_data *data)
 	data->draw_debug = DEBUG_DRAW_ON_BY_DEFAULT;
 	data->draw_mode = DEFAULT_DRAW_MODE;
 
-	// rt_init_available(data);
+	rt_init_noise_indices(data);
 
 	rt_reset_canvas_info(data);
 

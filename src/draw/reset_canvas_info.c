@@ -86,10 +86,6 @@ static void	rt_clear_image(mlx_image_t *image)
 void	rt_reset_canvas_info(t_data *data)
 {
 	rt_update_canvas_info(data);
-	// if (data->draw_mode == DRAW_MODE_NOISE)
-	// {
-	// 	rt_clear_image(data->image);
-	// }
 	rt_clear_image(data->image);
 	data->pixel_index = 0;
 	data->samples_since_last_movement = 0;

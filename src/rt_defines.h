@@ -35,8 +35,6 @@
 // Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
 # define RAYS_PER_FRAME 20000
 
-// # define GENERATED_NOISE_PER_FRAME 100
-
 # define DEBUG_DRAWING_MLX_DEPTH 1
 
 // TODO: Set this to 0 before the eval.
@@ -45,10 +43,6 @@
 # define DEFAULT_DRAW_MODE DRAW_MODE_NORMAL
 
 // # define MAX_UPDATE_RADIUS 20
-
-// TODO: As an optimization, make this dynamically happen so that it happens
-// frequently at the start and infrequently at the end.
-// # define NOISE_PER_UPDATE_RADIUS_RECALCULATION 10
 
 // TODO: Set this to 1 before eval.
 # define MAX_BOUNCES_PER_RAY 8

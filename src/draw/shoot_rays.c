@@ -63,20 +63,20 @@ static t_rgb	rt_shoot_ray(uint32_t x, uint32_t y, uint32_t location, t_data *dat
 	return (rgb);
 }
 
-// static void	rt_shoot_blue_noise_ray(t_data *data)
-// {
-// 	uint32_t	location;
-// 	uint32_t	x;
-// 	uint32_t	y;
-// 	t_rgb		rgb;
+static void	rt_shoot_noise_ray(t_data *data)
+{
+	uint32_t	location;
+	uint32_t	x;
+	uint32_t	y;
+	t_rgb		rgb;
 
-// 	data->pixel_index--;
-// 	location = data->available[data->pixel_index];
-// 	x = location % UNSCALED_WINDOW_WIDTH;
-// 	y = location / UNSCALED_WINDOW_WIDTH;
-// 	rgb = rt_shoot_ray(x, y, data);
-// 	rt_put_rgb(data->image, x, y, rgb);
-// }
+	location = data->noise_indices[data->pixel_index];
+	x = location % UNSCALED_WINDOW_WIDTH;
+	y = location / UNSCALED_WINDOW_WIDTH;
+	rgb = rt_shoot_ray(x, y, location, data);
+	if (!data->frozen)
+		rt_put_rgb(data->image, x, y, rgb);
+}
 
 static void	rt_shoot_normal_ray(t_data *data)
 {
@@ -100,17 +100,10 @@ void	rt_shoot_rays(t_data *data)
 	ray_index = 0;
 	while (ray_index < RAYS_PER_FRAME)
 	{
-		// if (data->draw_mode == DRAW_MODE_NOISE)
-		// {
-		// 	if (data->pixel_index <= data->available_count)
-		// 		return ;
-		// 	rt_shoot_blue_noise_ray(data);
-		// }
-		// else if (data->draw_mode == DRAW_MODE_NORMAL)
-		if (data->draw_mode == DRAW_MODE_NORMAL)
-		{
+		if (data->draw_mode == DRAW_MODE_NOISE)
+			rt_shoot_noise_ray(data);
+		else if (data->draw_mode == DRAW_MODE_NORMAL)
 			rt_shoot_normal_ray(data);
-		}
 		if (data->pixel_index + 1 == data->pixel_count)
 			data->samples_since_last_movement++;
 		data->pixel_index = (data->pixel_index + 1) % data->pixel_count;

@@ -72,7 +72,6 @@ void	rt_draw_loop(void *param)
 
 	if (!data->frozen)
 		rt_update_camera_pos(data);
-	// rt_generate_noise(data);
 	rt_shoot_rays(data);
 
 	if (rt_draw_debug_lines(data) == ERROR)

@@ -158,15 +158,8 @@ struct s_data
 
 	t_held		held;
 
-	// TODO: Put in struct
-	// uint32_t	available[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-	// uint32_t	available_inverse[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-	// float		densities[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
-
-	// uint32_t	available_count;
-
-	// uint32_t	starting_update_radius;
-	//
+	uint32_t	noise_indices[UNSCALED_WINDOW_WIDTH * UNSCALED_WINDOW_HEIGHT];
+	uint32_t	generated_noise_indices;
 };
 
 #endif
