@@ -87,6 +87,6 @@ t_status	rt_draw_debug_lines(t_data *data)
 		(int)data->seconds_ran, " seconds ran");
 	rt_draw_debug_nbr_line(data, images,
 		(int)data->samples_since_last_movement, " samples per pixel");
-	rt_draw_debug_line(data, images, "frozen", data->frozen);
+	rt_draw_debug_line(data, images, "frozen", data->frozen & data->draw_debug);
 	return (OK);
 }
