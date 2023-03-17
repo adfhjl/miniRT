@@ -68,7 +68,7 @@ static t_status	rt_draw_debug_nbr_line(t_data *data, mlx_image_t **images_ptr,
 
 t_status	rt_draw_debug_lines(t_data *data)
 {
-	static mlx_image_t	*images[6] = {0};
+	static mlx_image_t	*images[7] = {0};
 
 	data->debug_image_index = 0;
 	rt_draw_debug_nbr_line(data, images, (int)(1 / data->mlx->delta_time), " frames/s");
@@ -76,6 +76,7 @@ t_status	rt_draw_debug_lines(t_data *data)
 	rt_draw_debug_nbr_line(data, images, (int)ft_get_allocation_count(), " allocations");
 	rt_draw_debug_nbr_line(data, images, (int)ft_get_bytes_allocated(), " bytes allocated");
 	rt_draw_debug_nbr_line(data, images, (int)data->seconds_ran, " seconds ran");
+	rt_draw_debug_nbr_line(data, images, (int)data->samples_since_last_movement, " samples per pixel");
 	rt_draw_debug_line(data, images, "frozen", data->frozen);
 	return (OK);
 }
