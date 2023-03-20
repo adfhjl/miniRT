@@ -12,8 +12,8 @@
 			// "type": "lldb",
 			"request": "launch",
 			"program": "${workspaceFolder}/miniRT",
-			"args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
-			// "args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
+			"args": [ "scenes/bonus_only/total_internal_reflection.rt" ],
+			// "args": [ "scenes/bonus_only/weird_index_of_refractions.rt" ],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Bonus: Debug",
 			"internalConsoleOptions": "openOnSessionStart"

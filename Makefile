@@ -16,8 +16,10 @@ NAME := miniRT
 CC := gcc
 
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
-CFLAGS += -Wno-overlength-strings # Needed to include MLX42's font.h
-CFLAGS += -Wno-missing-braces # Needed for brace initializing t_vector
+# Needed to include MLX42's font.h
+CFLAGS += -Wno-overlength-strings
+# Needed for brace initializing t_vector
+CFLAGS += -Wno-missing-braces
 
 ################################################################################
 
