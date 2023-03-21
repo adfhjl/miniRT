@@ -13,7 +13,6 @@
 ################################################################################
 
 NAME := miniRT
-CC := gcc
 
 CFLAGS := -Wall -Werror -Wextra -Wpedantic -Wfatal-errors -Wconversion
 # Needed to include MLX42's font.h
