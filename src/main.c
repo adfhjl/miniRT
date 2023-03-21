@@ -16,12 +16,12 @@
 
 #include "init/rt_init.h"
 
-#include <stdlib.h> // TODO: REMOVE
+#include <stdlib.h>
 
-void	rt_check_leaks(void)
-{
-	system("leaks -q miniRT");
-}
+// void	rt_check_leaks(void)
+// {
+// 	system("leaks -q miniRT");
+// }
 
 void	rt_cleanup(t_data *data)
 {
@@ -30,11 +30,11 @@ void	rt_cleanup(t_data *data)
 	ft_free_allocations();
 }
 
+// atexit(rt_check_leaks);
 int	main(int argc, char *argv[])
 {
 	static t_data	data;
 
-	atexit(rt_check_leaks);
 	if (rt_init(argc, argv, &data) == ERROR)
 	{
 		rt_cleanup(&data);

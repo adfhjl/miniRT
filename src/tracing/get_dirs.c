@@ -16,8 +16,6 @@
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
 
-#include "debug/rt_debug.h" // TODO: REMOVE
-
 #include <math.h>
 
 // Source:
@@ -52,8 +50,6 @@ t_vector	rt_get_refraction_ray_dir(t_hit_info info, t_ray ray,
 	float		t;
 	t_vector	diffuse_ray_dir;
 
-	rt_assert_normal(ray.dir, "e");
-	rt_assert_normal(info.surface_normal, "f");
 	eta = 1.0f / info.material.index_of_refraction;
 	if (info.inside)
 		eta = info.material.index_of_refraction;

@@ -7,10 +7,6 @@
 # Allow .c and .h files
 !*.[ch]
 
-# TODO: REMOVE
-!.vscode/launch.json
-!.vscode/tasks.json
-
 !*.rt
 
 !.gitmodules
@@ -18,4 +14,3 @@
 !Makefile
 
 MLX42
-testing.*

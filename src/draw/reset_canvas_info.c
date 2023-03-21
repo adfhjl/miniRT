@@ -16,8 +16,7 @@
 #include "tracing/rt_tracing.h"
 #include "vectors/rt_vectors.h"
 
-#include <assert.h> // TODO: REMOVE
-#include <math.h> // TODO: REMOVE
+#include <math.h>
 
 static t_vector	rt_get_canvas_top_left(float canvas_width, t_canvas canvas,
 					t_vector camera_dir)

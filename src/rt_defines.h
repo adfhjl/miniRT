@@ -22,7 +22,6 @@
 // window will be 500 pixels wide.
 # define UNSCALED_WINDOW_WIDTH 640
 # define UNSCALED_WINDOW_HEIGHT 360
-// TODO: Set this to 1 before eval.
 # define PIXEL_SCALE 2
 
 // Float from 0 to infinity.
@@ -33,25 +32,22 @@
 // Integer between 1 and infinity.
 // How many rays are shot per frame.
 // Turn this down if your FPS is low, and turn it up if you reach 60 FPS.
-# define RAYS_PER_FRAME 10000
+# define RAYS_PER_FRAME 30000
 
 # define DEBUG_DRAWING_MLX_DEPTH 1
 
-// TODO: Set this to 0 before the eval.
-# define DEBUG_DRAW_ON_BY_DEFAULT 1
+# define DEBUG_DRAW_ON_BY_DEFAULT 0
 
 # define DEFAULT_DRAW_MODE DRAW_MODE_NOISE
 
 // # define MAX_UPDATE_RADIUS 20
 
-// TODO: Set this to 1 before eval.
 # define MAX_BOUNCES_PER_RAY 8
 
 // Float between 0 and infinity.
 // A value of 0 means no anti-aliasing occurs.
 // A value of 1 means that the first ray shot from the camera into the scene
 // can be randomly moved up to one pixel up/down/left/right.
-// TODO: Set to 0.0f before eval.
 # define ANTI_ALIAS_RADIUS 0.5f
 
 // Float between 0 and infinity.
@@ -64,8 +60,11 @@
 
 // MOVEMENT ////////////////////////////////////////////////////////////////////
 
-# define MOVEMENT_SPEED 15.0f
-# define ROTATION_SPEED 0.004f
+# define MOVEMENT_SPEED 5.0f
+# define ROTATION_SPEED 0.002f
+
+// # define MOVEMENT_SPEED 15.0f
+// # define ROTATION_SPEED 0.004f
 
 // RGB /////////////////////////////////////////////////////////////////////////
 // Floats between 0 and 1.

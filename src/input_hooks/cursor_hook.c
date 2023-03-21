@@ -14,8 +14,6 @@
 
 #include "vectors/rt_vectors.h"
 
-#include "debug/rt_debug.h" // TODO: REMOVE
-
 static void	rt_update_camera_direction(float dx, float dy, t_data *data)
 {
 	t_vector	rotation_right;
@@ -27,7 +25,6 @@ static void	rt_update_camera_direction(float dx, float dy, t_data *data)
 	rotation = rt_add(rotation_right, rotation_up);
 	data->camera->normal = rt_normalized(
 			rt_add(data->camera->normal, rotation));
-	rt_assert_normal(data->camera->normal, "d");
 }
 
 void	rt_cursor_hook(double x, double y, void *param)

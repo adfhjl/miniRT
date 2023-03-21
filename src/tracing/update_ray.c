@@ -16,8 +16,6 @@
 #include "tracing/rt_tracing.h"
 #include "vectors/rt_vectors.h"
 
-#include "debug/rt_debug.h" // TODO: REMOVE
-
 void	rt_update_ray_dir(t_ray *ray, t_hit_info info, float do_specular,
 			float do_refraction)
 {
@@ -30,9 +28,7 @@ void	rt_update_ray_dir(t_ray *ray, t_hit_info info, float do_specular,
 	refraction_ray_dir = rt_get_refraction_ray_dir(info, *ray, &do_specular,
 			&do_refraction);
 	ray->dir = rt_mix(diffuse_ray_dir, specular_ray_dir, do_specular);
-	rt_assert_normal(ray->dir, "h");
 	ray->dir = rt_mix(ray->dir, refraction_ray_dir, do_refraction);
-	rt_assert_normal(ray->dir, "i");
 }
 
 void	rt_update_ray_pos(t_ray *ray, t_hit_info info, float do_refraction)

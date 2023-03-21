@@ -13,11 +13,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
-// Returns a random unsigned int from 0 up to and including INT32_MAX.
+// Returns a random uint32_t from 0 up to and including INT32_MAX.
 // Source: https://stackoverflow.com/a/11946674/13279557
-static unsigned int	rt_random(void)
+static uint32_t	rt_random(void)
 {
-	static unsigned int	seed = 1;
+	static uint32_t	seed = 1;
 
 	seed = (seed * 1103515245U + 12345U) & 0x7fffffffU;
 	return (seed);

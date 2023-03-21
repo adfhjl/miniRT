@@ -17,8 +17,6 @@
 #include "utils/rt_utils.h"
 #include "vectors/rt_vectors.h"
 
-#include "debug/rt_debug.h" // TODO: REMOVE
-
 static t_ray	rt_create_ray(float x, float y, t_data *data)
 {
 	t_vector	pixel_ray_x;
@@ -32,7 +30,6 @@ static t_ray	rt_create_ray(float x, float y, t_data *data)
 			y * -data->canvas.distance_per_pixel);
 	pixel_ray = rt_add(rt_add(data->canvas.top_left, pixel_ray_x), pixel_ray_y);
 	dir = rt_normalized(pixel_ray);
-	rt_assert_normal(dir, "c");
 	return (rt_get_ray(data->camera->pos, dir));
 }
 

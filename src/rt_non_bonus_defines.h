@@ -15,8 +15,7 @@
 
 // Float between 0 and infinity.
 // Lights are spheres (to have soft shadows), which means they need a diameter.
-// TODO: Set to 1.0f before eval
-# define LIGHT_DIAMETER 1000.0f
+# define LIGHT_DIAMETER 1.0f
 
 // OBJECT MATERIALS ////////////////////////////////////////////////////////////
 

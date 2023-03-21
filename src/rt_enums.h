@@ -13,8 +13,6 @@
 #ifndef RT_ENUMS_H
 # define RT_ENUMS_H
 
-// TODO: Just before the eval, make sure every enum
-// has a corresponding string in print_error()
 typedef enum e_error
 {
 	ERROR_SYSTEM,

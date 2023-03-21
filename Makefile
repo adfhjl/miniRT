@@ -40,7 +40,6 @@ CFILES :=\
 	src/collisions/get_cylinder_distance.c\
 	src/collisions/plane.c\
 	src/collisions/sphere.c\
-	src/debug/assert_normal.c\
 	src/draw/draw.c\
 	src/draw/put_pixel.c\
 	src/draw/reset_canvas_info.c\

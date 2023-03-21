@@ -36,6 +36,7 @@ t_status	rt_print_error(t_error ph_error)
 	[ERROR_EXPECTED_WHITESPACE] = "Expected whitespace",
 	[ERROR_INVALID_CAMERA_DIR] = "Invalid x=0, z=0 camera direction",
 	[ERROR_INVALID_ZERO_NORMAL] = "Invalid x=0, y=0, z=0 normal",
+	[ERROR_MLX] = "MLX error",
 	};
 	char		*error_message;
 
