@@ -14,6 +14,8 @@
 
 #include "rt_structs.h"
 
+#include "print/rt_print.h"
+
 #include <stdio.h>
 
 static void	rt_print_object(t_object object)
